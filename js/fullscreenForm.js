@@ -89,7 +89,6 @@
 
 		// all fields
 		this.fields = [].slice.call( this.fieldsList.children );
-		
 		// total fields
 		this.fieldsCount = this.fields.length;
 		
@@ -261,6 +260,9 @@
 		// also add class "fs-show" to the next field and the class "fs-hide" to the current one
 		classie.remove( currentFld, 'fs-current' );
 		classie.add( currentFld, 'fs-hide' );
+
+		
+
 		
 		if( !this.isLastStep ) {
 			// update nav
@@ -325,6 +327,8 @@
 		else {
 			onEndAnimationFn();
 		}
+
+
 	}
 
 	/**

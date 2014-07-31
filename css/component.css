@@ -15,6 +15,91 @@
 	font-smoothing: antialiased;
 }
 
+.homepage-splash {
+	width: 800px;
+	margin: 50px auto ;
+}
+
+.homepage-splash h1 {
+	display: inline;
+	padding-bottom: 30px;
+	font-size: 50pt;
+	border-bottom: 3px solid #333;
+}
+
+.chunk {
+	width: 760px;
+}
+
+.manifesto p {
+	font-size: 18pt;
+	color: #eee;
+	text-transform: uppercase;
+	line-height: 30pt;
+	text-align: justify;
+}
+
+.manifesto-title {
+	font-family: 'Satisfy', cursive;
+	text-align: center;
+	font-size: 24pt;
+	background: #3b3f45;
+	position: relative;
+	top: 8px;
+	display: inline;
+	padding: 0px 10px;
+	color: #333;
+}
+
+.signup-button {
+	font-size: 22pt;
+	color: #fd6a62;
+	border: 1px solid #fd6a62;
+	padding: 8px 16px;
+	border-radius: 4px;
+}
+
+.signup-button:hover {
+	color: #fd6a62;
+	background: rgba(256,256,256,0.01);
+}
+
+.messages {
+	height: 300px;
+}
+
+.messages-threads{
+	margin: 0;
+	height: 100%;
+	width: 20%;
+	min-width: 200px;
+	border-right: 1px solid white;
+	list-style-type: none;
+	padding: 0;
+}
+
+.messages-threads li {
+	padding: 20px;
+	margin: 0;
+	width: 100%;
+	cursor: pointer;
+}
+
+.messages-threads li:hover {
+	background: rgba(256,256,256,0.2);
+}
+
+.messages-content{
+	
+}
+
+a.brand {
+	color: white;
+}
+
+.row.item .item-action {
+	padding: 0;
+}
 
 *, *:after, *:before { border-box; box-sizing: border-box; }
 .clearfix:before, .clearfix:after { content: ''; display: table; }
@@ -125,7 +210,7 @@ a.link-border:focus::before {
 	margin-top: 0px;
 	margin-bottom: 0px;
 	width: auto;
-	border-bottom: 3px solid rgba(0, 0, 0, 0.3);;
+	border-bottom: 3px solid #888;
 }
 
 .row .item-action {
@@ -200,12 +285,12 @@ a.link-border:focus::before {
 	top: 0;
 	left: 0;
 	margin: 0;
-	padding: 40px;
+	padding: 30px 40px 40px 40px;
 	width: 100%;
 }
 
 .fs-title-norm {
-	padding: 40px;
+	padding: 30px 40px 40px 40px;
 	width: 600px;
 	display: block;
 	margin: 0;
@@ -465,6 +550,10 @@ button.fs-continue,
 }
 
 .fs-fields input:focus {
+	background-color: #60d7a9; /* Fixes chrome bug with placeholder */
+}
+
+.fs-fields.signup input:focus {
 	background-color: #3b3f45; /* Fixes chrome bug with placeholder */
 }
 
@@ -493,7 +582,7 @@ button.fs-continue,
 	margin-right: 3%;
 	padding: 10px;
 	max-width: 200px;
-	width: 30%;
+	width: 16%;
 	text-align: center;
 	font-weight: 700;
 	font-size: 50%;
