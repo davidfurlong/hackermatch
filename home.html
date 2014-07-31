@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<title>Fullscreen Form Interface</title>
+		<meta name="description" content="Fullscreen Form Interface: A distraction-free form concept with fancy animations" />
+		<meta name="keywords" content="fullscreen form, css animations, distraction-free, web design" />
+		<meta name="author" content="Codrops" />
+		<link rel="shortcut icon" href="../favicon.ico">
+		<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="css/demo.css" />
+		<link rel="stylesheet" type="text/css" href="css/component.css" />
+		<link rel="stylesheet" type="text/css" href="css/cs-select.css" />
+		<link rel="stylesheet" type="text/css" href="css/cs-skin-boxes.css" />
+		<link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/animations.css" />
+
+		<script src="js/modernizr.custom.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="pt-triggers">
+				<div>
+					<div class="fs-title-norm">
+						<h1>hacker<span style="font-size:36pt;line-height:0px;">.</span>dating / <a href="#" id="my-group" class="link-border">YC Hacks</a></h1>
+					</div>
+					<ul class="top-right-menu hi-icon-wrap hi-icon-effect-1 hi-icon-effect-1b">
+						<li>
+							<i class="ion-plus-round hi-icon" id="new-idea"></i>
+						</li>
+						<li>
+							<i class="ion-chatbubble hi-icon" id="my-msgs"></i>
+						</li>
+						<li>
+							<i class="ion-person hi-icon" id="my-profile"></i>
+						</li>
+					</ul>				
+				</div><!-- /fs-form-wrap -->
+			</div>	
+
+			<div id="pt-main" class="pt-perspective">
+				<div class="pt-page pt-page-1">
+					<span class="row label">
+						ALL
+					</span>
+					<div>
+						<ul class="row item">
+							<li class="item-action">
+								<i class="ion-heart btn btn-7 btn-7f btn-icon-only icon-star"></i>
+							</li>
+							<li class="item-icon">
+								<img src="zac.png" width="64px" height="64px" style="border-radius:50px">
+							</li>
+							<li class="item-text">
+								<span class="item-title">Zac Galiflake</span>
+								<span class="item-desc">
+								I like graphs yo
+								</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="pt-page pt-page-2">
+					Messages
+				</div>
+				<div class="pt-page pt-page-3">
+					Add Idea
+				</div>
+				<div class="pt-page pt-page-4">
+					Settings
+				</div>
+			</div>
+		</div><!-- /container -->
+		<script src="js/classie.js"></script>
+		<script src="js/selectFx.js"></script>
+		<script src="js/fullscreenForm.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="js/jquery.dlmenu.js"></script>
+		<script src="js/pagetransitions.js"></script>
+		<script>
+			
+			console.log('hi');
+			$(document).ready(function(){
+
+				$('body').on( 'click', '.btn-7f', activate);
+			});
+			function activate(e) {
+				var self = e.currentTarget, activatedClass = 'btn-activated';
+				console.log('activate');
+				if( !classie.has( this, activatedClass ) ) {
+					classie.add( this, activatedClass );
+					setTimeout( function() { classie.remove( self, activatedClass ) }, 1000 );
+				}
+			}
+		</script>
+		
+	</body>
+</html>
