@@ -224,15 +224,29 @@ a.link-border:focus::before {
 	color: #fff;
 }
 
+#login-form {
+	position: relative;
+	top: 30%;
+	text-align: center;
+}
+
+#login-form input {
+	padding: 20px 40px;
+	border: 0;
+	outline: none;
+	font-size: 24pt;
+}
+
 .row.label {
 	font-family: 'Raleway';
 	font-size: 16pt;
-	color: #888;
+	color: #333;
 	font-weight: 700;
-	margin-top: 0px;
-	margin-bottom: 0px;
+	margin-top: 20px;
+	padding-bottom: 10px;
+	margin-bottom: 20px;
 	width: auto;
-	border-bottom: 3px solid #888;
+	border-bottom: 3px solid #333;
 }
 
 .row .item-action {
@@ -252,7 +266,8 @@ a.link-border:focus::before {
 	letter-spacing: 1px;
 	font-weight: 700;
 	font-size: 16pt;
-	padding-bottom: 4px;
+	padding-top: 4px !important;
+	padding-bottom: 4px !important;
 	border-bottom: 1px dashed #888;
 }
 
@@ -261,13 +276,18 @@ a.link-border:focus::before {
 	color: #888;
 	font-size: 16pt;
 	padding-left: 10px;
+	vertical-align: middle;
 }
 
+
 .row.item li {
-	height: 64px;
 	display: inline-table;
 	padding: 0px 8px;
 	list-style-type: none;
+}
+
+.row.item .item-desc {
+	max-width: 70%;
 }
 
 .row.item li i, .row.item li div {
