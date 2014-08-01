@@ -37,8 +37,8 @@ Template.signup.events({
 
       Accounts.createUser({email: email, password : password}, function(err){
           if (err) {
-            console.log('no user :(');
-            Router.go('home');
+            console.error('no user :(');
+            alert('This email is already registered');
             // Inform the user that account creation failed
           } else {
             console.log('created user!');
@@ -73,6 +73,7 @@ Template.login.events({
           // login attempt has failed. 
         } else {
             console.log("success!");
+            Router.go('home');
           // The user has been logged in.
         }
       });
