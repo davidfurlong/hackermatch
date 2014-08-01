@@ -1,9 +1,12 @@
-if (Meteor.isClient) {
-    /*
-  Template.hello.greeting = function () {
-    return "Welcome to hacker.dating.";
-  };
-  */
+/*
+Ideas.insert({name: "raptor", sound: "roar"});
+Ideas.findOne({name: "raptor"}).makeNoise(); // prints "roar"
+
+var myMessages = Messages.find({userId: Session.get('myUserId')}).fetch();
+*/
+
+
+
 
 Router.map(function() {
     this.route('index', {
@@ -31,47 +34,60 @@ Router.map(function() {
     this.route('login');
 });
 
-/*
-  Template.hello.events({
-    'click input': function () {
-      // template data, if any, is available in 'this'
-      if (typeof console !== 'undefined')
-        console.log("You pressed the button");
+
+Template.home.helpers({
+    ideas: function() {
+        return Ideas.find({userId: Session.get('myUserId')}).fetch();
     }
-  });
-  */
+});
+
 Template.home.events({
     'submit #idea-create' : function(e, t) {
       e.preventDefault();
-      var q1 = t.find('#q1').value
-        , q2 = t.find('#q2').value
-        , cb1 = t.find('#cb1').value
-        , cb2 = t.find('#cb2').value
-        , cb3 = t.find('#cb3').value;
+      var description = t.find('#q1').value
+        , name = t.find('#q2').value
+        , webdev = t.find('#cb1').value
+        , design = t.find('#cb2').value
+        , backend = t.find('#cb3').value
+        , mobile = t.find('#cb4').value
+        , hardware = t.find('#cb5').value;
 
-        console.log("q1: " + q1);
-        console.log("q2: " + q2);
-        console.log("cb1: " + cb1);
-        console.log("cb2: " + cb2);
-        console.log("cb3: " + cb3);
-        // Trim and validate the input
+        var idea = {
+            name: name,
+            description: description,
+            skills: {
+                webdev: webdev,
+                backend: backend,
+                mobile: mobile,
+                design: design,
+                hardware: hardware
+            },
+            comments: {}
+        }
+        console.log("idea create: ");
+        console.dir(idea);
 
-    /*
-      Accounts.createUser({email: email, password : password}, function(err){
-          if (err) {
-            console.log('no user :(');
-            Router.go('home');
-            // Inform the user that account creation failed
-          } else {
-            console.log('created user!');
-            Router.go('home');
-            // Success. Account has been created and the user
-            // has logged in successfully. 
-          }
+        var exists = Ideas.findOne({name: name});
+        if(exists) {
+            console.log("idea exists!");
+            //do something else
+            //can we select on name attribute again?
+        }
 
-      });
-    */
-      return false;
+        Ideas.insert({name: name}, function(err, result) {
+        //Ideas.insert(idea, function(err, result) {
+            if(err) {
+                console.log(err);
+                console.log(result);
+                console.log("error creating idea");
+            } else {
+                console.log('created idea!');
+                //hackety hackety hack
+                //using pageTransitions library, instead of Meteor routing...
+                $("#my-group").trigger("click");
+            }
+        });
+        return false;
     }
 });
 Template.update_user.helpers({
@@ -212,6 +228,5 @@ Template.login.events({
       });
          return false; 
       }
-  });
-}
+});
 
