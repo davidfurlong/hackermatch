@@ -13,6 +13,7 @@ Router.map(function() {
       this.route('index', {path: '/index.html'});
       this.route('index', {path: '/index'});
       this.route('login', {path: '/login'});
+      this.route('login', {path: '/login.html'});
 });
 
 /*
