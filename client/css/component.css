@@ -147,6 +147,20 @@ form.settings-form input[type="submit"] {
 	font-weight: 700;
 }
 
+.pt-page-4 .ac-custom svg {
+	margin-top: -25px;
+}
+
+#logout {
+	padding: 10px 20px;
+	background: transparent;
+	outline: none;
+	border: 0;
+	border-bottom: 1px dashed white;
+	color: #e74c3c;
+	font-weight: 700;
+}
+
 a.brand {
 	color: white;
 }
