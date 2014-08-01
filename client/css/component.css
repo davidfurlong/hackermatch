@@ -128,6 +128,11 @@ form.settings-form label {
 	line-height: 50px;
 }
 
+.fs-form-overview .signup-button-container {
+	display: none;
+	height: 0;
+}
+
 form.settings-form input {
 	float: right;
 	padding: 10px 20px;
@@ -445,7 +450,6 @@ a.link-border:focus::before {
 
 .fs-form-overview {
 	padding: 2.5em 30% 6em;
-	width: 100%;
 	height: 100%;
 	background: #fffed8;
 	color: #3b3f45;
@@ -696,7 +700,7 @@ button.fs-continue,
 	margin-right: 3%;
 	padding: 10px;
 	max-width: 200px;
-	width: 16%;
+	width: 14%;
 	text-align: center;
 	font-weight: 700;
 	font-size: 50%;
