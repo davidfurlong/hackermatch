@@ -6,14 +6,29 @@ if (Meteor.isClient) {
   */
 
 Router.map(function() {
-      this.route('index', {path: '/'});
-      this.route('home', {path: '/home'});
-      this.route('signup');
-      this.route('signup', {path: '/signup.html'});
-      this.route('index', {path: '/index.html'});
-      this.route('index', {path: '/index'});
-      this.route('login', {path: '/login'});
-      this.route('login', {path: '/login.html'});
+    this.route('index', {
+        path: '/',
+        onBeforeAction: function () {
+            if (Meteor.user()) {
+                Router.go('home');
+            }
+         }
+
+    });
+    this.route('home', {
+        path: '/home',
+        onBeforeAction: function () {
+            if (!Meteor.user()) {
+              if (Meteor.loggingIn()) {
+              }
+              else{
+                Router.go('login');
+              }
+            }
+         }
+    });
+    this.route('signup');
+    this.route('login');
 });
 
 /*
