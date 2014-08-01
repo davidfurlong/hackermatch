@@ -115,8 +115,41 @@
 	text-align: right;
 }
 
+form.settings-form {
+	width: 600px;
+	margin: 0 auto;
+}
+
+form.settings-form > div {
+	margin: 10px 0;
+}
+
+form.settings-form label {
+	line-height: 50px;
+}
+
+form.settings-form input {
+	float: right;
+	padding: 10px 20px;
+	background: transparent;
+	outline: none;
+	border: 0;
+	border-bottom: 1px dashed white;
+}
+
+form.settings-form input[type="submit"] {
+	color: white;
+	font-weight: 700;
+}
+
 a.brand {
 	color: white;
+}
+
+.brand-icon {
+	position: relative;
+	top: 8px;
+	padding-right: 10px;
 }
 
 .row.item .item-action {
@@ -208,6 +241,37 @@ a.link-border:focus::before {
 	transform: scale(1.2);
 }
 
+.item-skills {
+	vertical-align: middle;
+}
+
+.badge {
+	padding: 2px 4px;
+	text-transform: uppercase;
+	font-size: 11pt;
+	color: white;
+}
+
+.badge.t1 {
+	background: #fd6a62;
+}
+
+.badge.t2 {
+	background: #7bb7fa;
+}
+
+.badge.t3 {
+	background: #60d7a9;
+}
+
+.badge.t4 {
+	background: #fdc162;
+}
+
+.badge.t5 {
+	background: #f68dbb;
+}
+
 .item-icon {
 	cursor: pointer;
 	border-radius: 50;
@@ -287,7 +351,7 @@ a.link-border:focus::before {
 }
 
 .row.item .item-desc {
-	max-width: 70%;
+	max-width: 60%;
 }
 
 .row.item li i, .row.item li div {
