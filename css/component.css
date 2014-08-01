@@ -1570,3 +1570,45 @@ input[type=text]::-ms-clear {
 .idea .fs-numbers {
 	margin: 5px 40px;
 }
+
+.sidebar {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	height: 100%;
+	width: 50%;
+	background: rgba(256,256,256,1);
+	color: black;
+	padding: 0 40px;
+	display: none;
+}
+
+.sidebar-blur {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	height: 100%;
+	width: 50%;
+	background: rgba(256,256,256,0.3);
+}
+
+.sidebar input {
+	padding: 10px 0px;
+	outline: none;
+	border: none;
+}
+
+.comment-author {
+	font-size: 11pt;
+	color: #777;
+}
+
+.page-container.blur {
+	/*-webkit-transition: all 0.25s cubic-bezier(0.600, 0.040, 0.980, 0.335);
+	transition: all 0.25s cubic-bezier(0.600, 0.040, 0.980, 0.335);*/
+	-webkit-filter: blur(5px);
+}
+
+.page-container.blur .item-icon, .page-container.blur .item-title, .page-container.blur .item-desc {	
+	cursor: default !important;
+}
