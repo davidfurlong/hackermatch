@@ -28,8 +28,8 @@ Router.map(function() {
 Template.signup.events({
     'submit #register-form' : function(e, t) {
       e.preventDefault();
-      var email = t.find('#account-email').value
-        , password = t.find('#account-password').value;
+      var email = t.find('#q2').value
+        , password = t.find('#q5').value;
 
         console.log("email: " + email);
         console.log("password: " + password);
