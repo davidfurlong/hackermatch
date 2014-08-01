@@ -1592,10 +1592,23 @@ input[type=text]::-ms-clear {
 	background: rgba(256,256,256,0.3);
 }
 
+.sidebar-item-title h1 {
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+.sidebar-item-author {
+	color: #777;
+	margin-bottom: 20px;
+}
+
 .sidebar input {
-	padding: 10px 0px;
+	padding: 4px 10px;
 	outline: none;
-	border: none;
+	border: 1px solid #bbb;
+	width: 100%;
+	margin: 10px 0;
+
 }
 
 .comment-author {
