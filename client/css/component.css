@@ -128,6 +128,11 @@ form.settings-form label {
 	line-height: 50px;
 }
 
+.fs-form-overview .signup-button-container {
+	display: none;
+	height: 0;
+}
+
 form.settings-form input {
 	float: right;
 	padding: 10px 20px;
@@ -422,7 +427,6 @@ a.link-border:focus::before {
 .fs-form.idea {
 	position: static;
 	text-align: left;
-	font-size: 2.5em;
 }
 
 
@@ -443,13 +447,21 @@ a.link-border:focus::before {
 	max-width: 960px;
 }
 
+.pt-page {
+	overflow-y: scroll !important;
+
+}
+
 .fs-form-overview {
 	padding: 2.5em 30% 6em;
-	width: 100%;
 	height: 100%;
 	background: #fffed8;
 	color: #3b3f45;
 	font-size: 1.2em;
+}
+
+.pt-page .fs-form-overview {
+	background: transparent;
 }
 
 .fs-form-overview .fs-fields::before {
@@ -664,15 +676,15 @@ button.fs-continue,
 }
 
 .fs-fields input:focus {
-	background-color: #60d7a9; /* Fixes chrome bug with placeholder */
+	background-color: transparent; /* Fixes chrome bug with placeholder */
 }
 
 .fs-fields.signup input:focus {
-	background-color: #3b3f45; /* Fixes chrome bug with placeholder */
+	background-color: transparent; /* Fixes chrome bug with placeholder */
 }
 
 .fs-form-overview .fs-fields input:focus {
-	background-color: #fffed8; /* Fixes chrome bug with placeholder */
+	background-color: transparent; /* Fixes chrome bug with placeholder */
 }
 
 .fs-form-overview .fs-fields input {
@@ -696,7 +708,7 @@ button.fs-continue,
 	margin-right: 3%;
 	padding: 10px;
 	max-width: 200px;
-	width: 16%;
+	width: 14%;
 	text-align: center;
 	font-weight: 700;
 	font-size: 50%;
@@ -1481,6 +1493,7 @@ input[type=text]::-ms-clear {
 	margin: 0 auto;
 	padding: 0 0;
 	position: relative;
+	height: 60px;
 }
 
 .ac-custom label {
@@ -1529,7 +1542,7 @@ input[type=text]::-ms-clear {
 
 .ac-custom input[type="checkbox"]:checked + label,
 .ac-custom input[type="radio"]:checked + label {
-	color: #fff;
+	color: #333;
 } 
 
 .ac-custom input[type="checkbox"]:checked + label::before,

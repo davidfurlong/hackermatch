@@ -279,6 +279,7 @@
 		// after animation ends remove added classes from fields
 		var self = this,
 			onEndAnimationFn = function( ev ) {
+
 				if( support.animations ) {
 					this.removeEventListener( animEndEventName, onEndAnimationFn );
 				}
@@ -307,8 +308,10 @@
 						self.ctrlFldStatus.removeChild( self.ctrlFldStatusNew );
 						classie.remove( self.ctrlFldStatus, 'fs-show-' + self.navdir );
 					}
+					$(self.formEl).find('input').focus()
 				}
 				self.isAnimating = false;
+				// DAVID
 			};
 
 		if( support.animations ) {

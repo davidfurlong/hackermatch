@@ -712,7 +712,9 @@ if ( typeof define === 'function' && define.amd ) {
 						self.ctrlFldStatus.removeChild( self.ctrlFldStatusNew );
 						classie.remove( self.ctrlFldStatus, 'fs-show-' + self.navdir );
 					}
+					$(self.formEl).find('input').focus()
 				}
+
 				self.isAnimating = false;
 			};
 
