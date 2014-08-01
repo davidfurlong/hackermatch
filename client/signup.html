@@ -1,4 +1,6 @@
-<!--<head>
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
 		<meta name="viewport" content="width=device-width, initial-scale=1"> 
@@ -13,30 +15,34 @@
 		<link rel="stylesheet" type="text/css" href="css/cs-select.css" />
 		<link rel="stylesheet" type="text/css" href="css/cs-skin-boxes.css" />
 		<script src="js/modernizr.custom.js"></script>
-    </head>-->
-	<template name="signup">
+	</head>
+	<body>
 		<div class="container">
 
 			<div class="fs-form-wrap" id="fs-form-wrap">
 				<div class="fs-title">
-					<h1><a class="brand" href="index.html"><img src="icon.png" height="40px" style="position:relative;top:10px;padding-right:10px"/>hacker<span style="font-size:36pt;line-height:0px;">.</span>dating</a></h1>
+					<h1><a class="brand" href="index.html"><img src="icon.png" height="40px"  class="brand-icon"/>hacker<span style="font-size:36pt;line-height:0px;">.</span>dating</a></h1>
 					<div class="codrops-top">
 						<a class="codrops-icon codrops-icon-info" href="#"><span>This is a hackathon "dating" service.</span></a>
 					</div>
 				</div>
-                <form id="register-form" action="action" class="fs-form fs-form-full" autocomplete="off">
-                <!-- 				<form id="myform" class="fs-form fs-form-full" autocomplete="off"> -->
+				<form id="myform" class="fs-form fs-form-full" autocomplete="off">
 					<ol class="fs-fields signup">
 						<li>
 							<label class="fs-field-label fs-anim-upper" for="q1">What's your name?</label>
 							<input class="fs-anim-lower" id="q1" name="q1" type="text" placeholder="Dave Fontenot" required/>
+							<div style="margin-top:80px" class="fs-anim-lower">
+								<a class="signup-button" href="login.html">
+									Already joined? Login instead
+								</a>
+							</div>
 						</li>
 						<li>
-							<label class="fs-field-label fs-anim-upper" for="account-email" data-info="We won't send you spam, we promise...">What's your email address?</label>
-							<input class="fs-anim-lower" id="account-email" name="account-email" type="email" placeholder="dean@road.us" spellcheck="false" required/>
+							<label class="fs-field-label fs-anim-upper" for="q2" data-info="We won't email you more than once.">What's your email address?</label>
+							<input class="fs-anim-lower" id="q2" name="q2" type="email" placeholder="dean@road.us" spellcheck="false" required/>
 						</li>
 						<li data-input-trigger>
-							<label class="fs-field-label fs-anim-upper" for="q3" data-info="This will help us know what kind of service you need">What are you best at?</label>
+							<label class="fs-field-label fs-anim-upper" for="q3">What are you best at?</label>
 							<div class="fs-radio-group fs-radio-custom clearfix fs-anim-lower">
 								<span><input id="q1b" name="q1" type="radio" value="conversion"/><label for="q1b" class="radio-conversion">Webdev</label></span>
 								<span><input id="q2c" name="q2" type="radio" value="social"/><label for="q2c" class="radio-social">Back end</label></span>
@@ -50,25 +56,23 @@
 							<input class="fs-anim-lower" id="q4" name="q4" type="text" placeholder="davef200" spellcheck="false" required/>
 						</li>
 						<li>
-							<label class="fs-field-label fs-anim-upper" for="account-password" data-info="So others can see your work">Password</label>
-							<input class="fs-anim-lower" id="account-password" name="account-password" type="password" placeholder="password" spellcheck="false" required/>
+							<label class="fs-field-label fs-anim-upper" for="q5">Password</label>
+							<input class="fs-anim-lower" id="q5" name="q5" type="password" placeholder="password" spellcheck="false" required/>
 						</li>
 						<!-- Next version <li>
 							<label class="fs-field-label fs-anim-upper" for="q4">Add your Skills & Interests</label>
 							
 						</li> -->
 					</ol><!-- /fs-fields -->
-					<button class="fs-submit" id="create-account" type="submit">Add yourself</button>
+					<button class="fs-submit" type="submit">Add yourself</button>
 				</form><!-- /fs-form -->
 			</div><!-- /fs-form-wrap -->
 
-        </div><!-- /container -->
-        <!--
+		</div><!-- /container -->
 		<script src="js/classie.js"></script>
 		<script src="js/selectFx.js"></script>
 		<script src="js/fullscreenForm.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 		<script>
 			(function() {
@@ -90,4 +94,5 @@
 				} );
 			})();
 		</script>
-	</template>
+	</body>
+</html>

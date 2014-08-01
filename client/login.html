@@ -9,7 +9,6 @@
 		<meta name="keywords" content="fullscreen form, css animations, distraction-free, web design" />
 		<meta name="author" content="Codrops" />
 		<link rel="shortcut icon" href="../favicon.ico">
-		<link href='http://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" type="text/css" href="css/normalize.css" />
 		<link rel="stylesheet" type="text/css" href="css/demo.css" />
 		<link rel="stylesheet" type="text/css" href="css/component.css" />
@@ -19,39 +18,21 @@
 	</head>
 	<body>
 		<div class="container">
-			<div class="pt-triggers">
-				<div>
-					<div class="fs-title-norm">
-						<h1><a class="brand" href="index.html"><img src="icon.png" height="40px" class="brand-icon"/>hacker<span style="font-size:36pt;line-height:0px;">.</span>dating</a></h1>
-					</div>
-					<ul class="top-right-menu hi-icon-wrap hi-icon-effect-1 hi-icon-effect-1b">
-						<li>
-							<a href="signup.html" class="signup-button">Join</a>
-						</li>
-					</ul>			
-				</div><!-- /fs-form-wrap -->
+			<div class="fs-title-norm">
+				<h1><a class="brand" href="index.html"><img src="icon.png" height="40px" class="brand-icon"/>hacker<span style="font-size:36pt;line-height:0px;">.</span>dating</a></h1>
 			</div>
-			<div class="homepage-splash">
-				<div class="chunk">
-					<h1>Build the winning team.</h1>
-					<div class="manifesto">
-						<center>
-							<div class="manifesto-title">
-								manifesto
-							</div>
-						</center>
-						<p>We love hackathons. But coming up with ideas and finding team mates who are just as passionate about them can be tricky. Working with people you know might mean passing up the opportunity to work with someone who synergizes perfectly with your skills and interests. We want to help you find the best team so that you can make the most out of each hackathon. See you on the podium.
-						</p>
-					</div>
-				</div>
-			</div>	
+			<form id="login-form">
+				<input type="text" placeholder="email"/>
+				<input type="password" placeholder="password"/>
+				<input type="submit" value="Login">
+			</form>
+
 		</div><!-- /container -->
-		<footer>
-			<i class="ion-email"></i>
-		</footer>
 		<script src="js/classie.js"></script>
 		<script src="js/selectFx.js"></script>
 		<script src="js/fullscreenForm.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
 		<script>
 			(function() {
 				var formWrap = document.getElementById( 'fs-form-wrap' );
@@ -71,10 +52,6 @@
 					}
 				} );
 			})();
-
-			$(document).ready(function(){
-
-			});
 		</script>
 	</body>
 </html>

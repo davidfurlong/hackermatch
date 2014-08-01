@@ -1,8 +1,5 @@
-$(document).ready( function() {
-window.PageTransitions = (function() {
-//$(document).ready( function() {
+var PageTransitions = (function() {
 
-	console.log("inside pagetransitions");
 	var $main = $( '#pt-main' ),
 		$pages = $main.children( 'div.pt-page' ),
 		$iterate = $( '#iterateEffects' ),
@@ -26,8 +23,7 @@ window.PageTransitions = (function() {
 		animEndEventName = animEndEventNames[ Modernizr.prefixed( 'animation' ) ],
 		// support css animations
 		support = Modernizr.cssanimations;
-	console.log($pages);
-    console.log($main);
+		console.log($pages);
 	
 	function init() {
 
@@ -454,4 +450,3 @@ window.PageTransitions = (function() {
 	};
 
 })();
-});
