@@ -156,7 +156,7 @@ a.brand {
 	padding: 0;
 }
 
-*, *:after, *:before { border-box; box-sizing: border-box; }
+*, *:after, *:before { box-sizing: border-box; }
 .clearfix:before, .clearfix:after { content: ''; display: table; }
 .clearfix:after { clear: both; }
 
@@ -540,7 +540,7 @@ button.fs-continue,
 }
 
 .fs-form-overview ol {
-	max-width: ;
+	max-width: 100%;
 }
 
 .fs-fields > li {
