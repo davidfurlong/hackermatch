@@ -119,6 +119,14 @@ Template.update_user.events({
       });
     */
       return false;
+    },
+    'click #logout': function (e, t) {
+        e.preventDefault();
+        if (Meteor.user()) {
+            Meteor.logout(function() {
+                Router.go('index');
+            });
+        }
     }
 });
 
