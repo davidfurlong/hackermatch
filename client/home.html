@@ -136,7 +136,7 @@
 					</div>
 					<div class="pt-page pt-page-3">
 						<div class="fs-form-wrap idea" id="fs-form-wrap">
-							<form id="myform" class="fs-form idea fs-form-full" autocomplete="off">
+							<form id="idea-create" action="action" class="fs-form idea fs-form-full" autocomplete="off">
 								<ol class="fs-fields">
 									<li>
 										<label class="fs-field-label fs-anim-upper" for="q1">Whats your idea? (1 liner)</label>
@@ -161,33 +161,8 @@
 							</form><!-- /fs-form -->
 						</div><!-- /fs-form-wrap -->
 					</div>
-					<div class="pt-page pt-page-4">
-						<form class="settings-form">
-							<h1>My Settings</h1>
-							<div>
-								<label>Name</label>
-								<input type="text">
-							</div>
-							<div>
-								<label>Email</label>
-								<input type="text">
-							</div>
-							<div>
-								<label>Skills</label>
-								<input type="text">
-							</div>
-							<div>
-								<label>Github username</label>
-								<input type="text" placeholder="github username">
-							</div>
-							<div>
-								<label>Profile picture</label>
-								<input type="text" placeholder="url">
-							</div>
-							<div>
-								<input type="submit" value="Save Changes">
-							</div>
-						</form>
+                    <div class="pt-page pt-page-4">
+                        {{> update_user}}
 					</div>
 				</div>
 		</div><!-- /container -->
@@ -247,4 +222,33 @@
 			}
 		</script>
 		
-	</template>
+        </template>
+        <template name="update_user">
+						<form id="update-user-form" action="action" class="settings-form">
+							<h1>My Settings</h1>
+							<div>
+								<label>Name</label>
+								<input id="user_name" type="text">
+							</div>
+							<div>
+								<label>Email</label>
+								<input id="user_email" type="text">
+							</div>
+							<div>
+								<label>Skills</label>
+								<input id="user_skills" type="text">
+							</div>
+							<div>
+								<label>Github username</label>
+								<input id="user_github" type="text" placeholder="github username">
+							</div>
+							<div>
+								<label>Profile picture</label>
+								<input id="user_picture" type="text" placeholder="url">
+							</div>
+							<div>
+								<input type="submit" value="Save Changes">
+							</div>
+                        </form>
+        </template>
+
