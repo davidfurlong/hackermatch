@@ -22,7 +22,7 @@
 			<div class="pt-triggers">
 				<div>
 					<div class="fs-title-norm">
-						<h1><a class="brand" href="/"><img src="icon.png" height="40px" class="brand-icon"/>hacker<span style="font-size:36pt;line-height:0px;">.</span>dating</a> / <a href="#" id="my-group" class="link-border">YC Hacks</a></h1>
+						<h1><a class="brand" href="" id="my-group"><img src="icon.png" height="40px" class="brand-icon"/>hacker<span style="font-size:36pt;line-height:0px;">.</span>dating / YC Hacks</a></h1>
 					</div>
 					<ul class="top-right-menu hi-icon-wrap hi-icon-effect-1 hi-icon-effect-1b">
 						<li>
@@ -123,12 +123,15 @@
 					</div>
 				</div>
 					<div class="pt-page pt-page-2">
-						<div class="messages">
+						<div class="messages">					
 							<ul class="messages-threads">
-								<li>+ New Conversation</li>
-								<li class="selected">David Furlong</li>
+								<li id="new-conversation">
+									+ New Conversation
+								</li>
+								<li class="selected convo">David Furlong</li>
 							</ul>
 							<div class="messages-content">
+								<input type="text" class="message-input" placeholder="type message">
 								<div class="to">Hey its Me</div>
 								<div class="from">Yo dude</div>
 							</div>
@@ -196,8 +199,24 @@
                     } );
                 })();
             });
-			console.log('hi');
 			$(document).ready(function(){
+				$('body').on('click', '.messages-threads .convo', function(){
+					// swap to that message thread.
+				})
+				$('#new-conversation').click(function(){
+					var person = prompt('Who do you want to Message', 'Dave');
+					if(person != null){
+						// Create new conversation thread to X.
+					}
+				});
+
+				$('body').on('keydown', '.message-input', function(e){
+					if(e.keyCode == 13){
+						console.log('submit message');
+						$(e.currentTarget).val('');
+					}
+				});
+
 				$('body').on( 'click', '.btn-7f', activate);
 				$('.pt-page').height($(window).height()-200);
 				$('#pt-main').height($(window).height()-200);
@@ -224,38 +243,38 @@
 		
         </template>
         <template name="update_user">
-						<form id="update-user-form" action="action" class="settings-form">
-							<h1>My Settings</h1>
-							<div>
-								<label>Name</label>
-                                <input id="user_name" type="text" value="{{name}}">
-							</div>
-							<div>
-								<label>Email</label>
-								<input id="user_email" type="text" value="{{email}}">
-							</div>
-							<div>
-								<label>Skills</label>
-								<ul id="user_skills" class="ac-custom ac-checkbox ac-cross fs-anim-lower">
-									<li><input id="cb1" name="cb1" type="checkbox"><label for="cb1">Front End</label></li>
-									<li><input id="cb2" name="cb2" type="checkbox"><label for="cb2">Designer</label></li>
-									<li><input id="cb3" name="cb3" type="checkbox"><label for="cb3">Backend</label></li>
-									<li><input id="cb4" name="cb4" type="checkbox"><label for="cb4">Mobile</label></li>
-									<li><input id="cb5" name="cb5" type="checkbox"><label for="cb5">Hardware</label></li>
-								</ul>
-							</div>
-							<div>
-								<label>Github username</label>
-                                <input id="user_github" type="text" value="{{github}}">
-							</div>
-							<div>
-								<label>Profile picture</label>
-								<input id="user_picture" type="text" placeholder="url">
-							</div>
-							<div>
-								<input type="submit" value="Save Changes">
-							</div>
-                        </form>
-						<input id="logout" type="submit" value="Log Out">
+			<form id="update-user-form" action="action" class="settings-form">
+				<h1>My Settings</h1>
+				<div>
+					<label>Name</label>
+                    <input id="user_name" type="text" value="{{name}}">
+				</div>
+				<div>
+					<label>Email</label>
+					<input id="user_email" type="text" value="{{email}}">
+				</div>
+				<div>
+					<label>Skills</label>
+					<ul id="user_skills" class="ac-custom ac-checkbox ac-cross fs-anim-lower">
+						<li><input id="cb1" name="cb1" type="checkbox"><label for="cb1">Front End</label></li>
+						<li><input id="cb2" name="cb2" type="checkbox"><label for="cb2">Designer</label></li>
+						<li><input id="cb3" name="cb3" type="checkbox"><label for="cb3">Backend</label></li>
+						<li><input id="cb4" name="cb4" type="checkbox"><label for="cb4">Mobile</label></li>
+						<li><input id="cb5" name="cb5" type="checkbox"><label for="cb5">Hardware</label></li>
+					</ul>
+				</div>
+				<div>
+					<label>Github username</label>
+                    <input id="user_github" type="text" value="{{github}}">
+				</div>
+				<div>
+					<label>Profile picture</label>
+					<input id="user_picture" type="text" placeholder="url">
+				</div>
+				<div>
+					<input type="submit" value="Save Changes">
+				</div>
+            </form>
+			<input id="logout" type="submit" value="Log Out">
         </template>
 
