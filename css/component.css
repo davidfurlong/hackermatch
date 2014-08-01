@@ -68,7 +68,7 @@
 	height: 300px;
 }
 
-.messages-threads{
+.messages-threads {
 	margin: 0;
 	height: 100%;
 	width: 20%;
@@ -76,6 +76,7 @@
 	border-right: 1px solid white;
 	list-style-type: none;
 	padding: 0;
+	float: left;
 }
 
 .messages-threads li {
@@ -83,14 +84,35 @@
 	margin: 0;
 	width: 100%;
 	cursor: pointer;
+	text-align: right;
+	border-top-left-radius: 50px;
+	border-bottom-left-radius: 50px;
+}
+
+.messages-threads li.selected {
+	background: rgba(256,256,256,0.2);
 }
 
 .messages-threads li:hover {
 	background: rgba(256,256,256,0.2);
 }
 
-.messages-content{
-	
+.messages-content {
+	margin-left: 20%;
+	padding: 20px;
+}
+
+.messages-content div{
+	width: 100%;
+}
+
+.messages-content .to {
+	text-align: left;
+
+}
+
+.messages-content .from {
+	text-align: right;
 }
 
 a.brand {
@@ -126,7 +148,7 @@ a.link-border {
 	position: relative;
 	display: inline-block;
 	outline: none;
-	color: #404d5b;
+	color: #fd6a62;
 	vertical-align: bottom;
 	text-decoration: none;
 	white-space: nowrap;
@@ -146,7 +168,7 @@ a.link-border::after {
 }
 
 a.link-border  {
-	color: #222;
+	color: #fd6a62;
 	font-weight: 500;
 	-webkit-transition: -webkit-transform 0.2s;
 	transition: transform 0.2s;
@@ -312,6 +334,14 @@ a.link-border:focus::before {
 	text-align: left;
 	font-size: 2.5em;
 }
+
+.fs-form.idea {
+	position: static;
+	text-align: left;
+	font-size: 2.5em;
+}
+
+
 
 .no-js .fs-form {
 	padding: 0 0 6em 0;
@@ -1345,3 +1375,114 @@ input[type=text]::-ms-clear {
 	content: "\f141";
 }
 
+/* checkboxes */
+
+
+.ac-custom h2 {
+	font-size: 1em;
+	font-weight: 300;
+	padding: 0 0 0.5em;
+	margin: 0 0 30px;
+}
+
+.ac-custom ul,
+.ac-custom ol {
+	list-style: none;
+	padding: 0;
+	margin: 0 auto;
+	max-width: 800px;
+}
+
+.ac-custom li {
+	margin: 0 auto;
+	padding: 0 0;
+	position: relative;
+}
+
+.ac-custom label {
+	display: inline-block;
+	position: relative;
+	font-size: 20pt;
+	padding: 0 0 0 60px;
+	vertical-align: top;
+	color: rgba(0,0,0,0.2);
+	cursor: pointer;
+	-webkit-transition: color 0.3s;
+	transition: color 0.3s;
+}
+
+.ac-custom input[type="checkbox"],
+.ac-custom input[type="radio"],
+.ac-custom label::before {
+	width: 50px;
+	height: 50px;
+	top: 50%;
+	left: 0;
+	margin-top: -25px;
+	position: absolute;
+	cursor: pointer;
+}
+
+.ac-custom input[type="checkbox"],
+.ac-custom input[type="radio"] {
+	opacity: 0;
+	-webkit-appearance: none;
+	display: inline-block;
+	vertical-align: middle;
+	z-index: 100;
+}
+
+.ac-custom label::before {
+	content: '';
+	border: 4px solid #fff;
+	-webkit-transition: opacity 0.3s;
+	transition: opacity 0.3s;
+}
+
+.ac-radio label::before {
+	border-radius: 50%;
+}
+
+.ac-custom input[type="checkbox"]:checked + label,
+.ac-custom input[type="radio"]:checked + label {
+	color: #fff;
+} 
+
+.ac-custom input[type="checkbox"]:checked + label::before,
+.ac-custom input[type="radio"]:checked + label::before {
+	opacity: 0.8;
+}
+
+/* General SVG and path styles */
+
+.ac-custom svg {
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	top: 50%;
+	margin-top: -35px;
+	left: 5px;
+	pointer-events: none;
+}
+
+.ac-custom svg path {
+	stroke: #fdfcd3;
+	stroke-width: 13px;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	fill: none;
+}
+
+.ac-custom {
+	list-style-type: none;
+}
+
+.idea .fs-progress {
+	display: none !important;
+	visibility: hidden !important;
+	background: transparent;
+}
+
+.idea .fs-numbers {
+	margin: 5px 40px;
+}
