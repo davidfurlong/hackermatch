@@ -279,6 +279,7 @@
 		// after animation ends remove added classes from fields
 		var self = this,
 			onEndAnimationFn = function( ev ) {
+				
 				if( support.animations ) {
 					this.removeEventListener( animEndEventName, onEndAnimationFn );
 				}
@@ -309,6 +310,8 @@
 					}
 				}
 				self.isAnimating = false;
+				// DAVID
+				$(self.formEl).find('input').focus()
 			};
 
 		if( support.animations ) {
