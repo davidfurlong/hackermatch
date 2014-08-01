@@ -59,6 +59,18 @@ Template.home.events({
       return false;
     }
 });
+Template.update_user.helpers({
+    name: function() {
+        if(Meteor.user().profile) {
+            return Meteor.user().profile.name; 
+        } 
+    },
+    github: function() {
+        if(Meteor.user().profile) {
+            return Meteor.user().profile.github; 
+        }
+    }
+});
 Template.update_user.events({
     'submit #update-user-form' : function(e, t) {
       e.preventDefault();
@@ -74,7 +86,8 @@ Template.update_user.events({
         console.log("q4: " + q4);
         console.log("q5: " + q5);
         // Trim and validate the input
-        Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile.name":q1}});
+        Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile.name":q1, 
+                                                            "profile.github": q4 }});
     /*
       Accounts.createUser({email: email, password : password}, function(err){
           if (err) {
@@ -118,6 +131,7 @@ Template.signup.events({
             password: password,
             profile: {
                 name: name,
+                github: github,
                 skills: {
                     webdev: webdev,
                     backend: backend,
