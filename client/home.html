@@ -69,30 +69,16 @@
 						<div>
 						</div>
 						<div class="row label">
+							YOUR IDEAS
+						</div>
+                        <div>
+                            {{> yourIdeaList}}
+						</div>
+						<div class="row label">
 							ALL
 						</div>
-						<div>
-							<ul class="row item">
-								<li class="item-action">
-									<i class="ion-heart btn btn-7 btn-7f btn-icon-only icon-star"></i>
-								</li>
-								<li class="item-icon">
-									<img src="zac.png" width="64px" height="64px" style="border-radius:50px">
-								</li>
-								<li class="item-title">
-								Meotter
-								</li>
-								<li class="item-skills">
-									<div class="badge t1">Webdev</div>
-									<div class="badge t2">Design</div>
-									<div class="badge t3">Back End</div>
-									<div class="badge t4">Hardware</div>
-									<div class="badge t5">Mobile</div>
-								</li>
-								<li class="item-desc">
-									Nesting of comments? Can I comment on someone else's comment to reply directly to that like on Reddit or Imgur?			
-								</li>
-							</ul>
+                        <div>
+                            {{> ideaList}}
 						</div>
 					</div>
 					<div class="sidebar">
@@ -257,5 +243,57 @@
 							</div>
                         </form>
 						<input id="logout" type="submit" value="Log Out">
-        </template>
+                        </template>
+
+<template name="yourIdeaList">
+    {{#each ideas}}    
+    <ul class="row item">
+        <li class="item-action">
+            <i class="ion-heart btn btn-7 btn-7f btn-icon-only icon-star"></i>
+        </li>
+        <li class="item-icon">
+            <img src="zac.png" width="64px" height="64px" style="border-radius:50px">
+        </li>
+        <li class="item-title">
+            {{name}}
+        </li>
+        <li class="item-skills">
+            <div class="badge t1">Webdev</div>
+            <div class="badge t2">Design</div>
+            <div class="badge t3">Back End</div>
+            <div class="badge t4">Hardware</div>
+            <div class="badge t5">Mobile</div>
+        </li>
+        <li class="item-desc">
+            {{description}}
+        </li>
+    </ul>
+    {{/each}}
+</template>
+
+<template name="ideaList">
+    {{#each ideas}}    
+    <ul class="row item">
+        <li class="item-action">
+            <i class="ion-heart btn btn-7 btn-7f btn-icon-only icon-star"></i>
+        </li>
+        <li class="item-icon">
+            <img src="zac.png" width="64px" height="64px" style="border-radius:50px">
+        </li>
+        <li class="item-title">
+            {{name}}
+        </li>
+        <li class="item-skills">
+            <div class="badge t1">Webdev</div>
+            <div class="badge t2">Design</div>
+            <div class="badge t3">Back End</div>
+            <div class="badge t4">Hardware</div>
+            <div class="badge t5">Mobile</div>
+        </li>
+        <li class="item-desc">
+            {{description}}
+        </li>
+    </ul>
+    {{/each}}
+</template>
 

@@ -34,7 +34,18 @@ Router.map(function() {
     this.route('login');
 });
 
+Template.ideaList.helpers({
+  ideas: function() {
+        var x =  Ideas.find().fetch();
+        return x;
+  }
+});
 
+Template.yourIdeaList.helpers({
+  ideas: function() {
+        return Ideas.find({userId: Meteor.userId()}).fetch();
+  }
+});
 Template.home.helpers({
     ideas: function() {
         return Ideas.find({userId: Session.get('myUserId')}).fetch();
@@ -55,6 +66,7 @@ Template.home.events({
         var idea = {
             name: name,
             description: description,
+            userId: Meteor.userId(),
             skills: {
                 webdev: webdev,
                 backend: backend,
@@ -63,7 +75,7 @@ Template.home.events({
                 hardware: hardware
             },
             comments: {}
-        }
+        };
         console.log("idea create: ");
         console.dir(idea);
 
@@ -74,8 +86,8 @@ Template.home.events({
             //can we select on name attribute again?
         }
 
-        Ideas.insert({name: name}, function(err, result) {
-        //Ideas.insert(idea, function(err, result) {
+        //Ideas.insert({name: name}, function(err, result) {
+        Ideas.insert(idea, function(err, result) {
             if(err) {
                 console.log(err);
                 console.log(result);
