@@ -28,9 +28,9 @@
 						<li>
 							<i class="ion-plus-round hi-icon" id="new-idea"></i>
 						</li>
-						<li>
+						<!-- <li>
 							<i class="ion-chatbubble hi-icon" id="my-msgs"></i>
-						</li>
+						</li> -->
 						<li>
 							<i class="ion-person hi-icon" id="my-profile"></i>
 						</li>
@@ -271,29 +271,28 @@
         <li class="item-icon">
             <img src="zac.png" width="64px" height="64px" style="border-radius:50px">
         </li>
-        <li class="item-title">
-            {{name}}
-        </li>
-        <li class="item-skills">
-            {{#if skills.webdev}}
-            <div class="badge t1">Webdev</div>
-            {{/if}}
-            {{#if skills.design}}
-            <div class="badge t2">Design</div>
-            {{/if}}
-            {{#if skills.backend}}
-            <div class="badge t3">Back End</div>
-            {{/if}}
-            {{#if skills.hardware}}
-            <div class="badge t4">Hardware</div>
-            {{/if}}
-            {{#if skills.mobile}}
-            <div class="badge t5">Mobile</div>
-            {{/if}}
-        </li>
-        <li class="item-desc">
-            {{description}}
-        </li>
+        <li class="item-text">
+        	<span class="item-title">{{name}}</span>
+        	<span class="item-desc">{{description}}</span>
+        	<br/>
+        	<span class="item-skills">
+        	    {{#if skills.webdev}}
+        	    <span class="badge t1">Webdev</span>
+        	    {{/if}}
+        	    {{#if skills.design}}
+        	    <span class="badge t2">Design</span>
+        	    {{/if}}
+        	    {{#if skills.backend}}
+        	    <span class="badge t3">Back End</span>
+        	    {{/if}}
+        	    {{#if skills.hardware}}
+        	    <span class="badge t4">Hardware</span>
+        	    {{/if}}
+        	    {{#if skills.mobile}}
+        	    <span class="badge t5">Mobile</span>
+        	    {{/if}}
+        	</span>
+        </li>  
     </ul>
     {{/each}}
 </template>
@@ -309,29 +308,28 @@
         <li class="item-icon">
             <img src="zac.png" width="64px" height="64px" style="border-radius:50px">
         </li>
-        <li class="item-title">
-            {{name}}
-        </li>
-        <li class="item-skills">
-            {{#if skills.webdev}}
-            <div class="badge t1">Webdev</div>
-            {{/if}}
-            {{#if skills.design}}
-            <div class="badge t2">Design</div>
-            {{/if}}
-            {{#if skills.backend}}
-            <div class="badge t3">Back End</div>
-            {{/if}}
-            {{#if skills.hardware}}
-            <div class="badge t4">Hardware</div>
-            {{/if}}
-            {{#if skills.mobile}}
-            <div class="badge t5">Mobile</div>
-            {{/if}}
-        </li>
-        <li class="item-desc">
-            {{description}}
-        </li>
+       	<li class="item-text">
+			<span class="item-title">{{name}}</span>
+			<span class="item-desc">{{description}}</span>
+			<br/>
+			<span class="item-skills">
+			    {{#if skills.webdev}}
+			    <span class="badge t1">Webdev</span>
+			    {{/if}}
+			    {{#if skills.design}}
+			    <span class="badge t2">Design</span>
+			    {{/if}}
+			    {{#if skills.backend}}
+			    <span class="badge t3">Back End</span>
+			    {{/if}}
+			    {{#if skills.hardware}}
+			    <span class="badge t4">Hardware</span>
+			    {{/if}}
+			    {{#if skills.mobile}}
+			    <span class="badge t5">Mobile</span>
+			    {{/if}}
+			</span>
+      	</li> 
     </ul>
     {{/each}}
 </template>
@@ -345,28 +343,27 @@
         <li class="item-icon">
             <img src="zac.png" width="64px" height="64px" style="border-radius:50px">
         </li>
-        <li class="item-title">
-            {{name}}
-        </li>
-        <li class="item-skills">
-            {{#if skills.webdev}}
-            <div class="badge t1">Webdev</div>
-            {{/if}}
-            {{#if skills.design}}
-            <div class="badge t2">Design</div>
-            {{/if}}
-            {{#if skills.backend}}
-            <div class="badge t3">Back End</div>
-            {{/if}}
-            {{#if skills.hardware}}
-            <div class="badge t4">Hardware</div>
-            {{/if}}
-            {{#if skills.mobile}}
-            <div class="badge t5">Mobile</div>
-            {{/if}}
-        </li>
-        <li class="item-desc">
-            {{description}}
+        <li class="item-text">
+        	<span class="item-title">{{name}}</span>
+        	<span class="item-desc">{{description}}</span>
+        	<br/>
+        	<span class="item-skills">
+        	    {{#if skills.webdev}}
+        	    <span class="badge t1">Webdev</span>
+        	    {{/if}}
+        	    {{#if skills.design}}
+        	    <span class="badge t2">Design</span>
+        	    {{/if}}
+        	    {{#if skills.backend}}
+        	    <span class="badge t3">Back End</span>
+        	    {{/if}}
+        	    {{#if skills.hardware}}
+        	    <span class="badge t4">Hardware</span>
+        	    {{/if}}
+        	    {{#if skills.mobile}}
+        	    <span class="badge t5">Mobile</span>
+        	    {{/if}}
+        	</span>
         </li>
     </ul>
     {{/each}}
