@@ -1630,6 +1630,10 @@ input[type=text]::-ms-clear {
 	margin: 5px 40px;
 }
 
+.item-action {
+	display: none !important;
+}
+
 .sidebar {
 	position: absolute;
 	right: 0px;
