@@ -292,7 +292,7 @@ a.link-border:focus::before {
 	transform: scale(1.2);
 }
 
-.item-skills {
+.item-skills, .item-text {
 	vertical-align: middle;
 }
 
@@ -381,9 +381,6 @@ a.link-border:focus::before {
 	letter-spacing: 1px;
 	font-weight: 700;
 	font-size: 16pt;
-	padding-top: 4px !important;
-	padding-bottom: 4px !important;
-	border-bottom: 1px dashed #888;
 }
 
 .row .item-desc {
@@ -391,7 +388,6 @@ a.link-border:focus::before {
 	color: #888;
 	font-size: 16pt;
 	padding-left: 10px;
-	vertical-align: middle;
 }
 
 
