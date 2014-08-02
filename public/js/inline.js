@@ -1721,7 +1721,9 @@ if ( typeof define === 'function' && define.amd ) {
 		} );
 	}
 
-}$(document).ready(function(){
+}
+/*
+$(document).ready(function(){
 	$('.sidebar').on('click', function(e) {
 	    e.stopPropagation();
 	});
@@ -1747,3 +1749,4 @@ if ( typeof define === 'function' && define.amd ) {
 		}
 	});
 });
+*/
