@@ -182,6 +182,10 @@
                                 <input id="user_name" type="text" value="{{name}}">
 							</div>
 							<div>
+								<label>Contact</label>
+                                <input id="user_contact" type="text" value="{{contact}}">
+							</div>
+							<div>
 								<label>Skills</label>
 								<ul id="user_skills" class="ac-custom ac-checkbox ac-cross fs-anim-lower">
 									<li><input id="cb1" name="cb1" type="checkbox"><label for="cb1">Frontend</label></li>
@@ -260,7 +264,8 @@
     <div class="sidebar-item-title"><h1>{{idea.name}}</h1></div>
     <div class="sidebar-item-author">posted by {{idea.author.profile.name}}</div>
     <div class="sidebar-item-desc">{{idea.description}}</div>
-	<div class="sidebar-item-skills">
+    <div class="sidebar-item-skills">
+            <span class="sidebar-prompt">looking for</span>
             {{#if idea.skills.webdev}}
             <span class="badge t1">Wed</span>
             {{/if}}
@@ -277,6 +282,7 @@
             <span class="badge t5">Mobile</span>
             {{/if}}
 	</div>
+    <div class="sidebar-item-contact">contact {{idea.author.profile.contact}}</div>
     <div class="sidebar-item-comments">
 	    <form id="comment-create" action="action" autocomplete="off">
             <input id="comment-text" type="text" placeholder="Discuss here">

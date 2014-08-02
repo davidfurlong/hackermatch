@@ -267,6 +267,11 @@ Template.update_user.helpers({
             return Meteor.user().profile.name; 
         } 
     },
+    contact: function() {
+        if(Meteor.user() && Meteor.user().profile) {
+            return Meteor.user().profile.contact; 
+        }
+    },
     github: function() {
         if(Meteor.user() && Meteor.user().profile) {
             return Meteor.user().profile.github; 
@@ -277,7 +282,7 @@ Template.update_user.events({
     'submit #update-user-form' : function(e, t) {
       e.preventDefault();
       var q1 = t.find('#user_name').value
-        //, q2 = t.find('#user_email').value
+        , q2 = t.find('#user_contact').value
         , q3 = t.find('#user_skills').value
         , q4 = t.find('#user_github').value
         //, q5 = t.find('#user_picture').value
@@ -289,6 +294,7 @@ Template.update_user.events({
 
         var profile = {
             name: q1,
+            contact: q2,
             github: q4,
             skills: {
                 backend: backend,
@@ -514,6 +520,7 @@ Template.signup.events({
             password: password,
             profile: {
                 name: name,
+                contact: email,
                 github: github,
                 skills: {
                     webdev: webdev,

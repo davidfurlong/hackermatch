@@ -1674,6 +1674,14 @@ input[type=text]::-ms-clear {
 	color: #777;
 	margin-bottom: 20px;
 }
+.sidebar-item-contact {
+	color: #777;
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+.sidebar-prompt {
+	color: #777;
+}
 .sidebar-item-desc {
     font-size: 28px;
     padding-bottom: 25px;
