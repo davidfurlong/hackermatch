@@ -157,8 +157,15 @@ form.settings-form label {
 }
 
 .fs-form-overview .signup-button-container {
-	display: none;
+    height: 100%;
 	height: 0;
+}
+
+#github-button {
+    top: 300px;
+    position: relative;
+    width: 60%;
+    background: transparent;
 }
 
 form.settings-form input {
@@ -340,6 +347,10 @@ a.link-border:focus::before {
 	height: 64px;
 	overflow: hidden;
 	vertical-align: middle;
+}
+
+.fs-form-full {
+    top: 25% !important;
 }
 
 .fs-form-wrap {

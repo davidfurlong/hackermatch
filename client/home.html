@@ -228,11 +228,13 @@
         <li class="item-action">
             <i class="ion-heart btn btn-7 btn-7f btn-icon-only icon-star"></i>
             </li>
-            <!--
-        <li class="item-icon">
-            <img src="zac.png" width="64px" height="64px" style="border-radius:50px">
+            <li class="item-icon">
+            {{#if avatar_url}}
+            <img src="{{avatar_url}}" width="64px" height="64px" style="border-radius:50px">
+            {{else}}
+            <img src="monkey.png" width="64px" height="64px" style="border-radius:50px">
+            {{/if}}
         </li>
-            -->
         <li class="item-text">
         	<span class="item-title">{{name}}</span>
         	<span class="item-desc">{{description}}</span>

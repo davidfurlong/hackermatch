@@ -10,3 +10,5 @@ modernizr-meteor
 iron-router
 accounts-base
 accounts-password
+accounts-github
+service-configuration

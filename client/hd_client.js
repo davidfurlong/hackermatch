@@ -17,13 +17,27 @@ Router.map(function() {
               if (Meteor.loggingIn()) {
               }
               else{
-                Router.go('login');
+                Router.go('singup');
               }
             }
          }
     });
-    this.route('signup');
-    this.route('login');
+    this.route('signup', {path: '/login', 
+        onBeforeAction: function () {
+            if (Meteor.user()) {
+                Router.go('home');
+            }
+        }
+    });
+    this.route('signup', {path: '/signup', 
+        onBeforeAction: function () {
+            if (Meteor.user()) {
+                Router.go('home');
+            }
+        }
+    });
+
+//    this.route('login');
 });
 
 Template.ideaRow.events({
@@ -48,7 +62,7 @@ Template.potentialTeams.helpers({
                     skillArray.push(skill_pair);
                 }
             }
-            console.log(skillArray);
+            //console.log(skillArray);
             if(skillArray.length == 0) {
                 return;
             }
@@ -85,13 +99,13 @@ Template.sidebar.events({
         ideaId: Session.get("selectedIdea")
     };
 
-    console.log(comment);
+    //console.log(comment);
     Comments.insert(comment, function(err, result) {
         if(err) {
             console.log("error creating comment");
         } else {
             //hackety hackety hack
-            console.log("comment added!");
+            //console.log("comment added!");
         }
     });
 }
@@ -222,6 +236,7 @@ Template.idea_create_template.events({
             name: name,
             description: description,
             userId: Meteor.userId(),
+            avatar_url: Meteor.user().profile.avatar_url,
             skills: {
                 webdev: webdev,
                 backend: backend,
@@ -274,7 +289,7 @@ Template.update_user.helpers({
     },
     github: function() {
         if(Meteor.user() && Meteor.user().profile) {
-            return Meteor.user().profile.github; 
+            return Meteor.user().profile.login; 
         }
     }
 });
@@ -292,7 +307,7 @@ Template.update_user.events({
         , mobile = t.find('#cb4').checked
         , hardware = t.find('#cb5').checked;
 
-        var profile = {
+        var updated_profile = {
             name: q1,
             contact: q2,
             github: q4,
@@ -304,9 +319,12 @@ Template.update_user.events({
                 webdev: webdev
             }
         };
+        console.log(updated_profile);
+        updated_profile = _.extend(Meteor.user().profile, updated_profile);
+        console.log(updated_profile);
             
         // Trim and validate the input
-        Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":profile}});
+        Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":updated_profile}});
         $('#my-group').trigger('click');
     /*
       Accounts.createUser({email: email, password : password}, function(err){
@@ -477,7 +495,7 @@ Template.signup.rendered = function(){
     }
 
   }
-
+/*
     $.getScript("js/inline.js", function(data, textStatus, jqxhr) {
                   (function() {
                       var formWrap = document.getElementById( 'fs-form-wrap-signup' );
@@ -498,30 +516,24 @@ Template.signup.rendered = function(){
                       } );
                   })();
               });    
-
+*/
 };
 
 Template.signup.events({
     'submit #register-form' : function(e, t) {
       e.preventDefault();
-      var email = t.find('#q2').value
-        , name = t.find('#q1').value
-        , github = t.find('#q4').value
-        , webdev = t.find('#cb1').checked
+    
+    var webdev = t.find('#cb1').checked
         , backend = t.find('#cb3').checked
         , mobile = t.find('#cb4').checked
         , design = t.find('#cb2').checked
-        , hardware = t.find('#cb5').checked
-        , password = t.find('#q5').value;
+        , hardware = t.find('#cb5').checked;
 
         // Trim and validate the input
-        var options = {
-            email: email,
-            password: password,
-            profile: {
-                name: name,
-                contact: email,
-                github: github,
+        var profile = {
+//                name: name,
+//                contact: email,
+//                github: github,
                 skills: {
                     webdev: webdev,
                     backend: backend,
@@ -529,9 +541,26 @@ Template.signup.events({
                     design: design,
                     hardware: hardware
                 }
-            }
-        };
+        }
+        //console.log(profile);
 
+      Meteor.loginWithGithub({
+            requestPermissions: ['user', 'public_repo']
+      }, function (err) {
+            if (err) {
+              Session.set('errorMessage', err.reason || 'Unknown error');
+            }
+            if(Meteor.user()) {
+                profile = _.extend(profile, Meteor.user().profile);
+                //Temporarily set contact info as email
+                profile.contact = profile.email;
+                Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":profile}})
+                Router.go('home');
+            }
+      });
+
+
+/*
         Accounts.createUser(options, function(err){
           if (err) {
             console.error('no user created :(');
@@ -544,6 +573,7 @@ Template.signup.events({
           }
 
         });
+*/
 
       return false;
     }

@@ -23,7 +23,7 @@ var PageTransitions = (function() {
 		animEndEventName = animEndEventNames[ Modernizr.prefixed( 'animation' ) ],
 		// support css animations
 		support = Modernizr.cssanimations;
-		console.log($pages);
+		//console.log($pages);
 	
 	function init() {
 

@@ -26,20 +26,7 @@
 				</div>
 				<form id="register-form" action="action" class="fs-form fs-form-full" autocomplete="off">
 					<ol class="fs-fields signup">
-						<li>
-							<label class="fs-field-label fs-anim-upper" for="q1">What's your name?</label>
-							<input class="fs-anim-lower" id="q1" name="q1" type="text" placeholder="Dave Fontenot" required/>
-							<div style="margin-top:80px" class="signup-button-container fs-anim-lower">
-								<a class="signup-button" href="login">
-									Already joined? Login instead
-								</a>
-							</div>
-						</li>
-						<li>
-							<label class="fs-field-label fs-anim-upper" for="q2" data-info="We won't email you more than once.">What's your email address?</label>
-							<input class="fs-anim-lower" id="q2" name="q2" type="email" placeholder="dean@road.us" spellcheck="false" required/>
-						</li>
-						<li data-input-trigger>
+                        <li data-input-trigger style="visibility: visible !important;">
 							<label class="fs-field-label fs-anim-upper" for="q3">What are you best at?</label>
 							<ul id="user_skills" class="ac-custom ac-checkbox ac-cross fs-anim-lower">
 								<li><input id="cb1" name="cb1" type="checkbox"><label for="cb1">Frontend</label></li>
@@ -49,20 +36,10 @@
 								<li><input id="cb5" name="cb5" type="checkbox"><label for="cb5">Hardware</label></li>
 							</ul>
 						</li>
-						<li>
-							<label class="fs-field-label fs-anim-upper" for="q4" data-info="So others can see your work">Enter your Github username</label>
-							<input class="fs-anim-lower" id="q4" name="q4" type="text" placeholder="davef200" spellcheck="false" required/>
-						</li>
-						<li>
-							<label class="fs-field-label fs-anim-upper" for="q5">Password</label>
-							<input class="fs-anim-lower" id="q5" name="q5" type="password" placeholder="password" spellcheck="false" required/>
-						</li>
-						<!-- Next version <li>
-							<label class="fs-field-label fs-anim-upper" for="q4">Add your Skills & Interests</label>
-							
-						</li> -->
 					</ol><!-- /fs-fields -->
-					<button class="fs-submit" type="submit">Add yourself</button>
+                    <div class="signup-button-container fs-anim-lower">
+                        <input type="submit" value="Login with Github" id="github-button" class="signup-button" />
+                    </div>
 				</form><!-- /fs-form -->
 			</div><!-- /fs-form-wrap -->
 
@@ -72,7 +49,11 @@
 		<script src="js/fullscreenForm.js"></script>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-		<script>
+        <script>
+            $(document).ready(function() {
+                $('.fs-form-full.fs-fields.li').show();
+            });
+            /*
 			(function() {
 				var formWrap = document.getElementById( 'fs-form-wrap-sign-up' );
 
@@ -90,6 +71,7 @@
 						classie.add( document.body, 'overview' ); // for demo purposes only
 					}
 				} );
-			})();
+            })();
+            */
 		</script>
 	</template>
