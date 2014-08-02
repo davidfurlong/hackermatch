@@ -34,13 +34,31 @@ Router.map(function() {
     this.route('login');
 });
 
+Template.potentialTeams.helpers({
+    ideas: function() {
+        var skills = Meteor.user().profile.skills;
+        var skillArray = [];
+        for(var key in skills) {
+            if(skills[key] == true) {
+                var attr = "skills." + key;
+                var skill_pair = {};
+                skill_pair[attr] = true;
+                skill_pair["userId"] = { $ne: Meteor.userId()};
+                skillArray.push(skill_pair);
+            }
+        }
+        return Ideas.find(
+                    {$or: skillArray
+        }).fetch();
+     }
+});
+
 Template.ideaList.helpers({
   ideas: function() {
         var x =  Ideas.find().fetch();
         return x;
   }
 });
-
 Template.yourIdeaList.helpers({
   ideas: function() {
         return Ideas.find({userId: Meteor.userId()}).fetch();
@@ -57,11 +75,11 @@ Template.home.events({
       e.preventDefault();
       var description = t.find('#q1').value
         , name = t.find('#q2').value
-        , webdev = t.find('#cb1').value
-        , design = t.find('#cb2').value
-        , backend = t.find('#cb3').value
-        , mobile = t.find('#cb4').value
-        , hardware = t.find('#cb5').value;
+        , webdev = t.find('#cb1').checked
+        , design = t.find('#cb2').checked
+        , backend = t.find('#cb3').checked
+        , mobile = t.find('#cb4').checked
+        , hardware = t.find('#cb5').checked;
 
         var idea = {
             name: name,
@@ -76,8 +94,6 @@ Template.home.events({
             },
             comments: {}
         };
-        console.log("idea create: ");
-        console.dir(idea);
 
         var exists = Ideas.findOne({name: name});
         if(exists) {
@@ -89,11 +105,8 @@ Template.home.events({
         //Ideas.insert({name: name}, function(err, result) {
         Ideas.insert(idea, function(err, result) {
             if(err) {
-                console.log(err);
-                console.log(result);
                 console.log("error creating idea");
             } else {
-                console.log('created idea!');
                 //hackety hackety hack
                 //using pageTransitions library, instead of Meteor routing...
                 $("#my-group").trigger("click");
@@ -117,8 +130,6 @@ Template.update_user.helpers({
 Template.update_user.events({
     'submit #update-user-form' : function(e, t) {
       e.preventDefault();
-      console.dir(t);
-      console.dir(t.find('#cb1').checked);
       var q1 = t.find('#user_name').value
         , q2 = t.find('#user_email').value
         , q3 = t.find('#user_skills').value
@@ -142,11 +153,6 @@ Template.update_user.events({
             }
         };
             
-        console.log("q1: " + q1);
-        console.log("q2: " + q2);
-        console.log("q3: " + q3);
-        console.log("q4: " + q4);
-        console.log("q5: " + q5);
         // Trim and validate the input
         Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":profile}});
     /*
@@ -192,8 +198,6 @@ Template.signup.events({
         , hardware = t.find('#q5a').value
         , password = t.find('#q5').value;
 
-        console.log("email: " + email);
-        console.log("password: " + password);
         // Trim and validate the input
         var options = {
             email: email,
@@ -210,17 +214,13 @@ Template.signup.events({
                 }
             }
         };
-        console.log("options: ");
-        console.dir(options);
 
         Accounts.createUser(options, function(err){
           if (err) {
-            console.error('no user :(');
+            console.error('no user created :(');
             alert('This email is already registered');
             // Inform the user that account creation failed
           } else {
-            console.log('created user!');
-            console.dir(options);
             Router.go('home');
             // Success. Account has been created and the user
             // has logged in successfully. 
@@ -251,7 +251,6 @@ Template.login.events({
           // could be incorrect. Inform the user that their
           // login attempt has failed. 
         } else {
-            console.log("success!");
             Router.go('home');
           // The user has been logged in.
         }
