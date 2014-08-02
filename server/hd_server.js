@@ -4,6 +4,7 @@ Meteor.startup(function () {
 //    Ideas.remove({});
 });
 
+/*
 Accounts.onCreateUser(function(options, user) {
   // We're enforcing at least an empty profile object to avoid needing to check
   // for its existence later.
@@ -50,3 +51,4 @@ Accounts.onCreateUser(function(options, user) {
 
 return user;
 });
+*/

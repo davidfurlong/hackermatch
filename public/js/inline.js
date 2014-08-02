@@ -458,7 +458,7 @@ if ( typeof define === 'function' && define.amd ) {
 	 * FForm function
 	 */
 	function FForm( el, options ) {
-        console.log("new form! ");
+        //console.log("new form! ");
 		this.el = el;
 		this.options = extend( {}, this.options );
   		extend( this.options, options );
@@ -1162,7 +1162,7 @@ if ( typeof define === 'function' && define.amd ) {
 		animEndEventName = animEndEventNames[ Modernizr.prefixed( 'animation' ) ],
 		// support css animations
 		support = Modernizr.cssanimations;
-		console.log($pages);
+		//console.log($pages);
 	
 	function init() {
 
@@ -1634,9 +1634,9 @@ if ( typeof define === 'function' && define.amd ) {
 	function controlCheckbox( el, type, svgDef ) {
 		var svg = createSVGEl( svgDef );
 		el.parentNode.appendChild( svg );
-		console.log(el);
+		//console.log(el);
 		$(el).change(function() {
-			console.log(el.checked);
+			//console.log(el.checked);
 
 			if( el.checked ) {
 				draw( el, type );
