@@ -79,6 +79,34 @@
 	float: left;
 }
 
+.message-input {
+	width: 100%;
+	border: 0;
+	padding: 4px 0px;
+	background: transparent;
+	outline: none;
+	color: white;
+	font-size: 20pt;
+	border-bottom: 1px dashed white;
+	margin-bottom: 5px;
+}
+
+.message-input::-webkit-input-placeholder {
+	color: white;
+}
+
+.message-input::-moz-placeholder { /* Firefox 18- */
+	color: white;
+}
+
+.message-input:::-moz-placeholder {  /* Firefox 19+ */
+	color: white;
+}
+
+.message-input::-ms-input-placeholder {  
+   color: white;  
+}
+
 .messages-threads li {
 	padding: 20px;
 	margin: 0;
@@ -93,7 +121,7 @@
 	background: rgba(256,256,256,0.2);
 }
 
-.messages-threads li:hover {
+.messages-threads li.convo:hover {
 	background: rgba(256,256,256,0.2);
 }
 

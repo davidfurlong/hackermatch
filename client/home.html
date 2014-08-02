@@ -22,7 +22,7 @@
 			<div class="pt-triggers">
 				<div>
 					<div class="fs-title-norm">
-						<h1><a class="brand" href="/"><img src="icon.png" height="40px" class="brand-icon"/>hacker<span style="font-size:36pt;line-height:0px;">.</span>dating</a> / <a href="#" id="my-group" class="link-border">YC Hacks</a></h1>
+						<h1><a class="brand" href="" id="my-group"><img src="icon.png" height="40px" class="brand-icon"/>hacker<span style="font-size:36pt;line-height:0px;">.</span>dating / YC Hacks</a></h1>
 					</div>
 					<ul class="top-right-menu hi-icon-wrap hi-icon-effect-1 hi-icon-effect-1b">
 						<li>
@@ -109,12 +109,15 @@
 					</div>
 				</div>
 					<div class="pt-page pt-page-2">
-						<div class="messages">
+						<div class="messages">					
 							<ul class="messages-threads">
-								<li>+ New Conversation</li>
-								<li class="selected">David Furlong</li>
+								<li id="new-conversation">
+									+ New Conversation
+								</li>
+								<li class="selected convo">David Furlong</li>
 							</ul>
 							<div class="messages-content">
+								<input type="text" class="message-input" placeholder="type message">
 								<div class="to">Hey its Me</div>
 								<div class="from">Yo dude</div>
 							</div>
@@ -182,8 +185,24 @@
                     } );
                 })();
             });
-			console.log('hi');
 			$(document).ready(function(){
+				$('body').on('click', '.messages-threads .convo', function(){
+					// swap to that message thread.
+				})
+				$('#new-conversation').click(function(){
+					var person = prompt('Who do you want to Message', 'Dave');
+					if(person != null){
+						// Create new conversation thread to X.
+					}
+				});
+
+				$('body').on('keydown', '.message-input', function(e){
+					if(e.keyCode == 13){
+						console.log('submit message');
+						$(e.currentTarget).val('');
+					}
+				});
+
 				$('body').on( 'click', '.btn-7f', activate);
 				$('.pt-page').height($(window).height()-200);
 				$('#pt-main').height($(window).height()-200);
@@ -243,7 +262,7 @@
 							</div>
                         </form>
 						<input id="logout" type="submit" value="Log Out">
-                        </template>
+        </template>
 
 <template name="yourIdeaList">
     {{#each ideas}}    
