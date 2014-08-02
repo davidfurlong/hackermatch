@@ -1,11 +1,3 @@
-/*
-Ideas.insert({name: "raptor", sound: "roar"});
-Ideas.findOne({name: "raptor"}).makeNoise(); // prints "roar"
-
-var myMessages = Messages.find({userId: Session.get('myUserId')}).fetch();
-*/
-
-
 
 
 Router.map(function() {
@@ -34,22 +26,36 @@ Router.map(function() {
     this.route('login');
 });
 
+Template.ideaRow.events({
+    'click ul.idea-list' : function(e, t) {
+      e.preventDefault();
+        var id = e.currentTarget.dataset.id;
+        Session.set("selectedIdea", id);
+    }
+});
+
 Template.potentialTeams.helpers({
     ideas: function() {
-        var skills = Meteor.user().profile.skills;
-        var skillArray = [];
-        for(var key in skills) {
-            if(skills[key] == true) {
-                var attr = "skills." + key;
-                var skill_pair = {};
-                skill_pair[attr] = true;
-                skill_pair["userId"] = { $ne: Meteor.userId()};
-                skillArray.push(skill_pair);
+        if(Meteor.user()) {
+            var skills = Meteor.user().profile.skills;
+            var skillArray = [];
+            for(var key in skills) {
+                if(skills[key] == true) {
+                    var attr = "skills." + key;
+                    var skill_pair = {};
+                    skill_pair[attr] = true;
+                    skill_pair["userId"] = { $ne: Meteor.userId()};
+                    skillArray.push(skill_pair);
+                }
             }
-        }
-        return Ideas.find(
-                    {$or: skillArray
-        }).fetch();
+            console.log(skillArray);
+            if(skillArray.length == 0) {
+                return;
+            }
+            return Ideas.find(
+                        {$or: skillArray
+            }).fetch();
+        } else return;
      }
 });
 
@@ -66,6 +72,30 @@ Template.yourIdeaList.helpers({
   }
 });
 
+Template.sidebar.helpers({
+    idea: function() {
+        var idea = Ideas.findOne({_id: Session.get("selectedIdea")});
+        if(idea) {
+            var author = Meteor.users.findOne({_id: idea.userId});
+            idea.author = author;
+            return idea;
+        }
+    }
+});
+Template.sidebar.opened = function() {
+    var ideaSelected = Session.get("selectedIdea");
+//    Session.set("selectedIdea", "");
+    if(!ideaSelected || ideaSelected == "") {
+        return false;
+    } else {
+        Session.set('sidebarOpened', 'open');
+        $('.pt-page-1 .page-container').addClass('blur');
+        return true;
+    }
+}
+
+
+    /*
 Template.potentialTeams.rendered = Template.yourIdeaList.rendered = Template.ideaList.rendered = function() {
 $(document).ready(function(){
     $('.sidebar').on('click', function(e) {
@@ -94,6 +124,7 @@ $(document).ready(function(){
     })
 });
 };
+*/
 
 
 Template.home.helpers({
@@ -103,6 +134,18 @@ Template.home.helpers({
 });
 
 Template.home.events({
+    'click .sidebar' : function(e, t) {
+      e.stopPropagation();
+    },
+    'click .page-container' : function(e, t) {
+      e.preventDefault();
+        var id = e;
+        if(Session.get("sidebarOpened") == "open") {
+            Session.set('selectedIdea', '');
+            Session.set('sidebarOpened', '');
+            $('.pt-page-1 .page-container').removeClass('blur');
+        } 
+    },
     'submit #idea-create' : function(e, t) {
       e.preventDefault();
       var description = t.find('#q1').value
@@ -157,12 +200,12 @@ Template.home.events({
 });
 Template.update_user.helpers({
     name: function() {
-        if(Meteor.user().profile) {
+        if(Meteor.user() && Meteor.user().profile) {
             return Meteor.user().profile.name; 
         } 
     },
     github: function() {
-        if(Meteor.user().profile) {
+        if(Meteor.user() && Meteor.user().profile) {
             return Meteor.user().profile.github; 
         }
     }
@@ -255,7 +298,7 @@ Template.signup.rendered = function(){
         list : { speed : .3, easing : 'ease-in-out' }
       };
 
-    console.log(checkbxsCross);
+    //console.log(checkbxsCross);
 
     function createSVGEl( def ) {
       var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -273,9 +316,9 @@ Template.signup.rendered = function(){
     function controlCheckbox( el, type, svgDef ) {
       var svg = createSVGEl( svgDef );
       el.parentNode.appendChild( svg );
-      console.log(el);
+      //console.log(el);
       $(el).change(function() {
-        console.log('ay');
+        //console.log('ay');
 
         if( el.checked ) {
           draw( el, type );

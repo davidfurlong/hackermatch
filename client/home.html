@@ -37,7 +37,7 @@
 					</ul>				
 				</div><!-- /fs-form-wrap -->
 			</div>	
-
+			{{> sidebar}}
 			<div id="pt-main" class="pt-perspective">
 				<div class="pt-page pt-page-1">
                     <div class="page-container">
@@ -79,9 +79,6 @@
                             {{> ideaList}}
 						</div>
 					</div>
-				</div>
-				<div class="sidebar">
-					{{> sidebar}}
 				</div>
 					<div class="pt-page pt-page-2">
 						<div class="messages">					
@@ -236,79 +233,24 @@
         
 <template name="potentialTeams">
     {{#each ideas}}    
-    <ul class="row item">
-        <li class="item-action">
-            <i class="ion-heart btn btn-7 btn-7f btn-icon-only icon-star"></i>
-        </li>
-        <li class="item-icon">
-            <img src="zac.png" width="64px" height="64px" style="border-radius:50px">
-        </li>
-        <li class="item-text">
-        	<span class="item-title">{{name}}</span>
-        	<span class="item-desc">{{description}}</span>
-        	<br/>
-        	<span class="item-skills">
-        	    {{#if skills.webdev}}
-        	    <span class="badge t1">Webdev</span>
-        	    {{/if}}
-        	    {{#if skills.design}}
-        	    <span class="badge t2">Design</span>
-        	    {{/if}}
-        	    {{#if skills.backend}}
-        	    <span class="badge t3">Back End</span>
-        	    {{/if}}
-        	    {{#if skills.hardware}}
-        	    <span class="badge t4">Hardware</span>
-        	    {{/if}}
-        	    {{#if skills.mobile}}
-        	    <span class="badge t5">Mobile</span>
-        	    {{/if}}
-        	</span>
-        </li>  
-    </ul>
+        {{> ideaRow }}
     {{/each}}
 </template>
 
-
-
 <template name="yourIdeaList">
     {{#each ideas}}    
-    <ul class="row item">
-        <li class="item-action">
-            <i class="ion-heart btn btn-7 btn-7f btn-icon-only icon-star"></i>
-        </li>
-        <li class="item-icon">
-            <img src="zac.png" width="64px" height="64px" style="border-radius:50px">
-        </li>
-       	<li class="item-text">
-			<span class="item-title">{{name}}</span>
-			<span class="item-desc">{{description}}</span>
-			<br/>
-			<span class="item-skills">
-			    {{#if skills.webdev}}
-			    <span class="badge t1">Webdev</span>
-			    {{/if}}
-			    {{#if skills.design}}
-			    <span class="badge t2">Design</span>
-			    {{/if}}
-			    {{#if skills.backend}}
-			    <span class="badge t3">Back End</span>
-			    {{/if}}
-			    {{#if skills.hardware}}
-			    <span class="badge t4">Hardware</span>
-			    {{/if}}
-			    {{#if skills.mobile}}
-			    <span class="badge t5">Mobile</span>
-			    {{/if}}
-			</span>
-      	</li> 
-    </ul>
+        {{> ideaRow }}
     {{/each}}
 </template>
 
 <template name="ideaList">
     {{#each ideas}}    
-    <ul class="row item">
+        {{> ideaRow }}
+    {{/each}}
+</template>
+
+<template name="ideaRow">
+    <ul data-id="{{_id}}" class="row item idea-list">
         <li class="item-action">
             <i class="ion-heart btn btn-7 btn-7f btn-icon-only icon-star"></i>
         </li>
@@ -338,19 +280,29 @@
         	</span>
         </li>
     </ul>
-    {{/each}}
 </template>
 
 <template name="sidebar">
-	<div class="sidebar-item-title"><h1>Meotter</h1></div>
-	<div class="sidebar-item-author">posted by David Furlong</div>
-	<div class="sidebar-item-desc">Nesting of comments? Can I comment on someone else's comment to reply directly to that like on Reddit or Imgur?</div>
+<div class="sidebar" style="{{#if opened}}{{else}}display:none;{{/if}}" >
+    <div class="sidebar-item-title"><h1>{{idea.name}}</h1></div>
+    <div class="sidebar-item-author">posted by {{idea.author.profile.name}}</div>
+    <div class="sidebar-item-desc">{{idea.description}}</div>
 	<div class="sidebar-item-skills">
-		<span class="badge t1">Webdev</span>
-		<span class="badge t2">Design</span>
-		<span class="badge t3">Back End</span>
-		<span class="badge t4">Hardware</span>
-		<span class="badge t5">Mobile</span>
+            {{#if idea.skills.webdev}}
+            <span class="badge t1">Webdev</span>
+            {{/if}}
+            {{#if idea.skills.design}}
+            <span class="badge t2">Design</span>
+            {{/if}}
+            {{#if idea.skills.backend}}
+            <span class="badge t3">Back End</span>
+            {{/if}}
+            {{#if idea.skills.hardware}}
+            <span class="badge t4">Hardware</span>
+            {{/if}}
+            {{#if idea.skills.mobile}}
+            <span class="badge t5">Mobile</span>
+            {{/if}}
 	</div>
 	<div class="sidebar-item-comments">
 		<input type="text" placeholder="Discuss here">
@@ -365,6 +317,7 @@
 				<span class="comment-content">Yo its me</span>
 			</div>
 		</div>
-	</div>
+    </div>
+</div>
 </template>
 

@@ -1633,22 +1633,13 @@ input[type=text]::-ms-clear {
 .sidebar {
 	position: fixed;
 	right: 0px;
+	z-index: 100;
 	top: 0px;
 	height: 100%;
 	width: 50%;
 	background: rgba(256,256,256,1);
 	color: black;
 	padding: 0 40px;
-	display: none;
-}
-
-.sidebar-blur {
-	position: absolute;
-	left: 0px;
-	top: 0px;
-	height: 100%;
-	width: 50%;
-	background: rgba(256,256,256,0.3);
 }
 
 .sidebar-item-title h1 {
