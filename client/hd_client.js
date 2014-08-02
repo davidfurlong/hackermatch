@@ -326,11 +326,11 @@ Template.signup.events({
       var email = t.find('#q2').value
         , name = t.find('#q1').value
         , github = t.find('#q4').value
-        , webdev = t.find('#q1b').value
-        , backend = t.find('#q2c').value
-        , mobile = t.find('#q3a').value
-        , design = t.find('#q4a').value
-        , hardware = t.find('#q5a').value
+        , webdev = t.find('#cb1').checked
+        , backend = t.find('#cb3').checked
+        , mobile = t.find('#cb4').checked
+        , design = t.find('#cb2').checked
+        , hardware = t.find('#cb5').checked
         , password = t.find('#q5').value;
 
         console.log("email: " + email);
