@@ -185,6 +185,14 @@ Template.home.events({
                 //hackety hackety hack
                 //using pageTransitions library, instead of Meteor routing...
                 $("#my-group").trigger("click");
+                $('.fs-fields li').removeClass('fs-current');
+                $($('.fs-fields li')[0]).addClass('fs-current');
+                $('.fs-fields input').val('');
+                $('.fs-fields textarea').val('');
+                $('#idea-create').removeClass('fs-form-overview')
+                $('#idea-create').addClass('fs-form-full');
+                $('.fs-controls > *').addClass('fs-show');
+                $('.fs-controls').height($('.pt-page-3').height());
             }
         });
         return false;
@@ -230,6 +238,7 @@ Template.update_user.events({
             
         // Trim and validate the input
         Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":profile}});
+        $('#my-group').trigger('click');
     /*
       Accounts.createUser({email: email, password : password}, function(err){
           if (err) {
