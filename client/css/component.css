@@ -1666,12 +1666,12 @@ input[type=text]::-ms-clear {
 	color: #777;
 }
 
-.page-container.blur {
+.pt-triggers.blur, #pt-main.blur {
 	/*-webkit-transition: all 0.25s cubic-bezier(0.600, 0.040, 0.980, 0.335);
 	transition: all 0.25s cubic-bezier(0.600, 0.040, 0.980, 0.335);*/
 	-webkit-filter: blur(5px);
 }
 
-.page-container.blur .item-icon, .page-container.blur .item-title, .page-container.blur .item-desc {	
+#pt-main.blur .item-icon, #pt-main.blur .item-title, #pt-main.blur .item-desc {	
 	cursor: default !important;
 }

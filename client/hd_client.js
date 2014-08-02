@@ -89,7 +89,7 @@ Template.sidebar.opened = function() {
         return false;
     } else {
         Session.set('sidebarOpened', 'open');
-        $('.pt-page-1 .page-container').addClass('blur');
+        $('.pt-triggers, #pt-main').addClass('blur');
         return true;
     }
 }
@@ -143,7 +143,7 @@ Template.home.events({
         if(Session.get("sidebarOpened") == "open") {
             Session.set('selectedIdea', '');
             Session.set('sidebarOpened', '');
-            $('.pt-page-1 .page-container').removeClass('blur');
+            $('.pt-triggers, #pt-main').removeClass('blur');
         } 
     },
     'submit #idea-create' : function(e, t) {
