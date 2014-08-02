@@ -281,6 +281,10 @@ a.link-border::before {
 	transform: scale(0.8333);
 }
 
+#register-form .ac-custom label{
+	color: white;
+}
+
 a.link-border:hover::before,
 a.link-border:focus::before {
 	opacity: 1;
@@ -299,23 +303,23 @@ a.link-border:focus::before {
 	color: white;
 }
 
-.badge.t1 {
+.badge.t1, .badge.mobile {
 	background: #fd6a62;
 }
 
-.badge.t2 {
+.badge.t2, .badge.hardware {
 	background: #7bb7fa;
 }
 
-.badge.t3 {
+.badge.t3, .badge.backend {
 	background: #60d7a9;
 }
 
-.badge.t4 {
+.badge.t4, .badge.design {
 	background: #fdc162;
 }
 
-.badge.t5 {
+.badge.t5, .badge.webdev {
 	background: #f68dbb;
 }
 
