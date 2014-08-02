@@ -305,20 +305,24 @@
             <span class="badge t5">Mobile</span>
             {{/if}}
 	</div>
-	<div class="sidebar-item-comments">
-		<input type="text" placeholder="Discuss here">
-		<div class="sidebar-item-comments-thread">
-			<div class="comment">
-				<span class="comment-author">David Furlong</span>
-				<span class="comment-skill"><span class="badge t1">W</span></span>
-				<span class="comment-content">Yo its me</span>
-			</div>
-			<div class="comment">
-				<span class="comment-author">David Furlong</span>
-				<span class="comment-content">Yo its me</span>
-			</div>
+    <div class="sidebar-item-comments">
+	    <form id="comment-create" action="action" autocomplete="off">
+            <input id="comment-text" type="text" placeholder="Discuss here">
+		    <input type="submit" value="Comment">
+        </form>
+        <div class="sidebar-item-comments-thread">
+            {{#each idea.commentThread}}    
+                {{> comment_template }}
+            {{/each}}
 		</div>
     </div>
 </div>
+</template>
+<template name="comment_template">
+	<div class="comment">
+        <span class="comment-author">{{username}}</span>
+        <!--        <span class="comment-skill"><span class="badge t1">W</span></span> -->
+        <span class="comment-content">{{text}}</span>
+	</div>
 </template>
 

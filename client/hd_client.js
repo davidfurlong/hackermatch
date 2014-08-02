@@ -72,12 +72,39 @@ Template.yourIdeaList.helpers({
   }
 });
 
+Template.sidebar.events({
+    'submit #comment-create' : function(e, t) {
+      e.preventDefault();
+      var text = t.find('#comment-text').value;
+
+    var authorName = Meteor.user().profile.name;
+    var comment = {
+        userId: Meteor.userId(),
+        username: authorName,
+        text: text,
+        ideaId: Session.get("selectedIdea")
+    };
+
+    console.log(comment);
+    Comments.insert(comment, function(err, result) {
+        if(err) {
+            console.log("error creating comment");
+        } else {
+            //hackety hackety hack
+            console.log("comment added!");
+        }
+    });
+}
+});
+ 
 Template.sidebar.helpers({
     idea: function() {
         var idea = Ideas.findOne({_id: Session.get("selectedIdea")});
         if(idea) {
             var author = Meteor.users.findOne({_id: idea.userId});
+            var commentThread = Comments.find({ideaId: idea._id}).fetch();
             idea.author = author;
+            idea.commentThread = commentThread;
             return idea;
         }
     }

@@ -12,4 +12,5 @@ Ideas = new Meteor.Collection("Ideas", {
   transform: function (doc) { return new Idea(doc); }
 });
 
+Comments = new Meteor.Collection("Comments");
 
