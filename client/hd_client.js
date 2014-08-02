@@ -264,10 +264,10 @@ Template.update_user.events({
     'submit #update-user-form' : function(e, t) {
       e.preventDefault();
       var q1 = t.find('#user_name').value
-        , q2 = t.find('#user_email').value
+        //, q2 = t.find('#user_email').value
         , q3 = t.find('#user_skills').value
         , q4 = t.find('#user_github').value
-        , q5 = t.find('#user_picture').value
+        //, q5 = t.find('#user_picture').value
         , webdev = t.find('#cb1').checked
         , design = t.find('#cb2').checked
         , backend = t.find('#cb3').checked

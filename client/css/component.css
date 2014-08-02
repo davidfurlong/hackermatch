@@ -179,6 +179,10 @@ form.settings-form input[type="submit"] {
 	margin-top: -25px;
 }
 
+#user_skills {
+    height: 160px;
+}
+
 #logout {
 	padding: 10px 20px;
 	background: transparent;
@@ -187,6 +191,7 @@ form.settings-form input[type="submit"] {
 	border-bottom: 1px dashed white;
 	color: #e74c3c;
 	font-weight: 700;
+    float: right;
 }
 
 a.brand {
@@ -296,6 +301,10 @@ a.link-border:focus::before {
 	vertical-align: middle;
 }
 
+.skill_tag {
+    font-size: 14px;
+    display: none;
+}
 .badge {
 	padding: 2px 4px;
 	text-transform: uppercase;
@@ -346,10 +355,17 @@ a.link-border:focus::before {
 }
 
 #login-form input {
-	padding: 20px 40px;
+	padding: 20px 20px;
 	border: 0;
 	outline: none;
-	font-size: 24pt;
+	font-size: 20pt;
+	width: 400px;
+}
+#login-email {
+    margin-bottom: 5px;
+}
+#login-password {
+    margin-bottom: 5px;
 }
 
 .row.label {
@@ -415,13 +431,13 @@ a.link-border:focus::before {
 .top-right-menu li {
 	display: inline;
 	list-style-type: none;
-	padding: 20px;
 	
 }
 
 .top-right-menu li i {
 	font-size: 20pt;
 	cursor: pointer;
+    padding: 20px;
 }
 
 .row {
@@ -1536,6 +1552,8 @@ input[type=text]::-ms-clear {
 	padding: 0 0;
 	position: relative;
 	height: 60px;
+    width: 250px;
+    float: left;
 }
 
 .ac-custom label {
@@ -1650,6 +1668,10 @@ input[type=text]::-ms-clear {
 .sidebar-item-author {
 	color: #777;
 	margin-bottom: 20px;
+}
+.sidebar-item-desc {
+    font-size: 28px;
+    padding-bottom: 25px;
 }
 
 .sidebar input {

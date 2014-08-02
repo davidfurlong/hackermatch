@@ -115,7 +115,7 @@
         <script>
             $.getScript("js/inline.js", function(data, textStatus, jqxhr) {
                 (function() {
-                    var formWrap = document.getElementById( 'fs-form-wrap' );
+                    var formWrap = document.getElementById( 'fs-form-wrap-idea' );
 
                     [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {	
                         new SelectFx( el, {
@@ -172,15 +172,12 @@
 		
         </template>
         <template name="update_user">
+						<input id="logout" type="submit" value="Log Out">
 						<form id="update-user-form" action="action" class="settings-form">
 							<h1>My Settings</h1>
 							<div>
 								<label>Name</label>
                                 <input id="user_name" type="text" value="{{name}}">
-							</div>
-							<div>
-								<label>Email</label>
-								<input id="user_email" type="text" value="{{email}}">
 							</div>
 							<div>
 								<label>Skills</label>
@@ -197,14 +194,9 @@
                                 <input id="user_github" type="text" value="{{github}}">
 							</div>
 							<div>
-								<label>Profile picture</label>
-								<input id="user_picture" type="text" value="{{avatar}}">
-							</div>
-							<div>
 								<input type="submit" value="Save Changes">
 							</div>
                         </form>
-						<input id="logout" type="submit" value="Log Out">
         </template>
         
 <template name="potentialTeams">
@@ -229,15 +221,18 @@
     <ul data-id="{{_id}}" class="row item idea-list">
         <li class="item-action">
             <i class="ion-heart btn btn-7 btn-7f btn-icon-only icon-star"></i>
-        </li>
+            </li>
+            <!--
         <li class="item-icon">
             <img src="zac.png" width="64px" height="64px" style="border-radius:50px">
         </li>
+            -->
         <li class="item-text">
         	<span class="item-title">{{name}}</span>
         	<span class="item-desc">{{description}}</span>
         	<br/>
-        	<span class="item-skills">
+            <span class="item-skills">
+                <span class="skill_tag">Looking for:</span>
         	    {{#if skills.webdev}}
         	    <span class="badge t1">Webdev</span>
         	    {{/if}}
@@ -303,19 +298,19 @@
 
 
 <template name="idea_create_template">
-<div class="fs-form-wrap idea" id="fs-form-wrap">
+<div class="fs-form-wrap idea" id="fs-form-wrap-idea">
     <form id="idea-create" action="action" class="fs-form idea fs-form-full" autocomplete="off">
         <ol class="fs-fields">
             <li>
-                <label class="fs-field-label fs-anim-upper" for="q1">Whats your idea? (1 liner)</label>
+                <label class="fs-field-label fs-anim-upper" for="q1">What's your idea?</label>
                 <textarea class="fs-anim-lower" id="q1" name="q1" placeholder="Describe here"></textarea>
             </li>
             <li>
-                <label class="fs-field-label fs-anim-upper" for="q2">Have a name?</label>
+                <label class="fs-field-label fs-anim-upper" for="q2">What's it called?</label>
                 <input class="fs-anim-lower" id="q2" name="q2" type="text" placeholder="(optional)"/>
             </li>
             <li data-input-trigger>
-                <label class="fs-field-label fs-anim-upper" for="q3">Who do you need?</label>
+                <label class="fs-field-label fs-anim-upper" for="q3">Who else do you need on your team?</label>
                 <ul class="ac-custom ac-checkbox ac-cross fs-anim-lower">
                     <li><input id="cb1" name="cb1" type="checkbox"><label for="cb1">Front End</label></li>
                     <li><input id="cb2" name="cb2" type="checkbox"><label for="cb2">Designer</label></li>
