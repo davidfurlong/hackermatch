@@ -413,7 +413,7 @@ if ( typeof define === 'function' && define.amd ) {
  * Copyright 2014, Codrops
  * http://www.codrops.com
  */
-;( function( window ) {
+//;( function( window ) {
 	
 	'use strict';
 
@@ -630,7 +630,7 @@ if ( typeof define === 'function' && define.amd ) {
 	 * jumps to the next field
 	 */
 	FForm.prototype._nextField = function( backto ) {
-		if( this.isLastStep || !this._validade() || this.isAnimating ) {
+		if( !this._validade() || this.isAnimating ) {
 			return false;
 		}
 		this.isAnimating = true;
@@ -703,6 +703,9 @@ if ( typeof define === 'function' && define.amd ) {
 					classie.add( self.formEl, 'fs-show' );
 					// callback
 					self.options.onReview();
+                    self.current = 0;
+                    self._updateFieldNumber();
+                    self._updateNav();
 				}
 				else {
 					classie.remove( nextField, 'fs-show' );
@@ -881,7 +884,8 @@ if ( typeof define === 'function' && define.amd ) {
 	// add to global namespace
 	window.FForm = FForm;
 
-})( window );/**
+//})( window );
+/**
  * jquery.dlmenu.js v1.0.1
  * http://www.codrops.com
  *

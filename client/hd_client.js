@@ -120,8 +120,28 @@ Template.sidebar.opened = function() {
         return true;
     }
 }
+/*
+Template.idea_create_template.rendered =  function() {
+        (function() {
+                    var formWrap = document.getElementById( 'fs-form-wrap' );
 
+                    [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {    
+                        new SelectFx( el, {
+                            stickyPlaceholder: false,
+                            onChange: function(val){
+                                document.querySelector('span.cs-placeholder').style.backgroundColor = val;
+                            }
+                        });
+                    } );
 
+                    window.FForm2 = new FForm( formWrap, {
+                        onReview : function() {
+                            classie.add( document.body, 'overview' ); // for demo purposes only
+                        }
+                    } );
+                })();
+}
+*/
     /*
 Template.potentialTeams.rendered = Template.yourIdeaList.rendered = Template.ideaList.rendered = function() {
 $(document).ready(function(){
@@ -153,12 +173,13 @@ $(document).ready(function(){
 };
 */
 
-
+/*
 Template.home.helpers({
     ideas: function() {
         return Ideas.find({userId: Session.get('myUserId')}).fetch();
     }
 });
+*/
 
 Template.home.events({
     'click .sidebar' : function(e, t) {
@@ -172,7 +193,9 @@ Template.home.events({
             Session.set('sidebarOpened', '');
             $('.pt-triggers, #pt-main').removeClass('blur');
         } 
-    },
+    }
+});
+Template.idea_create_template.events({
     'submit #idea-create' : function(e, t) {
       e.preventDefault();
       var description = t.find('#q1').value

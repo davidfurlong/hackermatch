@@ -8,7 +8,7 @@
  * Copyright 2014, Codrops
  * http://www.codrops.com
  */
-;( function( window ) {
+//;( function( window ) {
 	
 	'use strict';
 
@@ -225,7 +225,8 @@
 	 * jumps to the next field
 	 */
 	FForm.prototype._nextField = function( backto ) {
-		if( this.isLastStep || !this._validade() || this.isAnimating ) {
+//		if( this.isLastStep || !this._validade() || this.isAnimating ) {
+		if( !this._validade() || this.isAnimating ) {
 			return false;
 		}
 		this.isAnimating = true;
@@ -299,6 +300,8 @@
 					classie.add( self.formEl, 'fs-show' );
 					// callback
 					self.options.onReview();
+                    //DO reset stuff here?
+                    self.current = 0;
 				}
 				else {
 					classie.remove( nextField, 'fs-show' );
@@ -477,4 +480,4 @@
 	// add to global namespace
 	window.FForm = FForm;
 
-})( window );
+//})( window );

@@ -95,32 +95,8 @@
 							</div>
 						</div>
 					</div>
-					<div class="pt-page pt-page-3">
-						<div class="fs-form-wrap idea" id="fs-form-wrap">
-							<form id="idea-create" action="action" class="fs-form idea fs-form-full" autocomplete="off">
-								<ol class="fs-fields">
-									<li>
-										<label class="fs-field-label fs-anim-upper" for="q1">Whats your idea? (1 liner)</label>
-										<textarea class="fs-anim-lower" id="q1" name="q1" placeholder="Describe here"></textarea>
-									</li>
-									<li>
-										<label class="fs-field-label fs-anim-upper" for="q2">Have a name?</label>
-										<input class="fs-anim-lower" id="q2" name="q2" type="text" placeholder="(optional)"/>
-									</li>
-									<li data-input-trigger>
-										<label class="fs-field-label fs-anim-upper" for="q3">Who do you need?</label>
-										<ul class="ac-custom ac-checkbox ac-cross fs-anim-lower">
-											<li><input id="cb1" name="cb1" type="checkbox"><label for="cb1">Front End</label></li>
-											<li><input id="cb2" name="cb2" type="checkbox"><label for="cb2">Designer</label></li>
-											<li><input id="cb3" name="cb3" type="checkbox"><label for="cb3">Backend</label></li>
-											<li><input id="cb4" name="cb4" type="checkbox"><label for="cb4">Mobile</label></li>
-											<li><input id="cb5" name="cb5" type="checkbox"><label for="cb5">Hardware</label></li>
-										</ul>
-									</li>
-								</ol><!-- /fs-fields -->
-								<button class="fs-submit" type="submit">Add idea</button>
-							</form><!-- /fs-form -->
-						</div><!-- /fs-form-wrap -->
+                    <div class="pt-page pt-page-3">
+                        {{> idea_create_template }}
 					</div>
                     <div class="pt-page pt-page-4">
                         {{> update_user}}
@@ -129,7 +105,7 @@
 		</div><!-- /container -->
 		<script src="js/classie.js"></script>
 		<script src="js/selectFx.js"></script>
-		<script src="js/fullscreenForm.js"></script>
+        <!--		<script src="js/fullscreenForm.js"></script> -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script src="js/jquery.dlmenu.js"></script>
 		<script src="js/pagetransitions.js"></script>
@@ -150,7 +126,7 @@
                         });
                     } );
 
-                    new FForm( formWrap, {
+                    window.FForm2 = new FForm( formWrap, {
                         onReview : function() {
                             classie.add( document.body, 'overview' ); // for demo purposes only
                         }
@@ -323,5 +299,34 @@
         <!--        <span class="comment-skill"><span class="badge t1">W</span></span> -->
         <span class="comment-content">{{text}}</span>
 	</div>
+</template>
+
+
+<template name="idea_create_template">
+<div class="fs-form-wrap idea" id="fs-form-wrap">
+    <form id="idea-create" action="action" class="fs-form idea fs-form-full" autocomplete="off">
+        <ol class="fs-fields">
+            <li>
+                <label class="fs-field-label fs-anim-upper" for="q1">Whats your idea? (1 liner)</label>
+                <textarea class="fs-anim-lower" id="q1" name="q1" placeholder="Describe here"></textarea>
+            </li>
+            <li>
+                <label class="fs-field-label fs-anim-upper" for="q2">Have a name?</label>
+                <input class="fs-anim-lower" id="q2" name="q2" type="text" placeholder="(optional)"/>
+            </li>
+            <li data-input-trigger>
+                <label class="fs-field-label fs-anim-upper" for="q3">Who do you need?</label>
+                <ul class="ac-custom ac-checkbox ac-cross fs-anim-lower">
+                    <li><input id="cb1" name="cb1" type="checkbox"><label for="cb1">Front End</label></li>
+                    <li><input id="cb2" name="cb2" type="checkbox"><label for="cb2">Designer</label></li>
+                    <li><input id="cb3" name="cb3" type="checkbox"><label for="cb3">Backend</label></li>
+                    <li><input id="cb4" name="cb4" type="checkbox"><label for="cb4">Mobile</label></li>
+                    <li><input id="cb5" name="cb5" type="checkbox"><label for="cb5">Hardware</label></li>
+                </ul>
+            </li>
+        </ol><!-- /fs-fields -->
+        <button class="fs-submit" type="submit">Add idea</button>
+    </form><!-- /fs-form -->
+</div><!-- /fs-form-wrap -->
 </template>
 
