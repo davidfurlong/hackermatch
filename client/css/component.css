@@ -1633,21 +1633,13 @@ input[type=text]::-ms-clear {
 .sidebar {
 	position: fixed;
 	right: 0px;
+	z-index: 100;
 	top: 0px;
 	height: 100%;
 	width: 50%;
 	background: rgba(256,256,256,1);
 	color: black;
 	padding: 0 40px;
-}
-
-.sidebar-blur {
-	position: absolute;
-	left: 0px;
-	top: 0px;
-	height: 100%;
-	width: 50%;
-	background: rgba(256,256,256,0.3);
 }
 
 .sidebar-item-title h1 {
@@ -1674,12 +1666,12 @@ input[type=text]::-ms-clear {
 	color: #777;
 }
 
-.page-container.blur {
+.pt-triggers.blur, #pt-main.blur {
 	/*-webkit-transition: all 0.25s cubic-bezier(0.600, 0.040, 0.980, 0.335);
 	transition: all 0.25s cubic-bezier(0.600, 0.040, 0.980, 0.335);*/
 	-webkit-filter: blur(5px);
 }
 
-.page-container.blur .item-icon, .page-container.blur .item-title, .page-container.blur .item-desc {	
+#pt-main.blur .item-icon, #pt-main.blur .item-title, #pt-main.blur .item-desc {	
 	cursor: default !important;
 }
