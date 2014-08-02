@@ -34,7 +34,18 @@ Router.map(function() {
     this.route('login');
 });
 
+Template.ideaList.helpers({
+  ideas: function() {
+        var x =  Ideas.find().fetch();
+        return x;
+  }
+});
 
+Template.yourIdeaList.helpers({
+  ideas: function() {
+        return Ideas.find({userId: Meteor.userId()}).fetch();
+  }
+});
 Template.home.helpers({
     ideas: function() {
         return Ideas.find({userId: Session.get('myUserId')}).fetch();
@@ -55,6 +66,7 @@ Template.home.events({
         var idea = {
             name: name,
             description: description,
+            userId: Meteor.userId(),
             skills: {
                 webdev: webdev,
                 backend: backend,
@@ -63,7 +75,7 @@ Template.home.events({
                 hardware: hardware
             },
             comments: {}
-        }
+        };
         console.log("idea create: ");
         console.dir(idea);
 
@@ -74,8 +86,8 @@ Template.home.events({
             //can we select on name attribute again?
         }
 
-        Ideas.insert({name: name}, function(err, result) {
-        //Ideas.insert(idea, function(err, result) {
+        //Ideas.insert({name: name}, function(err, result) {
+        Ideas.insert(idea, function(err, result) {
             if(err) {
                 console.log(err);
                 console.log(result);
@@ -105,20 +117,38 @@ Template.update_user.helpers({
 Template.update_user.events({
     'submit #update-user-form' : function(e, t) {
       e.preventDefault();
+      console.dir(t);
+      console.dir(t.find('#cb1').checked);
       var q1 = t.find('#user_name').value
         , q2 = t.find('#user_email').value
         , q3 = t.find('#user_skills').value
         , q4 = t.find('#user_github').value
-        , q5 = t.find('#user_picture').value;
+        , q5 = t.find('#user_picture').value
+        , webdev = t.find('#cb1').checked
+        , design = t.find('#cb2').checked
+        , backend = t.find('#cb3').checked
+        , mobile = t.find('#cb4').checked
+        , hardware = t.find('#cb5').checked;
 
+        var profile = {
+            name: q1,
+            github: q4,
+            skills: {
+                backend: backend,
+                design: design,
+                hardware: hardware,
+                mobile: mobile,
+                webdev: webdev
+            }
+        };
+            
         console.log("q1: " + q1);
         console.log("q2: " + q2);
         console.log("q3: " + q3);
         console.log("q4: " + q4);
         console.log("q5: " + q5);
         // Trim and validate the input
-        Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile.name":q1, 
-                                                            "profile.github": q4 }});
+        Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":profile}});
     /*
       Accounts.createUser({email: email, password : password}, function(err){
           if (err) {
