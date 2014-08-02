@@ -1631,7 +1631,7 @@ input[type=text]::-ms-clear {
 }
 
 .sidebar {
-	position: absolute;
+	position: fixed;
 	right: 0px;
 	top: 0px;
 	height: 100%;
