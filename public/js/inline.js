@@ -1745,5 +1745,5 @@ if ( typeof define === 'function' && define.amd ) {
 			$('.sidebar').hide();
 			$('.pt-page-1 .page-container').removeClass('blur');
 		}
-	})
+	});
 });
