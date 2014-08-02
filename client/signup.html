@@ -41,13 +41,13 @@
 						</li>
 						<li data-input-trigger>
 							<label class="fs-field-label fs-anim-upper" for="q3">What are you best at?</label>
-							<div class="fs-radio-group fs-radio-custom clearfix fs-anim-lower">
-								<span><input id="q1b" name="q1" type="radio" /><label for="q1b" class="radio-conversion">Webdev</label></span>
-								<span><input id="q2c" name="q2" type="radio" /><label for="q2c" class="radio-social">Back end</label></span>
-								<span><input id="q3a" name="q3" type="radio" /><label for="q3a" class="radio-mobile">Mobile </label></span>
-								<span><input id="q4a" name="q4" type="radio" /><label for="q4a" class="radio-mobile">Design </label></span>
-								<span><input id="q5a" name="q5" type="radio" /><label for="q5a" class="radio-mobile">Hardware </label></span>
-							</div>
+							<ul id="user_skills" class="ac-custom ac-checkbox ac-cross fs-anim-lower">
+								<li><input id="cb1" name="cb1" type="checkbox"><label for="cb1">Front End</label></li>
+								<li><input id="cb2" name="cb2" type="checkbox"><label for="cb2">Designer</label></li>
+								<li><input id="cb3" name="cb3" type="checkbox"><label for="cb3">Backend</label></li>
+								<li><input id="cb4" name="cb4" type="checkbox"><label for="cb4">Mobile</label></li>
+								<li><input id="cb5" name="cb5" type="checkbox"><label for="cb5">Hardware</label></li>
+							</ul>
 						</li>
 						<li>
 							<label class="fs-field-label fs-anim-upper" for="q4" data-info="So others can see your work">Enter your Github username</label>
@@ -70,8 +70,8 @@
 		<script src="js/classie.js"></script>
 		<script src="js/selectFx.js"></script>
 		<script src="js/fullscreenForm.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script>
 			(function() {
 				var formWrap = document.getElementById( 'fs-form-wrap' );

@@ -1631,7 +1631,7 @@ if ( typeof define === 'function' && define.amd ) {
 		el.parentNode.appendChild( svg );
 		console.log(el);
 		$(el).change(function() {
-			console.log('ay');
+			console.log(el.checked);
 
 			if( el.checked ) {
 				draw( el, type );
