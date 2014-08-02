@@ -184,12 +184,7 @@
 
 				$('.messages').height($('.pt-page-2').height());
 
-				$(window).resize(function(e){
-					$('.pt-page').height($(window).height()-200);
-					$('#pt-main').height($(window).height()-200);
-
-					$('.messages').height($('.pt-page-2').height());
-				})
+				
 			});
 			function activate(e) {
 				var self = e.currentTarget, activatedClass = 'btn-activated';
