@@ -1639,7 +1639,6 @@ input[type=text]::-ms-clear {
 	background: rgba(256,256,256,1);
 	color: black;
 	padding: 0 40px;
-	display: none;
 }
 
 .sidebar-blur {
