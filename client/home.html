@@ -26,7 +26,7 @@
 					</div>
 					<ul class="top-right-menu hi-icon-wrap hi-icon-effect-1 hi-icon-effect-1b">
 						<li>
-							<i class="ion-plus-round hi-icon" id="new-idea"></i>
+                            <i class="ion-plus-round hi-icon" id="new-idea"></i>
 						</li>
 						<!-- <li>
 							<i class="ion-chatbubble hi-icon" id="my-msgs"></i>
@@ -113,6 +113,7 @@
         <!--        <script src="js/custom.js"></script> -->
         <!-- inline.js below includes the above scripts without jQuery -->
         <script>
+            /*
             $.getScript("js/inline.js", function(data, textStatus, jqxhr) {
                 (function() {
                     var formWrap = document.getElementById( 'fs-form-wrap-idea' );
@@ -133,6 +134,7 @@
                     } );
                 })();
             });
+            */
 			$(document).ready(function(){
 				$('body').on('click', '.messages-threads .convo', function(){
 					// swap to that message thread.
@@ -182,7 +184,7 @@
 							<div>
 								<label>Skills</label>
 								<ul id="user_skills" class="ac-custom ac-checkbox ac-cross fs-anim-lower">
-									<li><input id="cb1" name="cb1" type="checkbox"><label for="cb1">Front End</label></li>
+									<li><input id="cb1" name="cb1" type="checkbox"><label for="cb1">Frontend</label></li>
 									<li><input id="cb2" name="cb2" type="checkbox"><label for="cb2">Designer</label></li>
 									<li><input id="cb3" name="cb3" type="checkbox"><label for="cb3">Backend</label></li>
 									<li><input id="cb4" name="cb4" type="checkbox"><label for="cb4">Mobile</label></li>
@@ -234,13 +236,13 @@
             <span class="item-skills">
                 <span class="skill_tag">Looking for:</span>
         	    {{#if skills.webdev}}
-        	    <span class="badge t1">Webdev</span>
+        	    <span class="badge t1">Frontend</span>
         	    {{/if}}
         	    {{#if skills.design}}
         	    <span class="badge t2">Design</span>
         	    {{/if}}
         	    {{#if skills.backend}}
-        	    <span class="badge t3">Back End</span>
+        	    <span class="badge t3">Backend</span>
         	    {{/if}}
         	    {{#if skills.hardware}}
         	    <span class="badge t4">Hardware</span>
@@ -260,13 +262,13 @@
     <div class="sidebar-item-desc">{{idea.description}}</div>
 	<div class="sidebar-item-skills">
             {{#if idea.skills.webdev}}
-            <span class="badge t1">Webdev</span>
+            <span class="badge t1">Wed</span>
             {{/if}}
             {{#if idea.skills.design}}
             <span class="badge t2">Design</span>
             {{/if}}
             {{#if idea.skills.backend}}
-            <span class="badge t3">Back End</span>
+            <span class="badge t3">Backend</span>
             {{/if}}
             {{#if idea.skills.hardware}}
             <span class="badge t4">Hardware</span>
@@ -312,7 +314,7 @@
             <li data-input-trigger>
                 <label class="fs-field-label fs-anim-upper" for="q3">Who else do you need on your team?</label>
                 <ul class="ac-custom ac-checkbox ac-cross fs-anim-lower">
-                    <li><input id="cb1" name="cb1" type="checkbox"><label for="cb1">Front End</label></li>
+                    <li><input id="cb1" name="cb1" type="checkbox"><label for="cb1">Frontend</label></li>
                     <li><input id="cb2" name="cb2" type="checkbox"><label for="cb2">Designer</label></li>
                     <li><input id="cb3" name="cb3" type="checkbox"><label for="cb3">Backend</label></li>
                     <li><input id="cb4" name="cb4" type="checkbox"><label for="cb4">Mobile</label></li>

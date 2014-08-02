@@ -310,6 +310,7 @@ a.link-border:focus::before {
 	text-transform: uppercase;
 	font-size: 11pt;
 	color: white;
+    border-radius: 2px;
 }
 
 .badge.t1, .badge.mobile {
@@ -504,6 +505,7 @@ a.link-border:focus::before {
 .fs-message-error {
 	max-width: 960px;
 }
+
 
 .pt-page {
 	overflow-y: scroll !important;
@@ -1521,6 +1523,9 @@ input[type=text]::-ms-clear {
 	-webkit-font-smoothing: antialiased;
 }
 
+.ion-person:before {
+    content: "\f213";
+}
 .icon-star:before {
 	content: "\f141";
 }

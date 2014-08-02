@@ -120,28 +120,40 @@ Template.sidebar.opened = function() {
         return true;
     }
 }
-/*
-Template.idea_create_template.rendered =  function() {
-        (function() {
-                    var formWrap = document.getElementById( 'fs-form-wrap' );
-
-                    [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {    
-                        new SelectFx( el, {
-                            stickyPlaceholder: false,
-                            onChange: function(val){
-                                document.querySelector('span.cs-placeholder').style.backgroundColor = val;
-                            }
-                        });
-                    } );
-
-                    window.FForm2 = new FForm( formWrap, {
-                        onReview : function() {
-                            classie.add( document.body, 'overview' ); // for demo purposes only
-                        }
-                    } );
-                })();
+Template.home.rendered =  function() {
+$.getScript("js/inline.js", function(data, textStatus, jqxhr) {
+                      [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {    
+                          new SelectFx( el, {
+                              stickyPlaceholder: false,
+                              onChange: function(val){
+                                  document.querySelector('span.cs-placeholder').style.backgroundColor = val;
+                              }
+                          });
+                      } );
+})
 }
-*/
+Template.idea_create_template.rendered =  function() {
+$.getScript("js/inline.js", function(data, textStatus, jqxhr) {
+                  (function() {
+                      var formWrap = document.getElementById( 'fs-form-wrap-idea' );
+  
+                      [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {    
+                          new SelectFx( el, {
+                              stickyPlaceholder: false,
+                              onChange: function(val){
+                                  document.querySelector('span.cs-placeholder').style.backgroundColor = val;
+                              }
+                          });
+                      } );
+  
+                      window.FForm2 = new FForm( formWrap, {
+                          onReview : function() {
+                              classie.add( document.body, 'overview' ); // for demo purposes only
+                          }
+                      } );
+                  })();
+              });    
+}
     /*
 Template.potentialTeams.rendered = Template.yourIdeaList.rendered = Template.ideaList.rendered = function() {
 $(document).ready(function(){
@@ -244,6 +256,7 @@ Template.idea_create_template.events({
                 $('.fs-controls > *').addClass('fs-show');
                 $('.fs-controls').height($('.pt-page-3').height());
             }
+            Router.go('home');
         });
         return false;
     }
@@ -458,6 +471,28 @@ Template.signup.rendered = function(){
     }
 
   }
+
+    $.getScript("js/inline.js", function(data, textStatus, jqxhr) {
+                  (function() {
+                      var formWrap = document.getElementById( 'fs-form-wrap-signup' );
+  
+                      [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {    
+                          new SelectFx( el, {
+                              stickyPlaceholder: false,
+                              onChange: function(val){
+                                  document.querySelector('span.cs-placeholder').style.backgroundColor = val;
+                              }
+                          });
+                      } );
+  
+                      window.FForm2 = new FForm( formWrap, {
+                          onReview : function() {
+                              classie.add( document.body, 'overview' ); // for demo purposes only
+                          }
+                      } );
+                  })();
+              });    
+
 };
 
 Template.signup.events({

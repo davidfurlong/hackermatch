@@ -458,6 +458,7 @@ if ( typeof define === 'function' && define.amd ) {
 	 * FForm function
 	 */
 	function FForm( el, options ) {
+        console.log("new form! ");
 		this.el = el;
 		this.options = extend( {}, this.options );
   		extend( this.options, options );
