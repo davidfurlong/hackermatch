@@ -350,7 +350,7 @@ a.link-border:focus::before {
 	border-radius: 50;
 	height: 64px;
 	overflow: hidden;
-	vertical-align: middle;
+	vertical-align: top;
 }
 
 .fs-form-full {
@@ -396,6 +396,10 @@ a.link-border:focus::before {
 	border-bottom: 3px solid #333;
 }
 
+.row.label:first-child {
+	margin-top: 0;
+}
+
 .row .item-action {
 	font-size: 20pt;
 	color: #888;
@@ -419,7 +423,6 @@ a.link-border:focus::before {
 	cursor: pointer;
 	color: #888;
 	font-size: 16pt;
-	padding-left: 10px;
 }
 
 
@@ -440,7 +443,7 @@ a.link-border:focus::before {
 	position: absolute;
 	top: 0;
 	right: 0;
-	margin: 45px 50px;
+	margin: 25px 50px;
 	z-index: 999;
 }
 
@@ -475,7 +478,7 @@ a.link-border:focus::before {
 }
 
 .fs-title-norm {
-	padding: 30px 40px 40px 40px;
+	padding: 10px 40px 20px 40px;
 	width: 600px;
 	display: block;
 	margin: 0;
@@ -1724,4 +1727,14 @@ input[type=text]::-ms-clear {
 
 #pt-main.blur .item-icon, #pt-main.blur .item-title, #pt-main.blur .item-desc {	
 	cursor: default !important;
+}
+
+
+@media (max-width: 650px) {
+  .brand {
+  	display: none;
+  }
+  .brand:before {
+  	content: '<img src="icon.png" height="40px" class="brand-icon">';
+  }
 }

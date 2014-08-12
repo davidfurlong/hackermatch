@@ -1,0 +1,129 @@
+
+#profile {
+	height: 100%;
+	width: 100%;
+	background: #efefef;
+	color: #222;
+	//background: rgb(17,16,25);
+	margin: 0;
+	padding: 15px;
+	//color: rgb(201,195,230);
+	font-family: 'Raleway', sans-serif;
+	-webkit-font-smoothing: antialiased;
+}
+
+i {
+	margin-right: 5px;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+#row1 {
+	overflow: hidden;
+	height: 200px;
+}
+
+.feature-row {
+	margin-top: 15px;
+	height: 200px;
+}
+
+	/* ROW 1 */
+
+	#picture {
+		height: 200px;
+		width: 200px;
+		overflow: hidden;
+		float: left;
+	}
+
+	#details {
+		width: auto;
+		max-width: 500px;
+		height: 200px;
+		float: left;
+		padding: 0 15px;
+		color: #555;
+	}
+	#name {
+			color: #222;
+			margin-top: -3px;
+			margin-left: -3px;
+			font-size: 30pt;
+			text-transform: uppercase;
+			font-weight: 900;
+		}
+
+		#contact {
+			font-size: 20pt;
+		}
+
+		#details i {
+			width: 30px;
+		}
+
+	#interests {
+		width: auto;
+		max-width: 350px;
+		height: 200px;
+		margin-top: 43px;
+		float: left;
+		color: #555;
+
+		
+	}
+
+	#interests ul {
+			font-size: 20pt;
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			width: 100%;
+		}
+
+	#graph {
+		float: right;
+		height: 200px;
+		width: 400px; 
+	}
+
+.feature-row {
+	max-width: 100%;
+}
+	.feature {
+		height: 100%;
+		width: 25%;
+		min-width: 300px;
+		padding: 5px;
+		float: left;
+		//max-width: 300px;
+	}
+		.feature-title {
+			font-weight: 700;
+			font-size: 18pt;
+		}
+		.feature-body {
+			font-size: 16pt;
+		}
+		.feature-link {
+			font-size: 18px;
+			margin-left: 5px;
+		}
+		.feature-tech {
+			font-size: 16pt;
+			color: #999;
+		}
+
+	.feature-image {
+		height: 100%;
+		overflow: hidden;
+		
+	}
+
+	.feature-image img {
+			height: 100%;
+			width: auto;
+			max-width: 300px;
+		}

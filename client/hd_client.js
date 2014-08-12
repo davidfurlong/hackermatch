@@ -1,5 +1,3 @@
-
-
 Router.map(function() {
     this.route('index', {
         path: '/',
@@ -10,6 +8,26 @@ Router.map(function() {
          }
 
     });
+    this.route('signupProfile', {
+        path: '/signup-profile',
+        onBeforeAction: function () {
+            if (Meteor.user()){
+                Router.go('profile');
+            }
+        }
+    });
+    this.route('profile', {
+        path: '/profile',
+        onBeforeAction: function() {
+            if (!Meteor.user()){
+                if (Meteor.loggingIn()) {
+                }
+                else{
+                  Router.go('signup-profile');
+                }
+            }
+        }
+    });
     this.route('home', {
         path: '/home',
         onBeforeAction: function () {
@@ -17,19 +35,21 @@ Router.map(function() {
               if (Meteor.loggingIn()) {
               }
               else{
-                Router.go('singup');
+                Router.go('signup');
               }
             }
-         }
+        }
     });
-    this.route('signup', {path: '/login', 
+    this.route('signup', {
+        path: '/login', 
         onBeforeAction: function () {
             if (Meteor.user()) {
                 Router.go('home');
             }
         }
     });
-    this.route('signup', {path: '/signup', 
+    this.route('signup', {
+        path: '/signup', 
         onBeforeAction: function () {
             if (Meteor.user()) {
                 Router.go('home');
@@ -578,6 +598,32 @@ Template.signup.events({
       return false;
     }
 });
+
+Template.signupProfile.events({
+    'submit #register-form' : function(e, t) {
+      e.preventDefault();
+
+    var profile = {}
+
+      Meteor.loginWithGithub({
+            requestPermissions: ['user:email']
+      }, function (err) {
+            if (err) {
+              Session.set('errorMessage', err.reason || 'Unknown error');
+            }
+            if(Meteor.user()) {
+                profile = _.extend(profile, Meteor.user().profile);
+                //Temporarily set contact info as email
+                profile.contact = profile.email;
+                Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":profile}})
+                Router.go('profile');
+            }
+      });
+
+      return false;
+    }
+});
+
 
 Template.login.events({
 
