@@ -17,7 +17,7 @@ Router.map(function() {
               if (Meteor.loggingIn()) {
               }
               else{
-                Router.go('singup');
+                Router.go('signup');
               }
             }
          }
@@ -75,7 +75,7 @@ Template.potentialTeams.helpers({
 
 Template.ideaList.helpers({
   ideas: function() {
-        var x =  Ideas.find().fetch();
+        var x = Ideas.find({userId: {$ne: Meteor.userId()}}).fetch();
         return x;
   }
 });

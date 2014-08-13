@@ -31,14 +31,14 @@ Accounts.onCreateUser(function(options, user) {
     }).on('end', Meteor.bindEnvironment(function() {
       var body = Buffer.concat(bodyChunks);
       var avatar_url = (JSON.parse(body))['avatar_url'];
-      console.log(avatar_url);
+      //console.log(avatar_url);
 //     var user = Meteor.users.findOne({_id:Meteor.user()._id});
 //     var profile = user.profile;
      var profile = {};
      user.profile.picture = avatar_url;
-     console.log(profile);
+     //console.log(profile);
      var userUpdate = Meteor.users.findOne({_id:Meteor.user()._id}, {$set: {"avatar":avatar_url}}); 
-    console.log(userUpdate);
+    //console.log(userUpdate);
       // console.log('BODY: ' + body);
       // ...and/or process the entire body here.
       
