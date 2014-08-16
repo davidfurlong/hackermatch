@@ -1,70 +1,91 @@
 <template name="profile">
   <div class="container">
     <div class="pt-triggers">
-      <div class="fs-title-norm">
-        <h1><a class="brand" href="/"><img src="icon.png" height="40px" class="brand-icon"/>hacker<span style="font-size:36pt;line-height:0px;">.</span>dating</a></h1>
-      </div>
-      <ul class="top-right-menu hi-icon-wrap hi-icon-effect-1 hi-icon-effect-1b">
-        <li>
-          <a href="signup" class="signup-button">Apply</a>
-        </li>
-      </ul>     
-    </div>
+      <div>
+        <div class="fs-title-norm">
+          <h1><a class="brand" href="" id="my-group"><img src="icon.png" height="40px" class="brand-icon"/>hacker<span style="font-size:36pt;line-height:0px;">.</span>dating / YC Hacks</a></h1>
+        </div>
+        <ul class="top-right-menu hi-icon-wrap hi-icon-effect-1 hi-icon-effect-1b">
+          <li>
+            <i class="ion-plus-round hi-icon" id="new-idea"></i>
+          </li>
+          <li>
+            <i class="ion-person hi-icon" id="my-profile"></i>
+          </li>
+        </ul>       
+      </div><!-- /fs-form-wrap -->
+    </div>  
     <div id="profile">
       <div id="Dashboard">
         <div id="row1">
           <div id="picture">
-            <img src="pic.jpg" height="200px" width="200px" />
+            <img src="{{avatar_url}}" height="200px" width="200px" />
           </div>
           <div id="details">
             <div id="name">
-              David Furlong
+            {{#if name }}
+              {{name}}
+            {{else}}
+             ------- 
+            {{/if}}
             </div>
             <div id="contact">
               <div>
+              {{#if github }}
                 <i class="fa fa-github"></i>
-                davidfurlong
+                <a href="{{github_url}}">{{github}}</a>
+              {{/if}}
               </div>
               <div>
-                <i class="fa fa-twitter"></i>
-                dvfurlong
+                {{#if contact }}
+                  <i class="fa fa-paper-plane-o"></i>
+                  {{contact}}
+                {{/if}}
               </div>
               <div>
-                <i class="fa fa-paper-plane-o"></i>
-                dvfurlong@gmail.com
+                {{#if location }}
+                  <i class="fa fa-map-marker"></i>
+                  {{location}}
+                {{/if}}
               </div>
               <div>
-                <i class="fa fa-map-marker"></i>
-                San Francisco
+                {{#if skills }}
+                  {{#each bitmaparray skills}}
+                    <span class="badge {{.}}">{{.}}</span> 
+                  {{/each}}
+                {{/if}}
+              </div>
+              <div>
+                {{#if languages }}
+                  {{languages}}
+                {{/if}}
               </div>
             </div>
           </div>
-          <div id="interests">
-            <ul>
-              <li>AI</li>
-              <li>Philosophy</li>
-              <li>Typography</li>
-              <li>Graphs</li>
-            </ul>
-          </div>
-          <div id="graph">
-            <canvas id="canvas"></canvas>
-          </div>
+          {{#if bio}}
+            <div id="interests">
+                <p>
+                {{bio}}
+                </p>  
+            </div>
+          {{/if}}
+          {{#if bio}}
+            <div id="graph">{{dateGraph}}
+              <canvas id="canvas"></canvas>
+            </div>
+          {{else}}
+            <div id="graph" class="full-width">{{dateGraph}}
+              <canvas id="canvas"></canvas>
+            </div>
+          {{/if}}
+            
         </div>
         <div class="feature-row">
-          <div class="feature feature-text">
-            <div class="feature-title">
-            Codehaus<a href="" class="feature-link"><i class="fa fa-external-link"></i></a>
-            </div>
-            <div class="feature-body">
-            An open source codeacademy clone which lets people make code guides for anything.
-            </div>
-            <div class="feature-tech">
-            React.js, Backbone, Drywall
-            </div>
-          </div>
-          <div class="feature feature-image">
-            <img src="gd.png"/>
+          <div class="feature feature-text  all-repos">
+            {{#each featured}}
+              <a href="{{html_url}}">{{stargazers_count}} <i class="fa fa-star"></i> <span class="feature-title">{{full_name}}</span>
+              </a><br/>   
+            {{/each}}
           </div>
           <div class="feature feature-text">
             <div class="feature-title">

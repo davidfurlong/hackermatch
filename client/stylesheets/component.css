@@ -345,6 +345,10 @@ a.link-border:focus::before {
 	background: #f68dbb;
 }
 
+.all-repos {
+	overflow-y: auto;
+}
+
 .item-icon {
 	cursor: pointer;
 	border-radius: 50;

@@ -60,11 +60,171 @@ Router.map(function() {
 //    this.route('login');
 });
 
+Handlebars.registerHelper('bitmaparray',function(obj){
+    result = [];
+    for (var key in obj) {
+        if(obj[key])
+            result.push(key);
+    }
+    return result;
+});
+
 Template.ideaRow.events({
     'click ul.idea-list' : function(e, t) {
       e.preventDefault();
         var id = e.currentTarget.dataset.id;
         Session.set("selectedIdea", id);
+    }
+});
+
+Template.profile.helpers({
+    name: function() {
+        if(Meteor.user() && Meteor.user().profile) {
+            return Meteor.user().profile.name; 
+        } 
+    },
+    contact: function() {
+        if(Meteor.user() && Meteor.user().profile) {
+            return Meteor.user().profile.contact; 
+        }
+    },
+    github: function() {
+        if(Meteor.user() && Meteor.user().profile) {
+            return Meteor.user().profile.login; 
+        }
+    },
+    avatar_url: function(){
+        if(Meteor.user() && Meteor.user().profile) {
+            return Meteor.user().profile.avatar_url; 
+        }
+    },
+    github_url: function(){
+        if(Meteor.user() && Meteor.user().profile) {
+            return Meteor.user().profile.html_url; 
+        }
+    },
+    location: function(){
+        if(Meteor.user() && Meteor.user().profile) {
+            return Meteor.user().profile.location; 
+        }
+    },
+    bio: function(){
+        if(Meteor.user() && Meteor.user().profile) {
+            return Meteor.user().profile.bio; 
+        }
+    },
+    skills: function(){
+        if(Meteor.user() && Meteor.user().profile) {
+            return Meteor.user().profile.skills; 
+        }
+    },
+    topRepos: function(){
+        if(Meteor.user() && Meteor.user().profile){
+            var repos = Meteor.user().profile.repos;
+            function sortfunction(a, b){
+                if(a.stargazers_count == b.stargazers_count)
+                    return a.commits.length - b.commits.length
+                else 
+                    return (a.stargazers_count - b.stargazers_count)
+            }
+            repos.sort(sortfunction);
+            return repos;
+        }
+    },
+    featured: function(){
+        if(Meteor.user() && Meteor.user().profile){
+            var repos = Meteor.user().profile.repos;
+            function sortfunction(a, b){
+                if(a.stargazers_count == b.stargazers_count)
+                    return b.commits.length - a.commits.length
+                else 
+                    return b.stargazers_count - a.stargazers_count
+            }
+            repos.sort(sortfunction);
+            // var reposRay = [];
+            // for(var i =0; i<repos.length; i++){
+            //     reposRay.push([repos[i].name, repos[i].html_url])
+            // }
+            // return reposRay;
+            return repos;
+        }
+    },
+    dateGraph: function(){
+        if(Meteor.user() && Meteor.user().profile){
+           console.log('rendered');
+            var repos = Meteor.user().profile.repos;
+
+            function contributedTo(repo){
+                return (repo.commits.length > 0)
+            }
+            var dateFiltered = repos.filter(contributedTo);
+            var datasets = [];
+            for(var i=0;i<dateFiltered.length;i++){
+                var c = dateFiltered[i];
+                var byMonth = [0,0,0,0,0,0,0,0,0,0,0,0];
+                for(var j=0;j<c.commits.length;j++){
+                    var d = new Date(c.commits[j]).getMonth();
+                    if(d < 7)
+                        byMonth[d] += 1;
+                }
+                var t = {
+                    label: c.name,
+                    fillColor : "rgba(220,220,220,0.2)",
+                    strokeColor : "rgba(220,220,220,1)",
+                    pointColor : "rgba(220,220,220,1)",
+                    pointStrokeColor : "#fff",
+                    pointHighlightFill : "#fff",
+                    pointHighlightStroke : "rgba(220,220,220,1)", 
+                    data : byMonth
+                };
+                datasets.push(t);
+            }
+            
+           var lineChartData = {
+            labels : ["January","February","March","April","May","June","July"],
+            datasets : datasets
+           }
+
+           var ctx = document.getElementById("canvas").getContext("2d");
+           window.myLine = new Chart(ctx).Line(lineChartData, {
+            responsive: true
+           });
+        }
+    },
+    languages: function(){
+        if(Meteor.user() && Meteor.user().profile){
+            var repos = Meteor.user().profile.repos;
+            var languages = {};
+            for(var i=0;i<repos.length;i++){
+                var t = JSON.parse(repos[i].languages);
+
+                for(var a in t){
+                    if(languages.hasOwnProperty(a)){
+                        languages[a] += t[a];
+                    }
+                    else {
+                        languages[a] = t[a];
+                    }
+                }
+            }
+
+            var sortable = [];
+            for (var a in languages)
+                sortable.push([a, languages[a]])
+            sortable.sort(function(a, b) {return b[1] - a[1]})
+            var sentence = ""; 
+            var i = 0;
+            while(i<sortable.length-1 && i < 4){
+                if(i == sortable.length-2 || i == 3){
+                    sentence += sortable[i][0];
+                }
+                else {
+                    sentence += sortable[i][0] + ", ";
+                }
+                i++;
+            }
+            return sentence;
+        }
     }
 });
 
