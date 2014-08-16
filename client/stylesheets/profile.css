@@ -1,11 +1,11 @@
 
 #profile {
-	height: 100%;
-	width: 100%;
+	height: calc(100% - 78px);
 	background: #efefef;
 	color: #222;
 	//background: rgb(17,16,25);
 	margin: 0;
+	clear: both;
 	padding: 15px;
 	//color: rgb(201,195,230);
 	font-family: 'Raleway', sans-serif;
@@ -40,22 +40,33 @@
 	width: 500px;
 }
 
-i {
-	margin-right: 5px;
-}
-
 * {
 	box-sizing: border-box;
 }
 
 #row1 {
-	overflow: hidden;
-	height: 200px;
+
+}
+
+.title {
+	background: black;
+	display: block;
+	box-sizing: border-box;
+}
+
+
+
+.title a {
+	color: white;
+
+}
+
+.title a:hover {
+	color: rgba(256,256,256,0.8);
 }
 
 .feature-row {
 	margin-top: 15px;
-	height: 200px;
 }
 
 	/* ROW 1 */
@@ -68,10 +79,12 @@ i {
 	}
 
 	#details {
+		background: #efefef;
 		width: auto;
 		max-width: 500px;
 		height: 200px;
 		float: left;
+		margin: 0 15px;
 		padding: 0 15px;
 		color: #555;
 	}
@@ -89,7 +102,7 @@ i {
 		}
 
 		#details i {
-			width: 30px;
+			width: 20px;
 		}
 
 	#interests {
@@ -114,6 +127,14 @@ i {
 		height: 200px;
 		width: 400px; 
 	}
+	#graph.full-width {
+		width: 700px;
+		height: 200px;
+	}
+
+.fa-star {
+	color: gold;
+}
 
 .feature-row {
 	max-width: 100%;
@@ -124,7 +145,6 @@ i {
 		min-width: 300px;
 		padding: 5px;
 		float: left;
-		//max-width: 300px;
 	}
 		.feature-title {
 			font-weight: 700;

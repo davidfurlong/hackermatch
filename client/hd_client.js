@@ -167,14 +167,17 @@ Template.profile.helpers({
                     if(d < 7)
                         byMonth[d] += 1;
                 }
+                var color = '#'+Math.floor(Math.random()*16777215).toString(16);
                 var t = {
                     label: c.name,
+                    url: c.html_url,
+                    bio: c.description,
                     fillColor : "rgba(220,220,220,0.2)",
-                    strokeColor : "rgba(220,220,220,1)",
-                    pointColor : "rgba(220,220,220,1)",
+                    strokeColor : color,
+                    pointColor : color,
                     pointStrokeColor : "#fff",
                     pointHighlightFill : "#fff",
-                    pointHighlightStroke : "rgba(220,220,220,1)", 
+                    pointHighlightStroke : color, 
                     data : byMonth
                 };
                 datasets.push(t);
@@ -187,8 +190,37 @@ Template.profile.helpers({
 
            var ctx = document.getElementById("canvas").getContext("2d");
            window.myLine = new Chart(ctx).Line(lineChartData, {
-            responsive: true
+            responsive: true,
+            bezierCurveTension: 0.1,
+            scaleShowGridLines : false,
+            pointDot: false,
+            legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
            });
+           function legend(parent, data) {
+               parent.className = 'legend';
+               var datas = data.hasOwnProperty('datasets') ? data.datasets : data;
+
+               // remove possible children of the parent
+               while(parent.hasChildNodes()) {
+                   parent.removeChild(parent.lastChild);
+               }
+               var label = document.createTextNode("Last 6 Months");
+               parent.appendChild(label);
+               datas.forEach(function(d) {
+                   var title = document.createElement('span');
+                   title.className = 'title';
+                   title.style.backgroundColor = d.hasOwnProperty('strokeColor') ? d.strokeColor : d.color;
+                   title.style.borderColor = d.hasOwnProperty('strokeColor') ? d.strokeColor : d.color;
+                   title.style.borderStyle = 'solid';
+                   parent.appendChild(title);
+                   var link = document.createElement('a');
+                   link.href = d.url;
+                   title.appendChild(link)
+                   var text = document.createTextNode(d.label + " - "+d.bio);
+                   link.appendChild(text);
+               });
+           }
+           legend(document.getElementById("lineLegend"), datasets);
         }
     },
     languages: function(){

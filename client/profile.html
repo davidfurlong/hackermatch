@@ -31,9 +31,13 @@
             </div>
             <div id="contact">
               <div>
+                {{#if languages }}
+                  {{languages}}
+                {{/if}}
+              </div>
+              <div>
               {{#if github }}
-                <i class="fa fa-github"></i>
-                <a href="{{github_url}}">{{github}}</a>
+                <a href="{{github_url}}"><i class="fa fa-github"></i>{{github}}</a>
               {{/if}}
               </div>
               <div>
@@ -55,97 +59,21 @@
                   {{/each}}
                 {{/if}}
               </div>
-              <div>
-                {{#if languages }}
-                  {{languages}}
-                {{/if}}
-              </div>
             </div>
           </div>
-          {{#if bio}}
-            <div id="interests">
-                <p>
-                {{bio}}
-                </p>  
-            </div>
-          {{/if}}
-          {{#if bio}}
-            <div id="graph">{{dateGraph}}
-              <canvas id="canvas"></canvas>
-            </div>
-          {{else}}
-            <div id="graph" class="full-width">{{dateGraph}}
-              <canvas id="canvas"></canvas>
-            </div>
-          {{/if}}
+          <div id="lineLegend"></div>
+          <div id="graph" class="full-width">{{dateGraph}}
             
+            <canvas id="canvas"></canvas>     
+          </div>
         </div>
         <div class="feature-row">
           <div class="feature feature-text  all-repos">
+            <h3>Public Repos contributed to</h3>
             {{#each featured}}
               <a href="{{html_url}}">{{stargazers_count}} <i class="fa fa-star"></i> <span class="feature-title">{{full_name}}</span>
               </a><br/>   
             {{/each}}
-          </div>
-          <div class="feature feature-text">
-            <div class="feature-title">
-            Graphdocs
-            </div>
-            <div class="feature-body">
-            Build and explore knowledge graphs.
-            </div>
-            <div class="feature-tech">
-            Backbone, Node.js, D3, Less, Handlebars, Neo4j
-            </div>
-          </div>
-          <div class="feature feature-text">
-            <div class="feature-title">
-            Ideajoin
-            </div>
-            <div class="feature-body">
-            Collaborative ideation for communities and hackathons. 
-            </div>
-            <div class="feature-tech">
-            JS, PHP
-            </div>
-          </div>
-        </div>
-        <div class="feature-row">
-          <div class="feature feature-text">
-            <div class="feature-title">
-            Codehaus<a href="" class="feature-link"><i class="fa fa-external-link"></i></a>
-            </div>
-            <div class="feature-body">
-            An open source codeacademy clone which lets people make code guides for anything.
-            </div>
-            <div class="feature-tech">
-            React.js, Backbone, Drywall
-            </div>
-          </div>
-          <div class="feature feature-image">
-            <img src="gd.png"/>
-          </div>
-          <div class="feature feature-text">
-            <div class="feature-title">
-            Graphdocs
-            </div>
-            <div class="feature-body">
-            Build and explore knowledge graphs.
-            </div>
-            <div class="feature-tech">
-            Backbone, Node.js, D3, Less, Handlebars, Neo4j
-            </div>
-          </div>
-          <div class="feature feature-text">
-            <div class="feature-title">
-            Ideajoin
-            </div>
-            <div class="feature-body">
-            Collaborative ideation for communities and hackathons. 
-            </div>
-            <div class="feature-tech">
-            JS, PHP
-            </div>
           </div>
         </div>
       </div>
