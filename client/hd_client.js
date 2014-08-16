@@ -149,6 +149,17 @@ Template.profile.helpers({
             return repos;
         }
     },
+    collaborators: function(){
+        if(Meteor.user() && Meteor.user().profile){
+            var repos = Meteor.user().profile.repos;
+            var collaborators = [];
+            for(var i = 0; i < repos.length; i++){
+                for(var j = 0; j < repos.collaborators.length; j++){
+                    collaborators.push(repos.collaborators[j]);
+                }
+            }
+        }
+    },
     dateGraph: function(){
         if(Meteor.user() && Meteor.user().profile){
            console.log('rendered');
@@ -167,8 +178,9 @@ Template.profile.helpers({
                     if(d < 7)
                         byMonth[d] += 1;
                 }
-                var color = '#'+Math.floor(Math.random()*16777215).toString(16);
+                var color = '#'+ ('000000' + (Math.random()*0xFFFFFF<<0).toString(16)).slice(-6);
                 var t = {
+                    title: c.name,
                     label: c.name,
                     url: c.html_url,
                     bio: c.description,
@@ -191,10 +203,17 @@ Template.profile.helpers({
            var ctx = document.getElementById("canvas").getContext("2d");
            window.myLine = new Chart(ctx).Line(lineChartData, {
             responsive: true,
-            bezierCurveTension: 0.1,
+            bezierCurveTension: 0.4,
             scaleShowGridLines : false,
             pointDot: false,
             legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
+            annotateDisplay: true,
+            annotateLabel: '<%=v2%>',
+            scaleLabel: "Commits",
+            graphMin: 0,
+            inGraphDataTmpl: '<%=v1%>',
+            savePng: true,
+            savePngBackgroundColor: 'white',
            });
            function legend(parent, data) {
                parent.className = 'legend';

@@ -83,6 +83,7 @@ Accounts.onCreateUser(function (options, user) {
       "contributors_url",
       "collaborators_url",
       "git_url");
+
     if(temp.size != 0){
       var languages_url = temp.languages_url;
       var languages = Meteor.http.get(languages_url, {
@@ -115,28 +116,54 @@ Accounts.onCreateUser(function (options, user) {
           }
         });
       }
+
+      var contributors = Meteor.http.get(temp.contributors_url, {
+        headers: {
+          'User-Agent':'davidfurlong'
+        },
+        params: {
+          access_token: accessToken
+        }
+      });
+      var totalcommits = 0;
+      var mycommits = 0;
+      var parsedContributors = JSON.parse(contributors.content);
+      if(parsedContributors instanceof Array){
+        _.each(parsedContributors, function(contributor){
+          if(contributor.login == profile.login){
+            mycommits += contributor.contributions;
+          }
+          totalcommits += contributors.contributions;
+        });
+      }
+
+      var collaborators = Meteor.http.get(temp.collaborators_url, {
+        headers: {
+          'User-Agent':'davidfurlong'
+        },
+        params: {
+          access_token: accessToken
+        }
+      });
+      var collaborators = [];
+      var parsedCollaboratos = JSON.parse(collaborators.content);
+      if(parsedCollaborators instanceof Array){
+        _.each(parsedCollaborators, function(collaborator){
+          if(collaborator.login != profile.login){
+            collaborators.push([collaborator.login, collaborator.avatar_url, collaborator.html_url]);
+          }
+        });
+      }
       // console.log('110');
-      var cl = _.extend(temp, {'owner': repo.owner.login, 'languages':languages.content, 'commits':commitsRepo})
+      var cl = _.extend(temp, {'owner': repo.owner.login, 'languages':languages.content, 'commits':commitsRepo, 'contributions':mycommits, 'all_contributions':totalcommits, 'collaborators': collaborators})
 
       userRepositories.push(cl);
     }
   });
 
-  // var events = Meteor.http.get("https://api.github.com/user/events", {
-  //   headers: {
-  //     'User-Agent':'davidfurlong'
-  //   },
-  //   params: {
-  //     access_token: accessToken
-  //   }
-  // });
 
-  // console.log(events);
   profile = _.extend(profile, {'repos': userRepositories});
   user.profile = profile;
-  // console.log('Printing user;')
-  // console.log(user);
-  // Profile generator.
 
   return user;
 });
