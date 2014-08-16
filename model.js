@@ -14,3 +14,5 @@ Ideas = new Meteor.Collection("Ideas", {
 
 Comments = new Meteor.Collection("Comments");
 
+Hackathons = new Meteor.Collection("Hackathons");
+

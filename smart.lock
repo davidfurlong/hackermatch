@@ -3,7 +3,8 @@
   "dependencies": {
     "basePackages": {
       "modernizr-meteor": {},
-      "iron-router": {}
+      "iron-router": {},
+      "roles": {}
     },
     "packages": {
       "modernizr-meteor": {
@@ -15,6 +16,11 @@
         "git": "https://github.com/EventedMind/iron-router.git",
         "tag": "v0.8.2",
         "commit": "05415a8891ea87a00fb1e2388585f2ca5a38e0da"
+      },
+      "roles": {
+        "git": "https://github.com/alanning/meteor-roles.git",
+        "tag": "v1.2.11",
+        "commit": "2d7dc91848ec874d3a0852c77f462d0fae749de5"
       },
       "iron-layout": {
         "git": "https://github.com/EventedMind/iron-layout.git",
