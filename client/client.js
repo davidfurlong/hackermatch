@@ -81,34 +81,40 @@ Template.ideaList.helpers({
 });
 
 Template.yourIdeaList.helpers({
-  ideas: function() {
+    ideas: function() {
         return Ideas.find({userId: Meteor.userId()}).fetch();
-  }
+    }
 });
 
 Template.sidebar.events({
     'submit #comment-create' : function(e, t) {
-      e.preventDefault();
-      var text = t.find('#comment-text').value;
+        e.preventDefault();
+        var text = t.find('#comment-text').value;
+        t.find('#comment-text').value = "";
 
-    var authorName = Meteor.user().profile.name;
-    var comment = {
-        userId: Meteor.userId(),
-        username: authorName,
-        text: text,
-        ideaId: Session.get("selectedIdea")
-    };
+        var authorName = Meteor.user().profile.name;
+        var comment = {
+            userId: Meteor.userId(),
+            username: authorName,
+            text: text,
+            ideaId: Session.get("selectedIdea")
+        };
 
-    //console.log(comment);
-    Comments.insert(comment, function(err, result) {
-        if(err) {
-            console.log("error creating comment");
-        } else {
-            //hackety hackety hack
-            //console.log("comment added!");
+        //console.log(comment);
+        Comments.insert(comment, function(err, result) {
+            if(err) {
+                console.log("error creating comment");
+            } else {
+                //hackety hackety hack
+                //console.log("comment added!");
+            }
+        });
+    },
+    'keyup #comment-create' : function(e){
+        if(e.keyCode == 13){
+            $('#comment-create').submit();
         }
-    });
-}
+    }
 });
  
 Template.sidebar.helpers({

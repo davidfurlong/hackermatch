@@ -1711,6 +1711,11 @@ input[type=text]::-ms-clear {
 
 }
 
+#comment-create {
+	display: inline-flex;
+	width: 100%;
+}
+
 .comment-author {
 	font-size: 11pt;
 	color: #777;
