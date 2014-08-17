@@ -1,5 +1,15 @@
 
 
+Meteor.startup(function () {
+
+    var user = Meteor.users.findOne({"profile.login": "kainolophobia"});
+    console.log(user);
+    Roles.addUsersToRoles(user._id, ['admin'], 'all')
+    Roles.addUsersToRoles(user._id, ['hacker'], 'ychacks')
+    Roles.addUsersToRoles(user._id, ['organizer'], 'mhacks')
+});
+ 
+
 
 Accounts.onCreateUser(function (options, user) {
   var accessToken = user.services.github.accessToken,
