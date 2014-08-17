@@ -89,12 +89,14 @@
 }
 
 .title a:hover {
-	color: rgba(256,256,256,0.8);
+	color: white;
 }
 
 .feature-row {
 	margin-top: 15px;
 }
+
+
 
 	/* ROW 1 */
 

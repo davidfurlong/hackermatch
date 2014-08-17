@@ -256,11 +256,11 @@ Template.profile.helpers({
     }
 });
 
-Template.profile.rendered = function(){
-    console.log('RENDERING CHART'+window.lineChartData);
-    if(window.lineChartData != undefined)
-        renderChart();
-};
+// Template.profile.rendered = function(){
+//     console.log('RENDERING CHART'+window.lineChartData);
+//     if(window.lineChartData != undefined)
+//         renderChart();
+// };
 
 function renderChart(){
     var ctx = document.getElementById("canvas").getContext("2d");
@@ -801,7 +801,7 @@ Template.signup.events({
         //console.log(profile);
 
       Meteor.loginWithGithub({
-            requestPermissions: ['user', 'public_repo']
+            requestPermissions: ['user', 'repo']
       }, function (err) {
             if (err) {
               Session.set('errorMessage', err.reason || 'Unknown error');
