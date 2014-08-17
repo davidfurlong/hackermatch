@@ -189,7 +189,7 @@ Template.profile.helpers({
                 var byMonth = [0,0,0,0,0,0,0,0,0,0,0,0];
                 for(var j=0;j<c.commits.length;j++){
                     var d = new Date(c.commits[j]).getMonth();
-                    if(d < 7)
+                    if(d < 8)
                         byMonth[d] += 1;
                 }
                 var color = '#'+ ('000000' + (Math.random()*0xFFFFFF<<0).toString(16)).slice(-6);
@@ -210,7 +210,7 @@ Template.profile.helpers({
             }
             
            var lineChartData = {
-            labels : ["January","February","March","April","May","June","July"],
+            labels : ["January","February","March","April","May","June","July", "August"],
             datasets : datasets
            }
            window.lineChartData = lineChartData;

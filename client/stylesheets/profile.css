@@ -1,6 +1,14 @@
 
+.profile {
+	background: #fff;
+}
+
+.pt-triggers {
+	background: #3b3f45;
+}
+
 #profile {
-	background: #efefef !important;
+	background: #fff !important;
 	color: #222;
 	margin: 0;
 	clear: both;
@@ -93,7 +101,8 @@
 }
 
 .feature-row {
-	margin-top: 15px;
+	position: absolute;
+	top: 300px;	
 }
 
 
@@ -108,7 +117,7 @@
 	}
 
 	#details {
-		background: #efefef;
+		background: #fff;
 		width: auto;
 		max-width: 500px;
 		height: 200px;
@@ -154,7 +163,10 @@
 	#graph {
 		float: right;
 		height: 400px;
-		width: 400px; 
+		width: 500px; 
+		position: absolute;
+		top: 100px;
+		right: 50px;
 	}
 	#graph.full-width {
 		width: 700px;

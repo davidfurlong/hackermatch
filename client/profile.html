@@ -1,5 +1,5 @@
 <template name="profile">
-  <div class="container">
+  <div class="container profile">
     <div class="pt-triggers">
       <div>
         <div class="fs-title-norm">
@@ -60,9 +60,14 @@
               </div>
             </div>
           </div>
-          <div id="lineLegend"></div>
+          
           
         </div>
+        <div id="graph" class="full-width"> 
+          <canvas id="canvas" width="700px" height="400px"></canvas> 
+          <div id="lineLegend"></div>    
+        </div>
+        {{dateGraph}}
         <div class="feature-row">
           <div class="feature feature-text  all-repos">
             <h3>Public Repos contributed to</h3>
@@ -80,10 +85,7 @@
             {{/each}}
           </div>
 
-          <div id="graph" class="full-width"> 
-            <canvas id="canvas" width="700px" height="400px"></canvas>     
-          </div>
-          {{dateGraph}}
+
         </div>
       </div>
   </div>
