@@ -69,6 +69,11 @@ Handlebars.registerHelper('bitmaparray',function(obj){
     return result;
 });
 
+Template.index.rendered = function(){
+    $('body').css('background-color','#3D4675');
+    $('.pt-triggers').css('background-color', 'transparent');
+}
+
 Handlebars.registerHelper('sortandarrayify',function(obj){
     var result = [];
     console.log(obj);

@@ -16,19 +16,29 @@
 }
 
 .homepage-splash {
-	width: 800px;
-	margin: 50px auto ;
+	width: auto;
+	margin: 100px auto ;
 }
 
 .homepage-splash h1 {
 	display: inline;
 	padding-bottom: 30px;
 	font-size: 50pt;
-	border-bottom: 3px solid #333;
+}
+
+#splash {
+	position: absolute;
+	top: calc(50% - 60px);
+	width: 100%;
+	text-align: center;
+}
+
+#splash h1 {
+	margin: 0;
 }
 
 .chunk {
-	width: 760px;
+	width: auto;
 }
 
 .manifesto p {
