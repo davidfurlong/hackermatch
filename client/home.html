@@ -284,7 +284,12 @@
             <span class="badge t5">Mobile</span>
             {{/if}}
 	</div>
-    <div class="sidebar-item-contact">contact {{idea.author.profile.contact}}</div>
+	
+    <div class="sidebar-item-contact">
+    {{#if idea.author.profile.contact}}
+    	contact {{idea.author.profile.contact}}
+    {{/if}}
+    </div> 
     <div class="sidebar-item-comments">
 	    <form id="comment-create" action="action" autocomplete="off">
             <input id="comment-text" type="text" placeholder="Discuss here">
