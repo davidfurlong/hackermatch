@@ -23,7 +23,7 @@ Router.map(function() {
                 if (Meteor.loggingIn()) {
                 }
                 else{
-                  Router.go('signup-profile');
+                  Router.go('signup');
                 }
             }
         }
@@ -66,6 +66,19 @@ Handlebars.registerHelper('bitmaparray',function(obj){
         if(obj[key])
             result.push(key);
     }
+    return result;
+});
+
+Handlebars.registerHelper('sortandarrayify',function(obj){
+    var result = [];
+    console.log(obj);
+    for (var key in obj) {
+        result.push(obj[key]);
+    }
+    result.sort(function(a,b){
+        return b.count - a.count;
+    });
+    
     return result;
 });
 
@@ -118,19 +131,6 @@ Template.profile.helpers({
             return Meteor.user().profile.skills; 
         }
     },
-    topRepos: function(){
-        if(Meteor.user() && Meteor.user().profile){
-            var repos = Meteor.user().profile.repos;
-            function sortfunction(a, b){
-                if(a.stargazers_count == b.stargazers_count)
-                    return a.commits.length - b.commits.length
-                else 
-                    return (a.stargazers_count - b.stargazers_count)
-            }
-            repos.sort(sortfunction);
-            return repos;
-        }
-    },
     featured: function(){
         if(Meteor.user() && Meteor.user().profile){
             var repos = Meteor.user().profile.repos;
@@ -141,24 +141,38 @@ Template.profile.helpers({
                     return b.stargazers_count - a.stargazers_count
             }
             repos.sort(sortfunction);
-            // var reposRay = [];
-            // for(var i =0; i<repos.length; i++){
-            //     reposRay.push([repos[i].name, repos[i].html_url])
-            // }
-            // return reposRay;
             return repos;
         }
     },
     collaborators: function(){
         if(Meteor.user() && Meteor.user().profile){
             var repos = Meteor.user().profile.repos;
-            var collaborators = [];
+            var collaborators = {};
             for(var i = 0; i < repos.length; i++){
-                for(var j = 0; j < repos.collaborators.length; j++){
-                    collaborators.push(repos.collaborators[j]);
+                var hasAccess = false;
+                var temp = [];
+                var repo = repos[i];
+                for(var j = 0; j < repo.collaborators.length; j++){
+                    if(repo.contributions != 0 && repo.collaborators[j].f_login != Meteor.user().profile.login)
+                        temp.push(repo.collaborators[j]);
+                    if(repo.collaborators[j].f_login == Meteor.user().profile.login)
+                        hasAccess = true;
+                }
+                if(hasAccess){
+
+                    for(var k = 0; k < temp.length; k ++){
+                        if(collaborators[temp[k].f_login] != undefined){
+                            collaborators[temp[k].f_login].count ++;
+                        }
+                        else {
+                            collaborators[temp[k].f_login] = temp[k];
+                            collaborators[temp[k].f_login].count = 1;
+                        }
+                    }
                 }
             }
         }
+        return collaborators;
     },
     dateGraph: function(){
         if(Meteor.user() && Meteor.user().profile){
@@ -199,47 +213,10 @@ Template.profile.helpers({
             labels : ["January","February","March","April","May","June","July"],
             datasets : datasets
            }
+           window.lineChartData = lineChartData;
 
-           var ctx = document.getElementById("canvas").getContext("2d");
-           window.myLine = new Chart(ctx).Line(lineChartData, {
-            responsive: true,
-            bezierCurveTension: 0.4,
-            scaleShowGridLines : false,
-            pointDot: false,
-            legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
-            annotateDisplay: true,
-            annotateLabel: '<%=v2%>',
-            scaleLabel: "Commits",
-            graphMin: 0,
-            inGraphDataTmpl: '<%=v1%>',
-            savePng: true,
-            savePngBackgroundColor: 'white',
-           });
-           function legend(parent, data) {
-               parent.className = 'legend';
-               var datas = data.hasOwnProperty('datasets') ? data.datasets : data;
-
-               // remove possible children of the parent
-               while(parent.hasChildNodes()) {
-                   parent.removeChild(parent.lastChild);
-               }
-               var label = document.createTextNode("Last 6 Months");
-               parent.appendChild(label);
-               datas.forEach(function(d) {
-                   var title = document.createElement('span');
-                   title.className = 'title';
-                   title.style.backgroundColor = d.hasOwnProperty('strokeColor') ? d.strokeColor : d.color;
-                   title.style.borderColor = d.hasOwnProperty('strokeColor') ? d.strokeColor : d.color;
-                   title.style.borderStyle = 'solid';
-                   parent.appendChild(title);
-                   var link = document.createElement('a');
-                   link.href = d.url;
-                   title.appendChild(link)
-                   var text = document.createTextNode(d.label + " - "+d.bio);
-                   link.appendChild(text);
-               });
-           }
-           legend(document.getElementById("lineLegend"), datasets);
+           if(document.readyState == "complete")
+            window.setTimeout(function(){renderChart()}, 1000);       
         }
     },
     languages: function(){
@@ -278,6 +255,54 @@ Template.profile.helpers({
         }
     }
 });
+
+Template.profile.rendered = function(){
+    console.log('RENDERING CHART'+window.lineChartData);
+    if(window.lineChartData != undefined)
+        renderChart();
+};
+
+function renderChart(){
+    var ctx = document.getElementById("canvas").getContext("2d");
+    window.myLine = new Chart(ctx).Line(window.lineChartData, {
+        responsive: true,
+        bezierCurveTension: 0.4,
+        scaleShowGridLines : false,
+        pointDot: false,
+        // legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
+        annotateDisplay: true,
+        annotateLabel: '<%=v1%>',
+        graphMin: 0,
+        inGraphDataTmpl: '<%=v1%>',
+        savePng: true,
+        savePngBackgroundColor: 'white',
+    });
+    function legend(parent, data) {
+        parent.className = 'legend';
+        var datas = data.hasOwnProperty('datasets') ? data.datasets : data;
+
+        // remove possible children of the parent
+        while(parent.hasChildNodes()) {
+            parent.removeChild(parent.lastChild);
+        }
+        var label = document.createTextNode("Last 6 Months");
+        parent.appendChild(label);
+        datas.forEach(function(d) {
+            var title = document.createElement('span');
+            title.className = 'title';
+            title.style.backgroundColor = d.hasOwnProperty('strokeColor') ? d.strokeColor : d.color;
+            title.style.borderColor = d.hasOwnProperty('strokeColor') ? d.strokeColor : d.color;
+            title.style.borderStyle = 'solid';
+            parent.appendChild(title);
+            var link = document.createElement('a');
+            link.href = d.url;
+            title.appendChild(link)
+            var text = document.createTextNode(d.label + " - "+d.bio);
+            link.appendChild(text);
+        });
+    }
+    legend(document.getElementById("lineLegend"), window.lineChartData.datasets);
+}
 
 Template.potentialTeams.helpers({
     ideas: function() {

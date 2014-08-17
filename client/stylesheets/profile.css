@@ -1,15 +1,42 @@
 
 #profile {
-	height: calc(100% - 78px);
-	background: #efefef;
+	background: #efefef !important;
 	color: #222;
-	//background: rgb(17,16,25);
 	margin: 0;
 	clear: both;
 	padding: 15px;
-	//color: rgb(201,195,230);
 	font-family: 'Raleway', sans-serif;
 	-webkit-font-smoothing: antialiased;
+}
+
+.collaborator {
+	padding: 5px 0;
+}
+
+.mini-avatar {
+	margin-right: 5px;
+	height: 30px;
+	width: 30px;
+	border-radius:40px;
+	margin-bottom: -10px;
+}
+
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.cf {
+    *zoom: 1;
 }
 
 #profile a:hover {
@@ -124,7 +151,7 @@
 
 	#graph {
 		float: right;
-		height: 200px;
+		height: 400px;
 		width: 400px; 
 	}
 	#graph.full-width {
@@ -141,7 +168,7 @@
 }
 	.feature {
 		height: 100%;
-		width: 25%;
+		width: 23%;
 		min-width: 300px;
 		padding: 5px;
 		float: left;

@@ -15,8 +15,7 @@
         </ul>       
       </div><!-- /fs-form-wrap -->
     </div>  
-    <div id="profile">
-      <div id="Dashboard">
+    <div id="profile" class="cf">
         <div id="row1">
           <div id="picture">
             <img src="{{avatar_url}}" height="200px" width="200px" />
@@ -62,10 +61,7 @@
             </div>
           </div>
           <div id="lineLegend"></div>
-          <div id="graph" class="full-width">{{dateGraph}}
-            
-            <canvas id="canvas"></canvas>     
-          </div>
+          
         </div>
         <div class="feature-row">
           <div class="feature feature-text  all-repos">
@@ -75,8 +71,26 @@
               </a><br/>   
             {{/each}}
           </div>
+          <div class="feature feature-text  all-repos">
+            <h3>People worked with</h3>
+            {{#each sortandarrayify collaborators}}
+              <div class="collaborator">
+              <a href="{{f_html_url}}"><img src="{{f_avatar_url}}" class="mini-avatar"><span class="feature-title">{{f_login}}</span>
+              </a></div>
+            {{/each}}
+          </div>
+
+          <div id="graph" class="full-width"> 
+            <canvas id="canvas" width="700px" height="400px"></canvas>     
+          </div>
+          {{dateGraph}}
         </div>
       </div>
-    </div>
   </div>
+  <script type="text/javascript">
+  $(document).ready(function(){
+    if(window.lineChartData != undefined)
+        renderChart();
+  });
+  </script>
 </template>

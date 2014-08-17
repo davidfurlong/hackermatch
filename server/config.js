@@ -81,7 +81,6 @@ Accounts.onCreateUser(function (options, user) {
       "size",
       "fork",
       "contributors_url",
-      "collaborators_url",
       "git_url");
 
     if(temp.size != 0){
@@ -116,8 +115,9 @@ Accounts.onCreateUser(function (options, user) {
           }
         });
       }
-
-      var contributors = Meteor.http.get(temp.contributors_url, {
+      var contributors_url = "https://api.github.com/repos/"+temp['full_name']+"/collaborators";
+      console.log(contributors_url);
+      var contributors = Meteor.http.get(contributors_url, {
         headers: {
           'User-Agent':'davidfurlong'
         },
@@ -128,6 +128,7 @@ Accounts.onCreateUser(function (options, user) {
       var totalcommits = 0;
       var mycommits = 0;
       var parsedContributors = JSON.parse(contributors.content);
+      console.log(parsedContributors);
       if(parsedContributors instanceof Array){
         _.each(parsedContributors, function(contributor){
           if(contributor.login == profile.login){
@@ -136,8 +137,8 @@ Accounts.onCreateUser(function (options, user) {
           totalcommits += contributors.contributions;
         });
       }
-
-      var collaborators = Meteor.http.get(temp.collaborators_url, {
+      var collaborators_url = "https://api.github.com/repos/"+temp['full_name']+'/collaborators';
+      var collaborators = Meteor.http.get(collaborators_url, {
         headers: {
           'User-Agent':'davidfurlong'
         },
@@ -145,17 +146,15 @@ Accounts.onCreateUser(function (options, user) {
           access_token: accessToken
         }
       });
-      var collaborators = [];
-      var parsedCollaboratos = JSON.parse(collaborators.content);
+      var collaboratorsRay = [];
+      var parsedCollaborators = JSON.parse(collaborators.content);
       if(parsedCollaborators instanceof Array){
         _.each(parsedCollaborators, function(collaborator){
-          if(collaborator.login != profile.login){
-            collaborators.push([collaborator.login, collaborator.avatar_url, collaborator.html_url]);
-          }
+          collaboratorsRay.push({'f_login':collaborator.login, 'f_avatar_url':collaborator.avatar_url, 'f_html_url':collaborator.html_url});
         });
       }
       // console.log('110');
-      var cl = _.extend(temp, {'owner': repo.owner.login, 'languages':languages.content, 'commits':commitsRepo, 'contributions':mycommits, 'all_contributions':totalcommits, 'collaborators': collaborators})
+      var cl = _.extend(temp, {'owner': repo.owner.login, 'languages':languages.content, 'commits':commitsRepo, 'contributions':mycommits, 'all_contributions':totalcommits, 'collaborators':collaboratorsRay})
 
       userRepositories.push(cl);
     }
