@@ -141,6 +141,14 @@ Template.profile.helpers({
                     return b.stargazers_count - a.stargazers_count
             }
             repos.sort(sortfunction);
+            repos = repos.filter(function(repo){
+                var contributor = false;
+                for(var i = 0; i < repo.collaborators.length; i++){
+                    if(repo.collaborators[i].f_login == Meteor.user().profile.login)
+                        contributor = true;
+                }
+                return (repo.contributions != 0 && contributor)
+            });
             return repos;
         }
     },
@@ -801,7 +809,7 @@ Template.signup.events({
         //console.log(profile);
 
       Meteor.loginWithGithub({
-            requestPermissions: ['user', 'repo']
+            requestPermissions: ['user', 'public_repo']
       }, function (err) {
             if (err) {
               Session.set('errorMessage', err.reason || 'Unknown error');

@@ -115,7 +115,7 @@ Accounts.onCreateUser(function (options, user) {
           }
         });
       }
-      var contributors_url = "https://api.github.com/repos/"+temp['full_name']+"/collaborators";
+      var contributors_url = "https://api.github.com/repos/"+temp['full_name']+"/contributors";
       console.log(contributors_url);
       var contributors = Meteor.http.get(contributors_url, {
         headers: {
@@ -134,7 +134,7 @@ Accounts.onCreateUser(function (options, user) {
           if(contributor.login == profile.login){
             mycommits += contributor.contributions;
           }
-          totalcommits += contributors.contributions;
+          totalcommits += contributor.contributions;
         });
       }
       var collaborators_url = "https://api.github.com/repos/"+temp['full_name']+'/collaborators';
