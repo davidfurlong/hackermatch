@@ -1,5 +1,5 @@
 
-
+Router.onBeforeAction('loading');
 Router.map(function() {
     this.route('index', {
         path: '/',
@@ -36,6 +36,44 @@ Router.map(function() {
             }
         }
     });
+    this.route('admin', {path: '/admin' /*, 
+        onBeforeAction: function () {
+            if (!Meteor.user()) {
+                Router.go('signup');
+            }
+        }
+        */
+    });
+    this.route('hackathon', {path: '/:_title' , 
+        data: function() {
+            url_title = encodeURI(this.params._title.toLowerCase().replace(/ /g, ''));
+            console.log("GETTING DATA");
+            return Hackathons.findOne({url_title: url_title});
+        },
+        onBeforeAction: function () {
+            if (!Meteor.user()) {
+              if (Meteor.loggingIn()) {
+              } else {
+                Router.go('signup');
+              }
+            }
+        }
+/*
+    // This doesn't work like it should...
+        action : function () {
+            if (this.ready()) {
+                var hackathon = this.data();
+                console.log("chyeah baby");
+                if(hackathon) {
+                    console.log(hackathon);
+                }
+                this.render();
+            }
+        }
+*/
+        //waitOn: function() { return Meteor.subscribe('post', this.params._id)},
+    });
+
 
 //    this.route('login');
 });
@@ -227,6 +265,74 @@ Template.home.events({
         } 
     }
 });
+
+Template.hackathonList.helpers({
+  hackathons: function() {
+        var x = Hackathons.find({}).fetch();
+        return x;
+  }
+});
+
+
+Template.admin_view.events({
+    'submit #create_hackathon' : create_hackathon
+    
+});
+    
+    function create_hackathon(e, t) {
+        e.preventDefault();
+        
+        var title = t.find("#new_hackathon_name").value;
+        console.log(title);
+
+        //check for valid title
+        if(!title) {
+            //Err out
+            return false;
+        }
+
+        var url_title = encodeURI(title.toLowerCase().replace(/ /g, ''));
+
+        var hackathon = {
+            title: title,
+            url_title: url_title
+    /*
+            description: description,
+            userId: Meteor.userId(),
+            avatar_url: Meteor.user().profile.avatar_url,
+            skills: {
+                webdev: webdev,
+                backend: backend,
+                mobile: mobile,
+                design: design,
+                hardware: hardware
+            },
+            comments: {}
+    */
+        };
+
+        var exists = Hackathons.findOne({title: title});
+        if(exists) {
+            console.log("hackathon exists!");
+            //do something else
+            //can we select on name attribute again?
+        }
+
+        Hackathons.insert(hackathon, function(err, result) {
+            if(err) {
+                console.log("error creating hackathon");
+            } else {
+                console.log("hackathon created!");
+                
+                //reset input field
+                t.$("#new_hackathon_name").val("");
+            }
+
+//            Router.go('home');
+        });
+        return false;
+    }
+
 Template.idea_create_template.events({
     'submit #idea-create' : function(e, t) {
       e.preventDefault();

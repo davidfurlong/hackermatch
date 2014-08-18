@@ -2,6 +2,7 @@
   "packages": {
     "modernizr-meteor": {},
     "iron-router": {},
-    "roles": {}
+    "roles": {},
+    "npm": {}
   }
 }
