@@ -62,6 +62,7 @@ Accounts.onCreateUser(function (options, user) {
 
   var reposFormatted = JSON.parse(repos.content);
   var userRepositories = [];
+  // No repos = [] not error so this is fine. 
   _.each(reposFormatted, function(repo,a,b){
     var temp = _.pick(repo,
       "full_name",
