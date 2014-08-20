@@ -1,3 +1,5 @@
+Router.onBeforeAction('loading');
+
 Router.map(function() {
     this.route('index', {
         path: '/',
