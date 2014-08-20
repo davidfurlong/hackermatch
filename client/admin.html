@@ -17,7 +17,7 @@
 
 		<script src="js/modernizr.custom.js"></script>
     </head> -->
-<template name="admin">
+<template name="admin_old">
     <div class="container">
         <div class="title-bar">
             <div>
@@ -28,13 +28,12 @@
             </div>
         </div>	
         <div class="content-view">
-            <div class="view">
                 {{> admin_view}}
-            </div>
         </div>
     </div><!-- /container -->
 </template>
-<template name="admin_view">
+<template name="admin">
+<div class="view admin-view">
     <div class="settings-form">
         <h1>admin settings</h1>
         <div>
@@ -52,6 +51,7 @@
         </div>
         -->
     </div>
+</div>
 </template>
 
 <template name="hackathonList">

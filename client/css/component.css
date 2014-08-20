@@ -1,12 +1,23 @@
 
-.content-view {
+#admin-link {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    color: white;
+    font-size: 30px;
+}
+.admin-view {
     height: 100%;
     background: rgb(255, 132, 132);
+}
+.content-view {
+    height: 100%;
+    /* background: rgb(255, 132, 132); */
+    background: #222;
 }
 .view {
     height: 100%;
     padding: 20px;
-    background: #222;
 }
 
 .view label {

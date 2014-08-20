@@ -18,6 +18,7 @@ Router.map(function() {
     this.route('home', {
         path: '/home',
         onBeforeAction: function () {
+            Session.set("current_hackathon", "");
             if (!Meteor.user()) {
               if (Meteor.loggingIn()) {
               }
@@ -41,7 +42,11 @@ Router.map(function() {
             }
         }
     });
-    this.route('admin', {path: '/admin' /*, 
+    this.route('admin', {path: '/admin', 
+        data: {
+            title: 'admin'
+        }
+        /*
         onBeforeAction: function () {
             if (!Meteor.user()) {
                 Router.go('signup');
@@ -52,8 +57,15 @@ Router.map(function() {
     this.route('hackathon', {path: '/:_title' , 
         data: function() {
             url_title = encodeURI(this.params._title.toLowerCase().replace(/ /g, ''));
-            console.log("GETTING DATA");
-            return Hackathons.findOne({url_title: url_title});
+            hackathon = Hackathons.findOne({url_title: url_title});
+            if(hackathon) {
+                console.log(hackathon);
+                Session.set("current_hackathon", hackathon._id);
+            }
+            return hackathon;
+        },
+        yieldTemplates: {
+          'hackathon_nav': {to: 'nav'}
         },
         onBeforeAction: function () {
             if (!Meteor.user()) {
@@ -105,27 +117,38 @@ Template.potentialTeams.helpers({
                     skillArray.push(skill_pair);
                 }
             }
+            /*
+            var hackathon_id = Session.get("current_hackathon");
+            skill_pair["hackathon_id"] = hackathon_id;
+            skillArray.push(skill_pair);
+            */
             //console.log(skillArray);
             if(skillArray.length == 0) {
                 return;
             }
+            var hackathon_id = Session.get("current_hackathon");
             return Ideas.find(
-                        {$or: skillArray
-            }).fetch();
+                                {$and: [
+                                    {hackathon_id: hackathon_id},
+                                    {$or: skillArray}
+                                ]}
+            ).fetch();
         } else return;
      }
 });
 
 Template.ideaList.helpers({
   ideas: function() {
-        var x = Ideas.find({userId: {$ne: Meteor.userId()}}).fetch();
+        var hackathon_id = Session.get("current_hackathon");
+        var x = Ideas.find({ $and: [{hackathon_id: hackathon_id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
         return x;
   }
 });
 
 Template.yourIdeaList.helpers({
     ideas: function() {
-        return Ideas.find({userId: Meteor.userId()}).fetch();
+        var hackathon_id = Session.get("current_hackathon");
+        return Ideas.find({ $and: [{hackathon_id: hackathon_id}, {userId: Meteor.userId()}]}).fetch();
     }
 });
 
@@ -183,7 +206,7 @@ Template.sidebar.opened = function() {
         return true;
     }
 }
-Template.home.rendered =  function() {
+Template.hackathon.rendered =  function() {
 $.getScript("js/inline.js", function(data, textStatus, jqxhr) {
                       [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {    
                           new SelectFx( el, {
@@ -256,7 +279,7 @@ Template.home.helpers({
 });
 */
 
-Template.home.events({
+Template.hackathon.events({
     'click .sidebar' : function(e, t) {
       e.stopPropagation();
     },
@@ -279,7 +302,7 @@ Template.hackathonList.helpers({
 });
 
 
-Template.admin_view.events({
+Template.admin.events({
     'submit #create_hackathon' : create_hackathon
     
 });
@@ -349,10 +372,13 @@ Template.idea_create_template.events({
         , mobile = t.find('#cb4').checked
         , hardware = t.find('#cb5').checked;
 
+        hackathon_id = Session.get("current_hackathon");
+
         var idea = {
             name: name,
             description: description,
             userId: Meteor.userId(),
+            hackathon_id: hackathon_id,
             avatar_url: Meteor.user().profile.avatar_url,
             skills: {
                 webdev: webdev,
@@ -388,7 +414,8 @@ Template.idea_create_template.events({
                 $('.fs-controls > *').addClass('fs-show');
                 $('.fs-controls').height($('.pt-page-3').height());
             }
-            Router.go('home');
+//            Router.go('home');
+            $('#my-group').click();
         });
         return false;
     }

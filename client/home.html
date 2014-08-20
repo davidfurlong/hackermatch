@@ -17,7 +17,7 @@
 
 		<script src="js/modernizr.custom.js"></script>
     </head> -->
-	<template name="home">
+	<template name="home_1">
 		<div class="container">
 			<div class="pt-triggers">
 				<div>
@@ -173,7 +173,7 @@
 		</script>
 		
         </template>
-        <template name="update_user">
+        <template name="update_user_1">
 						<input id="logout" type="submit" value="Log Out">
 						<form id="update-user-form" action="action" class="settings-form">
 							<h1>My Settings</h1>
@@ -205,25 +205,25 @@
                         </form>
         </template>
         
-<template name="potentialTeams">
+<template name="potentialTeams_1">
     {{#each ideas}}    
         {{> ideaRow }}
     {{/each}}
 </template>
 
-<template name="yourIdeaList">
+<template name="yourIdeaList_1">
     {{#each ideas}}    
         {{> ideaRow }}
     {{/each}}
 </template>
 
-<template name="ideaList">
+<template name="ideaList_1">
     {{#each ideas}}    
         {{> ideaRow }}
     {{/each}}
 </template>
 
-<template name="ideaRow">
+<template name="ideaRow_1">
     <ul data-id="{{_id}}" class="row item idea-list">
         <li class="item-action">
             <i class="ion-heart btn btn-7 btn-7f btn-icon-only icon-star"></i>
@@ -261,7 +261,7 @@
     </ul>
 </template>
 
-<template name="sidebar">
+<template name="sidebar_1">
 <div class="sidebar" style="{{#if opened}}{{else}}display:none;{{/if}}" >
     <div class="sidebar-item-title"><h1>{{idea.name}}</h1></div>
     <div class="sidebar-item-author">posted by {{idea.author.profile.name}}</div>
@@ -303,7 +303,7 @@
     </div>
 </div>
 </template>
-<template name="comment_template">
+<template name="comment_template_1">
 	<div class="comment">
         <span class="comment-author">{{username}}</span>
         <!--        <span class="comment-skill"><span class="badge t1">W</span></span> -->
@@ -312,7 +312,7 @@
 </template>
 
 
-<template name="idea_create_template">
+<template name="idea_create_template_1">
 <div class="fs-form-wrap idea" id="fs-form-wrap-idea">
     <form id="idea-create" action="action" class="fs-form idea fs-form-full" autocomplete="off">
         <ol class="fs-fields">

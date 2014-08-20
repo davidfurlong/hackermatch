@@ -7,7 +7,7 @@ Meteor.startup(function () {
     if(user) {
         Roles.addUsersToRoles(user._id, ['admin'], 'all')
         Roles.addUsersToRoles(user._id, ['hacker'], 'ychacks')
-        Roles.addUsersToRoles(user._id, ['organizer'], 'mhacks')
+        Roles.addUsersToRoles(user._id, ['hacker', 'organizer'], 'mhacks')
     }
 });
  
