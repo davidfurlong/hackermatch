@@ -1,51 +1,24 @@
-	<!-- <head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
-		<meta name="viewport" content="width=device-width, initial-scale=1"> 
-		<title>Hacker Dating | YC Hacks</title>
-		<meta name="description" content="Fullscreen Form Interface: A distraction-free form concept with fancy animations" />
-		<meta name="keywords" content="fullscreen form, css animations, distraction-free, web design" />
-		<meta name="author" content="Codrops" />
-		<link rel="shortcut icon" href="../favicon.ico">
-		<link rel="stylesheet" type="text/css" href="css/normalize.css" />
-		<link rel="stylesheet" type="text/css" href="css/demo.css" />
-		<link rel="stylesheet" type="text/css" href="css/component.css" />
-		<link rel="stylesheet" type="text/css" href="css/cs-select.css" />
-		<link rel="stylesheet" type="text/css" href="css/cs-skin-boxes.css" />
-		<link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" />
-		<link rel="stylesheet" type="text/css" href="css/animations.css" />
-
-		<script src="js/modernizr.custom.js"></script>
-    </head> -->
 <template name="hackathon">
-    <div class="container">
-        <div class="title-bar">
-            <div>
-                <div class="title-norm">
-                    <h1><a class="brand" href="/home" id="my-group"><img src="icon.png" height="40px" class="brand-icon"/>hacker<span style="font-size:36pt;line-height:0px;">.</span>dating / {{title}}</a></h1>
-                </div>
-            </div>
-        </div>	
-        <div class="content-view">
-            <div class="view">
-                {{> hackathonView}}
-            </div>
-        </div>
-    </div><!-- /container -->
-</template>
-<template name="hackathonView">
-    <div id="logout" ><a href="/admin">admin</a></div>
-    <div class="settings-form">
-        <div>
-            <label>Ideas</label>
-            {{> ideaList }}
-        </div>
-        <!-- 
-        <div>
-            <input type="submit" value="Save Changes">
-        </div>
-        -->
+<div class="view">
+    <div class="row label">
+    PROJECTS THAT NEED YOUR SKILLS
     </div>
+    <div>
+        {{> potentialTeams}}
+    </div>
+    <div class="row label">
+    YOUR IDEAS
+    </div>
+    <div>
+        {{> yourIdeaList}}
+    </div>
+    <div class="row label">
+    ALL
+    </div>
+    <div>
+        {{> ideaList}}
+    </div>
+</div>
 </template>
 
 

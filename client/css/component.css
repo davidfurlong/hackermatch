@@ -6,6 +6,7 @@
 .view {
     height: 100%;
     padding: 20px;
+    background: #222;
 }
 
 .view label {
