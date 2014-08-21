@@ -300,8 +300,10 @@ function renderChart(){
         while(parent.hasChildNodes()) {
             parent.removeChild(parent.lastChild);
         }
-        var label = document.createTextNode("Last 6 Months");
-        parent.appendChild(label);
+        var label = document.createTextNode("Currently Working on");
+        var h3 = document.createElement('h3');
+        h3.appendChild(label);
+        parent.appendChild(h3);
         datas.forEach(function(d) {
             var title = document.createElement('span');
             title.className = 'title';

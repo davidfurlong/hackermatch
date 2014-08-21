@@ -104,6 +104,9 @@ Accounts.onCreateUser(function (options, user) {
           access_token: accessToken
         }
       });
+
+      if(commits.error)
+        return
       
       if(commits.content != undefined){
         var commitsRepo = [];
@@ -128,6 +131,9 @@ Accounts.onCreateUser(function (options, user) {
           access_token: accessToken
         }
       });
+      if(contributors.error)
+        return
+
       var totalcommits = 0;
       var mycommits = 0;
       var parsedContributors = JSON.parse(contributors.content);
@@ -149,6 +155,9 @@ Accounts.onCreateUser(function (options, user) {
           access_token: accessToken
         }
       });
+      if(collaborators.error)
+        return
+
       var collaboratorsRay = [];
       var parsedCollaborators = JSON.parse(collaborators.content);
       if(parsedCollaborators instanceof Array){
