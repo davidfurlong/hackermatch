@@ -104,17 +104,19 @@ Accounts.onCreateUser(function (options, user) {
           access_token: accessToken
         }
       });
-      var commitsRepo = [];
-
-      var parsedCommits = JSON.parse(commits.content);
-      if(parsedCommits instanceof Array){ // Has commits
-        _.each(parsedCommits, function(commit){
-          if(commit.author != null){
-            if(commit.author.login == profile.login){
-              commitsRepo.push(commit.commit.author.date);
+      
+      if(commits.content != undefined){
+        var commitsRepo = [];
+        var parsedCommits = JSON.parse(commits.content);
+        if(parsedCommits instanceof Array){ // Has commits
+          _.each(parsedCommits, function(commit){
+            if(commit.author != null){
+              if(commit.author.login == profile.login){
+                commitsRepo.push(commit.commit.author.date);
+              }
             }
-          }
-        });
+          });
+        }
       }
       var contributors_url = "https://api.github.com/repos/"+temp['full_name']+"/contributors";
       console.log(contributors_url);
