@@ -10,6 +10,10 @@
     height: 100%;
     background: rgb(255, 132, 132);
 }
+.home-view {
+    height: 100%;
+    background: rgb(005, 182, 182);
+}
 .content-view {
     height: 100%;
     /* background: rgb(255, 132, 132); */

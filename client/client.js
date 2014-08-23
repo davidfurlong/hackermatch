@@ -17,6 +17,9 @@ Router.map(function() {
     });
     this.route('home', {
         path: '/home',
+        data: {
+            title: 'home'
+        },
         onBeforeAction: function () {
             Session.set("current_hackathon", "");
             if (!Meteor.user()) {
@@ -301,65 +304,91 @@ Template.hackathonList.helpers({
   }
 });
 
+Template.myHackathonList.helpers({
+  hackathons: function() {
+        var user = Meteor.user();
+        if(!user) return;
+        var hackathonList = [];
+        _.each(user.roles, function(role, hackathon) {
+            var entry = {};
+            if(role == "admin") {
+                console.log("admin role found");
+            }
+            console.log(role);
+            console.log(hackathon);
+            entry['url_title'] = hackathon;
+            hackathonList.push(entry);
+        });
+        console.dir(hackathonList);
+        var x = Hackathons.find({$or: hackathonList}).fetch();
+        return x;
+  }
+});
+
+
 
 Template.admin.events({
-    'submit #create_hackathon' : create_hackathon
-    
+    'submit #create_hackathon' : function(e, t) {
+        e.preventDefault();
+
+        var title = t.find("#new_hackathon_name").value;
+
+        t.$("#new_hackathon_name").val("");
+
+        create_hackathon(title);
+    }
 });
     
-    function create_hackathon(e, t) {
-        e.preventDefault();
-        
-        var title = t.find("#new_hackathon_name").value;
-        console.log(title);
+function create_hackathon(title) {
+    
+    console.log(title);
 
-        //check for valid title
-        if(!title) {
-            //Err out
-            return false;
-        }
-
-        var url_title = encodeURI(title.toLowerCase().replace(/ /g, ''));
-
-        var hackathon = {
-            title: title,
-            url_title: url_title
-    /*
-            description: description,
-            userId: Meteor.userId(),
-            avatar_url: Meteor.user().profile.avatar_url,
-            skills: {
-                webdev: webdev,
-                backend: backend,
-                mobile: mobile,
-                design: design,
-                hardware: hardware
-            },
-            comments: {}
-    */
-        };
-
-        var exists = Hackathons.findOne({title: title});
-        if(exists) {
-            console.log("hackathon exists!");
-            //do something else
-            //can we select on name attribute again?
-        }
-
-        Hackathons.insert(hackathon, function(err, result) {
-            if(err) {
-                console.log("error creating hackathon");
-            } else {
-                console.log("hackathon created!");
-                
-                //reset input field
-                t.$("#new_hackathon_name").val("");
-            }
-
-//            Router.go('home');
-        });
+    //check for valid title
+    if(!title) {
+        //Err out
         return false;
     }
+
+    var url_title = encodeURI(title.toLowerCase().replace(/ /g, ''));
+
+    var hackathon = {
+        title: title,
+        url_title: url_title
+/*
+        description: description,
+        userId: Meteor.userId(),
+        avatar_url: Meteor.user().profile.avatar_url,
+        skills: {
+            webdev: webdev,
+            backend: backend,
+            mobile: mobile,
+            design: design,
+            hardware: hardware
+        },
+        comments: {}
+*/
+    };
+
+    var exists = Hackathons.findOne({title: title});
+    if(exists) {
+        console.log("hackathon exists!");
+        //do something else
+        //can we select on name attribute again?
+    }
+
+    Hackathons.insert(hackathon, function(err, result) {
+        if(err) {
+            console.log("error creating hackathon");
+        } else {
+            console.log("hackathon created!");
+            
+            //reset input field
+        }
+
+//            Router.go('home');
+    });
+    return false;
+}
 
 Template.idea_create_template.events({
     'submit #idea-create' : function(e, t) {
@@ -372,6 +401,21 @@ Template.idea_create_template.events({
         , mobile = t.find('#cb4').checked
         , hardware = t.find('#cb5').checked;
 
+
+        //hackety hackety hack
+        $("#my-group").trigger("click");
+        $('.fs-fields li').removeClass('fs-current');
+        $($('.fs-fields li')[0]).addClass('fs-current');
+        $('.fs-fields input').val('');
+        $('.fs-fields textarea').val('');
+        $('#idea-create').removeClass('fs-form-overview')
+        $('#idea-create').addClass('fs-form-full');
+        $('.fs-controls > *').addClass('fs-show');
+        $('.fs-controls').height($('.pt-page-3').height());
+        //using pageTransitions library, instead of Meteor routing...
+        $('#my-group').click();
+
+        
         hackathon_id = Session.get("current_hackathon");
 
         var idea = {
@@ -389,37 +433,29 @@ Template.idea_create_template.events({
             },
             comments: {}
         };
-
-        var exists = Ideas.findOne({name: name});
-        if(exists) {
-            console.log("idea exists!");
-            //do something else
-            //can we select on name attribute again?
-        }
-
-        //Ideas.insert({name: name}, function(err, result) {
-        Ideas.insert(idea, function(err, result) {
-            if(err) {
-                console.log("error creating idea");
-            } else {
-                //hackety hackety hack
-                //using pageTransitions library, instead of Meteor routing...
-                $("#my-group").trigger("click");
-                $('.fs-fields li').removeClass('fs-current');
-                $($('.fs-fields li')[0]).addClass('fs-current');
-                $('.fs-fields input').val('');
-                $('.fs-fields textarea').val('');
-                $('#idea-create').removeClass('fs-form-overview')
-                $('#idea-create').addClass('fs-form-full');
-                $('.fs-controls > *').addClass('fs-show');
-                $('.fs-controls').height($('.pt-page-3').height());
-            }
-//            Router.go('home');
-            $('#my-group').click();
-        });
-        return false;
+        create_idea(idea);
     }
 });
+
+function create_idea(idea) {
+
+    var exists = Ideas.findOne({name: name});
+    if(exists) {
+        console.log("idea exists!");
+        //do something else
+        //can we select on name attribute again?
+    }
+
+    //Ideas.insert({name: name}, function(err, result) {
+    Ideas.insert(idea, function(err, result) {
+        if(err) {
+            console.log("error creating idea");
+        } else {
+        }
+    });
+    return false;
+}
+
 Template.update_user.helpers({
     name: function() {
         if(Meteor.user() && Meteor.user().profile) {

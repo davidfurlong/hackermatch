@@ -9,6 +9,13 @@ Meteor.startup(function () {
         Roles.addUsersToRoles(user._id, ['hacker'], 'ychacks')
         Roles.addUsersToRoles(user._id, ['hacker', 'organizer'], 'mhacks')
     }
+    //twice in case we're on the same box and the $or breaks
+    var user = Meteor.users.findOne({"profile.login": "davidfurlong"});
+    if(user) {
+        Roles.addUsersToRoles(user._id, ['admin'], 'all')
+        Roles.addUsersToRoles(user._id, ['hacker'], 'ychacks')
+        Roles.addUsersToRoles(user._id, ['hacker', 'organizer'], 'mhacks')
+    }
 });
  
 
