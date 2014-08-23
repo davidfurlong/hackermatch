@@ -1,4 +1,17 @@
 <template name="profile">
+    {{#if repos }}
+        {{> profile_contents }}
+    {{else}}
+        <div style="position: fixed; top: 50%; left: 50%; ">
+            <img style="float: left;"  src="http://viewvc.svn.mozilla.org/vc/addons/trunk/bandwagon/skin/images/spinner.gif?revision=18591&view=co&pathrev=18591">
+            <h3 style="color: black; float:right; margin-top: 5px; margint-left: 10px; margin-left: 10px;" >Profile loading</h3>
+        </div> 
+    {{/if}}
+</template>
+
+
+
+<template name="profile_contents">
   <div class="container profile">
     <div class="pt-triggers">
       <div>

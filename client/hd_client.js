@@ -97,7 +97,17 @@ Template.ideaRow.events({
     }
 });
 
-Template.profile.helpers({
+//Used to check whether profile is done loading yet
+Template.profile.helpers( {
+    repos: function(){
+        if(Meteor.user() && Meteor.user().profile) {
+            return Meteor.user().profile.repos; 
+        }
+    }
+});
+
+
+Template.profile_contents.helpers({
     name: function() {
         if(Meteor.user() && Meteor.user().profile) {
             return Meteor.user().profile.name; 
