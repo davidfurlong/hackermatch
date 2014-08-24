@@ -4,7 +4,8 @@
     "basePackages": {
       "modernizr-meteor": {},
       "iron-router": {},
-      "roles": {},
+      "react": {},
+      "roles": {}
       "npm": {}
     },
     "packages": {
@@ -17,6 +18,11 @@
         "git": "https://github.com/EventedMind/iron-router.git",
         "tag": "v0.8.2",
         "commit": "05415a8891ea87a00fb1e2388585f2ca5a38e0da"
+      },
+      "react": {
+        "git": "https://github.com/dhl/meteor-react.git",
+        "tag": "v0.0.3",
+        "commit": "24a87593db965ed9424efeffe98af19b4b743fd8"
       },
       "roles": {
         "git": "https://github.com/alanning/meteor-roles.git",

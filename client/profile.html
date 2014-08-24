@@ -1,0 +1,95 @@
+<template name="profile">
+    {{#if has_github_profile }}
+        {{> profile_contents }}
+    {{else}}
+        <div style="height: 100%; width: 100%" class="loading-profile">
+        <div style="position: fixed; top: 50%; left: 50%; ">
+            <img style="float: left;"  src="http://viewvc.svn.mozilla.org/vc/addons/trunk/bandwagon/skin/images/spinner.gif?revision=18591&view=co&pathrev=18591">
+            <h3 style="color: black; float:right; margin-top: 5px; margint-left: 10px; margin-left: 10px;" >Profile loading</h3>
+        </div> 
+        </div> 
+    {{/if}}
+</template>
+
+
+
+<template name="profile_contents">
+  <div class="container profile">
+    <div id="profile" class="cf">
+        <div id="row1">
+          <div id="picture">
+            <img src="{{avatar_url}}" height="200px" width="200px" />
+          </div>
+          <div id="details">
+            <div id="name">
+            {{#if name }}
+              {{name}}
+            {{else}}
+             ------- 
+            {{/if}}
+            </div>
+            <div id="contact">
+              <div>
+                {{#if languages }}
+                  {{languages}}
+                {{/if}}
+              </div>
+              <div>
+              {{#if github }}
+                <a href="{{github_url}}"><i class="fa fa-github"></i>{{github}}</a>
+              {{/if}}
+              </div>
+              <div>
+                {{#if contact }}
+                  <i class="fa fa-paper-plane-o"></i>
+                  {{contact}}
+                {{/if}}
+              </div>
+              <div>
+                {{#if location }}
+                  <i class="fa fa-map-marker"></i>
+                  {{location}}
+                {{/if}}
+              </div>
+              <div>
+                {{#if skills }}
+                  {{#each bitmaparray skills}}
+                    <span class="badge {{.}}">{{.}}</span> 
+                  {{/each}}
+                {{/if}}
+              </div>
+            </div>
+          </div>
+          
+          
+        </div>
+        <div id="graph" class="full-width"> 
+          <canvas id="canvas" width="700px" height="400px"></canvas> 
+          <div id="lineLegend"></div>    
+        </div>
+        {{dateGraph}}
+        <div class="feature-view">
+            <div class="feature-row">
+              <div class="feature feature-text  all-repos">
+                <h3>Worked on</h3>
+                {{#each featured}}
+                  <a href="{{html_url}}">{{stargazers_count}} <i class="fa fa-star"></i> <span class="feature-title">{{full_name}}</span>
+                  </a><br/>   
+                {{/each}}
+              </div>
+              <div class="feature feature-text  all-repos">
+                <h3>People worked with</h3>
+                {{#each sortandarrayify collaborators}}
+                  <div class="collaborator">
+                  <a href="{{f_html_url}}"><img src="{{f_avatar_url}}" class="mini-avatar"><span class="feature-title">{{f_login}}</span>
+                  </a></div>
+                {{/each}}
+              </div>
+
+
+            </div>
+        </div>
+      </div>
+  </div>
+
+</template>

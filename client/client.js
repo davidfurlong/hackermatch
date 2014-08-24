@@ -5,6 +5,7 @@ Router.configure({
     layoutTemplate: 'layout'
 });
 Router.onBeforeAction('loading');
+
 Router.map(function() {
     this.route('index', {
         path: '/',
@@ -14,6 +15,55 @@ Router.map(function() {
             }
          }
 
+    });
+    this.route('signupProfile', {
+        path: '/signup-profile',
+        data: {
+            title: 'Sign up'
+        },
+        onBeforeAction: function () {
+            if (Meteor.user()){
+                Router.go('profile');
+            }
+        }
+    });
+    this.route('profile', {
+        path: '/profile',
+        data: function() { 
+            var user = Meteor.user(); 
+            if(user) {
+                user['title'] = 'profile';
+            }
+            return user;
+        },
+        onBeforeAction: function() {
+            if (!Meteor.user()){
+                if (Meteor.loggingIn()) {
+                }
+                else{
+                  Router.go('signup');
+                }
+            }
+        }
+    });
+    this.route('profile', {
+        path: '/user/:_username',
+        data: function() { 
+            var user = Meteor.users.findOne({'services.github.username': this.params._username}); 
+            if(user) {
+                user['title'] = user.services.github.username;
+            }
+            return user;
+        },
+        onBeforeAction: function() {
+            if (!Meteor.user()){
+                if (Meteor.loggingIn()) {
+                }
+                else{
+                  Router.go('signup');
+                }
+            }
+        }
     });
     this.route('home', {
         path: '/home',
@@ -29,16 +79,24 @@ Router.map(function() {
                 Router.go('signup');
               }
             }
-         }
+        }
     });
-    this.route('signup', {path: '/login', 
+    this.route('signup', {
+        path: '/login', 
+        data: {
+            title: 'log in'
+        },
         onBeforeAction: function () {
             if (Meteor.user()) {
                 Router.go('home');
             }
         }
     });
-    this.route('signup', {path: '/signup', 
+    this.route('signup', {
+        path: '/signup', 
+        data: {
+            title: 'sign up'
+        },
         onBeforeAction: function () {
             if (Meteor.user()) {
                 Router.go('home');
@@ -98,6 +156,33 @@ Router.map(function() {
 //    this.route('login');
 });
 
+Handlebars.registerHelper('bitmaparray',function(obj){
+    result = [];
+    for (var key in obj) {
+        if(obj[key])
+            result.push(key);
+    }
+    return result;
+});
+
+Template.index.rendered = function(){
+    $('body').css('background-color','#3D4675');
+    $('.pt-triggers').css('background-color', 'transparent');
+}
+
+Handlebars.registerHelper('sortandarrayify',function(obj){
+    var result = [];
+    console.log(obj);
+    for (var key in obj) {
+        result.push(obj[key]);
+    }
+    result.sort(function(a,b){
+        return b.count - a.count;
+    });
+    
+    return result;
+});
+
 Template.ideaRow.events({
     'click ul.idea-list' : function(e, t) {
       e.preventDefault();
@@ -105,6 +190,241 @@ Template.ideaRow.events({
         Session.set("selectedIdea", id);
     }
 });
+
+//Used to check whether profile is done loading yet
+Template.profile.helpers( {
+    has_github_profile: function(){
+        if(this.profile) {
+            return this.profile.updated_at; 
+        }
+    }
+});
+
+
+Template.profile_contents.helpers({
+    name: function() {
+        if(this.profile) {
+            return this.profile.name;
+        }
+    },
+    contact: function() {
+        if(this.profile) {
+            return this.profile.contact;
+        }
+    },
+    github: function() {
+        if(this.profile) {
+            return this.profile.login;
+        }
+    },
+    avatar_url: function(){
+        if(this.profile) {
+            return this.profile.avatar_url;
+        }
+    },
+    github_url: function(){
+        if(this.profile) {
+            return this.profile.html_url;
+        }
+    },
+    location: function(){
+        if(this.profile) {
+            return this.profile.location;
+        }
+    },
+    bio: function(){
+        if(this.profile) {
+            return this.profile.bio;
+        }
+    },
+    skills: function(){
+        if(this.profile) {
+            return this.profile.skills;
+        }
+    },
+    featured: function(){
+        if(this.profile) {
+            var repos = this.profile.repos;
+            function sortfunction(a, b){
+                if(a.stargazers_count == b.stargazers_count)
+                    return b.commits.length - a.commits.length
+                else 
+                    return b.stargazers_count - a.stargazers_count
+            }
+            repos.sort(sortfunction);
+            var self = this;
+            repos = repos.filter(function(repo){
+                var contributor = false;
+                for(var i = 0; i < repo.collaborators.length; i++){
+                    if(repo.collaborators[i].f_login == self.profile.login)
+                        contributor = true;
+                }
+                return (repo.contributions != 0 && contributor)
+            });
+            return repos;
+        }
+    },
+    collaborators: function(){
+        if(this.profile) {
+            var repos = this.profile.repos;
+            var collaborators = {};
+            for(var i = 0; i < repos.length; i++){
+                var hasAccess = false;
+                var temp = [];
+                var repo = repos[i];
+                for(var j = 0; j < repo.collaborators.length; j++){
+                    if(repo.contributions != 0 && repo.collaborators[j].f_login != this.profile.login)
+                        temp.push(repo.collaborators[j]);
+                    if(repo.collaborators[j].f_login == this.profile.login)
+                        hasAccess = true;
+                }
+                if(hasAccess){
+
+                    for(var k = 0; k < temp.length; k ++){
+                        if(collaborators[temp[k].f_login] != undefined){
+                            collaborators[temp[k].f_login].count ++;
+                        }
+                        else {
+                            collaborators[temp[k].f_login] = temp[k];
+                            collaborators[temp[k].f_login].count = 1;
+                        }
+                    }
+                }
+            }
+        }
+        return collaborators;
+    },
+    dateGraph: function(){
+        if(this.profile) {
+           console.log('rendered');
+            var repos = this.profile.repos;
+
+            function contributedTo(repo){
+                return (repo.commits.length > 0)
+            }
+            var dateFiltered = repos.filter(contributedTo);
+            var datasets = [];
+            for(var i=0;i<dateFiltered.length;i++){
+                var c = dateFiltered[i];
+                var byMonth = [0,0,0,0,0,0,0,0,0,0,0,0];
+                for(var j=0;j<c.commits.length;j++){
+                    var d = new Date(c.commits[j]).getMonth();
+                    if(d < 8)
+                        byMonth[d] += 1;
+                }
+                var color = '#'+ ('000000' + (Math.random()*0xFFFFFF<<0).toString(16)).slice(-6);
+                var t = {
+                    title: c.name,
+                    label: c.name,
+                    url: c.html_url,
+                    bio: c.description,
+                    fillColor : "rgba(220,220,220,0.2)",
+                    strokeColor : color,
+                    pointColor : color,
+                    pointStrokeColor : "#fff",
+                    pointHighlightFill : "#fff",
+                    pointHighlightStroke : color, 
+                    data : byMonth
+                };
+                datasets.push(t);
+            }
+            
+           var lineChartData = {
+            labels : ["January","February","March","April","May","June","July", "August"],
+            datasets : datasets
+           }
+           window.lineChartData = lineChartData;
+
+           if(document.readyState == "complete")
+            window.setTimeout(function(){renderChart()}, 1000);       
+        }
+    },
+    languages: function(){
+        if(this.profile) {
+            var repos = this.profile.repos;
+            var languages = {};
+            for(var i=0;i<repos.length;i++){
+                var t = JSON.parse(repos[i].languages);
+
+                for(var a in t){
+                    if(languages.hasOwnProperty(a)){
+                        languages[a] += t[a];
+                    }
+                    else {
+                        languages[a] = t[a];
+                    }
+                }
+            }
+
+            var sortable = [];
+            for (var a in languages)
+                sortable.push([a, languages[a]])
+            sortable.sort(function(a, b) {return b[1] - a[1]})
+            var sentence = ""; 
+            var i = 0;
+            while(i<sortable.length-1 && i < 4){
+                if(i == sortable.length-2 || i == 3){
+                    sentence += sortable[i][0];
+                }
+                else {
+                    sentence += sortable[i][0] + ", ";
+                }
+                i++;
+            }
+            return sentence;
+        }
+    }
+});
+
+// Template.profile.rendered = function(){
+//     console.log('RENDERING CHART'+window.lineChartData);
+//     if(window.lineChartData != undefined)
+//         renderChart();
+// };
+
+function renderChart(){
+    var ctx = document.getElementById("canvas").getContext("2d");
+    window.myLine = new Chart(ctx).Line(window.lineChartData, {
+        responsive: true,
+        bezierCurveTension: 0.4,
+        scaleShowGridLines : false,
+        pointDot: false,
+        // legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
+        annotateDisplay: true,
+        annotateLabel: '<%=v1%>',
+        graphMin: 0,
+        inGraphDataTmpl: '<%=v1%>',
+        savePng: true,
+        savePngBackgroundColor: 'white',
+    });
+    function legend(parent, data) {
+        parent.className = 'legend';
+        var datas = data.hasOwnProperty('datasets') ? data.datasets : data;
+
+        // remove possible children of the parent
+        while(parent.hasChildNodes()) {
+            parent.removeChild(parent.lastChild);
+        }
+        var label = document.createTextNode("Currently Working on");
+        var h3 = document.createElement('h3');
+        h3.appendChild(label);
+        parent.appendChild(h3);
+        datas.forEach(function(d) {
+            var title = document.createElement('span');
+            title.className = 'title';
+            title.style.backgroundColor = d.hasOwnProperty('strokeColor') ? d.strokeColor : d.color;
+            title.style.borderColor = d.hasOwnProperty('strokeColor') ? d.strokeColor : d.color;
+            title.style.borderStyle = 'solid';
+            parent.appendChild(title);
+            var link = document.createElement('a');
+            link.href = d.url;
+            title.appendChild(link)
+            var text = document.createTextNode(d.label + " - "+d.bio);
+            link.appendChild(text);
+        });
+    }
+    legend(document.getElementById("lineLegend"), window.lineChartData.datasets);
+}
 
 Template.potentialTeams.helpers({
     ideas: function() {
@@ -758,6 +1078,32 @@ Template.signup.events({
       return false;
     }
 });
+
+Template.signupProfile.events({
+    'submit #register-form' : function(e, t) {
+      e.preventDefault();
+
+    var profile = {}
+
+      Meteor.loginWithGithub({
+            requestPermissions: ['user:email']
+      }, function (err) {
+            if (err) {
+              Session.set('errorMessage', err.reason || 'Unknown error');
+            }
+            if(Meteor.user()) {
+                profile = _.extend(profile, Meteor.user().profile);
+                //Temporarily set contact info as email
+                profile.contact = profile.email;
+                Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":profile}})
+                Router.go('profile');
+            }
+      });
+
+      return false;
+    }
+});
+
 
 Template.login.events({
 

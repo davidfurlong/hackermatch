@@ -50,19 +50,29 @@
 }
 
 .homepage-splash {
-	width: 800px;
-	margin: 50px auto ;
+	width: auto;
+	margin: 100px auto ;
 }
 
 .homepage-splash h1 {
 	display: inline;
 	padding-bottom: 30px;
 	font-size: 50pt;
-	border-bottom: 3px solid #333;
+}
+
+#splash {
+	position: absolute;
+	top: calc(50% - 60px);
+	width: 100%;
+	text-align: center;
+}
+
+#splash h1 {
+	margin: 0;
 }
 
 .chunk {
-	width: 760px;
+	width: auto;
 }
 
 .manifesto p {
@@ -327,6 +337,10 @@ a.link-border::before {
 	transform: scale(0.8333);
 }
 
+#register-form {
+    top: 10% !important;
+}
+
 #register-form .ac-custom label{
 	color: white;
 }
@@ -379,12 +393,16 @@ a.link-border:focus::before {
 	background: #f68dbb;
 }
 
+.all-repos {
+	overflow-y: auto;
+}
+
 .item-icon {
 	cursor: pointer;
 	border-radius: 50;
 	height: 64px;
 	overflow: hidden;
-	vertical-align: middle;
+	vertical-align: top;
 }
 
 .fs-form-full {
@@ -430,6 +448,10 @@ a.link-border:focus::before {
 	border-bottom: 3px solid #333;
 }
 
+.row.label:first-child {
+	margin-top: 0;
+}
+
 .row .item-action {
 	font-size: 20pt;
 	color: #888;
@@ -453,7 +475,6 @@ a.link-border:focus::before {
 	cursor: pointer;
 	color: #888;
 	font-size: 16pt;
-	padding-left: 10px;
 }
 
 
@@ -474,7 +495,7 @@ a.link-border:focus::before {
 	position: absolute;
 	top: 0;
 	right: 0;
-	margin: 45px 50px;
+	margin: 25px 50px;
 	z-index: 999;
 }
 
@@ -509,7 +530,7 @@ a.link-border:focus::before {
 }
 
 .fs-title-norm {
-	padding: 30px 40px 40px 40px;
+	padding: 10px 40px 20px 40px;
 	width: 600px;
 	display: block;
 	margin: 0;
@@ -1763,4 +1784,14 @@ input[type=text]::-ms-clear {
 
 #pt-main.blur .item-icon, #pt-main.blur .item-title, #pt-main.blur .item-desc {	
 	cursor: default !important;
+}
+
+
+@media (max-width: 650px) {
+  .brand {
+  	display: none;
+  }
+  .brand:before {
+  	content: '<img src="icon.png" height="40px" class="brand-icon">';
+  }
 }

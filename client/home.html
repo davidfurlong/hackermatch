@@ -41,25 +41,6 @@
 			<div id="pt-main" class="pt-perspective">
 				<div class="pt-page pt-page-1">
                     <div class="page-container">
-                        <!--
-						<div class="row label">
-							HEARTED
-						</div>
-						<div>
-							<ul class="row item">
-								<li class="item-action">
-									<i class="ion-heart btn btn-7 btn-7f btn-icon-only icon-star"></i>
-								</li>
-								<li class="item-icon">
-									<img src="zac.png" width="64px" height="64px" style="border-radius:50px">
-								</li>
-								<li class="item-text">
-									<span class="item-title">David Furlong</span>
-									<span class="item-desc">I like graphs yo</span>
-								</li>
-							</ul>
-                        </div>
-                        -->
 						<div class="row label">
 							PROJECTS THAT NEED YOUR SKILLS
 						</div>
@@ -154,12 +135,7 @@
 				});
 
 				$('body').on( 'click', '.btn-7f', activate);
-				$('.pt-page').height($(window).height()-200);
-				$('#pt-main').height($(window).height()-200);
 
-				$('.messages').height($('.pt-page-2').height());
-
-				
 			});
 			function activate(e) {
 				var self = e.currentTarget, activatedClass = 'btn-activated';
@@ -174,35 +150,35 @@
 		
         </template>
         <template name="update_user_1">
-						<input id="logout" type="submit" value="Log Out">
-						<form id="update-user-form" action="action" class="settings-form">
-							<h1>My Settings</h1>
-							<div>
-								<label>Name</label>
-                                <input id="user_name" type="text" value="{{name}}">
-							</div>
-							<div>
-								<label>Contact</label>
-                                <input id="user_contact" type="text" value="{{contact}}">
-							</div>
-							<div>
-								<label>Skills</label>
-								<ul id="user_skills" class="ac-custom ac-checkbox ac-cross fs-anim-lower">
-									<li><input id="cb1" name="cb1" type="checkbox"><label for="cb1">Frontend</label></li>
-									<li><input id="cb2" name="cb2" type="checkbox"><label for="cb2">Designer</label></li>
-									<li><input id="cb3" name="cb3" type="checkbox"><label for="cb3">Backend</label></li>
-									<li><input id="cb4" name="cb4" type="checkbox"><label for="cb4">Mobile</label></li>
-									<li><input id="cb5" name="cb5" type="checkbox"><label for="cb5">Hardware</label></li>
-								</ul>
-							</div>
-							<div>
-								<label>Github username</label>
-                                <input id="user_github" type="text" value="{{github}}">
-							</div>
-							<div>
-								<input type="submit" value="Save Changes">
-							</div>
-                        </form>
+            <input id="logout" type="submit" value="Log Out">
+            <form id="update-user-form" action="action" class="settings-form">
+                <h1>My Settings</h1>
+                <div>
+                    <label>Name</label>
+                    <input id="user_name" type="text" value="{{name}}">
+                </div>
+                <div>
+                    <label>Contact</label>
+                    <input id="user_contact" type="text" value="{{contact}}">
+                </div>
+                <div>
+                    <label>Skills</label>
+                    <ul id="user_skills" class="ac-custom ac-checkbox ac-cross fs-anim-lower">
+                        <li><input id="cb1" name="cb1" type="checkbox"><label for="cb1">Frontend</label></li>
+                        <li><input id="cb2" name="cb2" type="checkbox"><label for="cb2">Designer</label></li>
+                        <li><input id="cb3" name="cb3" type="checkbox"><label for="cb3">Backend</label></li>
+                        <li><input id="cb4" name="cb4" type="checkbox"><label for="cb4">Mobile</label></li>
+                        <li><input id="cb5" name="cb5" type="checkbox"><label for="cb5">Hardware</label></li>
+                    </ul>
+                </div>
+                <div>
+                    <label>Github username</label>
+                    <input id="user_github" type="text" value="{{github}}">
+                </div>
+                <div>
+                    <input type="submit" value="Save Changes">
+                </div>
+            </form>
         </template>
         
 <template name="potentialTeams_1">
@@ -299,8 +275,8 @@
             {{#each idea.commentThread}}    
                 {{> comment_template }}
             {{/each}}
-		</div>
-    </div>
+	    </div>
+	</div>
 </div>
 </template>
 <template name="comment_template_1">

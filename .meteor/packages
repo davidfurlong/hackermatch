@@ -12,5 +12,6 @@ accounts-base
 accounts-password
 accounts-github
 service-configuration
+react
 roles
 npm

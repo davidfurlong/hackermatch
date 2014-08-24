@@ -1,0 +1,217 @@
+
+.profile {
+    background: #dfd;
+}
+
+.loading-profile {
+    background: #fff;
+}
+
+.pt-triggers {
+	background: #3b3f45;
+}
+
+#profile {
+	color: #222;
+	margin: 0;
+	clear: both;
+	padding: 15px;
+	font-family: 'Raleway', sans-serif;
+	-webkit-font-smoothing: antialiased;
+}
+
+.collaborator {
+	padding: 5px 0;
+}
+
+.mini-avatar {
+	margin-right: 5px;
+	height: 30px;
+	width: 30px;
+	border-radius:40px;
+	margin-bottom: -10px;
+}
+
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.cf {
+    *zoom: 1;
+}
+
+#profile a:hover {
+	color: #444;
+}
+
+.badge.t1, .badge.mobile {
+	background: #fd6a62;
+}
+
+.badge.t2, .badge.hardware {
+	background: #7bb7fa;
+}
+
+.badge.t3, .badge.backend {
+	background: #60d7a9;
+}
+
+.badge.t4, .badge.design {
+	background: #fdc162;
+}
+
+.badge.t5, .badge.webdev {
+	background: #f68dbb;
+}
+
+.full-width {
+	width: 500px;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+#row1 {
+
+}
+
+.title {
+	background: black;
+	display: block;
+	box-sizing: border-box;
+}
+
+
+
+.title a {
+	color: white;
+
+}
+
+.title a:hover {
+	color: white;
+}
+
+.feature-row {
+	position: absolute;
+	top: 300px;	
+}
+
+
+
+	/* ROW 1 */
+
+	#picture {
+		height: 200px;
+		width: 200px;
+		overflow: hidden;
+		float: left;
+	}
+
+	#details {
+		width: auto;
+		max-width: 500px;
+		height: 200px;
+		float: left;
+		margin: 0 15px;
+		padding: 0 15px;
+		color: #555;
+	}
+	#name {
+			color: #222;
+			margin-top: -3px;
+			margin-left: -3px;
+			font-size: 30pt;
+			text-transform: uppercase;
+			font-weight: 900;
+		}
+
+		#contact {
+			font-size: 16pt;
+		}
+
+		#details i {
+			width: 20px;
+		}
+
+	#interests {
+		width: auto;
+		max-width: 350px;
+		height: 200px;
+		margin-top: 43px;
+		float: left;
+		color: #555;	
+	}
+
+	#interests ul {
+			font-size: 20pt;
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			width: 100%;
+		}
+
+	#graph {
+		float: right;
+		height: 400px;
+		width: 500px; 
+		position: absolute;
+		top: 100px;
+		right: 50px;
+	}
+	#graph.full-width {
+		width: 700px;
+		height: 200px;
+	}
+
+.fa-star {
+	color: gold;
+}
+
+.feature-row {
+	max-width: 100%;
+}
+	.feature {
+		height: 100%;
+		width: 23%;
+		min-width: 300px;
+		padding: 5px;
+		float: left;
+	}
+		.feature-title {
+			font-weight: 700;
+		}
+		.feature-body {
+			font-size: 16pt;
+		}
+		.feature-link {
+			font-size: 18px;
+			margin-left: 5px;
+		}
+		.feature-tech {
+			font-size: 16pt;
+			color: #999;
+		}
+
+	.feature-image {
+		height: 100%;
+		overflow: hidden;
+		
+	}
+
+	.feature-image img {
+			height: 100%;
+			width: auto;
+			max-width: 300px;
+		}
