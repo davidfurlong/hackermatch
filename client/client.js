@@ -83,6 +83,9 @@ Router.map(function() {
     });
     this.route('signup', {
         path: '/login', 
+        data: {
+            title: 'log in'
+        },
         onBeforeAction: function () {
             if (Meteor.user()) {
                 Router.go('home');
@@ -91,6 +94,9 @@ Router.map(function() {
     });
     this.route('signup', {
         path: '/signup', 
+        data: {
+            title: 'sign up'
+        },
         onBeforeAction: function () {
             if (Meteor.user()) {
                 Router.go('home');

@@ -337,6 +337,10 @@ a.link-border::before {
 	transform: scale(0.8333);
 }
 
+#register-form {
+    top: 10% !important;
+}
+
 #register-form .ac-custom label{
 	color: white;
 }
