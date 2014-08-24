@@ -3,9 +3,10 @@ Meteor.startup(function () {
 // code to run on server at startup
 //    Ideas.remove({});
     var User = Meteor.users.findOne({"services.github.username":"kainolophobia"});
+//    var User = Meteor.users.findOne({"services.github.username":"jumploops"});
     console.log(User);
 //    Meteor.users.remove({_id: "3QsrE6TsjakgjBuvP"});
-    if(User) {
+   if(User) {
 //        Meteor.users.remove({_id: User._id});
     } 
     var hackathons = Hackathons.remove({"title":"blah"});

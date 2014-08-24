@@ -127,7 +127,7 @@ Accounts.onCreateUser(function (options, user) {
             }
           }
           var contributors_url = "https://api.github.com/repos/"+temp['full_name']+"/contributors";
-          //console.log(contributors_url);
+          console.log(contributors_url);
           var contributors = Meteor.http.get(contributors_url, {
             headers: {
               'User-Agent':'davidfurlong'
@@ -142,7 +142,7 @@ Accounts.onCreateUser(function (options, user) {
           var totalcommits = 0;
           var mycommits = 0;
           var parsedContributors = JSON.parse(contributors.content);
-          //console.log(parsedContributors);
+          console.log(parsedContributors);
           if(parsedContributors instanceof Array){
             _.each(parsedContributors, function(contributor){
               if(contributor.login == profile.login){
@@ -181,32 +181,35 @@ Accounts.onCreateUser(function (options, user) {
       var user_id = user._id;
 
       var current_user = Meteor.users.findOne(user._id);
-      //console.log("user._id: " + user._id);
-      //console.log("current_user._id: " + current_user._id);
+      console.log("user._id: " + user._id);
+      console.log("current_user._id: " + current_user._id);
 
       //Should contain github info
-      //console.log("profile 1 : " );
-      //console.log(profile);
+      console.log("profile 1 : " );
+      console.log(profile);
 
       //should contain github info plus all skills/changed features since request started
       profile = current_user.profile;
       
-      //console.log("profile 2 : " );
-      //console.log(profile);
+      console.log("profile 2 : " );
+      console.log(profile);
 
       profile = _.extend(profile, {'repos': userRepositories});
 
-      //console.log("profile 3 : " );
-      //console.log(profile);
+      var d = new Date();
+      profile['updated_at'] = d.getTime();
+
+      console.log("profile 3 : " );
+      console.log(profile);
 //      user.profile = profile;
 
       Meteor.users.update({_id:user._id}, {$set:{"profile":profile}})
 
-      //console.log("ASYNC profile creation finished");
+      console.log("ASYNC profile creation finished");
   });
 
 
-//  console.log("User initial profile creation finished");
+  console.log("User initial profile creation finished");
 
   return user;
 });

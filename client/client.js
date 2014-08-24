@@ -18,6 +18,9 @@ Router.map(function() {
     });
     this.route('signupProfile', {
         path: '/signup-profile',
+        data: {
+            title: 'Sign up'
+        },
         onBeforeAction: function () {
             if (Meteor.user()){
                 Router.go('profile');
@@ -26,6 +29,32 @@ Router.map(function() {
     });
     this.route('profile', {
         path: '/profile',
+        data: function() { 
+            var user = Meteor.user(); 
+            if(user) {
+                user['title'] = 'profile';
+            }
+            return user;
+        },
+        onBeforeAction: function() {
+            if (!Meteor.user()){
+                if (Meteor.loggingIn()) {
+                }
+                else{
+                  Router.go('signup');
+                }
+            }
+        }
+    });
+    this.route('profile', {
+        path: '/user/:_username',
+        data: function() { 
+            var user = Meteor.users.findOne({'services.github.username': this.params._username}); 
+            if(user) {
+                user['title'] = user.services.github.username;
+            }
+            return user;
+        },
         onBeforeAction: function() {
             if (!Meteor.user()){
                 if (Meteor.loggingIn()) {
@@ -158,9 +187,9 @@ Template.ideaRow.events({
 
 //Used to check whether profile is done loading yet
 Template.profile.helpers( {
-    repos: function(){
-        if(Meteor.user() && Meteor.user().profile) {
-            return Meteor.user().profile.repos; 
+    has_github_profile: function(){
+        if(this.profile) {
+            return this.profile.updated_at; 
         }
     }
 });
@@ -168,48 +197,48 @@ Template.profile.helpers( {
 
 Template.profile_contents.helpers({
     name: function() {
-        if(Meteor.user() && Meteor.user().profile) {
-            return Meteor.user().profile.name; 
-        } 
+        if(this.profile) {
+            return this.profile.name;
+        }
     },
     contact: function() {
-        if(Meteor.user() && Meteor.user().profile) {
-            return Meteor.user().profile.contact; 
+        if(this.profile) {
+            return this.profile.contact;
         }
     },
     github: function() {
-        if(Meteor.user() && Meteor.user().profile) {
-            return Meteor.user().profile.login; 
+        if(this.profile) {
+            return this.profile.login;
         }
     },
     avatar_url: function(){
-        if(Meteor.user() && Meteor.user().profile) {
-            return Meteor.user().profile.avatar_url; 
+        if(this.profile) {
+            return this.profile.avatar_url;
         }
     },
     github_url: function(){
-        if(Meteor.user() && Meteor.user().profile) {
-            return Meteor.user().profile.html_url; 
+        if(this.profile) {
+            return this.profile.html_url;
         }
     },
     location: function(){
-        if(Meteor.user() && Meteor.user().profile) {
-            return Meteor.user().profile.location; 
+        if(this.profile) {
+            return this.profile.location;
         }
     },
     bio: function(){
-        if(Meteor.user() && Meteor.user().profile) {
-            return Meteor.user().profile.bio; 
+        if(this.profile) {
+            return this.profile.bio;
         }
     },
     skills: function(){
-        if(Meteor.user() && Meteor.user().profile) {
-            return Meteor.user().profile.skills; 
+        if(this.profile) {
+            return this.profile.skills;
         }
     },
     featured: function(){
-        if(Meteor.user() && Meteor.user().profile){
-            var repos = Meteor.user().profile.repos;
+        if(this.profile) {
+            var repos = this.profile.repos;
             function sortfunction(a, b){
                 if(a.stargazers_count == b.stargazers_count)
                     return b.commits.length - a.commits.length
@@ -217,10 +246,11 @@ Template.profile_contents.helpers({
                     return b.stargazers_count - a.stargazers_count
             }
             repos.sort(sortfunction);
+            var self = this;
             repos = repos.filter(function(repo){
                 var contributor = false;
                 for(var i = 0; i < repo.collaborators.length; i++){
-                    if(repo.collaborators[i].f_login == Meteor.user().profile.login)
+                    if(repo.collaborators[i].f_login == self.profile.login)
                         contributor = true;
                 }
                 return (repo.contributions != 0 && contributor)
@@ -229,17 +259,17 @@ Template.profile_contents.helpers({
         }
     },
     collaborators: function(){
-        if(Meteor.user() && Meteor.user().profile){
-            var repos = Meteor.user().profile.repos;
+        if(this.profile) {
+            var repos = this.profile.repos;
             var collaborators = {};
             for(var i = 0; i < repos.length; i++){
                 var hasAccess = false;
                 var temp = [];
                 var repo = repos[i];
                 for(var j = 0; j < repo.collaborators.length; j++){
-                    if(repo.contributions != 0 && repo.collaborators[j].f_login != Meteor.user().profile.login)
+                    if(repo.contributions != 0 && repo.collaborators[j].f_login != this.profile.login)
                         temp.push(repo.collaborators[j]);
-                    if(repo.collaborators[j].f_login == Meteor.user().profile.login)
+                    if(repo.collaborators[j].f_login == this.profile.login)
                         hasAccess = true;
                 }
                 if(hasAccess){
@@ -259,9 +289,9 @@ Template.profile_contents.helpers({
         return collaborators;
     },
     dateGraph: function(){
-        if(Meteor.user() && Meteor.user().profile){
+        if(this.profile) {
            console.log('rendered');
-            var repos = Meteor.user().profile.repos;
+            var repos = this.profile.repos;
 
             function contributedTo(repo){
                 return (repo.commits.length > 0)
@@ -304,8 +334,8 @@ Template.profile_contents.helpers({
         }
     },
     languages: function(){
-        if(Meteor.user() && Meteor.user().profile){
-            var repos = Meteor.user().profile.repos;
+        if(this.profile) {
+            var repos = this.profile.repos;
             var languages = {};
             for(var i=0;i<repos.length;i++){
                 var t = JSON.parse(repos[i].languages);
