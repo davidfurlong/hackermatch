@@ -3,6 +3,7 @@
     "modernizr-meteor": {},
     "iron-router": {},
     "react": {},
-    "roles": {}
+    "roles": {},
+    "npm": {}
   }
 }

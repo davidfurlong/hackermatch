@@ -1,3 +1,37 @@
+
+#admin-link {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    color: white;
+    font-size: 30px;
+}
+.admin-view {
+    height: 100%;
+    background: rgb(255, 132, 132);
+}
+.home-view {
+    height: 100%;
+    background: rgb(005, 182, 182);
+}
+.content-view {
+    height: 100%;
+    /* background: rgb(255, 132, 132); */
+    background: #222;
+}
+.view {
+    height: 100%;
+    padding: 20px;
+}
+
+.view label {
+    font-size: 24px;
+}
+
+.view p {
+    font-size: 20px;
+}
+
 /* Main form wrapper */
 
 @font-face {
@@ -153,16 +187,16 @@
 	text-align: right;
 }
 
-form.settings-form {
+.settings-form {
 	width: 600px;
 	margin: 0 auto;
 }
 
-form.settings-form > div {
+.settings-form > div {
 	margin: 10px 0;
 }
 
-form.settings-form label {
+.settings-form label {
 	line-height: 50px;
 }
 
@@ -178,7 +212,7 @@ form.settings-form label {
     background: transparent;
 }
 
-form.settings-form input {
+.settings-form input {
 	float: right;
 	padding: 10px 20px;
 	background: transparent;
@@ -187,7 +221,7 @@ form.settings-form input {
 	border-bottom: 1px dashed white;
 }
 
-form.settings-form input[type="submit"] {
+.settings-form input[type="submit"] {
 	color: white;
 	font-weight: 700;
 }
@@ -1726,6 +1760,11 @@ input[type=text]::-ms-clear {
 	width: 100%;
 	margin: 0;
 
+}
+
+#comment-create {
+	display: inline-flex;
+	width: 100%;
 }
 
 .comment-author {

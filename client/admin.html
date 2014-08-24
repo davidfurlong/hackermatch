@@ -1,0 +1,76 @@
+
+<template name="admin_old">
+    <div class="container">
+        <div class="title-bar">
+            <div>
+                <div class="title-norm">
+                    <h1><a class="brand" href="/home" id="my-group"><img src="icon.png" height="40px" class="brand-icon"/>hacker<span style="font-size:36pt;line-height:0px;">.</span>dating / </a><a class="brand" href="" id="my-group">admin</a></h1>
+                </div>
+                <div id="logout" ><a href="/admin">admin</a></div>
+            </div>
+        </div>	
+        <div class="content-view">
+                {{> admin_view}}
+        </div>
+    </div><!-- /container -->
+</template>
+<template name="admin">
+<div class="view admin-view">
+    <div class="settings-form">
+        <h1>admin settings</h1>
+        <div>
+            <label>Hackathons</label>
+            {{> hackathonList }}
+        </div>
+        <form action="action" id="create_hackathon">
+            <label>New hackathon</label>
+            <input id="add_hackathon_button" type="submit" value="Add">
+            <input id="new_hackathon_name" autocomplete="off" type="text" value="{{hackathon_name}}">
+        </form>
+        <!-- 
+        <div>
+            <input type="submit" value="Save Changes">
+        </div>
+        -->
+    </div>
+</div>
+</template>
+
+<template name="hackathonList">
+    {{#each hackathons}}
+        {{> hackathonRow }}
+    {{/each}}
+</template>
+
+<template name="hackathonRow">
+    <p><a href="/{{url_title}}">{{title}}</a></p>
+</template>
+
+
+<template name="home">
+<div class="view home-view">
+    <div class="settings-form">
+        <div>
+            <label>your hackathons</label>
+            {{> myHackathonList }}
+        </div>
+        <form action="action" id="create_hackathon">
+            <label>join hackathon</label>
+            <input id="add_hackathon_button" type="submit" value="Submit">
+            <input id="new_hackathon_name" autocomplete="off" type="text" placeholder="code">
+        </form>
+    </div>
+</div>
+</template>
+
+<template name="myHackathonList">
+    {{#each hackathons}}
+        {{> hackathonRow }}
+    {{/each}}
+</template>
+
+
+
+
+
+    

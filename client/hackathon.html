@@ -1,0 +1,329 @@
+<template name="hackathon_nav">
+<div class="pt-triggers">
+<ul class="top-right-menu hi-icon-wrap hi-icon-effect-1 hi-icon-effect-1b">
+    <li>
+        <i class="ion-plus-round hi-icon" id="new-idea"></i>
+    </li>
+    <li>
+        <i class="ion-chatbubble hi-icon" id="my-msgs"></i>
+    </li>
+    <li>
+        <i class="ion-person hi-icon" id="my-profile"></i>
+    </li>
+</ul>
+</div>
+</template>
+
+<template name="hackathon">
+    {{> sidebar}}
+    <div id="pt-main" class="pt-perspective">
+        <div class="pt-page pt-page-1">
+            <div class="page-container">
+                <!--
+                <div class="row label">
+                    HEARTED
+                </div>
+                <div>
+                    <ul class="row item">
+                        <li class="item-action">
+                            <i class="ion-heart btn btn-7 btn-7f btn-icon-only icon-star"></i>
+                        </li>
+                        <li class="item-icon">
+                            <img src="zac.png" width="64px" height="64px" style="border-radius:50px">
+                        </li>
+                        <li class="item-text">
+                            <span class="item-title">David Furlong</span>
+                            <span class="item-desc">I like graphs yo</span>
+                        </li>
+                    </ul>
+                </div>
+                -->
+                {{#if isInRole 'hacker' url_title}}
+                    {{> showHackathons}}
+                {{else}}
+                    <div class="row label">
+                        You have not joined this hackathon
+                    </div>
+                {{/if}}
+            </div>
+        </div>
+        <div class="pt-page pt-page-2">
+            <div class="messages">					
+                <ul class="messages-threads">
+                    <li id="new-conversation">
+                        + New Conversation
+                    </li>
+                    <li class="selected convo">David Furlong</li>
+                </ul>
+                <div class="messages-content">
+                    <input type="text" class="message-input" placeholder="type message">
+                    <div class="to">Hey its Me</div>
+                    <div class="from">Yo dude</div>
+                </div>
+            </div>
+        </div>
+        <div class="pt-page pt-page-3">
+            {{> idea_create_template }}
+        </div>
+        <div class="pt-page pt-page-4">
+            {{> update_user}}
+        </div>
+    </div>
+    <script src="js/classie.js"></script>
+    <script src="js/selectFx.js"></script>
+    <!--		<script src="js/fullscreenForm.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="js/jquery.dlmenu.js"></script>
+    <script src="js/pagetransitions.js"></script>
+    <script src="js/svgcheckbx.js"></script>
+    <!--        <script src="js/custom.js"></script> -->
+    <!-- inline.js below includes the above scripts without jQuery -->
+    <script>
+        /*
+        $.getScript("js/inline.js", function(data, textStatus, jqxhr) {
+            (function() {
+                var formWrap = document.getElementById( 'fs-form-wrap-idea' );
+
+                [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {	
+                    new SelectFx( el, {
+                        stickyPlaceholder: false,
+                        onChange: function(val){
+                            document.querySelector('span.cs-placeholder').style.backgroundColor = val;
+                        }
+                    });
+                } );
+
+                window.FForm2 = new FForm( formWrap, {
+                    onReview : function() {
+                        classie.add( document.body, 'overview' ); // for demo purposes only
+                    }
+                } );
+            })();
+        });
+        */
+        $(document).ready(function(){
+            $('body').on('click', '.messages-threads .convo', function(){
+                // swap to that message thread.
+            })
+            $('#new-conversation').click(function(){
+                var person = prompt('Who do you want to Message', 'Dave');
+                if(person != null){
+                    // Create new conversation thread to X.
+                }
+            });
+
+            $('body').on('keydown', '.message-input', function(e){
+                if(e.keyCode == 13){
+                    console.log('submit message');
+                    $(e.currentTarget).val('');
+                }
+            });
+
+            $('body').on( 'click', '.btn-7f', activate);
+            $('.pt-page').height($(window).height()-200);
+            $('#pt-main').height($(window).height()-200);
+
+            $('.messages').height($('.pt-page-2').height());
+
+            
+        });
+        function activate(e) {
+            var self = e.currentTarget, activatedClass = 'btn-activated';
+            if( !classie.has( this, activatedClass ) ) {
+                classie.add( this, activatedClass );
+            }
+            else {
+                classie.remove(self, activatedClass);
+            }
+        }
+    </script>
+</template>
+
+    <template name="update_user">
+                    <input id="logout" type="submit" value="Log Out">
+                    <form id="update-user-form" action="action" class="settings-form">
+                        <h1>My Settings</h1>
+                        <div>
+                            <label>Name</label>
+                            <input id="user_name" type="text" value="{{name}}">
+                        </div>
+                        <div>
+                            <label>Contact</label>
+                            <input id="user_contact" type="text" value="{{contact}}">
+                        </div>
+                        <div>
+                            <label>Skills</label>
+                            <ul id="user_skills" class="ac-custom ac-checkbox ac-cross fs-anim-lower">
+                                <li><input id="cb1" name="cb1" type="checkbox"><label for="cb1">Frontend</label></li>
+                                <li><input id="cb2" name="cb2" type="checkbox"><label for="cb2">Designer</label></li>
+                                <li><input id="cb3" name="cb3" type="checkbox"><label for="cb3">Backend</label></li>
+                                <li><input id="cb4" name="cb4" type="checkbox"><label for="cb4">Mobile</label></li>
+                                <li><input id="cb5" name="cb5" type="checkbox"><label for="cb5">Hardware</label></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <label>Github username</label>
+                            <input id="user_github" type="text" value="{{github}}">
+                        </div>
+                        <div>
+                            <input type="submit" value="Save Changes">
+                        </div>
+                    </form>
+    </template>
+        
+<template name="potentialTeams">
+    {{#each ideas}}    
+        {{> ideaRow }}
+    {{/each}}
+</template>
+
+<template name="yourIdeaList">
+    {{#each ideas}}    
+        {{> ideaRow }}
+    {{/each}}
+</template>
+
+<template name="ideaList">
+    {{#each ideas}}    
+        {{> ideaRow }}
+    {{/each}}
+</template>
+
+<template name="ideaRow">
+    <ul data-id="{{_id}}" class="row item idea-list">
+        <li class="item-action">
+            <i class="ion-heart btn btn-7 btn-7f btn-icon-only icon-star"></i>
+            </li>
+            <li class="item-icon">
+            {{#if avatar_url}}
+            <img src="{{avatar_url}}" width="64px" height="64px" style="border-radius:50px">
+            {{else}}
+            <img src="monkey.png" width="64px" height="64px" style="border-radius:50px">
+            {{/if}}
+        </li>
+        <li class="item-text">
+        	<span class="item-title">{{name}}</span>
+        	<span class="item-desc">{{description}}</span>
+        	<br/>
+            <span class="item-skills">
+                <span class="skill_tag">Looking for:</span>
+        	    {{#if skills.webdev}}
+        	    <span class="badge t1">Frontend</span>
+        	    {{/if}}
+        	    {{#if skills.design}}
+        	    <span class="badge t2">Design</span>
+        	    {{/if}}
+        	    {{#if skills.backend}}
+        	    <span class="badge t3">Backend</span>
+        	    {{/if}}
+        	    {{#if skills.hardware}}
+        	    <span class="badge t4">Hardware</span>
+        	    {{/if}}
+        	    {{#if skills.mobile}}
+        	    <span class="badge t5">Mobile</span>
+        	    {{/if}}
+        	</span>
+        </li>
+    </ul>
+</template>
+
+<template name="sidebar">
+<div class="sidebar" style="{{#if opened}}{{else}}display:none;{{/if}}" >
+    <div class="sidebar-item-title"><h1>{{idea.name}}</h1></div>
+    <div class="sidebar-item-author">posted by {{idea.author.profile.name}}</div>
+    <div class="sidebar-item-desc">{{idea.description}}</div>
+    <div class="sidebar-item-skills">
+            <span class="sidebar-prompt">looking for</span>
+            {{#if idea.skills.webdev}}
+            <span class="badge t1">Frontend</span>
+            {{/if}}
+            {{#if idea.skills.design}}
+            <span class="badge t2">Design</span>
+            {{/if}}
+            {{#if idea.skills.backend}}
+            <span class="badge t3">Backend</span>
+            {{/if}}
+            {{#if idea.skills.hardware}}
+            <span class="badge t4">Hardware</span>
+            {{/if}}
+            {{#if idea.skills.mobile}}
+            <span class="badge t5">Mobile</span>
+            {{/if}}
+	</div>
+	
+    <div class="sidebar-item-contact">
+    {{#if idea.author.profile.contact}}
+    	contact {{idea.author.profile.contact}}
+    {{/if}}
+    </div> 
+    <div class="sidebar-item-comments">
+	    <form id="comment-create" action="action" autocomplete="off">
+            <input id="comment-text" type="text" placeholder="Discuss here">
+		    <input type="submit" value="Comment">
+        </form>
+        <div class="sidebar-item-comments-thread">
+            {{#each idea.commentThread}}    
+                {{> comment_template }}
+            {{/each}}
+		</div>
+    </div>
+</div>
+</template>
+<template name="comment_template">
+	<div class="comment">
+        <span class="comment-author">{{username}}</span>
+        <!--        <span class="comment-skill"><span class="badge t1">W</span></span> -->
+        <span class="comment-content">{{text}}</span>
+	</div>
+</template>
+
+
+<template name="idea_create_template">
+<div class="fs-form-wrap idea" id="fs-form-wrap-idea">
+    <form id="idea-create" action="action" class="fs-form idea fs-form-full" autocomplete="off">
+        <ol class="fs-fields">
+            <li>
+                <label class="fs-field-label fs-anim-upper" for="q1">What's your idea?</label>
+                <textarea class="fs-anim-lower" id="q1" name="q1" placeholder="Describe here"></textarea>
+            </li>
+            <li>
+                <label class="fs-field-label fs-anim-upper" for="q2">What's it called?</label>
+                <input class="fs-anim-lower" id="q2" name="q2" type="text" placeholder="(optional)"/>
+            </li>
+            <li data-input-trigger>
+                <label class="fs-field-label fs-anim-upper" for="q3">Who else do you need on your team?</label>
+                <ul class="ac-custom ac-checkbox ac-cross fs-anim-lower">
+                    <li><input id="cb1" name="cb1" type="checkbox"><label for="cb1">Frontend</label></li>
+                    <li><input id="cb2" name="cb2" type="checkbox"><label for="cb2">Designer</label></li>
+                    <li><input id="cb3" name="cb3" type="checkbox"><label for="cb3">Backend</label></li>
+                    <li><input id="cb4" name="cb4" type="checkbox"><label for="cb4">Mobile</label></li>
+                    <li><input id="cb5" name="cb5" type="checkbox"><label for="cb5">Hardware</label></li>
+                </ul>
+            </li>
+        </ol><!-- /fs-fields -->
+        <button class="fs-submit" type="submit">Add idea</button>
+    </form><!-- /fs-form -->
+</div><!-- /fs-form-wrap -->
+</template>
+
+<template name="showHackathons">
+    <div class="row label">
+        PROJECTS THAT NEED YOUR SKILLS
+    </div>
+    <div>
+        {{> potentialTeams}}
+    </div>
+    <div class="row label">
+        YOUR IDEAS
+    </div>
+    <div>
+        {{> yourIdeaList}}
+    </div>
+    <div class="row label">
+        ALL
+    </div>
+    <div>
+        {{> ideaList}}
+    </div>
+</template>
+
