@@ -1,19 +1,4 @@
 
-<template name="admin_old">
-    <div class="container">
-        <div class="title-bar">
-            <div>
-                <div class="title-norm">
-                    <h1><a class="brand" href="/home" id="my-group"><img src="icon.png" height="40px" class="brand-icon"/>hacker<span style="font-size:36pt;line-height:0px;">.</span>dating / </a><a class="brand" href="" id="my-group">admin</a></h1>
-                </div>
-                <div id="logout" ><a href="/admin">admin</a></div>
-            </div>
-        </div>	
-        <div class="content-view">
-                {{> admin_view}}
-        </div>
-    </div><!-- /container -->
-</template>
 <template name="admin">
 {{#if isInRole 'admin' 'all'}}
 <div class="view admin-view">
@@ -48,37 +33,6 @@
     <p><a href="/{{url_title}}">{{title}}</a></p>
     <p>Invite code: {{invite_code}}</p>
 </template>
-
-
-<template name="hackathonRow">
-    <p><a href="/{{url_title}}">{{title}}</a></p>
-</template>
-
-
-<template name="home">
-<div class="view home-view">
-    <div class="settings-form">
-        <div>
-            <label>your hackathons</label>
-            {{> myHackathonList }}
-        </div>
-        <form action="action" id="join_hackathon">
-            <label>join hackathon</label>
-            <input id="add_hackathon_button" type="submit" value="Submit">
-            <input id="join_hackathon_code" autocomplete="off" type="text" placeholder="code">
-        </form>
-    </div>
-</div>
-</template>
-
-<template name="myHackathonList">
-    {{#each hackathons}}
-        {{> hackathonRow }}
-    {{/each}}
-</template>
-
-
-
 
 
     
