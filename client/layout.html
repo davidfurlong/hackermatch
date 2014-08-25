@@ -1,15 +1,14 @@
 <template name="layout">
     <div class="container">
-        <div class="title-bar">
-            <div>
-                <div class="title-norm">
-                    <h1><a class="brand" href="/home" id="home-link"><img src="/icon.png" height="40px" class="brand-icon"/>hacker<span style="font-size:36pt;line-height:0px;">.</span>dating / </a><a class="brand" href="" id="my-group">{{title}}</a></h1>
-                    {{> yield region='nav'}}
-                {{#if isInRole 'admin' 'all'}}
-                <div id="admin-link" ><a href="/admin">admin</a></div>
-                {{/if}}
-                </div>
+        <div id="title-bar">
+            <div id="brand">
+                <a href="/home" id="home-link"><img src="name.png"></a>
+                <a href="" id="my-group">{{title}}</a>
             </div>
+            {{> yield region='nav'}}
+            {{#if isInRole 'admin' 'all'}}
+            <div id="admin-link" ><a href="/admin">admin</a></div>
+            {{/if}}
         </div>	
         <div class="content-view">
             {{> yield}}

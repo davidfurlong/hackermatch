@@ -17,8 +17,6 @@ Meteor.startup(function () {
         Roles.addUsersToRoles(user._id, ['hacker', 'organizer'], 'mhacks')
     }
 });
- 
-
 
 Accounts.onCreateUser(function (options, user) {
   var accessToken = user.services.github.accessToken,

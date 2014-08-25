@@ -245,15 +245,6 @@
     float: right;
 }
 
-a.brand {
-	color: white;
-}
-
-.brand-icon {
-	position: relative;
-	top: 8px;
-	padding-right: 10px;
-}
 
 .row.item .item-action {
 	padding: 0;

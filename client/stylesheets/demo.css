@@ -14,7 +14,7 @@
 .clearfix:before, .clearfix:after { content: ''; display: table; }
 .clearfix:after { clear: both; }
 
-html, body, .container {
+html, body {
 	height: 100%;
 }
 
