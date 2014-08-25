@@ -29,9 +29,12 @@ create_hackathon = function(title) {
 
     var url_title = encodeURI(title.toLowerCase().replace(/ /g, ''));
 
+    var hash = ((Math.floor(Math.random() * 1e8) + new Date().getMilliseconds()).toString(36)).toUpperCase();
+
     var hackathon = {
         title: title,
-        url_title: url_title
+        url_title: url_title,
+        invite_code: hash
 /*
         description: description,
         userId: Meteor.userId(),

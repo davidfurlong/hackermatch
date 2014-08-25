@@ -663,6 +663,24 @@ Template.myHackathonList.helpers({
 */
 
 
+Template.home.events({
+    'submit #join_hackathon' : function(e, t) {
+        e.preventDefault();
+
+        var invite_code = t.find("#join_hackathon_code").value;
+
+        t.$("#join_hackathon_code").val("");
+
+        Meteor.call('join_hackathon', invite_code, function(err, res) {
+            
+            if(res) {
+                Router.go('hackathon', {_title: res});
+            }    
+        });
+    }
+});
+
+
 Template.admin.events({
     'submit #create_hackathon' : function(e, t) {
         e.preventDefault();
