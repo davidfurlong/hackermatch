@@ -23,3 +23,72 @@ Meteor.startup(function () {
     }
 });
 
+Meteor.publish("user", function (username) {
+
+    return Meteor.users.find({'services.github.username': username}); 
+});
+
+//Very inefficient function that finds hackathon by title, then uses 
+// the id of the returned hackathon to "publish" the cursor of that 
+// same hackathon. Should probably get cursor first, then return it 
+// after fetching id.
+Meteor.publish("hackathon_and_ideas", function (hackathon_title) {
+    
+    var url_title = encodeURI(hackathon_title.toLowerCase().replace(/ /g, ''));
+    var hackathon = Hackathons.findOne({url_title: url_title});
+    
+    var hackathon_id = null;
+    if(hackathon) {
+        hackathon_id = hackathon._id; 
+    }
+
+    if (Roles.userIsInRole(this.userId, ['hacker', 'organizer', 'admin'], url_title)) {
+        return [
+            Hackathons.find({_id: hackathon_id}),
+            Ideas.find({hackathon_id: hackathon_id})
+        ];
+    } else {
+        // user not authorized. do not publish secrets
+        this.stop();
+        return;
+    }
+});
+
+
+// server: publish the set of parties the logged-in user can see.
+Meteor.publish("hackathons", function () {
+    if (Roles.userIsInRole(this.userId, ['admin'], 'all')) {
+
+        return Hackathons.find({});
+
+    } else {
+        // user not authorized. do not publish secrets
+        this.stop();
+        return;
+    }
+});
+
+// server: publish the set of parties the logged-in user can see.
+Meteor.publish("myHackathons", function () {
+    var user = Meteor.users.findOne({_id: this.userId});
+    console.log(user);
+    if(!user) return;
+    var hackathonList = [];
+    _.each(user.roles, function(role, hackathon) {
+        var entry = {};
+        if(role == "admin") {
+            console.log("admin role found");
+        }
+        console.log(role);
+        console.log(hackathon);
+        entry['url_title'] = hackathon;
+        hackathonList.push(entry);
+    });
+    console.dir(hackathonList);
+    return Hackathons.find({$or: hackathonList});
+    //return Hackathons.find({$or: hackathonList}).fetch();
+});
+
+
+
+
