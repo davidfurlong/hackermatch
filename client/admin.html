@@ -5,7 +5,6 @@
     <div class="settings-form">
         <h1>admin settings</h1>
         <div>
-            <label>Hackathons</label>
             {{> adminHackathonList }}
         </div>
         <form action="action" id="create_hackathon">
@@ -24,14 +23,24 @@
 </template>
 
 <template name="adminHackathonList">
+<table> 
+    <thead>
+        <tr>
+            <td><label>hackathons</label></td>
+            <td>invite code</td>
+        </tr>
+    </thead>
     {{#each hackathons}}
         {{> adminHackathonRow }}
     {{/each}}
+</table> 
 </template>
 
 <template name="adminHackathonRow">
-    <p><a href="/{{url_title}}">{{title}}</a></p>
-    <p>Invite code: {{invite_code}}</p>
+<tr>
+    <td style='width: 300px'><p><a href="/{{url_title}}">{{title}}</a></p></td>
+    <td><p class='invite-code'>{{invite_code}}</p></td>
+</tr>
 </template>
 
 

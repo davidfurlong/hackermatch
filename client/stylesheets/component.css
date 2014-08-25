@@ -1,4 +1,14 @@
 
+
+.invite-code::-moz-selection { /* Code for Firefox */
+    color: white;
+    background: black;
+}
+.invite-code::selection {
+    color: white;
+    background: black;
+}
+
 #admin-link {
     position: absolute;
     top: 0px;

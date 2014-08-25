@@ -29,7 +29,7 @@ create_hackathon = function(title) {
 
     var url_title = encodeURI(title.toLowerCase().replace(/ /g, ''));
 
-    var hash = ((Math.floor(Math.random() * 1e8) + new Date().getMilliseconds()).toString(36)).toUpperCase();
+    var hash = ((Math.floor(Math.random() * 1e8) + new Date().getMilliseconds()).toString(36)).toUpperCase().substring(0,5);
 
     var hackathon = {
         title: title,
