@@ -15,6 +15,7 @@
     </div><!-- /container -->
 </template>
 <template name="admin">
+{{#if isInRole 'admin' 'all'}}
 <div class="view admin-view">
     <div class="settings-form">
         <h1>admin settings</h1>
@@ -34,6 +35,7 @@
         -->
     </div>
 </div>
+{{/if}}
 </template>
 
 <template name="hackathonList">

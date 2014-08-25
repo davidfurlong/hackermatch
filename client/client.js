@@ -55,6 +55,7 @@ Router.map(function() {
             }
             return user;
         },
+        waitOn: function() { return Meteor.subscribe('user', this.params._username)},
         onBeforeAction: function() {
             if (!Meteor.user()){
                 if (Meteor.loggingIn()) {
@@ -67,9 +68,13 @@ Router.map(function() {
     });
     this.route('home', {
         path: '/home',
-        data: {
-            title: 'home'
+        data: function() {
+            var x = {};
+            x.title = 'home';
+            x.hackathons = Hackathons.find({}).fetch();
+            return x;
         },
+        waitOn: function() { return Meteor.subscribe('myHackathons', this.userId)},
         onBeforeAction: function () {
             Session.set("current_hackathon", "");
             if (!Meteor.user()) {
@@ -104,27 +109,36 @@ Router.map(function() {
         }
     });
     this.route('admin', {path: '/admin', 
-        data: {
-            title: 'admin'
-        }
-        /*
+        data: function() {
+            var obj = {
+                title: 'admin',
+                hackathons: Hackathons.find({}).fetch()
+            };
+            return obj;
+        },
+        waitOn: function() { return Meteor.subscribe('hackathons', this.userId)},
         onBeforeAction: function () {
+            Session.set("current_hackathon", "");
             if (!Meteor.user()) {
+              if (Meteor.loggingIn()) {
+              }
+              else{
                 Router.go('signup');
+              }
             }
         }
-        */
     });
     this.route('hackathon', {path: '/:_title' , 
         data: function() {
-            url_title = encodeURI(this.params._title.toLowerCase().replace(/ /g, ''));
-            hackathon = Hackathons.findOne({url_title: url_title});
+            var url_title = encodeURI(this.params._title.toLowerCase().replace(/ /g, ''));
+            var hackathon = Hackathons.findOne({url_title: url_title});
             if(hackathon) {
                 console.log(hackathon);
                 Session.set("current_hackathon", hackathon._id);
             }
             return hackathon;
         },
+        waitOn: function() { return Meteor.subscribe('hackathon_and_ideas', this.params._title)},
         yieldTemplates: {
           'hackathon_nav': {to: 'nav'}
         },
@@ -617,13 +631,15 @@ Template.hackathon.events({
     }
 });
 
+/*
 Template.hackathonList.helpers({
   hackathons: function() {
         var x = Hackathons.find({}).fetch();
         return x;
   }
 });
-
+*/
+/*
 Template.myHackathonList.helpers({
   hackathons: function() {
         var user = Meteor.user();
@@ -644,7 +660,7 @@ Template.myHackathonList.helpers({
         return x;
   }
 });
-
+*/
 
 
 Template.admin.events({
@@ -658,6 +674,7 @@ Template.admin.events({
         create_hackathon(title);
     }
 });
+
    
 Template.idea_create_template.events({
     'submit #idea-create' : function(e, t) {
