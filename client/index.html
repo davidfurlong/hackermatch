@@ -17,18 +17,17 @@
     </head> -->
 	<template name="index">
 		<div class="container">
-			<div class="pt-triggers">
-				<div>
-					<div class="fs-title-norm">
-						<h1><a class="brand" href="/"><img src="icon.png" height="40px" class="brand-icon"/>hacker<span style="font-size:36pt;line-height:0px;">.</span>dating</a></h1>
-					</div>
-					<ul class="top-right-menu hi-icon-wrap hi-icon-effect-1 hi-icon-effect-1b">
-						<li>
-							<a href="signup" class="signup-button">Join</a>
-						</li>
-					</ul>			
-				</div><!-- /fs-form-wrap -->
-			</div>
+			<div id="title-bar" class="cf">
+			    <div id="brand">
+			        <a href="/home" id="home-link">hackermatch</a>
+			        <a href="" id="my-group">{{title}}</a>
+			    </div>
+			    <ul class="top-right-menu hi-icon-wrap hi-icon-effect-1 hi-icon-effect-1b">
+			    	<li>
+			    		<a href="signup" class="signup-button">Join</a>
+			    	</li>
+			    </ul>	
+			</div>	
 			<center id="splash">
 				<h1>Find hackathon teammates.</h1>
 				<h2 style="color:#fd6a62">Discuss ideas and form teams naturally</h2>

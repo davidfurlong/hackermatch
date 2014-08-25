@@ -1,27 +1,72 @@
 /* NAV BAR */
 
 #title-bar {
-
 }
 
 #brand {
 	padding-left: 10px;
+	font-size: 24pt;
+	float: left;
 }
 
 #home-link {
-
+	color: white;
 }
 
-#my-group {
-
+.top-right-menu {
+	float:right;
 }
 
-
-#admin-link {
-
+.top-right-menu a {
+	font-size: 24pt;
+	margin-right: 30px;
+	cursor: pointer;
 }
 
+/* TOOLS */
+
+/* Clearfix */
+
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+.cf {
+    *zoom: 1;
+}
 
 /* ELEMENT STYLES */
+
+html, body {
+	height: 100%;
+}
+
+.container {
+	height: calc();
+}
+
+body {
+	background: #0b9664;
+	color: #fff;
+	font-weight: 400;
+	font-size: 1em;
+	font-family: 'Raleway', Arial, sans-serif;
+}
+
+a {
+	color: rgba(0,0,0,0.3);
+	text-decoration: none;
+	outline: none;
+}
+
+a:hover, a:focus {
+	color: rgba(0,0,0,0.5);
+}
 
 /* CONTENT ALL */

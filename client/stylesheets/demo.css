@@ -14,31 +14,6 @@
 .clearfix:before, .clearfix:after { content: ''; display: table; }
 .clearfix:after { clear: both; }
 
-html, body {
-	height: 100%;
-}
-
-body {
-    background: #3b3f45;
-	color: #fff;
-	font-weight: 400;
-	font-size: 1em;
-	font-family: 'Raleway', Arial, sans-serif;
-	overflow: hidden;
-	overflow-y: scroll;
-	min-height: 590px;
-}
-
-a {
-	color: rgba(0,0,0,0.3);
-	text-decoration: none;
-	outline: none;
-}
-
-a:hover, a:focus {
-	color: #fff;
-}
-
 /* Top Navigation Style */
 .codrops-top {
 	margin-top: 1em;

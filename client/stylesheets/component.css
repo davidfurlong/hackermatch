@@ -1,24 +1,17 @@
 
-#admin-link {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    color: white;
-    font-size: 30px;
-}
 .admin-view {
     height: 100%;
-    background: rgb(255, 132, 132);
-}
+/*    background: rgb(255, 132, 132);
+*/}
 .home-view {
     height: 100%;
-    background: rgb(005, 182, 182);
-}
+/*    background: rgb(005, 182, 182);
+*/}
 .content-view {
     height: 100%;
     /* background: rgb(255, 132, 132); */
-    background: #222;
-}
+/*    background: #222;
+*/}
 .view {
     height: 100%;
     padding: 20px;
@@ -482,25 +475,6 @@ a.link-border:focus::before {
 .row.item li i, .row.item li div {
 }
 
-.top-right-menu {
-	position: absolute;
-	top: 0;
-	right: 0;
-	margin: 25px 50px;
-	z-index: 999;
-}
-
-.top-right-menu li {
-	display: inline;
-	list-style-type: none;
-	
-}
-
-.top-right-menu li i {
-	font-size: 20pt;
-	cursor: pointer;
-    padding: 20px;
-}
 
 .row {
 	margin: 0px;
@@ -569,7 +543,6 @@ a.link-border:focus::before {
 
 
 .pt-page {
-	overflow-y: scroll !important;
 
 }
 
@@ -1478,7 +1451,7 @@ input[type=text]::-ms-clear {
 }
 
 .pt-page-3 {
-	background: #60d7a9;
+	background: #333;
 }
 
 .pt-page-4 {
