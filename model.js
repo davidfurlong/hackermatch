@@ -17,7 +17,7 @@ Comments = new Meteor.Collection("Comments");
 Hackathons = new Meteor.Collection("Hackathons");
 
 
-function create_hackathon(title) {
+create_hackathon = function(title) {
     
     console.log(title);
 

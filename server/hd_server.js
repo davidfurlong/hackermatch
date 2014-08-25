@@ -6,7 +6,7 @@ Meteor.startup(function () {
 //    var User = Meteor.users.findOne({"services.github.username":"jumploops"});
     console.log(User);
 //    Meteor.users.remove({_id: "3QsrE6TsjakgjBuvP"});
-   if(User) {
+    if(User) {
 //        Meteor.users.remove({_id: User._id});
     } 
     var hackathons = Hackathons.remove({"title":"blah"});
