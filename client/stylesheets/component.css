@@ -1,4 +1,13 @@
 
+.invite-code::-moz-selection { /* Code for Firefox */
+    color: white;
+    background: black;
+}
+.invite-code::selection {
+    color: white;
+    background: black;
+}
+
 .admin-view {
     height: 100%;
 /*    background: rgb(255, 132, 132);
