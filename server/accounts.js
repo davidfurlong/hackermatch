@@ -16,6 +16,22 @@ Meteor.startup(function () {
         Roles.addUsersToRoles(user._id, ['hacker'], 'ychacks')
         Roles.addUsersToRoles(user._id, ['hacker', 'organizer'], 'mhacks')
     }
+
+    Meteor.methods({
+        join_hackathon: function (invite_code) {
+            console.log('join_hackathon called ' + invite_code);
+
+            var hackathon = Hackathons.findOne({invite_code: invite_code});
+            
+            if(hackathon) {
+                var group = hackathon.url_title;
+                Roles.addUsersToRoles(this.userId, ['hacker'], group);
+                return hackathon.url_title;
+            } else {
+                return null;
+            } 
+        }
+    });
 });
 
 Accounts.onCreateUser(function (options, user) {

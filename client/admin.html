@@ -15,12 +15,13 @@
     </div><!-- /container -->
 </template>
 <template name="admin">
+{{#if isInRole 'admin' 'all'}}
 <div class="view admin-view">
     <div class="settings-form">
         <h1>admin settings</h1>
         <div>
             <label>Hackathons</label>
-            {{> hackathonList }}
+            {{> adminHackathonList }}
         </div>
         <form action="action" id="create_hackathon">
             <label>New hackathon</label>
@@ -34,13 +35,20 @@
         -->
     </div>
 </div>
+{{/if}}
 </template>
 
-<template name="hackathonList">
+<template name="adminHackathonList">
     {{#each hackathons}}
-        {{> hackathonRow }}
+        {{> adminHackathonRow }}
     {{/each}}
 </template>
+
+<template name="adminHackathonRow">
+    <p><a href="/{{url_title}}">{{title}}</a></p>
+    <p>Invite code: {{invite_code}}</p>
+</template>
+
 
 <template name="hackathonRow">
     <p><a href="/{{url_title}}">{{title}}</a></p>
@@ -54,10 +62,10 @@
             <label>your hackathons</label>
             {{> myHackathonList }}
         </div>
-        <form action="action" id="create_hackathon">
+        <form action="action" id="join_hackathon">
             <label>join hackathon</label>
             <input id="add_hackathon_button" type="submit" value="Submit">
-            <input id="new_hackathon_name" autocomplete="off" type="text" placeholder="code">
+            <input id="join_hackathon_code" autocomplete="off" type="text" placeholder="code">
         </form>
     </div>
 </div>
