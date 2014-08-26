@@ -169,14 +169,11 @@
         	</span>
         </li>
         <li class="item-icon" style="float:right;">
-            <a href="user/{{login}}">
-            <span style='vertical-align:middle'>posted by {{username}}</span>
             {{#if avatar_url}}
-            <img src="{{avatar_url}}" width="64px" height="64px" style="border-radius:50px;">
+            <a href="/user/{{github_username}}"><img src="{{avatar_url}}" width="64px" height="64px" style="border-radius:50px"></a>
             {{else}}
             <img src="monkey.png" width="64px" height="64px" style="border-radius:50px;">
             {{/if}}
-            </a>
         </li>
     </ul>
 </template>
