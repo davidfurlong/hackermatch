@@ -29,6 +29,7 @@ html {
 
 .top-right-menu {
 	float:right;
+	margin-top: 7px;
 }
 
 .top-right-menu a {
@@ -36,6 +37,7 @@ html {
 	margin-right: 30px;
 	cursor: pointer;
 	color: #eee;
+
 }
 
 .top-right-menu a:hover {
@@ -48,6 +50,10 @@ html {
 }
 
 /* TOOLS */
+
+.big {
+	font-size: 28pt !important;
+}
 
 /* Clearfix */
 
