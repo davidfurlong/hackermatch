@@ -1,9 +1,9 @@
 <template name="settings">
     <div id="pt-main" class="pt-perspective">
-        <div id="settings" class="pt-page pt-page-current">
+        <div id="settings" class="view pt-page-current">
             <input id="logout" type="submit" value="Log Out">
             <form id="update-user-form" action="action" class="settings-form">
-                <h1>My Settings</h1>
+                <h1>my settings</h1>
                 <div>
                     <label>Name</label>
                     <input id="user_name" type="text" value="{{name}}">
@@ -23,7 +23,7 @@
                     </ul>
                     {{skills}}
                 </div>
-                <div>
+                <div class="github_username">
                     <label>Github username</label>
                     <input id="user_github" type="text" value="{{github}}">
                 </div>
