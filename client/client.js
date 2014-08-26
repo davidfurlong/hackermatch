@@ -879,7 +879,10 @@ Template.idea_create_template.events({
             return;
         }
         
+
         Router.go('hackathon', {_title: hackathon.title});
+
+        if(!description) return;
 
         var idea = {
             name: name,
