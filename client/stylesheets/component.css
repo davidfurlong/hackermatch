@@ -298,6 +298,25 @@
     height: 160px;
 }
 
+#logout:hover {
+    color: rgba(0,0,0,0.3);
+}
+#profile-link:hover {
+    color: rgba(0,0,0,0.3);
+}
+
+#profile-link {
+	padding: 10px 20px;
+	background: transparent;
+	outline: none;
+	border: 0;
+	border-bottom: 1px dashed white;
+	color: #fff;
+	font-weight: 700;
+    float: right;
+}
+
+
 #logout {
 	padding: 10px 20px;
 	background: transparent;
