@@ -1832,9 +1832,11 @@ input[type=text]::-ms-clear {
 	padding: 10px 10px;
 	outline: none;
 	border: 1px solid #bbb;
-	width: 100%;
 	margin: 0;
+}
 
+#comment-text {
+	width: calc(100% - 40px);
 }
 
 #comment-create {
