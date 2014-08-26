@@ -40,8 +40,13 @@
 }
 
 #title-bar {
-    background: rgb(70, 70, 70) !important;
-    position: fixed !important;
+	background: rgba(70, 70, 70, 0.7) !important;
+	position: fixed !important;
+/*	border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
+   /* -moz-background-clip: padding;     
+      -webkit-background-clip: padding;  
+      background-clip: padding-box;    
+    */
 }
 
 .invite-code::-moz-selection { /* Code for Firefox */
