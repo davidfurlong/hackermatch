@@ -36,6 +36,7 @@
 
 #title-bar {
     background: rgb(70, 70, 70) !important;
+    position: fixed !important;
 }
 
 .invite-code::-moz-selection { /* Code for Firefox */

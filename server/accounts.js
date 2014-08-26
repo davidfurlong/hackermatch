@@ -5,16 +5,16 @@ Meteor.startup(function () {
     var user = Meteor.users.findOne({"profile.login": "kainolophobia"});
     console.log(user);
     if(user) {
-        Roles.addUsersToRoles(user._id, ['admin'], 'all')
-        Roles.addUsersToRoles(user._id, ['hacker'], 'ychacks')
-        Roles.addUsersToRoles(user._id, ['hacker', 'organizer'], 'mhacks')
+        Roles.addUsersToRoles(user._id, ['admin'], 'all');
+        Roles.addUsersToRoles(user._id, ['hacker'], 'ychacks');
+        Roles.addUsersToRoles(user._id, ['hacker', 'organizer'], 'mhacks');
     }
     //twice in case we're on the same box and the $or breaks
     var user = Meteor.users.findOne({"profile.login": "davidfurlong"});
     if(user) {
-        Roles.addUsersToRoles(user._id, ['admin'], 'all')
-        Roles.addUsersToRoles(user._id, ['hacker'], 'ychacks')
-        Roles.addUsersToRoles(user._id, ['hacker', 'organizer'], 'mhacks')
+        Roles.addUsersToRoles(user._id, ['admin'], 'all');
+        Roles.addUsersToRoles(user._id, ['hacker'], 'ychacks');
+        Roles.addUsersToRoles(user._id, ['hacker', 'organizer'], 'mhacks');
     }
 
     Meteor.methods({
