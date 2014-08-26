@@ -818,6 +818,20 @@ Template.update_user.helpers({
         if(Meteor.user() && Meteor.user().profile) {
             return Meteor.user().profile.login; 
         }
+    },
+    skills: function() {
+        if(Meteor.user() && Meteor.user().profile){
+            var skills = Meteor.user().profile.skills;
+
+            $('#sb1').prop('checked', skills.webdev);
+            $('#sb2').prop('checked', skills.design);
+            $('#sb3').prop('checked', skills.backend);
+            $('#sb4').prop('checked', skills.mobile);
+            $('#sb5').prop('checked', skills.hardware);
+            $('.ac-cross input[type="checkbox"]').trigger('change');
+            setTimeout(function(){$('.ac-cross input[type="checkbox"]').trigger('change')},1000);
+            return '';
+        }
     }
 });
 Template.update_user.events({
@@ -828,11 +842,11 @@ Template.update_user.events({
         , q3 = t.find('#user_skills').value
         , q4 = t.find('#user_github').value
         //, q5 = t.find('#user_picture').value
-        , webdev = t.find('#cb1').checked
-        , design = t.find('#cb2').checked
-        , backend = t.find('#cb3').checked
-        , mobile = t.find('#cb4').checked
-        , hardware = t.find('#cb5').checked;
+        , webdev = t.find('#sb1').checked
+        , design = t.find('#sb2').checked
+        , backend = t.find('#sb3').checked
+        , mobile = t.find('#sb4').checked
+        , hardware = t.find('#sb5').checked;
 
         var updated_profile = {
             name: q1,

@@ -1,27 +1,95 @@
 /* NAV BAR */
 
 #title-bar {
-
+	z-index: 1000;
+	position: absolute;
+	top: 0px;
+	width: 100%;
+	padding: 10px 30px;
 }
 
 #brand {
 	padding-left: 10px;
+	font-size: 24pt;
+	float: left;
+	font-weight: 600;
 }
 
 #home-link {
-
+	color: white;
 }
 
 #my-group {
-
+	color: #ddd;
 }
 
-
-#admin-link {
-
+.top-right-menu {
+	float:right;
 }
 
+.top-right-menu a {
+	font-size: 24pt;
+	margin-right: 30px;
+	cursor: pointer;
+	color: #eee;
+}
+
+.top-right-menu a:hover {
+	color: #fff;
+}
+
+.pt-page {
+	padding-top: 100px;
+}
+
+/* TOOLS */
+
+/* Clearfix */
+
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+.cf {
+    *zoom: 1;
+}
 
 /* ELEMENT STYLES */
+
+.view {
+	margin-top: 50px;
+}
+
+html, body {
+	height: 100%;
+}
+
+.container {
+	height: calc();
+}
+
+body {
+	background: #6ad844;
+	color: #fff;
+	font-weight: 400;
+	font-size: 1em;
+	font-family: 'Raleway', Arial, sans-serif;
+}
+
+a {
+	color: rgba(0,0,0,0.3);
+	text-decoration: none;
+	outline: none;
+}
+
+a:hover, a:focus {
+	color: rgba(0,0,0,0.5);
+}
 
 /* CONTENT ALL */

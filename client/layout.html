@@ -1,14 +1,11 @@
 <template name="layout">
     <div class="container">
-        <div id="title-bar">
+        <div id="title-bar" class="cf">
             <div id="brand">
-                <a href="/home" id="home-link"><img src="name.png"></a>
+                <a href="/home" id="home-link">hackermatch</a>
                 <a href="" id="my-group">{{title}}</a>
             </div>
             {{> yield region='nav'}}
-            {{#if isInRole 'admin' 'all'}}
-            <div id="admin-link" ><a href="/admin">admin</a></div>
-            {{/if}}
         </div>	
         <div class="content-view">
             {{> yield}}

@@ -1202,6 +1202,7 @@ if ( typeof define === 'function' && define.amd ) {
 			var x = {animation: animcursor, showPage: 2}
 			nextPage(x);
 			++animcursor;
+			$('#q1').focus();
 		} );
 
 		$myMsgs.on( 'click', function() {
