@@ -511,6 +511,8 @@ a.link-border:focus::before {
 	letter-spacing: 1px;
 	font-weight: 700;
 	font-size: 16pt;
+    top: -10px;
+    position: relative;
 }
 
 .row .item-title {

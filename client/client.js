@@ -9,6 +9,9 @@ Router.onBeforeAction('loading');
 Router.map(function() {
     this.route('index', {
         path: '/',
+        data: {
+            title: 'welcome'
+        },
         onBeforeAction: function () {
             if (Meteor.user()) {
                 Router.go('home');
@@ -19,7 +22,7 @@ Router.map(function() {
     this.route('signupProfile', {
         path: '/signup-profile',
         data: {
-            title: 'Sign up'
+            title: 'sign up'
         },
         onBeforeAction: function () {
             if (Meteor.user()){
