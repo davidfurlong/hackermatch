@@ -137,7 +137,7 @@
 </template>
 
 <template name="ideaRow">
-    <ul class="row item idea-list">
+    <ul class="row item idea-list cf">
         <li data-id="{{_id}}" class="item-action item-heart">
         <!--            <i class="ion-heart btn btn-7 btn-7f btn-icon-only icon-star {{#if hearted}}hearted{{/if}}"></i>  -->
             <i class="ion-heart btn btn-icon-only icon-star {{#if hearted}}hearted{{/if}}"></i>
@@ -168,12 +168,15 @@
         	    {{/if}}
         	</span>
         </li>
-        <li class="item-icon">
+        <li class="item-icon" style="float:right;">
+            <a href="user/{{login}}">
+            <span style='vertical-align:middle'>posted by {{username}}</span>
             {{#if avatar_url}}
-            <img src="{{avatar_url}}" width="64px" height="64px" style="border-radius:50px">
+            <img src="{{avatar_url}}" width="64px" height="64px" style="border-radius:50px;">
             {{else}}
-            <img src="monkey.png" width="64px" height="64px" style="border-radius:50px">
+            <img src="monkey.png" width="64px" height="64px" style="border-radius:50px;">
             {{/if}}
+            </a>
         </li>
     </ul>
 </template>

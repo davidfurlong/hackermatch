@@ -768,6 +768,8 @@ Template.idea_create_template.events({
             userId: Meteor.userId(),
             hackathon_id: hackathon_id,
             avatar_url: Meteor.user().profile.avatar_url,
+            username: Meteor.user().profile.name,
+            login: Meteor.user().profile.login,
             skills: {
                 webdev: webdev,
                 backend: backend,
