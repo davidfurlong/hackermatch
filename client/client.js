@@ -658,9 +658,9 @@ Template.hackathon.events({
       e.stopPropagation();
     },
     'click .page-container' : function(e, t) {
-      e.preventDefault();
         var id = e;
         if(Session.get("sidebarOpened") == "open") {
+            e.preventDefault();
             Session.set('selectedIdea', '');
             Session.set('sidebarOpened', '');
             $('.pt-triggers, #pt-main').removeClass('blur');
@@ -733,7 +733,8 @@ Template.admin.events({
    
 Template.idea_create_template.events({
     'click .fs-continue' : function(e, t) {
-    if(!$('.fs-fields li').hasClass('fs-current')){
+//    if(!$('.fs-fields li').hasClass('fs-current')){
+    if($('.fs-number-current').text() == "3") {
       e.preventDefault();
       var description = t.find('#q1').value
         , name = t.find('#q2').value
@@ -746,18 +747,18 @@ Template.idea_create_template.events({
 
         //hackety hackety hack
         $('#my-group').trigger('click');
-        // $('#idea-create').removeClass('fs-form-overview')
-        // $('#idea-create').addClass('fs-form-full');
-        // $("#my-group").trigger("click");
-        // $('.fs-fields li').removeClass('fs-current');
-        // $($('.fs-fields li')[0]).addClass('fs-current');
-        // $('.fs-fields input').val('');
-        // $('.fs-fields textarea').val('');
-        
-        // $('.fs-controls > *').addClass('fs-show');
-        // $('.fs-controls').height($('.pt-page-3').height());
+        $('#idea-create').removeClass('fs-form-overview')
+        $('#idea-create').addClass('fs-form-full');
+        $("#my-group").trigger("click");
+        $('.fs-fields li').removeClass('fs-current');
+        $($('.fs-fields li')[0]).addClass('fs-current');
+        $('.fs-fields input').val('');
+        $('.fs-fields textarea').val('');
+      
+        $('.fs-controls > *').addClass('fs-show');
+        $('.fs-controls').height($('.pt-page-3').height());
         //using pageTransitions library, instead of Meteor routing...
-        // $('#my-group').click();
+        $('#my-group').click();
 
         
         hackathon_id = Session.get("current_hackathon");
