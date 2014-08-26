@@ -46,8 +46,7 @@ if( document.createElement('svg').getAttributeNS ) {
 		el.parentNode.appendChild( svg );
 		console.log(el);
 		$(el).change(function() {
-			console.log('ay');
-
+			
 			if( el.checked ) {
 				draw( el, type );
 			}
