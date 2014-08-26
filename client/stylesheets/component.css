@@ -409,7 +409,6 @@ a.link-border:focus::before {
 }
 .badge:before {
 	content: '';
-	width: 20px;
 	height: 20px;
 	border-radius: 20px;
 	position: relative;
