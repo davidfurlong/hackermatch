@@ -169,6 +169,10 @@ Router.map(function() {
     this.route('create_idea', {path: '/idea' , 
         data: function() {
             var hackathon = Session.get("current_hackathon");
+            if(hackathon) {
+                hackathon.override_title = hackathon.title;
+                hackathon.override_title_url = '/' + hackathon.url_title;
+            }
             return hackathon;
         },
 //        waitOn: function() { return Meteor.subscribe('hackathon_and_ideas', this.params._title)},
@@ -191,9 +195,13 @@ Router.map(function() {
     this.route('hackathon', {path: '/:_title' , 
         data: function() {
             var url_title = encodeURI(this.params._title.toLowerCase().replace(/ /g, ''));
-            var hackathon = Hackathons.findOne({url_title: url_title});
-            if(hackathon) {
-                Session.set("current_hackathon", hackathon);
+            var hackathon = Session.get("current_hackathon");
+
+            if(!hackathon || hackathon.url_title != url_title) {
+                hackathon = Hackathons.findOne({url_title: url_title});
+                if(hackathon) {
+                    Session.set("current_hackathon", hackathon);
+                }
             }
             return hackathon;
         },
@@ -661,6 +669,7 @@ Template.sidebar.opened = function() {
     }
 }
 Template.hackathon.rendered =  function() {
+    /*
 $.getScript("js/inline.js", function(data, textStatus, jqxhr) {
                       [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {    
                           new SelectFx( el, {
@@ -671,6 +680,7 @@ $.getScript("js/inline.js", function(data, textStatus, jqxhr) {
                           });
                       } );
 })
+*/
 }
 
 Template.settings.rendered =  function() {

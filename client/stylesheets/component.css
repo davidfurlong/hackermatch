@@ -1,3 +1,8 @@
+
+.page-container {
+    margin: 20px;
+}
+
 #settings {
     height: 100%;
     background: #7BA5FF;
@@ -1260,7 +1265,7 @@ button.fs-continue:hover {
 	text-align: center;
 	background: transparent;
 	color: rgba(0,0,0,0.3);
-	content: 'or press ENTER';
+/*	content: 'or press ENTER'; */
 	font-size: 0.65em;
 	pointer-events: none;
 }

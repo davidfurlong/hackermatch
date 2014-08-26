@@ -4,7 +4,7 @@
 <template name="hackathon">
     {{> sidebar}}
     <div id="pt-main" class="pt-perspective">
-        <div class="pt-page pt-page-1">
+        <div class="view pt-page-1">
             <div class="page-container">
                 {{#if isInRole 'hacker' url_title}}
                     {{> showHackathons}}
@@ -15,37 +15,14 @@
                 {{/if}}
             </div>
         </div>
-        <div class="pt-page pt-page-2">
-            <div class="messages">					
-                <ul class="messages-threads">
-                    <li id="new-conversation">
-                        + New Conversation
-                    </li>
-                    <li class="selected convo">David Furlong</li>
-                </ul>
-                <div class="messages-content">
-                    <input type="text" class="message-input" placeholder="type message">
-                    <div class="to">Hey its Me</div>
-                    <div class="from">Yo dude</div>
-                </div>
-            </div>
-        </div>
-        <div class="pt-page pt-page-3">
-            {{> idea_create_template_1 }}
-        </div>
-        <div class="pt-page pt-page-4">
-            {{> update_user}}
-        </div>
     </div>
+    <!-- 
     <script src="js/classie.js"></script>
     <script src="js/selectFx.js"></script>
-    <!--		<script src="js/fullscreenForm.js"></script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="js/jquery.dlmenu.js"></script>
     <script src="js/pagetransitions.js"></script>
     <script src="js/svgcheckbx.js"></script>
-    <!--        <script src="js/custom.js"></script> -->
-    <!-- inline.js below includes the above scripts without jQuery -->
     <script>
         $(document).ready(function(){
             $('body').on('click', '.messages-threads .convo', function(){
@@ -82,6 +59,7 @@
             }
         }
     </script>
+    -->
 </template>
 
     <template name="update_user">
