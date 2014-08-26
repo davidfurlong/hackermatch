@@ -284,6 +284,10 @@
 	margin-top: -25px;
 }
 
+.fixer-quick.ac-custom svg {
+	margin-top: -32px;
+}
+
 #user_skills {
     height: 160px;
 }
@@ -615,8 +619,9 @@ a.link-border:focus::before {
 	text-align: left;
 }
 
-.idea-list {
-	border-bottom: 1px solid #111;
+.idea-list:hover {
+	background: #121212;
+	border-radius: 10px;
 }
 
 .no-js .fs-form {
