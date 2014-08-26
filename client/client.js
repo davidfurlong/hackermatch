@@ -248,7 +248,9 @@ Handlebars.registerHelper('toMoment', function(time){
 });
 
 Handlebars.registerHelper('reverse', function(ray){
-    return ray.reverse();
+    if(ray != undefined)
+        return ray.reverse();
+    return [];
 });
 
 Template.index.rendered = function(){
