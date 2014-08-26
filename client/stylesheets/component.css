@@ -291,7 +291,12 @@ a.link-border {
 	white-space: nowrap;
 }
 
+.hearted {
+    color: #fd6a62 !important;
+}
+
 .ion-heart {
+    color: white;
 	cursor: pointer;
 }
 
@@ -1718,10 +1723,6 @@ input[type=text]::-ms-clear {
 
 .idea .fs-numbers {
 	margin: 5px 40px;
-}
-
-.item-action {
-	display: none !important;
 }
 
 .sidebar {
