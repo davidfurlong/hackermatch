@@ -1,3 +1,32 @@
+var csv = Meteor.require('CSV'); 
+var fs = Meteor.require('fs');
+var path = Npm.require('path');
+
+function loadData() {
+  var basepath = path.resolve('.').split('.meteor')[0];
+/*
+  csv().from.stream(
+    fs.createReadStream(basepath+'server/data/enron_data.csv'),
+      {'escape': '\\'})
+    .on('record', Meteor.bindEnvironment(function(row, index) {
+      Emails.insert({
+        'sender_id': row[0]
+        // etc.
+        })
+      }, function(error) {
+          console.log('Error in bindEnvironment:', error);
+      }
+    ))
+    .on('error', function(err) {
+      console.log('Error reading CSV:', err);
+    })
+    .on('end', function(count) {
+      console.log(count, 'records read');
+    });
+*/
+
+}
+
 
 Meteor.startup(function () {
 // code to run on server at startup
