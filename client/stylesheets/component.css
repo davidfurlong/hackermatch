@@ -1,8 +1,11 @@
 #settings {
     height: 100%;
-    background: #f5454b;
+    background: #7BA5FF;
 }
 
+.admin-view {
+    background: rgb(255, 100, 100);
+}
 .profile {
     margin-top: 70px;
 }

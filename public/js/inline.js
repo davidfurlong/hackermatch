@@ -1315,7 +1315,7 @@ if ( typeof define === 'function' && define.amd ) {
 			var $page = $( this );
 			$page.removeClass('pt-page-current');
 		});
-		console.log(current);
+		//console.log(current);
 		var $nextPage = $pages.eq( current ).addClass( 'pt-page-current' ),
 			outClass = '', inClass = '';
 

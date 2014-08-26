@@ -36,6 +36,9 @@ Router.map(function() {
             }
             return user;
         },
+        yieldTemplates: {
+          'base_nav': {to: 'nav'}
+        },
         onBeforeAction: function() {
             if (!Meteor.user()){
                 if (Meteor.loggingIn()) {
@@ -51,11 +54,14 @@ Router.map(function() {
         data: function() { 
             var user = Meteor.user(); 
             if(user) {
-                user['title'] = user.profile.login;
+                user['title'] = 'settings';
             }
             return user;
         },
         waitOn: function() { return Meteor.subscribe('user', this.params._username)},
+        yieldTemplates: {
+          'base_nav': {to: 'nav'}
+        },
         onBeforeAction: function() {
             if (!Meteor.user()){
                 if (Meteor.loggingIn()) {
@@ -74,6 +80,9 @@ Router.map(function() {
                 user['title'] = this.params._username;
             }
             return user;
+        },
+        yieldTemplates: {
+          'base_nav': {to: 'nav'}
         },
         waitOn: function() { return Meteor.subscribe('user', this.params._username)},
         onBeforeAction: function() {
@@ -136,6 +145,9 @@ Router.map(function() {
             };
             return obj;
         },
+        yieldTemplates: {
+          'base_nav': {to: 'nav'}
+        },
         waitOn: function() { return Meteor.subscribe('hackathons', this.userId)},
         onBeforeAction: function () {
             Session.set("current_hackathon", "");
@@ -153,8 +165,7 @@ Router.map(function() {
             var url_title = encodeURI(this.params._title.toLowerCase().replace(/ /g, ''));
             var hackathon = Hackathons.findOne({url_title: url_title});
             if(hackathon) {
-                console.log(hackathon);
-                Session.set("current_hackathon", hackathon._id);
+                Session.set("current_hackathon", hackathon);
             }
             return hackathon;
         },
@@ -188,6 +199,11 @@ Router.map(function() {
 
 
 //    this.route('login');
+});
+
+Handlebars.registerHelper('selected_hackathon',function(){
+    var hackathon = Session.get('current_hackathon');
+    return hackathon;
 });
 
 Handlebars.registerHelper('bitmaparray',function(obj){
@@ -491,10 +507,10 @@ Template.potentialTeams.helpers({
             if(skillArray.length == 0) {
                 return;
             }
-            var hackathon_id = Session.get("current_hackathon");
+            var hackathon = Session.get("current_hackathon");
             var x = Ideas.find(
                                 {$and: [
-                                    {hackathon_id: hackathon_id},
+                                    {hackathon_id: hackathon._id},
                                     {$or: skillArray}
                                 ]}
             ).fetch();
@@ -514,8 +530,8 @@ Template.potentialTeams.helpers({
 
 Template.ideaList.helpers({
   ideas: function() {
-        var hackathon_id = Session.get("current_hackathon");
-        var x = Ideas.find({ $and: [{hackathon_id: hackathon_id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
+        var hackathon = Session.get("current_hackathon");
+        var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
         _.each(x, function(idea) {
             var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
             if(heart && heart.hearted) {
@@ -531,8 +547,8 @@ Template.ideaList.helpers({
 
 Template.yourIdeaList.helpers({
     ideas: function() {
-        var hackathon_id = Session.get("current_hackathon");
-        var x = Ideas.find({ $and: [{hackathon_id: hackathon_id}, {userId: Meteor.userId()}]}).fetch();
+        var hackathon = Session.get("current_hackathon");
+        var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: Meteor.userId()}]}).fetch();
         _.each(x, function(idea) {
             var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
             if(heart && heart.hearted) {
@@ -781,13 +797,13 @@ Template.idea_create_template.events({
         $('#my-group').click();
 
         
-        hackathon_id = Session.get("current_hackathon");
+        var hackathon = Session.get("current_hackathon");
 
         var idea = {
             name: name,
             description: description,
             userId: Meteor.userId(),
-            hackathon_id: hackathon_id,
+            hackathon_id: hackathon._id,
             avatar_url: Meteor.user().profile.avatar_url,
             github_username: Meteor.user().profile.login,
             skills: {
@@ -888,9 +904,7 @@ Template.settings.events({
                 webdev: webdev
             }
         };
-        console.log(updated_profile);
         updated_profile = _.extend(Meteor.user().profile, updated_profile);
-        console.log(updated_profile);
             
         // Trim and validate the input
         Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":updated_profile}});

@@ -7,7 +7,6 @@
             </div>
             <div class="top-right-menu">
                 {{> yield region='nav'}}
-                <a id="settings-link" href="/settings">settings</a>
                 {{#if isInRole 'admin' 'all'}}
                 <a id="admin-link" href="/admin">admin</a>
                 {{/if}}
@@ -18,5 +17,10 @@
         </div>
     </div><!-- /container -->
 </template>
+ <template name="base_nav">
+    {{#if selected_hackathon}}
+    <a id="hackathon-link" href="/{{selected_hackathon.url_title}}">{{selected_hackathon.title}}</a>
+    {{/if}}
+    <a id="settings-link" href="/settings">settings</a>
+</template>
 
-    
