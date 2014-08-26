@@ -19,7 +19,7 @@ Meteor.startup(function () {
                    "HackMIT"
                    ];
       for (var i = 0; i < names.length; i++) {
-        create_hackathon(names[i]);
+        Meteor.call('create_hackathon', names[i]);
       }
     }
 });
@@ -46,7 +46,8 @@ Meteor.publish("hackathon_and_ideas", function (hackathon_title) {
     if (Roles.userIsInRole(this.userId, ['hacker', 'organizer', 'admin'], url_title)) {
         return [
             Hackathons.find({_id: hackathon_id}),
-            Ideas.find({hackathon_id: hackathon_id})
+            Ideas.find({hackathon_id: hackathon_id}),
+            Hearts.find({ $and: [{hackathon_id: hackathon_id}, {user_id: this.userId}]})
         ];
     } else {
         // user not authorized. do not publish secrets

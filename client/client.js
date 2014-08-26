@@ -199,10 +199,17 @@ Handlebars.registerHelper('sortandarrayify',function(obj){
 });
 
 Template.ideaRow.events({
-    'click ul.idea-list' : function(e, t) {
+    'click li.item-text' : function(e, t) {
       e.preventDefault();
-        var id = e.currentTarget.dataset.id;
-        Session.set("selectedIdea", id);
+        var idea_id = e.currentTarget.dataset.id;
+        Session.set("selectedIdea", idea_id);
+    },
+    'click li.item-heart' : function(e, t) {
+      e.preventDefault();
+        var idea_id = e.currentTarget.dataset.id;
+        console.log("hearted");
+
+        Meteor.call('heart_idea', idea_id, function(err, res) {});
     }
 });
 
@@ -465,12 +472,22 @@ Template.potentialTeams.helpers({
                 return;
             }
             var hackathon_id = Session.get("current_hackathon");
-            return Ideas.find(
+            var x = Ideas.find(
                                 {$and: [
                                     {hackathon_id: hackathon_id},
                                     {$or: skillArray}
                                 ]}
             ).fetch();
+            _.each(x, function(idea) {
+                var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
+                if(heart && heart.hearted) {
+                    //Only added this to idea list that template receives, such that it's a local change only
+                    idea.hearted = true;
+                } else {
+                    idea.hearted = false;
+                }
+            });
+            return x;
         } else return;
      }
 });
@@ -479,6 +496,15 @@ Template.ideaList.helpers({
   ideas: function() {
         var hackathon_id = Session.get("current_hackathon");
         var x = Ideas.find({ $and: [{hackathon_id: hackathon_id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
+        _.each(x, function(idea) {
+            var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
+            if(heart && heart.hearted) {
+                //Only added this to idea list that template receives, such that it's a local change only
+                idea.hearted = true;
+            } else {
+                idea.hearted = false;
+            }
+        });
         return x;
   }
 });
@@ -486,7 +512,17 @@ Template.ideaList.helpers({
 Template.yourIdeaList.helpers({
     ideas: function() {
         var hackathon_id = Session.get("current_hackathon");
-        return Ideas.find({ $and: [{hackathon_id: hackathon_id}, {userId: Meteor.userId()}]}).fetch();
+        var x = Ideas.find({ $and: [{hackathon_id: hackathon_id}, {userId: Meteor.userId()}]}).fetch();
+        _.each(x, function(idea) {
+            var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
+            if(heart && heart.hearted) {
+                //Only added this to idea list that template receives, such that it's a local change only
+                idea.hearted = true;
+            } else {
+                idea.hearted = false;
+            }
+        });
+        return x;
     }
 });
 
@@ -690,7 +726,7 @@ Template.admin.events({
 
         t.$("#new_hackathon_name").val("");
 
-        create_hackathon(title);
+        Meteor.call('create_hackathon', title, function(err, res) {});
     }
 });
 
@@ -749,18 +785,25 @@ Template.idea_create_template.events({
 
 function create_idea(idea) {
 
+    /*
     var exists = Ideas.findOne({name: name});
     if(exists) {
         console.log("idea exists!");
         //do something else
         //can we select on name attribute again?
     }
+    */
+
+    idea.hearts = 0;
 
     //Ideas.insert({name: name}, function(err, result) {
-    Ideas.insert(idea, function(err, result) {
+    Ideas.insert(idea, function(err, idea_id) {
         if(err) {
             console.log("error creating idea");
         } else {
+            console.log(idea_id);
+            console.log("idea id? " + idea_id);
+            Meteor.call('heart_idea', idea_id, function(err, res) {});
         }
     });
     return false;
