@@ -786,6 +786,7 @@ Template.update_user.helpers({
             $('#sb4').prop('checked', skills.mobile);
             $('#sb5').prop('checked', skills.hardware);
             $('.ac-cross input[type="checkbox"]').trigger('change');
+            setTimeout(function(){$('.ac-cross input[type="checkbox"]').trigger('change')},1000);
             return '';
         }
     }
