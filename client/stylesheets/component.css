@@ -261,6 +261,10 @@
 	border-bottom: 1px dashed white;
 }
 
+#update-user-form input[type="text"]{
+	width: 350px;
+}
+
 .settings-form input[type="submit"] {
 	color: white;
 	font-weight: 700;
@@ -480,7 +484,6 @@ a.link-border:focus::before {
 	font-weight: 700;
 	margin-top: 20px;
 	padding-bottom: 10px;
-	margin-bottom: 20px;
 	width: auto;
 	border-bottom: 3px solid #333;
 }
@@ -504,6 +507,8 @@ a.link-border:focus::before {
 .row .item-heart {
 	cursor: pointer;
 	vertical-align: middle;
+	position: relative;
+	top: 5px;
 }
 
 .row .item-hearts {
