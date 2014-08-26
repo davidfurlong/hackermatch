@@ -184,6 +184,7 @@ Template.index.rendered = function(){
     $('.pt-triggers').css('background-color', 'transparent');
 }
 
+
 Handlebars.registerHelper('sortandarrayify',function(obj){
     var result = [];
     console.log(obj);
@@ -731,7 +732,8 @@ Template.admin.events({
 
    
 Template.idea_create_template.events({
-    'submit #idea-create' : function(e, t) {
+    'click .fs-continue' : function(e, t) {
+    if(!$('.fs-fields li').hasClass('fs-current')){
       e.preventDefault();
       var description = t.find('#q1').value
         , name = t.find('#q2').value
@@ -743,17 +745,19 @@ Template.idea_create_template.events({
 
 
         //hackety hackety hack
-        $("#my-group").trigger("click");
-        $('.fs-fields li').removeClass('fs-current');
-        $($('.fs-fields li')[0]).addClass('fs-current');
-        $('.fs-fields input').val('');
-        $('.fs-fields textarea').val('');
-        $('#idea-create').removeClass('fs-form-overview')
-        $('#idea-create').addClass('fs-form-full');
-        $('.fs-controls > *').addClass('fs-show');
-        $('.fs-controls').height($('.pt-page-3').height());
+        $('#my-group').trigger('click');
+        // $('#idea-create').removeClass('fs-form-overview')
+        // $('#idea-create').addClass('fs-form-full');
+        // $("#my-group").trigger("click");
+        // $('.fs-fields li').removeClass('fs-current');
+        // $($('.fs-fields li')[0]).addClass('fs-current');
+        // $('.fs-fields input').val('');
+        // $('.fs-fields textarea').val('');
+        
+        // $('.fs-controls > *').addClass('fs-show');
+        // $('.fs-controls').height($('.pt-page-3').height());
         //using pageTransitions library, instead of Meteor routing...
-        $('#my-group').click();
+        // $('#my-group').click();
 
         
         hackathon_id = Session.get("current_hackathon");
@@ -775,6 +779,8 @@ Template.idea_create_template.events({
             comments: {}
         };
         create_idea(idea);
+
+    }
     }
 });
 

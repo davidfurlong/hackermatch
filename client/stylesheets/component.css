@@ -1454,12 +1454,10 @@ input[type=text]::-ms-clear {
 
 .pt-page {
 	width: 100%;
-	height: 100%;
 	position: absolute;
 	top: 0;
 	left: 0;
 	visibility: hidden;
-	overflow: hidden;
 	-webkit-backface-visibility: hidden;
 	-moz-backface-visibility: hidden;
 	backface-visibility: hidden;
@@ -1477,6 +1475,10 @@ input[type=text]::-ms-clear {
 .no-js .pt-page {
 	visibility: visible;
 	z-index: 1;
+}
+
+.fs-controls {
+	height: 600px;
 }
 
 .no-js body {
@@ -1738,7 +1740,7 @@ input[type=text]::-ms-clear {
 .sidebar {
 	position: fixed;
 	right: 0px;
-	z-index: 100;
+	z-index: 99999;
 	top: 0px;
 	height: 100%;
 	width: 50%;

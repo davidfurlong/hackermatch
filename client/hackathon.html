@@ -58,7 +58,7 @@
                     // Create new conversation thread to X.
                 }
             });
-
+            
             $('body').on('keydown', '.message-input', function(e){
                 if(e.keyCode == 13){
                     console.log('submit message');
@@ -67,11 +67,10 @@
             });
 
             $('body').on( 'click', '.btn-7f', activate);
-            $('.pt-page').height($(document).height()-66);
-            $('#pt-main').height($(document).height()-66);
-
-            $('.messages').height($('.pt-page-2').height());
-
+            $('.pt-page').css('minHeight', $(window).height()+50);
+            // $('body').height($('.pt-page-current').height());
+            // $('.messages').height($('.pt-page-2').height());
+            
             
         });
         function activate(e) {
@@ -242,7 +241,7 @@
                 <label class="fs-field-label fs-anim-upper" for="q2">What's it called?</label>
                 <input class="fs-anim-lower" id="q2" name="q2" type="text" placeholder="(optional)"/>
             </li>
-            <li data-input-trigger>
+            <li id="last-field" data-input-trigger>
                 <label class="fs-field-label fs-anim-upper" for="q3">Who else do you need on your team?</label>
                 <ul class="ac-custom ac-checkbox ac-cross fs-anim-lower">
                     <li><input id="cb1" name="cb1" type="checkbox"><label for="cb1">Frontend</label></li>

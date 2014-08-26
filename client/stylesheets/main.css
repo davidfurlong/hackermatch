@@ -8,6 +8,10 @@
 	padding: 10px 30px;
 }
 
+html {
+	overflow-x: hidden;
+}
+
 #brand {
 	padding-left: 10px;
 	font-size: 24pt;
@@ -40,6 +44,7 @@
 
 .pt-page {
 	padding-top: 100px;
+	box-sizing: border-box;
 }
 
 /* TOOLS */

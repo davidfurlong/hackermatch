@@ -681,6 +681,18 @@ if ( typeof define === 'function' && define.amd ) {
 			classie.add( nextField, 'fs-current' );
 			classie.add( nextField, 'fs-show' );
 		}
+		else {
+			$('#my-group').trigger('click');
+			this.current = 0;
+			this._updateNav();
+
+			// change the current field number/status
+			this._resetFieldNumber();
+
+			var nextField = this.fields[ 0 ];
+			classie.add( nextField, 'fs-current' );
+			classie.add( nextField, 'fs-show' );
+		}
 
 		// after animation ends remove added classes from fields
 		var self = this,
@@ -693,20 +705,28 @@ if ( typeof define === 'function' && define.amd ) {
 				classie.remove( currentFld, 'fs-hide' );
 
 				if( self.isLastStep ) {
+					$('.fs-fields input').val('');
+					$('.fs-fields textarea').val('')
 					// show the complete form and hide the controls
-					self._hideCtrl( self.ctrlNav );
-					self._hideCtrl( self.ctrlProgress );
-					self._hideCtrl( self.ctrlContinue );
-					self._hideCtrl( self.ctrlFldStatus );
+					// self._hideCtrl( self.ctrlNav );
+					// self._hideCtrl( self.ctrlProgress );
+					// self._hideCtrl( self.ctrlContinue );
+					// self._hideCtrl( self.ctrlFldStatus );
 					// replace class fs-form-full with fs-form-overview
-					classie.remove( self.formEl, 'fs-form-full' );
-					classie.add( self.formEl, 'fs-form-overview' );
-					classie.add( self.formEl, 'fs-show' );
+					// classie.remove( self.formEl, 'fs-form-full' );
+					// classie.add( self.formEl, 'fs-form-overview' );
+					// classie.add( self.formEl, 'fs-show' );
 					// callback
-					self.options.onReview();
-                    self.current = 0;
-                    self._updateFieldNumber();
-                    self._updateNav();
+					// self.options.onReview();
+                    // classie.remove( nextField, 'fs-show' );
+                    
+                    // if( self.options.ctrlNavPosition ) {
+                    // 	self.ctrlFldStatusCurr.innerHTML = self.ctrlFldStatusNew.innerHTML;
+                    // 	self.ctrlFldStatus.removeChild( self.ctrlFldStatusNew );
+                    // 	classie.remove( self.ctrlFldStatus, 'fs-show-' + self.navdir );
+                    // }
+
+     //                self._updateNav();
 				}
 				else {
 					classie.remove( nextField, 'fs-show' );
@@ -763,6 +783,23 @@ if ( typeof define === 'function' && define.amd ) {
 			this.ctrlFldStatusNew = document.createElement( 'span' );
 			this.ctrlFldStatusNew.className = 'fs-number-new';
 			this.ctrlFldStatusNew.innerHTML = Number( this.current + 1 );
+			
+			// insert it in the DOM
+			this.ctrlFldStatus.appendChild( this.ctrlFldStatusNew );
+			
+			// add class "fs-show-next" or "fs-show-prev" depending on the navigation direction
+			var self = this;
+			setTimeout( function() {
+				classie.add( self.ctrlFldStatus, self.navdir === 'next' ? 'fs-show-next' : 'fs-show-prev' );
+			}, 25 );
+		}
+	}
+	FForm.prototype._resetFieldNumber = function() {
+		if( this.options.ctrlNavPosition ) {
+			// first, create next field number placeholder
+			this.ctrlFldStatusNew = document.createElement( 'span' );
+			this.ctrlFldStatusNew.className = 'fs-number-new';
+			this.ctrlFldStatusNew.innerHTML = Number( 0 );
 			
 			// insert it in the DOM
 			this.ctrlFldStatus.appendChild( this.ctrlFldStatusNew );
@@ -1168,7 +1205,10 @@ if ( typeof define === 'function' && define.amd ) {
 
 		$pages.each( function() {
 			var $page = $( this );
-			$page.data( 'originalClassList', $page.attr( 'class' ) );
+			var x = $page.attr( 'class' );
+			x = x.replace('pt-page-current','');
+			$page.data( 'originalClassList', x );
+			$page.removeClass('pt-page-current');
 		} );
 
 		$pages.eq( current ).addClass( 'pt-page-current' );
@@ -1271,9 +1311,14 @@ if ( typeof define === 'function' && define.amd ) {
 				current = 0;
 			}
 		}
-
+		$pages.each( function() {
+			var $page = $( this );
+			$page.removeClass('pt-page-current');
+		});
+		console.log(current);
 		var $nextPage = $pages.eq( current ).addClass( 'pt-page-current' ),
 			outClass = '', inClass = '';
+
 
 		switch( animation ) {
 
