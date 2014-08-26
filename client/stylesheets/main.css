@@ -8,15 +8,32 @@
 	padding: 10px 30px;
 }
 
+@font-face {
+  font-family: 'Avenir-Book';
+  src: url('/fonts/avenir/Avenir-Book.ttf')  format('truetype'), /* Safari, Android, iOS */
+}
+
+@font-face {
+  font-family: 'Avenir-Black';
+  src: url('/fonts/avenir/Avenir-Black.ttf')  format('truetype'), /* Safari, Android, iOS */
+}
+
 html {
 	overflow-x: hidden;
+	font-family: 'Avenir';
+	background: #dfef9b;
+	color: #fff;
+	font-weight: 400;
+	font-size: 1em;
 }
+
+
 
 #brand {
 	padding-left: 10px;
 	font-size: 24pt;
 	float: left;
-	font-weight: 600;
+	font-family: 'Avenir-Black';
 }
 
 #home-link {
@@ -25,6 +42,10 @@ html {
 
 #my-group {
 	color: #ddd;
+}
+
+.sidebar {
+	overflow-y:scroll;
 }
 
 .top-right-menu {
@@ -83,14 +104,6 @@ html, body {
 
 .container {
 	height: 100%;
-}
-
-body {
-	background: #6ad844;
-	color: #fff;
-	font-weight: 400;
-	font-size: 1em;
-	font-family: 'Raleway', Arial, sans-serif;
 }
 
 a {
