@@ -406,31 +406,41 @@ a.link-border:focus::before {
     font-size: 14px;
     display: none;
 }
+.badge:before {
+	content: '';
+	width: 20px;
+	height: 20px;
+	border-radius: 20px;
+	position: relative;
+	top: 4px;
+	left: -5px;
+	display: inline-block;
+	box-sizing: border-box;
+}
 .badge {
+	box-sizing: border-box;
 	padding: 2px 4px;
 	text-transform: uppercase;
 	font-size: 11pt;
-	color: white;
-    border-radius: 2px;
 }
 
-.badge.t1, .badge.mobile {
+.badge.t1:before, .badge.mobile:before {
 	background: #fd6a62;
 }
 
-.badge.t2, .badge.hardware {
+.badge.t2:before, .badge.hardware:before {
 	background: #7bb7fa;
 }
 
-.badge.t3, .badge.backend {
+.badge.t3:before, .badge.backend:before {
 	background: #60d7a9;
 }
 
-.badge.t4, .badge.design {
+.badge.t4:before, .badge.design:before {
 	background: #fdc162;
 }
 
-.badge.t5, .badge.webdev {
+.badge.t5:before, .badge.webdev:before {
 	background: #f68dbb;
 }
 
