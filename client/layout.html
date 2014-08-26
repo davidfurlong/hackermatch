@@ -7,6 +7,7 @@
             </div>
             <div class="top-right-menu">
                 {{> yield region='nav'}}
+                <a id="settings-link" href="/settings">settings</a>
                 {{#if isInRole 'admin' 'all'}}
                 <a id="admin-link" href="/admin">admin</a>
                 {{/if}}
