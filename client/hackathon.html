@@ -3,7 +3,7 @@
 </template>
 <template name="hackathon">
     {{> sidebar}}
-    <div id="pt-main" class="pt-perspective">
+    <div id="pt-main" class="">
         <div class="view pt-page-1">
             <div class="page-container">
                 {{#if isInRole 'hacker' url_title}}
@@ -16,50 +16,6 @@
             </div>
         </div>
     </div>
-    <!-- 
-    <script src="js/classie.js"></script>
-    <script src="js/selectFx.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="js/jquery.dlmenu.js"></script>
-    <script src="js/pagetransitions.js"></script>
-    <script src="js/svgcheckbx.js"></script>
-    <script>
-        $(document).ready(function(){
-            $('body').on('click', '.messages-threads .convo', function(){
-                // swap to that message thread.
-            })
-            $('#new-conversation').click(function(){
-                var person = prompt('Who do you want to Message', 'Dave');
-                if(person != null){
-                    // Create new conversation thread to X.
-                }
-            });
-            
-            $('body').on('keydown', '.message-input', function(e){
-                if(e.keyCode == 13){
-                    console.log('submit message');
-                    $(e.currentTarget).val('');
-                }
-            });
-
-            $('body').on( 'click', '.btn-7f', activate);
-            $('.pt-page').css('minHeight', $(window).height()+50);
-            // $('body').height($('.pt-page-current').height());
-            // $('.messages').height($('.pt-page-2').height());
-            
-            
-        });
-        function activate(e) {
-            var self = e.currentTarget, activatedClass = 'btn-activated';
-            if( !classie.has( this, activatedClass ) ) {
-                classie.add( this, activatedClass );
-            }
-            else {
-                classie.remove(self, activatedClass);
-            }
-        }
-    </script>
-    -->
 </template>
 
     <template name="update_user">
