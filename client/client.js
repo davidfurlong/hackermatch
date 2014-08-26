@@ -106,9 +106,12 @@ Router.map(function() {
             x.hackathons = Hackathons.find({}).fetch();
             return x;
         },
+        yieldTemplates: {
+          'base_nav': {to: 'nav'}
+        },
         waitOn: function() { return Meteor.subscribe('myHackathons', this.userId)},
         onBeforeAction: function () {
-            Session.set("current_hackathon", "");
+//            Session.set("current_hackathon", "");
             if (!Meteor.user()) {
               if (Meteor.loggingIn()) {
               }
@@ -153,7 +156,7 @@ Router.map(function() {
         },
         waitOn: function() { return Meteor.subscribe('hackathons', this.userId)},
         onBeforeAction: function () {
-            Session.set("current_hackathon", "");
+//            Session.set("current_hackathon", "");
             if (!Meteor.user()) {
               if (Meteor.loggingIn()) {
               }
