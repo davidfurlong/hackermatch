@@ -416,23 +416,23 @@ a.link-border:focus::before {
 }
 
 .badge.t1, .badge.mobile {
-	background: #fd6a62;
+	color: #fd6a62;
 }
 
 .badge.t2, .badge.hardware {
-	background: #7bb7fa;
+	color: #7bb7fa;
 }
 
 .badge.t3, .badge.backend {
-	background: #60d7a9;
+	color: #60d7a9;
 }
 
 .badge.t4, .badge.design {
-	background: #fdc162;
+	color: #fdc162;
 }
 
 .badge.t5, .badge.webdev {
-	background: #f68dbb;
+	color: #f68dbb;
 }
 
 .all-repos {

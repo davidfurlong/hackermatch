@@ -53,23 +53,23 @@
 	color: #444;
 }
 
-.badge.t1, .badge.mobile {
+.profile-skills.badge.t1, .profile-skills.badge.mobile {
 	background: #fd6a62;
 }
 
-.badge.t2, .badge.hardware {
+.profile-skills.badge.t2, .profile-skills.badge.hardware {
 	background: #7bb7fa;
 }
 
-.badge.t3, .badge.backend {
+.profile-skills.badge.t3, .profile-skills.badge.backend {
 	background: #60d7a9;
 }
 
-.badge.t4, .badge.design {
+.profile-skills.badge.t4, .profile-skills.badge.design {
 	background: #fdc162;
 }
 
-.badge.t5, .badge.webdev {
+.profile-skills.badge.t5, .profile-skills.badge.webdev {
 	background: #f68dbb;
 }
 
