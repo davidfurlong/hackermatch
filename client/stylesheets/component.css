@@ -1707,7 +1707,7 @@ input[type=text]::-ms-clear {
 	font-size: 20pt;
 	padding: 0 0 0 60px;
 	vertical-align: top;
-	color: rgba(0,0,0,0.2);
+	color: rgba(0,0,0,0.3);
 	cursor: pointer;
 	-webkit-transition: color 0.3s;
 	transition: color 0.3s;
