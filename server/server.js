@@ -45,6 +45,10 @@ Meteor.publish("hackathon_and_ideas", function (hackathon_title) {
 
     if (Roles.userIsInRole(this.userId, ['hacker', 'organizer', 'admin'], url_title)) {
         return [
+    // Need to remove users and comments from access like this
+            Meteor.users.find({}),
+            Comments.find({}),
+    // end TODO
             Hackathons.find({_id: hackathon_id}),
             Ideas.find({hackathon_id: hackathon_id}),
             Hearts.find({ $and: [{hackathon_id: hackathon_id}, {user_id: this.userId}]})
