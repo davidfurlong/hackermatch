@@ -425,7 +425,7 @@ Template.profile_contents.helpers({
 // };
 
 function renderChart(){
-    if(window.renderedChart == undefined){
+    if(window.renderedChart != true){
         window.renderedChart = true;
         var ctx = document.getElementById("canvas").getContext("2d");
         window.myLine = new Chart(ctx).Line(window.lineChartData, {
