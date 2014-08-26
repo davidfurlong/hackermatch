@@ -13,8 +13,8 @@
 	color: #222;
 	margin: 0;
 	clear: both;
-	margin-top: 60px;
-	padding: 15px;
+	padding-top: 70px;
+	background:white;
 	font-family: 'Raleway', sans-serif;
 	-webkit-font-smoothing: antialiased;
 }
@@ -102,11 +102,6 @@
 	color: white;
 }
 
-.feature-row {
-	position: absolute;
-	top: 300px;	
-}
-
 
 
 	/* ROW 1 */
@@ -165,9 +160,7 @@
 		float: right;
 		height: 400px;
 		width: 500px; 
-		position: absolute;
-		top: 100px;
-		right: 50px;
+	
 	}
 	#graph.full-width {
 		width: 700px;
@@ -186,7 +179,6 @@
 		width: 23%;
 		min-width: 300px;
 		padding: 5px;
-		float: left;
 	}
 		.feature-title {
 			font-weight: 700;

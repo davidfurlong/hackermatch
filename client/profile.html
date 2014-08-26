@@ -14,82 +14,83 @@
 
 
 <template name="profile_contents">
-  <div class="profile">
-    <div id="profile" class="cf">
-        <div id="row1">
-          <div id="picture">
-            <img src="{{avatar_url}}" height="200px" width="200px" />
-          </div>
-          <div id="details">
-            <div id="name">
-            {{#if name }}
-              {{name}}
-            {{else}}
-             ------- 
-            {{/if}}
+  <div class="profile" id="profile">
+        <div id="row1" class="row">
+          <div class="col-md-6">
+            <div id="picture">
+              <img src="{{avatar_url}}" height="200px" width="200px" />
             </div>
-            <div id="contact">
-              <div>
-                {{#if languages }}
-                  {{languages}}
-                {{/if}}
-              </div>
-              <div>
-              {{#if github }}
-                <a href="{{github_url}}"><i class="fa fa-github"></i>{{github}}</a>
+            <div id="details">
+              <div id="name">
+              {{#if name }}
+                {{name}}
+              {{else}}
+               ------- 
               {{/if}}
               </div>
-              <div>
-                {{#if contact }}
-                  <i class="fa fa-paper-plane-o"></i>
-                  {{contact}}
+              <div id="contact">
+                <div>
+                  {{#if languages }}
+                    {{languages}}
+                  {{/if}}
+                </div>
+                <div>
+                {{#if github }}
+                  <a href="{{github_url}}"><i class="fa fa-github"></i>{{github}}</a>
                 {{/if}}
+                </div>
+                <div>
+                  {{#if contact }}
+                    <i class="fa fa-paper-plane-o"></i>
+                    {{contact}}
+                  {{/if}}
+                </div>
+                <div>
+                  {{#if location }}
+                    <i class="fa fa-map-marker"></i>
+                    {{location}}
+                  {{/if}}
+                </div>
+                <div>
+                  {{#if skills }}
+                    {{#each bitmaparray skills}}
+                      <span class="badge {{.}}">{{.}}</span> 
+                    {{/each}}
+                  {{/if}}
+                </div>
               </div>
-              <div>
-                {{#if location }}
-                  <i class="fa fa-map-marker"></i>
-                  {{location}}
-                {{/if}}
-              </div>
-              <div>
-                {{#if skills }}
-                  {{#each bitmaparray skills}}
-                    <span class="badge {{.}}">{{.}}</span> 
-                  {{/each}}
-                {{/if}}
-              </div>
+            </div>
+            <div class="feature-view">
+                <div class="feature-row row">
+                  <div class="col-md-6">
+                  <div class="feature feature-text  all-repos">
+                    <h3>Worked on</h3>
+                    {{#each featured}}
+                      <a href="{{html_url}}">{{stargazers_count}} <i class="fa fa-star"></i> <span class="feature-title">{{full_name}}</span>
+                      </a><br/>   
+                    {{/each}}
+                  </div>
+                  </div>
+                  <div class="col-md-6">
+                  <div class="feature feature-text  all-repos">
+                    <h3>People worked with</h3>
+                    {{#each sortandarrayify collaborators}}
+                      <div class="collaborator">
+                      <a href="{{f_html_url}}"><img src="{{f_avatar_url}}" class="mini-avatar"><span class="feature-title">{{f_login}}</span>
+                      </a></div>
+                    {{/each}}
+                  </div>
+                  </div>
+                </div>
             </div>
           </div>
-          
-          
-        </div>
-        <div id="graph" class="full-width"> 
-          <canvas id="canvas" width="700px" height="400px"></canvas> 
-          <div id="lineLegend"></div>    
-        </div>
-        {{dateGraph}}
-        <div class="feature-view">
-            <div class="feature-row">
-              <div class="feature feature-text  all-repos">
-                <h3>Worked on</h3>
-                {{#each featured}}
-                  <a href="{{html_url}}">{{stargazers_count}} <i class="fa fa-star"></i> <span class="feature-title">{{full_name}}</span>
-                  </a><br/>   
-                {{/each}}
-              </div>
-              <div class="feature feature-text  all-repos">
-                <h3>People worked with</h3>
-                {{#each sortandarrayify collaborators}}
-                  <div class="collaborator">
-                  <a href="{{f_html_url}}"><img src="{{f_avatar_url}}" class="mini-avatar"><span class="feature-title">{{f_login}}</span>
-                  </a></div>
-                {{/each}}
-              </div>
-
-
+          <div class="col-md-6">
+            <div id="graph" class="full-width"> 
+              <canvas id="canvas" width="700px" height="400px"></canvas> 
+              <div id="lineLegend"></div>    
             </div>
-        </div>
-      </div>
+            {{dateGraph}}
+          </div>
+        </div>  
   </div>
-
 </template>
