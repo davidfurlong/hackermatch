@@ -203,7 +203,7 @@ Template.ideaRow.events({
         var idea_id = e.currentTarget.dataset.id;
         Session.set("selectedIdea", idea_id);
     },
-    'click li.item-action' : function(e, t) {
+    'click li.item-heart' : function(e, t) {
       e.preventDefault();
         var idea_id = e.currentTarget.dataset.id;
         console.log("hearted");

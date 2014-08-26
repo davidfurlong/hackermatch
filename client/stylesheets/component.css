@@ -1,3 +1,30 @@
+#join_hackathon_code::-webkit-input-placeholder {
+   color: rgba(0,0,0,0.3);  
+}
+
+#join_hackathon_code:-moz-placeholder { /* Firefox 18- */
+   color: rgba(0,0,0,0.3);  
+}
+
+#join_hackathon_code::-moz-placeholder {  /* Firefox 19+ */
+   color: rgba(0,0,0,0.3);  
+}
+
+#join_hackathon_code:-ms-input-placeholder {  
+   color: rgba(0,0,0,0.3);  
+}
+
+.top-right-menu {
+    font-weight: 600;
+    margin-top: 9pt;
+}
+.top-right-menu a {
+    font-size: 14pt !important;
+}
+
+#title-bar {
+    background: rgb(70, 70, 70) !important;
+}
 
 .invite-code::-moz-selection { /* Code for Firefox */
     color: white;
@@ -242,7 +269,7 @@
 	outline: none;
 	border: 0;
 	border-bottom: 1px dashed white;
-	color: #e74c3c;
+	color: #fff;
 	font-weight: 700;
     float: right;
 }
@@ -459,6 +486,17 @@ a.link-border:focus::before {
 .row.item {
 	padding: 0;
 	margin-top: 10px;
+}
+
+.row .item-heart {
+	cursor: pointer;
+}
+
+.row .item-hearts {
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-weight: 700;
+	font-size: 16pt;
 }
 
 .row .item-title {

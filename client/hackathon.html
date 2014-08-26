@@ -1,11 +1,6 @@
 <template name="hackathon_nav">
-    <div class="top-right-menu">
-        <a id="new-idea">add idea</a>
-        <a id="my-profile">my profile</a>
-        {{#if isInRole 'admin' 'all'}}
-        <a id="admin-link" href="/admin">admin</a>
-        {{/if}}
-    </div>
+    <a id="new-idea">add idea</a>
+    <a id="my-profile">my profile</a>
 </template>
 <template name="hackathon">
     {{> sidebar}}
@@ -144,19 +139,12 @@
 
 <template name="ideaRow">
     <ul class="row item idea-list">
-        <li data-id="{{_id}}" class="item-action">
+        <li data-id="{{_id}}" class="item-action item-heart">
         <!--            <i class="ion-heart btn btn-7 btn-7f btn-icon-only icon-star {{#if hearted}}hearted{{/if}}"></i>  -->
             <i class="ion-heart btn btn-icon-only icon-star {{#if hearted}}hearted{{/if}}"></i>
         </li>
-        <li class="item-hearts">
-        	<span class="item-title">{{hearts}}</span>
-        </li>
-        <li class="item-icon">
-            {{#if avatar_url}}
-            <img src="{{avatar_url}}" width="64px" height="64px" style="border-radius:50px">
-            {{else}}
-            <img src="monkey.png" width="64px" height="64px" style="border-radius:50px">
-            {{/if}}
+        <li data-id="{{_id}}" class="item-heart">
+        	<span class="item-hearts">{{hearts}}</span>
         </li>
         <li data-id="{{_id}}" class="item-text">
         	<span class="item-title">{{name}}</span>
@@ -180,6 +168,13 @@
         	    <span class="badge t5">Mobile</span>
         	    {{/if}}
         	</span>
+        </li>
+        <li class="item-icon">
+            {{#if avatar_url}}
+            <img src="{{avatar_url}}" width="64px" height="64px" style="border-radius:50px">
+            {{else}}
+            <img src="monkey.png" width="64px" height="64px" style="border-radius:50px">
+            {{/if}}
         </li>
     </ul>
 </template>

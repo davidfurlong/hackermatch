@@ -2,10 +2,15 @@
     <div class="container">
         <div id="title-bar" class="cf">
             <div id="brand">
-                <a href="/home" id="home-link">hackermatch</a>
+                <a href="/home" id="home-link">hackermatch</a> / 
                 <a href="" id="my-group">{{title}}</a>
             </div>
-            {{> yield region='nav'}}
+            <div class="top-right-menu">
+                {{> yield region='nav'}}
+                {{#if isInRole 'admin' 'all'}}
+                <a id="admin-link" href="/admin">admin</a>
+                {{/if}}
+            </div>
         </div>	
         <div class="content-view">
             {{> yield}}
