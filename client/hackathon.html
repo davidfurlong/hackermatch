@@ -1,5 +1,5 @@
 <template name="hackathon_nav">
-    <a id="new-idea">add idea</a>
+    <a id="create-idea-link" href="/idea">add idea</a>
 </template>
 <template name="hackathon">
     {{> sidebar}}
@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="pt-page pt-page-3">
-            {{> idea_create_template }}
+            {{> idea_create_template_1 }}
         </div>
         <div class="pt-page pt-page-4">
             {{> update_user}}
@@ -226,7 +226,7 @@
 </template>
 
 
-<template name="idea_create_template">
+<template name="idea_create_template_1">
 <div class="fs-form-wrap idea" id="fs-form-wrap-idea">
     <form id="idea-create" action="action" class="fs-form idea fs-form-full" autocomplete="off">
         <ol class="fs-fields">
