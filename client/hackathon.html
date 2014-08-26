@@ -177,10 +177,19 @@
 <template name="sidebar">
 <div class="sidebar" style="{{#if opened}}{{else}}display:none;{{/if}}" >
     <div class="sidebar-item-title"><h1>{{idea.name}}</h1></div>
-    <div class="sidebar-item-author">posted by <a href="/user/{{idea.author.profile.login}}">{{idea.author.profile.name}}</a></div>
+    <div class="sidebar-item-author">
+        posted by 
+        {{#if idea.author.profile.avatar_url}}
+        <a href="/user/{{idea.author.profile.github_username}}" style="margin-left:10px"><img src="{{idea.author.profile.avatar_url}}" width="32px" height="32px" style="border-radius:50px;margin-top:-5px"></a>
+        {{/if}}
+        <a href="/user/{{idea.author.profile.login}}">{{idea.author.profile.name}}</a>
+        
+    </div>
     <div class="sidebar-item-desc">{{idea.description}}</div>
-    <div class="sidebar-item-skills">
-            <span class="sidebar-prompt">looking for</span>
+    {{#if anyTrue idea.skills}}
+        <div class="sidebar-item-skills">
+            <span class="sidebar-prompt">Looking for </span>
+
             {{#if idea.skills.webdev}}
             <span class="badge t1">Frontend</span>
             {{/if}}
@@ -195,12 +204,13 @@
             {{/if}}
             {{#if idea.skills.mobile}}
             <span class="badge t5">Mobile</span>
-            {{/if}}
-	</div>
+            {{/if}}  
+	   </div>
+    {{/if}}
 	
     <div class="sidebar-item-contact">
     {{#if idea.author.profile.contact}}
-    	contact {{idea.author.profile.contact}}
+    	contact <a href="mailto:{{idea.author.profile.contact}}">{{idea.author.profile.contact}}</a>
     {{/if}}
     </div> 
     <div class="sidebar-item-comments">
@@ -218,9 +228,34 @@
 </template>
 <template name="comment_template">
 	<div class="comment">
+        <span class="comment-avatar">
+            {{#if avatar_url}} 
+            <a href="/user/{{login}}"><img src="{{avatar_url}}" width="48px" height="48px" style="border-radius:50px"></a>
+            {{else}}
+            <img src="monkey.png" width="48px" height="48px" style="border-radius:50px;">
+            {{/if}}
+        </span>
         <span class="comment-author"><a href="/user/{{login}}">{{username}}</a></span>
-        <span class="comment-author">{{toMoment time}}</span>:
+        <span class="comment-skills">
+            {{#if skills.webdev}}
+            <span class="badge t1">Frontend</span>
+            {{/if}}
+            {{#if skills.design}}
+            <span class="badge t2">Designer</span>
+            {{/if}}
+            {{#if skills.backend}}
+            <span class="badge t3">Backend</span>
+            {{/if}}
+            {{#if skills.hardware}}
+            <span class="badge t4">Hardware</span>
+            {{/if}}
+            {{#if skills.mobile}}
+            <span class="badge t5">Mobile</span>
+            {{/if}}  
+        </span>
+        <span class="comment-time">{{toMoment time}}</span>
         <!--        <span class="comment-skill"><span class="badge t1">W</span></span> -->
+        <br/>
         <span class="comment-content">{{text}}</span>
 	</div>
 </template>
