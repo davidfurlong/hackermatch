@@ -267,9 +267,15 @@
 	float: right;
 	padding: 10px 21px;
 	background: transparent;
+	color: rgba(0,0,0,0.3);
 	outline: none;
 	border: 0;
-	border-bottom: 1px dashed white;
+	border-bottom: 1px dashed rgba(0,0,0,0.3);
+}
+
+.settings-form input:focus {
+	color: rgba(0,0,0,0.5);
+	border-bottom: 1px dashed rgba(0,0,0,0.5);
 }
 
 #update-user-form input[type="text"]{
@@ -1741,7 +1747,7 @@ input[type=text]::-ms-clear {
 
 .ac-custom input[type="checkbox"]:checked + label,
 .ac-custom input[type="radio"]:checked + label {
-	color: #333;
+	color: rgba(0,0,0,0.5);
 } 
 
 .ac-custom input[type="checkbox"]:checked + label::before,
