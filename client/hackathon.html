@@ -177,7 +177,7 @@
 <template name="sidebar">
 <div class="sidebar" style="{{#if opened}}{{else}}display:none;{{/if}}" >
     <div class="sidebar-item-title"><h1>{{idea.name}}</h1></div>
-    <div class="sidebar-item-author">posted by {{idea.author.profile.name}}</div>
+    <div class="sidebar-item-author">posted by <a href="/user/{{idea.author.profile.login}}">{{idea.author.profile.name}}</a></div>
     <div class="sidebar-item-desc">{{idea.description}}</div>
     <div class="sidebar-item-skills">
             <span class="sidebar-prompt">looking for</span>
@@ -209,7 +209,7 @@
 		    <input type="submit" value="Comment">
         </form>
         <div class="sidebar-item-comments-thread">
-            {{#each idea.commentThread}}    
+            {{#each reverse idea.commentThread}}    
                 {{> comment_template }}
             {{/each}}
 		</div>
@@ -218,7 +218,8 @@
 </template>
 <template name="comment_template">
 	<div class="comment">
-        <span class="comment-author">{{username}}</span>
+        <span class="comment-author"><a href="/user/{{login}}">{{username}}</a></span>
+        <span class="comment-author">{{toMoment time}}</span>:
         <!--        <span class="comment-skill"><span class="badge t1">W</span></span> -->
         <span class="comment-content">{{text}}</span>
 	</div>

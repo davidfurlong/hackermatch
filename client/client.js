@@ -221,6 +221,14 @@ Handlebars.registerHelper('bitmaparray',function(obj){
     return result;
 });
 
+Handlebars.registerHelper('toMoment', function(time){
+    return moment(time).fromNow();
+});
+
+Handlebars.registerHelper('reverse', function(ray){
+    return ray.reverse();
+});
+
 Template.index.rendered = function(){
     $('body').css('background-color','#3D4675');
     $('.pt-triggers').css('background-color', 'transparent');
@@ -576,12 +584,15 @@ Template.sidebar.events({
         e.preventDefault();
         var text = t.find('#comment-text').value;
         t.find('#comment-text').value = "";
-
+        var d = new Date();
+        var n = d.getTime();
         var authorName = Meteor.user().profile.name;
         var comment = {
             userId: Meteor.userId(),
             username: authorName,
+            login: Meteor.user().profile.login,
             text: text,
+            time: n,
             ideaId: Session.get("selectedIdea")
         };
 
