@@ -61,6 +61,32 @@ Meteor.startup(function () {
             }
         },
 
+        create_idea: function(idea) {
+
+            /*
+            var exists = Ideas.findOne({name: name});
+            if(exists) {
+                console.log("idea exists!");
+                //do something else
+                //can we select on name attribute again?
+            }
+            */
+
+            idea.hearts = 0;
+
+            //Ideas.insert({name: name}, function(err, result) {
+            Ideas.insert(idea, function(err, idea_id) {
+                if(err) {
+                    console.log("error creating idea");
+                } else {
+                    console.log(idea_id);
+                    console.log("idea id? " + idea_id);
+                    Meteor.call('heart_idea', idea_id, function(err, res) {});
+                }
+            });
+            return false;
+        },
+
         join_hackathon: function (invite_code) {
             console.log('join_hackathon called ' + invite_code);
 

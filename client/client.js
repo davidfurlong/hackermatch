@@ -868,10 +868,11 @@ Template.idea_create_template.events({
         }
     },
     'click .fs-continue' : function(e, t) {
-//    if(!$('.fs-fields li').hasClass('fs-current')){
-    if($('.fs-number-current').text() == "3") {
-      e.preventDefault();
-      var description = t.find('#q1').value
+        if($('.fs-number-current').text() != "3") {
+            return;
+        }
+        e.preventDefault();
+        var description = t.find('#q1').value
         , name = t.find('#q2').value
         , webdev = t.find('#cb1').checked
         , design = t.find('#cb2').checked
@@ -903,7 +904,6 @@ Template.idea_create_template.events({
             return;
         }
         
-
         Router.go('hackathon', {_title: hackathon.title});
 
         if(!description) return;
@@ -924,37 +924,9 @@ Template.idea_create_template.events({
             },
             comments: {}
         };
-        create_idea(idea);
-
-    }
+        Meteor.call('create_idea', idea, function(err, res) {});
     }
 });
-
-function create_idea(idea) {
-
-    /*
-    var exists = Ideas.findOne({name: name});
-    if(exists) {
-        console.log("idea exists!");
-        //do something else
-        //can we select on name attribute again?
-    }
-    */
-
-    idea.hearts = 0;
-
-    //Ideas.insert({name: name}, function(err, result) {
-    Ideas.insert(idea, function(err, idea_id) {
-        if(err) {
-            console.log("error creating idea");
-        } else {
-            console.log(idea_id);
-            console.log("idea id? " + idea_id);
-            Meteor.call('heart_idea', idea_id, function(err, res) {});
-        }
-    });
-    return false;
-}
 
 Template.settings.helpers({
     name: function() {
