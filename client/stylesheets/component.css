@@ -72,6 +72,10 @@
     /* background: rgb(255, 132, 132); */
 /*    background: #222;
 */}
+.inner-view {
+    margin: 0 auto;
+    max-width: 1200px;
+}
 .view {
     height: 100%;
     padding: 20px;
