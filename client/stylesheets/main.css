@@ -1,16 +1,26 @@
 /* NAV BAR */
 
 #title-bar {
+	z-index: 1000;
+	position: absolute;
+	top: 0px;
+	width: 100%;
+	padding: 10px 30px;
 }
 
 #brand {
 	padding-left: 10px;
 	font-size: 24pt;
 	float: left;
+	font-weight: 600;
 }
 
 #home-link {
 	color: white;
+}
+
+#my-group {
+	color: #ddd;
 }
 
 .top-right-menu {
@@ -21,6 +31,15 @@
 	font-size: 24pt;
 	margin-right: 30px;
 	cursor: pointer;
+	color: #eee;
+}
+
+.top-right-menu a:hover {
+	color: #fff;
+}
+
+.pt-page {
+	padding-top: 100px;
 }
 
 /* TOOLS */
@@ -43,6 +62,10 @@
 
 /* ELEMENT STYLES */
 
+.view {
+	margin-top: 50px;
+}
+
 html, body {
 	height: 100%;
 }
@@ -52,7 +75,7 @@ html, body {
 }
 
 body {
-	background: #0b9664;
+	background: #6ad844;
 	color: #fff;
 	font-weight: 400;
 	font-size: 1em;
