@@ -1,3 +1,8 @@
+
+.page-container {
+    margin: 20px;
+}
+
 #settings {
     height: 100%;
     background: #7BA5FF;
@@ -54,6 +59,7 @@
 */}
 .home-view {
     height: 100%;
+    background: #69EE69;
 /*    background: rgb(005, 182, 182);
 */}
 .content-view {
@@ -1260,7 +1266,7 @@ button.fs-continue:hover {
 	text-align: center;
 	background: transparent;
 	color: rgba(0,0,0,0.3);
-	content: 'or press ENTER';
+/*	content: 'or press ENTER'; */
 	font-size: 0.65em;
 	pointer-events: none;
 }
@@ -1541,7 +1547,7 @@ input[type=text]::-ms-clear {
 }
 
 .pt-page-3 {
-	background: #7222e9;
+	background: #9C61F3;
 }
 
 .pt-page-4 {

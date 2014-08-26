@@ -111,7 +111,7 @@ Router.map(function() {
         },
         waitOn: function() { return Meteor.subscribe('myHackathons', this.userId)},
         onBeforeAction: function () {
-//            Session.set("current_hackathon", "");
+//            Session.set("current_hackathon", null);
             if (!Meteor.user()) {
               if (Meteor.loggingIn()) {
               }
@@ -156,7 +156,7 @@ Router.map(function() {
         },
         waitOn: function() { return Meteor.subscribe('hackathons', this.userId)},
         onBeforeAction: function () {
-//            Session.set("current_hackathon", "");
+//            Session.set("current_hackathon", null);
             if (!Meteor.user()) {
               if (Meteor.loggingIn()) {
               }
@@ -166,12 +166,42 @@ Router.map(function() {
             }
         }
     });
+    this.route('create_idea', {path: '/idea' , 
+        data: function() {
+            var hackathon = Session.get("current_hackathon");
+            if(hackathon) {
+                hackathon.override_title = hackathon.title;
+                hackathon.override_title_url = '/' + hackathon.url_title;
+            }
+            return hackathon;
+        },
+//        waitOn: function() { return Meteor.subscribe('hackathon_and_ideas', this.params._title)},
+        yieldTemplates: {
+          'base_nav': {to: 'nav'}
+        },
+        onBeforeAction: function () {
+            if (!Meteor.user()) {
+              if (Meteor.loggingIn()) {
+              } else {
+                Router.go('signup');
+              }
+            } else {
+                if(!Session.get("current_hackathon")) {
+                    Router.go('home'); 
+                }
+            }
+        }
+    });        
     this.route('hackathon', {path: '/:_title' , 
         data: function() {
             var url_title = encodeURI(this.params._title.toLowerCase().replace(/ /g, ''));
-            var hackathon = Hackathons.findOne({url_title: url_title});
-            if(hackathon) {
-                Session.set("current_hackathon", hackathon);
+            var hackathon = Session.get("current_hackathon");
+
+            if(!hackathon || hackathon.url_title != url_title) {
+                hackathon = Hackathons.findOne({url_title: url_title});
+                if(hackathon) {
+                    Session.set("current_hackathon", hackathon);
+                }
             }
             return hackathon;
         },
@@ -648,6 +678,7 @@ Template.sidebar.opened = function() {
     }
 }
 Template.hackathon.rendered =  function() {
+    /*
 $.getScript("js/inline.js", function(data, textStatus, jqxhr) {
                       [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {    
                           new SelectFx( el, {
@@ -658,6 +689,7 @@ $.getScript("js/inline.js", function(data, textStatus, jqxhr) {
                           });
                       } );
 })
+*/
 }
 
 Template.settings.rendered =  function() {
@@ -812,6 +844,14 @@ Template.admin.events({
 
    
 Template.idea_create_template.events({
+    'keyup #idea-create' : function(e){
+        if(e.keyCode == 13){
+            if($('.fs-number-current').text() == "3") {
+                e.preventDefault();
+                $('.fs-continue').click();
+            }
+        }
+    },
     'click .fs-continue' : function(e, t) {
 //    if(!$('.fs-fields li').hasClass('fs-current')){
     if($('.fs-number-current').text() == "3") {
@@ -838,10 +878,17 @@ Template.idea_create_template.events({
         $('.fs-controls > *').addClass('fs-show');
         $('.fs-controls').height($('.pt-page-3').height());
         //using pageTransitions library, instead of Meteor routing...
-        $('#my-group').click();
-
         
         var hackathon = Session.get("current_hackathon");
+       
+        //TODO make a better error case, shouldn't even get this far...
+        if(!hackathon || hackathon == "") {
+            console.log("no hackathon selected");
+            Router.go('home');
+            return;
+        }
+        
+        Router.go('hackathon', {_title: hackathon.title});
 
         var idea = {
             name: name,

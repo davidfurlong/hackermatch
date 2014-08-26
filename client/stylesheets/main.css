@@ -21,7 +21,7 @@
 html {
 	overflow-x: hidden;
 	font-family: 'Avenir';
-	background: #dfef9b;
+	background: #222;
 	color: #fff;
 	font-weight: 400;
 	font-size: 1em;
@@ -36,6 +36,10 @@ html {
 
 #home-link {
 	color: white;
+}
+
+#title-url {
+	color: #ddd;
 }
 
 #my-group {
