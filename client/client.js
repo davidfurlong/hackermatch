@@ -251,6 +251,14 @@ Handlebars.registerHelper('bitmaparray',function(obj){
     return result;
 });
 
+Handlebars.registerHelper('anyTrue', function(obj){
+    for(a in obj){
+        if(obj[a])
+            return true;
+    }
+    return false;
+});
+
 Handlebars.registerHelper('toMoment', function(time){
     return moment(time).fromNow();
 });
@@ -615,28 +623,29 @@ Template.sidebar.events({
     'submit #comment-create' : function(e, t) {
         e.preventDefault();
         var text = t.find('#comment-text').value;
-        t.find('#comment-text').value = "";
-        var d = new Date();
-        var n = d.getTime();
-        var authorName = Meteor.user().profile.name;
-        var comment = {
-            userId: Meteor.userId(),
-            username: authorName,
-            login: Meteor.user().profile.login,
-            text: text,
-            time: n,
-            ideaId: Session.get("selectedIdea")
-        };
+        if(text != ""){
+            t.find('#comment-text').value = "";
+            var comment = {
+                userId: Meteor.userId(),
+                username: Meteor.user().profile.name,
+                login: Meteor.user().profile.login,
+                avatar_url: Meteor.user().profile.avatar_url,
+                text: text,
+                skills: Meteor.user().profile.skills,
+                time: new Date().getTime(),
+                ideaId: Session.get("selectedIdea")
+            };
 
-        //console.log(comment);
-        Comments.insert(comment, function(err, result) {
-            if(err) {
-                console.log("error creating comment");
-            } else {
-                //hackety hackety hack
-                //console.log("comment added!");
-            }
-        });
+            //console.log(comment);
+            Comments.insert(comment, function(err, result) {
+                if(err) {
+                    console.log("error creating comment");
+                } else {
+                    //hackety hackety hack
+                    //console.log("comment added!");
+                }
+            });
+        }
     },
     'keyup #comment-create' : function(e){
         if(e.keyCode == 13){
