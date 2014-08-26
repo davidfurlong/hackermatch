@@ -46,12 +46,32 @@ Router.map(function() {
             }
         }
     });
+    this.route('settings', {
+        path: '/settings',
+        data: function() { 
+            var user = Meteor.user(); 
+            if(user) {
+                user['title'] = user.profile.login;
+            }
+            return user;
+        },
+        waitOn: function() { return Meteor.subscribe('user', this.params._username)},
+        onBeforeAction: function() {
+            if (!Meteor.user()){
+                if (Meteor.loggingIn()) {
+                }
+                else{
+                  Router.go('signup');
+                }
+            }
+        }
+    });
     this.route('profile', {
         path: '/user/:_username',
         data: function() { 
             var user = Meteor.users.findOne({'services.github.username': this.params._username}); 
             if(user) {
-                user['title'] = user.services.github.username;
+                user['title'] = this.params._username;
             }
             return user;
         },
@@ -811,7 +831,7 @@ function create_idea(idea) {
     return false;
 }
 
-Template.update_user.helpers({
+Template.settings.helpers({
     name: function() {
         if(Meteor.user() && Meteor.user().profile) {
             return Meteor.user().profile.name; 
@@ -842,7 +862,7 @@ Template.update_user.helpers({
         }
     }
 });
-Template.update_user.events({
+Template.settings.events({
     'submit #update-user-form' : function(e, t) {
       e.preventDefault();
       var q1 = t.find('#user_name').value

@@ -76,7 +76,7 @@ html, body {
 }
 
 .container {
-	height: calc();
+	height: 100%;
 }
 
 body {
