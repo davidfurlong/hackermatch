@@ -3,10 +3,10 @@
         <div id="title-bar" class="cf">
             <div id="brand">
 
-                <a href="/home" id="home-link"><img src="logo.png" height="36px" style="margin-top:-5px;margin-right:10px">hackermatch</a>
+                <a href="/home" id="home-link"><img src="/logo.png" height="36px" style="margin-top:-5px;margin-right:10px">hackermatch</a>
                 <span class='title-divider'> / </span>
-                {{#if override_title_url}}
-                <a href="{{override_title_url}}" id="title-url">{{override_title}}</a>
+                {{#if selected_hackathon}}
+                <a id="title-url" href="/{{selected_hackathon.url_title}}">{{selected_hackathon.title}}</a>
                 {{else}}
                 <a href="" id="title-url">{{title}}</a>
                 {{/if}}
@@ -26,9 +26,11 @@
         </div>
     </div><!-- /container -->
 </template>
- <template name="base_nav">
+<template name="base_nav">
+<!--
     {{#if selected_hackathon}}
     <a id="hackathon-link" href="/{{selected_hackathon.url_title}}">find team</a>
     {{/if}}
+    -->
 </template>
 

@@ -40,7 +40,7 @@
 }
 
 #title-bar {
-	background: rgba(70, 70, 70, 0.7) !important;
+	background: rgba(70, 70, 70, 0.9) !important;
 	position: fixed !important;
 /*	border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
    /* -moz-background-clip: padding;     
@@ -72,6 +72,10 @@
     /* background: rgb(255, 132, 132); */
 /*    background: #222;
 */}
+.inner-view {
+    margin: 0 auto;
+    max-width: 1200px;
+}
 .view {
     height: 100%;
     padding: 20px;
@@ -302,6 +306,25 @@
 #user_skills {
     height: 160px;
 }
+
+#logout:hover {
+    color: rgba(0,0,0,0.3);
+}
+#profile-link:hover {
+    color: rgba(0,0,0,0.3);
+}
+
+#profile-link {
+	padding: 10px 20px;
+	background: transparent;
+	outline: none;
+	border: 0;
+	border-bottom: 1px dashed white;
+	color: #fff;
+	font-weight: 700;
+    float: right;
+}
+
 
 #logout {
 	padding: 10px 20px;
