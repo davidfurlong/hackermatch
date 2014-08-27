@@ -272,7 +272,7 @@ Template.index.rendered = function(){
 
 Handlebars.registerHelper('sortandarrayify',function(obj){
     var result = [];
-    console.log(obj);
+    //console.log(obj);
     for (var key in obj) {
         result.push(obj[key]);
     }
@@ -292,7 +292,7 @@ Template.ideaRow.events({
     'click li.item-heart' : function(e, t) {
         e.preventDefault();
         var idea_id = e.currentTarget.dataset.id;
-        console.log("hearted");
+        //console.log("hearted");
 
         Meteor.call('heart_idea', idea_id, function(err, res) {});
     }
@@ -403,7 +403,7 @@ Template.profile_contents.helpers({
     },
     dateGraph: function(){
         if(this.profile) {
-           console.log('rendered');
+           //console.log('rendered');
             var repos = this.profile.repos;
 
             function contributedTo(repo){
@@ -944,7 +944,8 @@ Template.settings.events({
         // Trim and validate the input
         Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":updated_profile}});
 
-        Meteor.call('attach_ideas', Meteor.user()._id, function(err, res) {});
+        Meteor.call('attach_ideas', Meteor.user()._id);
+        Meteor.call('update_ideas', Meteor.user()._id);
 
         var hackathon = Session.get("current_hackathon");
        
