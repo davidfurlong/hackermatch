@@ -20,7 +20,7 @@
 
 html {
 	overflow-x: hidden;
-	font-family: 'Avenir';
+	font-family: 'Avenir-Book', 'Avenir', helvetica, sans-serif;
 	background: #222;
 	color: #fff;
 	font-weight: 400;
@@ -30,8 +30,9 @@ html {
 #brand {
 	padding-left: 10px;
 	font-size: 24pt;
+	font-weight: 600;
 	float: left;
-	font-family: 'Avenir-Black';
+	font-family: 'Avenir-Black', 'Avenir', helvetica, sans-serif;
 }
 
 #home-link {
