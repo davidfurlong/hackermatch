@@ -47,10 +47,10 @@ function loadData(hackathon_id) {
                 contact: email
             },
             skills: {
-                webdev: true,
-                backend: true,
-                mobile: true,
-                design: true,
+                webdev: false,
+                backend: false,
+                mobile: false,
+                design: false,
                 hardware: false 
             },
             comments: {}
