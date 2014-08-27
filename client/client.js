@@ -233,6 +233,8 @@ Router.map(function() {
     });
 });
 
+/* START HANDLEBARS HELPERS */
+
 Handlebars.registerHelper('selected_hackathon',function(){
     var hackathon = Session.get('current_hackathon');
     return hackathon;
@@ -265,10 +267,9 @@ Handlebars.registerHelper('reverse', function(ray){
     return [];
 });
 
-Template.index.rendered = function(){
-    $('.pt-triggers').css('background-color', 'transparent');
-}
-
+Handlebars.registerHelper('positive', function(num){
+    return num > 0
+});
 
 Handlebars.registerHelper('sortandarrayify',function(obj){
     var result = [];
@@ -282,6 +283,12 @@ Handlebars.registerHelper('sortandarrayify',function(obj){
     
     return result;
 });
+
+/* END HANDLEBARS HELPERS */
+
+Template.index.rendered = function(){
+    $('.pt-triggers').css('background-color', 'transparent');
+}
 
 Template.ideaRow.events({
     'click li.item-text' : function(e, t) {
@@ -306,7 +313,6 @@ Template.profile.helpers( {
         }
     }
 });
-
 
 Template.profile_contents.helpers({
     name: function() {
@@ -483,7 +489,6 @@ Template.profile_contents.helpers({
     }
 });
 
-
 function renderChart(){
     if(window.renderedChart != true){
         window.renderedChart = true;
@@ -570,6 +575,7 @@ Template.potentialTeams.helpers({
                 } else {
                     idea.hearted = false;
                 }
+                idea.commentCount = Comments.find({ideaId: idea._id}).fetch().length;
             });
             return x;
         } else return;
@@ -577,7 +583,7 @@ Template.potentialTeams.helpers({
 });
 
 Template.ideaList.helpers({
-  ideas: function() {
+    ideas: function() {
         var hackathon = Session.get("current_hackathon");
         if(!hackathon) return;
         var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
@@ -589,9 +595,10 @@ Template.ideaList.helpers({
             } else {
                 idea.hearted = false;
             }
+            idea.commentCount = Comments.find({ideaId: idea._id}).fetch().length;
         });
         return x;
-  }
+    }
 });
 
 Template.yourIdeaList.helpers({
@@ -607,6 +614,7 @@ Template.yourIdeaList.helpers({
             } else {
                 idea.hearted = false;
             }
+            idea.commentCount = Comments.find({ideaId: idea._id}).fetch().length;
         });
         return x;
     }

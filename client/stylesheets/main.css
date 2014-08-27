@@ -56,6 +56,14 @@ html {
 	margin-top: 9px;
 }
 
+.item-comments, .item-skills {
+	cursor: pointer;
+}
+
+.item-comments {
+	color: #ccc;
+}
+
 .top-right-menu a {
 	font-size: 24pt;
 	margin-right: 30px;

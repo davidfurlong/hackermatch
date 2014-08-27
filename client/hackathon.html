@@ -158,6 +158,12 @@
         	    <span class="badge t5">Mobile</span>
         	    {{/if}}
         	</span>
+            <span class="item-comments">
+            {{#if positive commentCount}}
+                {{commentCount}}
+                <i class="fa fa-comment"></i>
+            {{/if}}
+            </span>
         </li>
         <li class="item-icon" style="float:right;">
             {{#if user_profile.avatar_url}}
