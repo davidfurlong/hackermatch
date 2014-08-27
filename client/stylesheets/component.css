@@ -274,11 +274,6 @@
 	height: 0;
 }
 
-#github-button {
-    top: 275px;
-    position: relative;
-}
-
 .settings-form input {
 	float: right;
 	padding: 10px 21px;
@@ -805,6 +800,9 @@ button.fs-continue,
 .js .fs-form-full .fs-fields > li {
 	position: absolute;
 	width: 100%;
+}
+#register-form.fs-form-full .fs-fields > li {
+	position: relative;
 }
 
 .fs-form-overview .fs-fields > li,
