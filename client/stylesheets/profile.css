@@ -13,10 +13,24 @@
 	color: #222;
 	margin: 0;
 	clear: both;
-	padding-top: 70px;
-	background:white;
-	font-family: 'Raleway', sans-serif;
+	padding: 70px 0px;
+	background: #efefef;
 	-webkit-font-smoothing: antialiased;
+}
+
+#profile-link:hover {
+    color: rgba(0,0,0,0.3);
+}
+
+#profile-link {
+	padding: 10px 20px;
+	background: transparent;
+	outline: none;
+	border: 0;
+	border-bottom: 1px dashed white;
+	color: #fff;
+	font-weight: 700;
+    float: right;
 }
 
 .collaborator {
@@ -85,58 +99,40 @@
 
 }
 
-.title {
-	background: black;
-	display: block;
-	box-sizing: border-box;
-}
-
-
-
-.title a {
-	color: white;
-
-}
-
-.title a:hover {
-	color: white;
-}
-
-
 
 	/* ROW 1 */
 
 	#picture {
 		height: 200px;
+		border-radius: 100px;
 		width: 200px;
+		margin: 20px auto;
 		overflow: hidden;
-		float: left;
 	}
 
 	#details {
 		width: auto;
 		max-width: 500px;
-		height: 200px;
-		float: left;
-		margin: 0 15px;
+		margin: 0 auto;
 		padding: 0 15px;
 		color: #555;
 	}
-	#name {
+		#name {
 			color: #222;
-			margin-top: -3px;
-			margin-left: -3px;
+			margin: 0 auto;
+			width: auto;
 			font-size: 30pt;
 			text-transform: uppercase;
 			font-weight: 900;
 		}
 
-		#contact {
-			font-size: 16pt;
+		#details {
+			margin: 0 auto;
 		}
-
 		#details i {
 			width: 20px;
+			font-size: 20pt;
+			margin:10px 10px;
 		}
 
 	#interests {
@@ -157,14 +153,7 @@
 		}
 
 	#graph {
-		float: right;
-		height: 400px;
-		width: 500px; 
 	
-	}
-	#graph.full-width {
-		width: 700px;
-		height: 200px;
 	}
 
 .fa-star {
@@ -180,8 +169,19 @@
 		min-width: 300px;
 		padding: 5px;
 	}
+	.title-dot {
+		width: 10px;
+		margin-right: 5px;
+		height: 10px;
+		border-radius:10px;
+		display: inline-block;
+		box-sizing: border-box;
+	}
+	.title-container {
+		display: inline-block;
+		margin-top: 5px;
+	}
 		.feature-title {
-			font-weight: 700;
 		}
 		.feature-body {
 			font-size: 16pt;
@@ -200,9 +200,8 @@
 		overflow: hidden;
 		
 	}
-
 	.feature-image img {
-			height: 100%;
-			width: auto;
-			max-width: 300px;
-		}
+		height: 100%;
+		width: auto;
+		max-width: 300px;
+	}

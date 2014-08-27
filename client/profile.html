@@ -14,39 +14,26 @@
 <template name="profile_contents">
   <div class="profile" id="profile">
         <div id="row1" class="row">
-          <div class="col-md-6">
+          <div class="col-md-6 col-md-offset-3">
             <div id="picture">
               <img src="{{avatar_url}}" height="200px" width="200px" />
             </div>
             <div id="details">
+
               <div id="name">
+              <center>
               {{#if name }}
                 {{name}}
               {{else}}
                ------- 
               {{/if}}
+              </center>
               </div>
               <div id="contact">
+                <center>
                 <div>
                   {{#if languages }}
                     {{languages}}
-                  {{/if}}
-                </div>
-                <div>
-                {{#if github }}
-                  <a href="{{github_url}}"><i class="fa fa-github"></i>{{github}}</a>
-                {{/if}}
-                </div>
-                <div>
-                  {{#if contact }}
-                    <i class="fa fa-paper-plane-o"></i>
-                    {{contact}}
-                  {{/if}}
-                </div>
-                <div>
-                  {{#if location }}
-                    <i class="fa fa-map-marker"></i>
-                    {{location}}
                   {{/if}}
                 </div>
                 <div class="profile-skills">
@@ -56,39 +43,52 @@
                     {{/each}}
                   {{/if}}
                 </div>
+                <div>
+                {{#if github }}
+                  <a href="{{github_url}}"><i class="fa fa-github"></i></a>
+                {{/if}}
+                {{#if contact }}
+                  <a href="mailto:{{contact}}"><i class="fa fa-paper-plane-o"></i></a>
+                {{/if}}
+                {{#if location }}
+                  <i class="fa fa-map-marker"></i>
+                  {{location}}
+                {{/if}}
+                </div>
+                </center>
               </div>
             </div>
-            <div class="feature-view">
-                <div class="feature-row row">
-                  <div class="col-md-6">
-                  <div class="feature feature-text  all-repos">
-                    <h3>Worked on</h3>
-                    {{#each featured}}
-                      <a href="{{html_url}}">{{stargazers_count}} <i class="fa fa-star"></i> <span class="feature-title">{{full_name}}</span>
-                      </a><br/>   
-                    {{/each}}
-                  </div>
-                  </div>
-                  <div class="col-md-6">
-                  <div class="feature feature-text  all-repos">
-                    <h3>People worked with</h3>
-                    {{#each sortandarrayify collaborators}}
-                      <div class="collaborator">
-                      <a href="{{f_html_url}}"><img src="{{f_avatar_url}}" class="mini-avatar"><span class="feature-title">{{f_login}}</span>
-                      </a></div>
-                    {{/each}}
-                  </div>
-                  </div>
-                </div>
+            <div class="feature-row row">
+              <div class="col-md-6 col-md-offset-1">
+              <div class="feature feature-text  all-repos">
+                <h3>Worked on</h3>
+                {{#each featured}}
+                  <a href="{{html_url}}">{{stargazers_count}} <i class="fa fa-star"></i> <span class="feature-title">{{full_name}}</span>
+                  </a><br/>   
+                {{/each}}
+              </div>
+              </div>
+              <div class="col-md-5">
+              <div class="feature feature-text  all-repos">
+                <h3>Worked with</h3>
+                {{#each sortandarrayify collaborators}}
+                  <div class="collaborator">
+                  <a href="{{f_html_url}}"><img src="{{f_avatar_url}}" class="mini-avatar"><span class="feature-title">{{f_login}}</span>
+                  </a></div>
+                {{/each}}
+              </div>
+              </div>
             </div>
           </div>
-          <div class="col-md-6">
-            <div id="graph" class="full-width"> 
-              <canvas id="canvas" width="700px" height="400px"></canvas> 
-              <div id="lineLegend"></div>    
+        </div>  
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+            <div id="graph"> 
+              <div id="lineLegend"></div>
+              <canvas id="canvas" width="500px" height="200px"></canvas>      
             </div>
             {{dateGraph}}
           </div>
-        </div>  
+        </div>
   </div>
 </template>

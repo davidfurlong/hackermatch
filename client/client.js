@@ -425,7 +425,7 @@ Template.profile_contents.helpers({
                     label: c.name,
                     url: c.html_url,
                     bio: c.description,
-                    fillColor : "rgba(220,220,220,0.2)",
+                    fillColor : "rgba(256,256,256,0.3)",
                     strokeColor : color,
                     pointColor : color,
                     pointStrokeColor : "#fff",
@@ -514,17 +514,22 @@ function renderChart(){
             h3.appendChild(label);
             parent.appendChild(h3);
             datas.forEach(function(d) {
+                var titlecontainer = document.createElement('div');
+                var titlelabel = document.createElement('span');
                 var title = document.createElement('span');
                 title.className = 'title';
-                title.style.backgroundColor = d.hasOwnProperty('strokeColor') ? d.strokeColor : d.color;
-                title.style.borderColor = d.hasOwnProperty('strokeColor') ? d.strokeColor : d.color;
-                title.style.borderStyle = 'solid';
-                parent.appendChild(title);
+                titlelabel.className = 'title-dot';
+                titlelabel.style.backgroundColor = d.hasOwnProperty('strokeColor') ? d.strokeColor : d.color;
+                // title.style.borderColor = d.hasOwnProperty('strokeColor') ? d.strokeColor : d.color;
+                // title.style.borderStyle = 'solid';
+                titlecontainer.appendChild(titlelabel);
+                titlecontainer.appendChild(title);
                 var link = document.createElement('a');
                 link.href = d.url;
                 title.appendChild(link)
                 var text = document.createTextNode(d.label + " - "+d.bio);
                 link.appendChild(text);
+                parent.appendChild(titlecontainer);
             });
         }
         legend(document.getElementById("lineLegend"), window.lineChartData.datasets);
