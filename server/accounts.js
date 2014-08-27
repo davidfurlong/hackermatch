@@ -3,7 +3,7 @@
 Meteor.startup(function () {
 
     var user = Meteor.users.findOne({"profile.login": "kainolophobia"});
-    console.log(user);
+    //console.log(user);
     if(user) {
         Roles.addUsersToRoles(user._id, ['admin'], 'all');
         Roles.addUsersToRoles(user._id, ['hacker'], 'ychacks');
@@ -20,7 +20,7 @@ Meteor.startup(function () {
     Meteor.methods({
 
         attach_ideas: function (user_id) {
-            console.log('attaching lost ideas to users ' + user_id);
+            //console.log('attaching lost ideas to users ' + user_id);
 
             var user = Meteor.users.findOne(user_id);
             if(!user) return;
@@ -36,9 +36,22 @@ Meteor.startup(function () {
             });
         },
 
+        update_ideas: function (user_id) {
+            //console.log('updating ideas with user info' + user_id);
+
+            var user = Meteor.users.findOne(user_id);
+            if(!user) return;
+            var ideas = Ideas.find({ $and: [
+                {userId: user_id}
+            ]}).fetch();
+            _.each(ideas, function(idea) {
+                Ideas.update({_id:idea._id}, {$set:{"user_profile":user.profile}});
+            });
+        },
+
         heart_idea: function (idea_id) {
 
-            console.log('hearting idea ' + idea_id);
+            //console.log('hearting idea ' + idea_id);
             var heart = Hearts.findOne({ $and: [{idea_id: idea_id}, {user_id: this.userId}]});
             var idea = Ideas.findOne({_id: idea_id});
 
@@ -67,9 +80,9 @@ Meteor.startup(function () {
 
                 Hearts.insert(heart, function(err, result) {
                     if(err) {
-                        console.log("error hearting idea");
+                        //console.log("error hearting idea");
                     } else {
-                        console.log("hearted idea!");
+                        //console.log("hearted idea!");
                         //Add initial heart to idea
                         idea.hearts++;
                         Ideas.update({_id:idea._id}, {$set:{"hearts":idea.hearts}});
@@ -96,8 +109,8 @@ Meteor.startup(function () {
                 if(err) {
                     console.log("error creating idea");
                 } else {
-                    console.log(idea_id);
-                    console.log("idea id? " + idea_id);
+                    //console.log(idea_id);
+                    //console.log("idea id? " + idea_id);
                     Meteor.call('heart_idea', idea_id, function(err, res) {});
                 }
             });
@@ -105,7 +118,7 @@ Meteor.startup(function () {
         },
 
         join_hackathon: function (invite_code) {
-            console.log('join_hackathon called ' + invite_code);
+            //console.log('join_hackathon called ' + invite_code);
 
             var hackathon = Hackathons.findOne({invite_code: invite_code});
             
@@ -127,8 +140,23 @@ Meteor.startup(function () {
                 return false;
             }
 
+            if (this.userId) {
+                if(!Roles.userIsInRole(this.userId, ['admin'], 'all')) {
+                    //don't let non-admins create_hackathons
+                    return false;
+                }
+            }
+
             var url_title = encodeURI(title.toLowerCase().replace(/ /g, ''));
+            //Need to check and make sure this hash is unique...
             var hash = ((Math.floor(Math.random() * 1e8) + new Date().getMilliseconds()).toString(36)).toUpperCase().substring(0,5);
+             
+            var code_exists = Hackathons.findOne({invite_code: hash});
+            while(code_exists) {
+                hash = ((Math.floor(Math.random() * 1e8) + new Date().getMilliseconds()).toString(36)).toUpperCase().substring(0,5);
+                code_exists = Hackathons.findOne({invite_code: hash});
+            }
+
             var hackathon = {
                 title: title,
                 url_title: url_title,
@@ -151,18 +179,18 @@ Meteor.startup(function () {
 
             var exists = Hackathons.findOne({title: title});
             if(exists) {
-                console.log("hackathon exists!");
+                //console.log("hackathon exists!");
                 return;
                 //do something else
                 //can we select on name attribute again?
             }
 
-            console.log(hackathon.title + " invite code: " + hackathon.invite_code);
+            //console.log(hackathon.title + " invite code: " + hackathon.invite_code);
             Hackathons.insert(hackathon, function(err, result) {
                 if(err) {
                     console.log("error creating hackathon");
                 } else {
-                    console.log("hackathon created!");
+                    //console.log("hackathon created!");
                     
                     //reset input field
                 }
@@ -281,7 +309,7 @@ Accounts.onCreateUser(function (options, user) {
             }
           }
           var contributors_url = "https://api.github.com/repos/"+temp['full_name']+"/contributors";
-          console.log(contributors_url);
+          //console.log(contributors_url);
           var contributors = Meteor.http.get(contributors_url, {
             headers: {
               'User-Agent':'davidfurlong'
@@ -296,7 +324,7 @@ Accounts.onCreateUser(function (options, user) {
           var totalcommits = 0;
           var mycommits = 0;
           var parsedContributors = JSON.parse(contributors.content);
-          console.log(parsedContributors);
+          //console.log(parsedContributors);
           if(parsedContributors instanceof Array){
             _.each(parsedContributors, function(contributor){
               if(contributor.login == profile.login){
@@ -335,35 +363,35 @@ Accounts.onCreateUser(function (options, user) {
       var user_id = user._id;
 
       var current_user = Meteor.users.findOne(user._id);
-      console.log("user._id: " + user._id);
-      console.log("current_user._id: " + current_user._id);
+      //console.log("user._id: " + user._id);
+      //console.log("current_user._id: " + current_user._id);
 
       //Should contain github info
-      console.log("profile 1 : " );
-      console.log(profile);
+      //console.log("profile 1 : " );
+      //console.log(profile);
 
       //should contain github info plus all skills/changed features since request started
       profile = current_user.profile;
       
-      console.log("profile 2 : " );
-      console.log(profile);
+      //console.log("profile 2 : " );
+      //console.log(profile);
 
       profile = _.extend(profile, {'repos': userRepositories});
 
       var d = new Date();
       profile['updated_at'] = d.getTime();
 
-      console.log("profile 3 : " );
-      console.log(profile);
+      //console.log("profile 3 : " );
+      //console.log(profile);
 //      user.profile = profile;
 
       Meteor.users.update({_id:user._id}, {$set:{"profile":profile}})
 
-      console.log("ASYNC profile creation finished");
+      //console.log("ASYNC profile creation finished");
   });
 
 
-  console.log("User initial profile creation finished");
+  //console.log("User initial profile creation finished");
 
   return user;
 });

@@ -4,10 +4,10 @@ var path = Npm.require('path');
 
 function loadData(hackathon_id) {
   var basepath = path.resolve('.').split('.meteor')[0];
-  console.log(basepath);
-  console.log(csv);
+  //console.log(basepath);
+  //console.log(csv);
   var stream = fs.createReadStream(basepath+'mhacks.csv');
-  console.log(stream);
+  //console.log(stream);
     stream.pipe(
     csv.parse     ()).pipe(
     csv.transform (Meteor.bindEnvironment(function(record){
@@ -35,9 +35,9 @@ function loadData(hackathon_id) {
         var user = record[0],
             email = record[1],
             idea = record[3];
-        console.log("user: " + user);
-        console.log("email: " + email);
-        console.log("idea: " + idea);
+        //console.log("user: " + user);
+        //console.log("email: " + email);
+        //console.log("idea: " + idea);
         var idea = {
             description: idea,
             hackathon_id: hackathon_id,
@@ -55,36 +55,10 @@ function loadData(hackathon_id) {
             },
             comments: {}
         }
-        console.log(idea);
+        //console.log(idea);
         Meteor.call('create_idea', idea, function(err, res) {});
 //        return record.map(function(value){return value.toUpperCase()});
     })));
-/*
-.pipe(
-    csv.stringify ()).pipe(process.stdout);
-    */
-        /*
-  csv().from.stream(
-    fs.createReadStream(basepath+'server/data/enron_data.csv'),
-      {'escape': '\\'})
-    .on('record', Meteor.bindEnvironment(function(row, index) {
-        console.log(row);
-      Emails.insert({
-        'sender_id': row[0]
-        // etc.
-        })
-      }, function(error) {
-          console.log('Error in bindEnvironment:', error);
-      }
-    ))
-    .on('error', function(err) {
-      console.log('Error reading CSV:', err);
-    })
-    .on('end', function(count) {
-      console.log(count, 'records read');
-    });
-        */
-
 }
 
 
@@ -93,15 +67,14 @@ Meteor.startup(function () {
 //    Ideas.remove({});
     var User = Meteor.users.findOne({"services.github.username":"kainolophobia"});
 //    var User = Meteor.users.findOne({"services.github.username":"jumploops"});
-    console.log(User);
-//    Meteor.users.remove({_id: "3QsrE6TsjakgjBuvP"});
+    //console.log(User);
     if(User) {
 //        Meteor.users.remove({_id: User._id});
     } 
     var hackathons = Hackathons.remove({"title":"blah"});
 //    var hackathons = Hackathons.remove({});
 //    var ideas = Ideas.remove({});
-    console.log(hackathons);
+    //console.log(hackathons);
 
     if (Hackathons.find().count() === 0) {
         var names = ["MHacks",
@@ -170,20 +143,20 @@ Meteor.publish("hackathons", function () {
 // server: publish the set of parties the logged-in user can see.
 Meteor.publish("myHackathons", function () {
     var user = Meteor.users.findOne({_id: this.userId});
-    console.log(user);
+    //console.log(user);
     if(!user) return;
     var hackathonList = [];
     _.each(user.roles, function(role, hackathon) {
         var entry = {};
         if(role == "admin") {
-            console.log("admin role found");
+            //console.log("admin role found");
         }
-        console.log(role);
-        console.log(hackathon);
+        //console.log(role);
+        //console.log(hackathon);
         entry['url_title'] = hackathon;
         hackathonList.push(entry);
     });
-    console.dir(hackathonList);
+    //console.dir(hackathonList);
     if(hackathonList.length) {
         return Hackathons.find({$or: hackathonList});
     } else {
