@@ -1881,7 +1881,7 @@ input[type=text]::-ms-clear {
 }
 
 #comment-text {
-	width: calc(100% - 40px);
+	width: calc(100% - 80px);
 }
 
 #comment-create {

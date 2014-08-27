@@ -118,6 +118,12 @@
     {{/each}}
 </template>
 
+<template name="heartedList">
+    {{#each ideas}}
+        {{> ideaRow}}
+    {{/each}}
+</template>
+
 <template name="yourIdeaList">
     {{#each ideas}}    
         {{> ideaRow }}
@@ -296,6 +302,12 @@
     </div>
     <div>
         {{> potentialTeams}}
+    </div>
+    <div class="row label">
+        HEARTED
+    </div>
+    <div>
+        {{> heartedList}}
     </div>
     <div class="row label">
         YOUR IDEAS

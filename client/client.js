@@ -601,6 +601,26 @@ Template.ideaList.helpers({
     }
 });
 
+Template.heartedList.helpers({
+    ideas: function() {
+        var hackathon = Session.get("current_hackathon");
+        if(!hackathon) return;
+        var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
+        x = _.filter(x, function(idea) {
+            var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
+            if(heart && heart.hearted) {
+                //Only added this to idea list that template receives, such that it's a local change only
+                idea.hearted = true;
+            } else {
+                idea.hearted = false;
+            }
+            idea.commentCount = Comments.find({ideaId: idea._id}).fetch().length;
+            return idea.hearted;
+        });
+        return x;
+    }
+});
+
 Template.yourIdeaList.helpers({
     ideas: function() {
         var hackathon = Session.get("current_hackathon");
