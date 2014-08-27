@@ -99,8 +99,8 @@
         	</span>
         </li>
         <li class="item-icon" style="float:right;">
-            {{#if avatar_url}}
-            <a href="/user/{{github_username}}"><img src="{{avatar_url}}" width="64px" height="64px" style="border-radius:50px"></a>
+            {{#if user_profile.avatar_url}}
+            <a href="/user/{{user_profile.login}}"><img src="{{user_profile.avatar_url}}" width="64px" height="64px" style="border-radius:50px"></a>
             {{else}}
             <img src="monkey.png" width="64px" height="64px" style="border-radius:50px;">
             {{/if}}
@@ -113,10 +113,10 @@
     <div class="sidebar-item-title"><h1>{{idea.name}}</h1></div>
     <div class="sidebar-item-author">
         posted by 
-        {{#if idea.author.profile.avatar_url}}
-        <a href="/user/{{idea.author.profile.github_username}}" style="margin-left:10px"><img src="{{idea.author.profile.avatar_url}}" width="32px" height="32px" style="border-radius:50px;margin-top:-5px"></a>
+        {{#if idea.user_profile.avatar_url}}
+        <a href="/user/{{idea.user_profile.github_username}}" style="margin-left:10px"><img src="{{idea.user_profile.avatar_url}}" width="32px" height="32px" style="border-radius:50px;margin-top:-5px"></a>
         {{/if}}
-        <a href="/user/{{idea.author.profile.login}}">{{idea.author.profile.name}}</a>
+        <a href="/user/{{idea.user_profile.login}}">{{idea.user_profile.name}}</a>
         
     </div>
     <div class="sidebar-item-desc">{{idea.description}}</div>
@@ -143,8 +143,8 @@
     {{/if}}
 	
     <div class="sidebar-item-contact">
-    {{#if idea.author.profile.contact}}
-    	contact <a href="mailto:{{idea.author.profile.contact}}">{{idea.author.profile.contact}}</a>
+    {{#if idea.user_profile.contact}}
+    	contact <a href="mailto:{{idea.user_profile.contact}}">{{idea.user_profile.contact}}</a>
     {{/if}}
     </div> 
     <div class="sidebar-item-comments">

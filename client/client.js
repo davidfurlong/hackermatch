@@ -913,8 +913,9 @@ Template.idea_create_template.events({
             description: description,
             userId: Meteor.userId(),
             hackathon_id: hackathon._id,
-            avatar_url: Meteor.user().profile.avatar_url,
-            github_username: Meteor.user().profile.login,
+//            avatar_url: Meteor.user().profile.avatar_url,
+//            github_username: Meteor.user().profile.login,
+            user_profile: Meteor.user().profile,
             skills: {
                 webdev: webdev,
                 backend: backend,

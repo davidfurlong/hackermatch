@@ -1,14 +1,25 @@
-var csv = Meteor.require('CSV'); 
+var csv = Meteor.require('csv'); 
 var fs = Meteor.require('fs');
 var path = Npm.require('path');
 
 function loadData() {
   var basepath = path.resolve('.').split('.meteor')[0];
-/*
+  console.log(basepath);
+  console.log(csv);
+  var stream = fs.createReadStream(basepath+'mhacks.csv');
+  console.log(stream);
+    stream.pipe(
+    csv.parse     ()).pipe(
+    csv.transform (function(record){
+        return record.map(function(value){return value.toUpperCase()});
+    })).pipe(
+    csv.stringify ()).pipe(process.stdout);
+        /*
   csv().from.stream(
     fs.createReadStream(basepath+'server/data/enron_data.csv'),
       {'escape': '\\'})
     .on('record', Meteor.bindEnvironment(function(row, index) {
+        console.log(row);
       Emails.insert({
         'sender_id': row[0]
         // etc.
@@ -23,7 +34,7 @@ function loadData() {
     .on('end', function(count) {
       console.log(count, 'records read');
     });
-*/
+        */
 
 }
 
@@ -51,6 +62,7 @@ Meteor.startup(function () {
         Meteor.call('create_hackathon', names[i]);
       }
     }
+    loadData();
 });
 
 Meteor.publish("user", function (username) {
@@ -75,7 +87,6 @@ Meteor.publish("hackathon_and_ideas", function (hackathon_title) {
     if (Roles.userIsInRole(this.userId, ['hacker', 'organizer', 'admin'], url_title)) {
         return [
     // Need to remove users and comments from access like this
-            Meteor.users.find({}),
             Comments.find({}),
     // end TODO
             Hackathons.find({_id: hackathon_id}),
