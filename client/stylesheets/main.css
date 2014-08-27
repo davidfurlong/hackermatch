@@ -73,8 +73,12 @@ html {
 	background: #ffcb00;
 }
 
-#splash a{
+#splash a {
     color: #1e3261;
+}
+
+#splash a:hover {
+    color: #fff;
 }
 
 .top-right-menu a:hover {
