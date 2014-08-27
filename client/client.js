@@ -143,7 +143,7 @@ Router.map(function() {
     this.route('signup', {
         path: '/signup', 
         data: {
-            title: ''
+            title: 'MHacks'
         },
         onBeforeAction: function () {
             if (Meteor.user()) {
