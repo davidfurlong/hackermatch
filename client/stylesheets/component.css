@@ -122,6 +122,13 @@
 	top: calc(50% - 60px);
 	width: 100%;
 	text-align: center;
+	font-size: 30pt;
+}
+
+#splash-image {
+	position: absolute;
+	top: 40px;
+	width: 100%;
 }
 
 #splash h1 {
@@ -431,7 +438,7 @@ a.link-border::before {
 }
 
 #register-form .ac-custom label{
-	color: white;
+	color: rgba(0,0,0,0.3);
 }
 
 a.link-border:hover::before,
@@ -447,7 +454,7 @@ a.link-border:focus::before {
 
 .item-text {
 	display: inline-block !important;
-	max-width: 80%;
+	max-width: calc(100% - 200px);
 }
 
 .skill_tag {
@@ -1790,9 +1797,13 @@ input[type=text]::-ms-clear {
 	width: 40px;
 	height: 40px;
 	top: 50%;
-	margin-top: -35px;
+	margin-top: -32px;
 	left: 5px;
 	pointer-events: none;
+}
+
+#fs-form-wrap-sign-up {
+	background: #3D4675;
 }
 
 .ac-custom svg path {
@@ -1860,7 +1871,7 @@ input[type=text]::-ms-clear {
 }
 .sidebar-item-desc {
     font-size: 28px;
-    padding-bottom: 25px;
+    padding-bottom: 15px;
 }
 
 .sidebar input {
@@ -1917,10 +1928,10 @@ input[type=text]::-ms-clear {
 	width: 100%;
 }
 
-.pt-triggers.blur, #pt-main.blur {
+.blur {
 	/*-webkit-transition: all 0.25s cubic-bezier(0.600, 0.040, 0.980, 0.335);
 	transition: all 0.25s cubic-bezier(0.600, 0.040, 0.980, 0.335);*/
-	-webkit-filter: blur(2px);
+	-webkit-filter: blur(10px);
 }
 
 #pt-main.blur .item-icon, #pt-main.blur .item-title, #pt-main.blur .item-desc {	
