@@ -229,24 +229,7 @@ Router.map(function() {
               }
             }
         }
-/*
-    // This doesn't work like it should...
-        action : function () {
-            if (this.ready()) {
-                var hackathon = this.data();
-                console.log("chyeah baby");
-                if(hackathon) {
-                    console.log(hackathon);
-                }
-                this.render();
-            }
-        }
-*/
-        //waitOn: function() { return Meteor.subscribe('post', this.params._id)},
     });
-
-
-//    this.route('login');
 });
 
 Handlebars.registerHelper('selected_hackathon',function(){
@@ -302,16 +285,21 @@ Handlebars.registerHelper('sortandarrayify',function(obj){
 
 Template.ideaRow.events({
     'click li.item-text' : function(e, t) {
-      e.preventDefault();
+        e.preventDefault();
         var idea_id = e.currentTarget.dataset.id;
         Session.set("selectedIdea", idea_id);
     },
     'click li.item-heart' : function(e, t) {
-      e.preventDefault();
+        e.preventDefault();
         var idea_id = e.currentTarget.dataset.id;
         console.log("hearted");
 
         Meteor.call('heart_idea', idea_id, function(err, res) {});
+    },
+    'click li.item-icon' : function(e, t) {
+        e.preventDefault();
+        var profile_id = e.currentTarget.dataset.id;
+        Session.set("selectedProfile", profile_id);
     }
 });
 
@@ -325,7 +313,14 @@ Template.profile.helpers( {
 });
 
 
-Template.profile_contents.helpers({
+Template.profile_sidebar.helpers({
+    profile: function() {
+        var user = Meteor.users.findOne({'services.github.username': this.author}); 
+        if(idea) {
+            var author = idea;
+            return idea;
+        }
+    },
     name: function() {
         if(this.profile) {
             return this.profile.name;
@@ -418,51 +413,6 @@ Template.profile_contents.helpers({
         }
         return collaborators;
     },
-    dateGraph: function(){
-        if(this.profile) {
-           console.log('rendered');
-            var repos = this.profile.repos;
-
-            function contributedTo(repo){
-                return (repo.commits.length > 0)
-            }
-            var dateFiltered = repos.filter(contributedTo);
-            var datasets = [];
-            for(var i=0;i<dateFiltered.length;i++){
-                var c = dateFiltered[i];
-                var byMonth = [0,0,0,0,0,0,0,0,0,0,0,0];
-                for(var j=0;j<c.commits.length;j++){
-                    var d = new Date(c.commits[j]).getMonth();
-                    if(d < 8)
-                        byMonth[d] += 1;
-                }
-                var color = '#'+ ('000000' + (Math.random()*0xFFFFFF<<0).toString(16)).slice(-6);
-                var t = {
-                    title: c.name,
-                    label: c.name,
-                    url: c.html_url,
-                    bio: c.description,
-                    fillColor : "rgba(220,220,220,0.2)",
-                    strokeColor : color,
-                    pointColor : color,
-                    pointStrokeColor : "#fff",
-                    pointHighlightFill : "#fff",
-                    pointHighlightStroke : color, 
-                    data : byMonth
-                };
-                datasets.push(t);
-            }
-            
-           var lineChartData = {
-            labels : ["January","February","March","April","May","June","July", "August"],
-            datasets : datasets
-           }
-           window.lineChartData = lineChartData;
-
-           if(document.readyState == "complete")
-            window.setTimeout(function(){renderChart()}, 1000);       
-        }
-    },
     languages: function(){
         if(this.profile) {
             var repos = this.profile.repos;
@@ -500,59 +450,6 @@ Template.profile_contents.helpers({
     }
 });
 
-// Template.profile.rendered = function(){
-//     console.log('RENDERING CHART'+window.lineChartData);
-//     if(window.lineChartData != undefined)
-//         renderChart();
-// };
-
-function renderChart(){
-    if(window.renderedChart != true){
-        window.renderedChart = true;
-        var ctx = document.getElementById("canvas").getContext("2d");
-        window.myLine = new Chart(ctx).Line(window.lineChartData, {
-            responsive: true,
-            bezierCurveTension: 0.4,
-            scaleShowGridLines : false,
-            pointDot: false,
-            // legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
-            annotateDisplay: true,
-            annotateLabel: '<%=v1%>',
-            graphMin: 0,
-            inGraphDataTmpl: '<%=v1%>',
-            savePng: true,
-            savePngBackgroundColor: 'white',
-        });
-        function legend(parent, data) {
-            parent.className = 'legend';
-            var datas = data.hasOwnProperty('datasets') ? data.datasets : data;
-
-            // remove possible children of the parent
-            while(parent.hasChildNodes()) {
-                parent.removeChild(parent.lastChild);
-            }
-            var label = document.createTextNode("Currently Working on");
-            var h3 = document.createElement('h3');
-            h3.appendChild(label);
-            parent.appendChild(h3);
-            datas.forEach(function(d) {
-                var title = document.createElement('span');
-                title.className = 'title';
-                title.style.backgroundColor = d.hasOwnProperty('strokeColor') ? d.strokeColor : d.color;
-                title.style.borderColor = d.hasOwnProperty('strokeColor') ? d.strokeColor : d.color;
-                title.style.borderStyle = 'solid';
-                parent.appendChild(title);
-                var link = document.createElement('a');
-                link.href = d.url;
-                title.appendChild(link)
-                var text = document.createTextNode(d.label + " - "+d.bio);
-                link.appendChild(text);
-            });
-        }
-        legend(document.getElementById("lineLegend"), window.lineChartData.datasets);
-    }
-}
-
 Template.potentialTeams.helpers({
     ideas: function() {
         if(Meteor.user()) {
@@ -567,12 +464,7 @@ Template.potentialTeams.helpers({
                     skillArray.push(skill_pair);
                 }
             }
-            /*
-            var hackathon_id = Session.get("current_hackathon");
-            skill_pair["hackathon_id"] = hackathon_id;
-            skillArray.push(skill_pair);
-            */
-            //console.log(skillArray);
+           
             if(skillArray.length == 0) {
                 return;
             }
@@ -668,6 +560,19 @@ Template.sidebar.events({
         }
     }
 });
+
+
+Template.profile_sidebar.opened = function() {
+    var profileSelected = Session.get("selectedProfile");
+//    Session.set("selectedIdea", "");
+    if(!profileSelected || profileSelected == "") {
+        return false;
+    } else {
+        Session.set('profile_sidebarOpened', 'open');
+        $('.pt-triggers, #pt-main').addClass('blur');
+        return true;
+    }
+}
  
 Template.sidebar.helpers({
     idea: function() {
@@ -741,55 +646,22 @@ $.getScript("js/inline.js", function(data, textStatus, jqxhr) {
                   })();
               });    
 }
-    /*
-Template.potentialTeams.rendered = Template.yourIdeaList.rendered = Template.ideaList.rendered = function() {
-$(document).ready(function(){
-    $('.sidebar').on('click', function(e) {
-        e.stopPropagation();
-    });
-
-    $(document).on('click', function (e) {
-        $('.sidebar').hide();
-        $('.pt-page-1 .page-container').removeClass('blur');
-
-    });
-
-
-    $('.item-title, .item-desc, .item-icon').on('click', function(e){
-        e.stopPropagation();
-        console.log('in');
-        if($('.sidebar:visible')[0] == undefined){ // sidebar hidden
-            $('.sidebar').slideDown(100);
-            $('.sidebar').show();
-            $('.pt-page-1 .page-container').addClass('blur');
-        }
-        else if($('.sidebar:hidden')[0] == undefined){ // sidebar visible
-            $('.sidebar').hide();
-            $('.pt-page-1 .page-container').removeClass('blur');
-        }
-    })
-});
-};
-*/
-
-/*
-Template.home.helpers({
-    ideas: function() {
-        return Ideas.find({userId: Session.get('myUserId')}).fetch();
-    }
-});
-*/
 
 Template.hackathon.events({
     'click .sidebar' : function(e, t) {
-      e.stopPropagation();
+        e.stopPropagation();
+    },
+    'click .profile_sidebar' : function(e, t){
+        e.stopPropagation();
     },
     'click .page-container' : function(e, t) {
         var id = e;
-        if(Session.get("sidebarOpened") == "open") {
+        if(Session.get("sidebarOpened") == "open" || Session.get('profile_sidebarOpened') == "open") {
             e.preventDefault();
             Session.set('selectedIdea', '');
             Session.set('sidebarOpened', '');
+            Session.set('selectedProfile', '');
+            Session.set('profile_sidebarOpened', '');
             $('.pt-triggers, #pt-main').removeClass('blur');
         } 
     }

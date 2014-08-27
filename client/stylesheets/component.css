@@ -542,7 +542,7 @@ a.link-border:focus::before {
 	margin-top: 20px;
 	padding-bottom: 10px;
 	width: auto;
-	border-bottom: 3px solid #333;
+	border-bottom: 1px solid #333;
 }
 
 .row.label:first-child {
@@ -1824,6 +1824,18 @@ input[type=text]::-ms-clear {
 	top: 0px;
 	height: 100%;
 	width: 50%;
+	background: rgba(256,256,256,1);
+	color: black;
+	padding: 0px 40px 20px 40px;
+}
+
+.profile_sidebar {
+	position: fixed;
+	left: 0px;
+	z-index: 99999;
+	top: 0px;
+	height: 100%;
+	width: 400px;
 	background: rgba(256,256,256,1);
 	color: black;
 	padding: 0px 40px 20px 40px;
