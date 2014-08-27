@@ -135,7 +135,7 @@ Meteor.startup(function () {
         create_hackathon: function(title) {
             
             //check for valid title
-            if(!title) {
+            if(!title || title.indexOf('/') != -1) {
                 //Err out
                 return false;
             }

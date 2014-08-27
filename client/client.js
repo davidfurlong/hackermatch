@@ -836,7 +836,10 @@ Template.admin.events({
         e.preventDefault();
 
         var title = t.find("#new_hackathon_name").value;
-
+        if(title.indexOf('/') != -1){
+            alert('Hackathon names can\'t contain / because we use them for routes');
+            return;         
+        }
         t.$("#new_hackathon_name").val("");
 
         Meteor.call('create_hackathon', title, function(err, res) {});
