@@ -10,19 +10,20 @@ Router.map(function() {
     this.route('index', {
         path: '/',
         data: {
-            title: 'welcome'
+            title: ''
         },
         onBeforeAction: function () {
             if (Meteor.user()) {
                 Router.go('home');
             }
-         }
+        },
+        layoutTemplate: ''
 
     });
     this.route('signupProfile', {
         path: '/signup-profile',
         data: {
-            title: 'sign up'
+            title: ''
         },
         onBeforeAction: function () {
             if (Meteor.user()){
@@ -109,7 +110,7 @@ Router.map(function() {
         path: '/home',
         data: function() {
             var x = {};
-            x.title = 'home';
+            x.title = '';
             x.hackathons = Hackathons.find({}).fetch();
             return x;
         },
@@ -142,7 +143,7 @@ Router.map(function() {
     this.route('signup', {
         path: '/signup', 
         data: {
-            title: 'sign up'
+            title: ''
         },
         onBeforeAction: function () {
             if (Meteor.user()) {
@@ -265,7 +266,6 @@ Handlebars.registerHelper('reverse', function(ray){
 });
 
 Template.index.rendered = function(){
-    $('body').css('background-color','#3D4675');
     $('.pt-triggers').css('background-color', 'transparent');
 }
 

@@ -64,6 +64,10 @@ html {
 
 }
 
+.index-page {
+	background: orange;
+}
+
 .top-right-menu a:hover {
 	color: #fff;
 }
