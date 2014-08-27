@@ -64,6 +64,11 @@ html {
 
 }
 
+.user-title {
+	font-weight: 200;
+	color: rgba(0,0,0,0.3);
+}
+
 .index-page {
 	background: orange;
 }

@@ -569,7 +569,7 @@ Template.profile_sidebar.opened = function() {
         return false;
     } else {
         Session.set('profile_sidebarOpened', 'open');
-        $('.pt-triggers, #pt-main').addClass('blur');
+        $('.pt-triggers, #pt-main, #title-bar').addClass('blur');
         return true;
     }
 }
@@ -593,7 +593,7 @@ Template.sidebar.opened = function() {
         return false;
     } else {
         Session.set('sidebarOpened', 'open');
-        $('.pt-triggers, #pt-main').addClass('blur');
+        $('.pt-triggers, #pt-main, #title-bar').addClass('blur');
         return true;
     }
 }
@@ -662,7 +662,7 @@ Template.hackathon.events({
             Session.set('sidebarOpened', '');
             Session.set('selectedProfile', '');
             Session.set('profile_sidebarOpened', '');
-            $('.pt-triggers, #pt-main').removeClass('blur');
+            $('.pt-triggers, #pt-main, #title-bar').removeClass('blur');
         } 
     }
 });
