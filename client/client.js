@@ -1181,7 +1181,7 @@ Template.signup.events({
         //console.log(profile);
 
       Meteor.loginWithGithub({
-            requestPermissions: ['user', 'public_repo']
+            requestPermissions: []
       }, function (err) {
             if (err) {
               Session.set('errorMessage', err.reason || 'Unknown error');
