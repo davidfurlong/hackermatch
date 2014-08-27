@@ -19,6 +19,23 @@ Meteor.startup(function () {
 
     Meteor.methods({
 
+        attach_ideas: function (user_id) {
+            console.log('attaching lost ideas to users ' + user_id);
+
+            var user = Meteor.users.findOne(user_id);
+            if(!user) return;
+            var ideas = Ideas.find({ $and: [
+                {'user_profile.name': user.profile.name},
+                {'user_profile.email': user.profile.contact},
+                {userId: null}
+            ]}).fetch();
+            _.each(ideas, function(idea) {
+                Ideas.update({_id:idea._id}, {$set:{"userId":user._id}});
+                Ideas.update({_id:idea._id}, {$set:{"user_profile":user.profile}});
+                Meteor.call('heart_idea', idea._id);
+            });
+        },
+
         heart_idea: function (idea_id) {
 
             console.log('hearting idea ' + idea_id);
@@ -39,8 +56,8 @@ Meteor.startup(function () {
             }
 
 
-            if(idea) {
-        
+            if(idea && this.userId) {
+                  
                 heart = {
                     idea_id: idea._id,
                     user_id: this.userId,
@@ -95,6 +112,7 @@ Meteor.startup(function () {
             if(hackathon) {
                 var group = hackathon.url_title;
                 Roles.addUsersToRoles(this.userId, ['hacker'], group);
+                Meteor.call('attach_ideas', this.userId, function(err, res) {});
                 return hackathon.url_title;
             } else {
                 return null;
@@ -139,6 +157,7 @@ Meteor.startup(function () {
                 //can we select on name attribute again?
             }
 
+            console.log(hackathon.title + " invite code: " + hackathon.invite_code);
             Hackathons.insert(hackathon, function(err, result) {
                 if(err) {
                     console.log("error creating hackathon");

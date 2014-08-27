@@ -542,7 +542,7 @@ a.link-border:focus::before {
 	margin-top: 20px;
 	padding-bottom: 10px;
 	width: auto;
-	border-bottom: 3px solid #333;
+	border-bottom: 1px solid #333;
 }
 
 .row.label:first-child {
@@ -587,7 +587,7 @@ a.link-border:focus::before {
 
 .row .item-desc {
 	cursor: pointer;
-	color: #888;
+	color: #CCC;
 	font-size: 16pt;
 }
 
@@ -1829,6 +1829,18 @@ input[type=text]::-ms-clear {
 	padding: 0px 40px 20px 40px;
 }
 
+.profile_sidebar {
+	position: fixed;
+	left: 0px;
+	z-index: 99999;
+	top: 0px;
+	height: 100%;
+	width: 400px;
+	background: rgba(256,256,256,1);
+	color: black;
+	padding: 0px 40px 20px 40px;
+}
+
 .sidebar-item-title h1 {
 	margin-bottom: 0;
 	padding-bottom: 0;
@@ -1855,9 +1867,11 @@ input[type=text]::-ms-clear {
 	padding: 10px 10px;
 	outline: none;
 	border: 1px solid #bbb;
-	width: 100%;
 	margin: 0;
+}
 
+#comment-text {
+	width: calc(100% - 40px);
 }
 
 #comment-create {

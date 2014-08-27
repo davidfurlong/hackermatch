@@ -2,6 +2,7 @@
     <a id="create-idea-link" href="/idea">add idea</a>
 </template>
 <template name="hackathon">
+    {{> profile_sidebar}}
     {{> sidebar}}
     <div id="pt-main" class="">
         <div class="view pt-page-1">
@@ -17,39 +18,120 @@
         </div>
     </div>
 </template>
+<template name="profile_sidebar">
+    <div class="profile_sidebar" style="{{#if opened}}{{else}}display:none;{{/if}}" >
+       
+        {{#if profile.avatar_url}}
+        <img src="{{idea.author.profile.avatar_url}}" width="32px" height="32px" style="border-radius:50px;margin-top:-5px">
+        {{/if}}
+        <div class="sidebar-item-title"><h1>{{profile.name}}</h1></div>
+            
+        <div class="sidebar-item-desc">{{idea.description}}</div>
+        {{#if anyTrue idea.skills}}
+            <div class="sidebar-item-skills">
+                <span class="sidebar-prompt">Looking for </span>
 
-    <template name="update_user">
-                    <input id="logout" type="submit" value="Log Out">
-                    <form id="update-user-form" action="action" class="settings-form">
-                        <h1>My Settings</h1>
-                        <div>
-                            <label>Name</label>
-                            <input id="user_name" type="text" value="{{name}}">
-                        </div>
-                        <div>
-                            <label>Contact</label>
-                            <input id="user_contact" type="text" value="{{contact}}">
-                        </div>
-                        <div>
-                            <label>Skills</label>
-                            <ul id="user_skills" class="ac-custom ac-checkbox ac-cross fs-anim-lower">
-                                <li><input id="sb1" name="sb1" type="checkbox"><label for="sb1">Webdev </label></li>
-                                <li><input id="sb2" name="sb2" type="checkbox"><label for="sb2">Designer</label></li>
-                                <li><input id="sb3" name="sb3" type="checkbox"><label for="sb3">Backend</label></li>
-                                <li><input id="sb4" name="sb4" type="checkbox"><label for="sb4">Mobile</label></li>
-                                <li><input id="sb5" name="sb5" type="checkbox"><label for="sb5">Hardware</label></li>
-                            </ul>
-                            {{skills}}
-                        </div>
-                        <div>
-                            <label>Github username</label>
-                            <input id="user_github" type="text" value="{{github}}">
-                        </div>
-                        <div>
-                            <input type="submit" value="Save Changes">
-                        </div>
-                    </form>
-    </template>
+                {{#if idea.skills.webdev}}
+                <span class="badge t1">Frontend</span>
+                {{/if}}
+                {{#if idea.skills.design}}
+                <span class="badge t2">Design</span>
+                {{/if}}
+                {{#if idea.skills.backend}}
+                <span class="badge t3">Backend</span>
+                {{/if}}
+                {{#if idea.skills.hardware}}
+                <span class="badge t4">Hardware</span>
+                {{/if}}
+                {{#if idea.skills.mobile}}
+                <span class="badge t5">Mobile</span>
+                {{/if}}  
+           </div>
+        {{/if}}
+        
+        <div class="sidebar-item-contact">
+        {{#if idea.author.profile.contact}}
+            contact <a href="mailto:{{idea.author.profile.contact}}">{{idea.author.profile.contact}}</a>
+        {{/if}}
+        </div> 
+        <div>
+          {{#if languages }}
+            {{languages}}
+          {{/if}}
+        </div>
+        <div>
+        {{#if github }}
+          <a href="{{github_url}}"><i class="fa fa-github"></i>{{github}}</a>
+        {{/if}}
+        </div>
+        <div>
+          {{#if contact }}
+            <i class="fa fa-paper-plane-o"></i>
+            {{contact}}
+          {{/if}}
+        </div>
+        <div>
+          {{#if location }}
+            <i class="fa fa-map-marker"></i>
+            {{location}}
+          {{/if}}
+        </div>
+        <div class="profile-skills">
+          {{#if skills }}
+            {{#each bitmaparray skills}}
+              <span class="badge {{.}}">{{.}}</span> 
+            {{/each}}
+          {{/if}}
+        </div>
+        <div class="">
+          <h3>Worked on</h3>
+          {{#each featured}}
+            <a href="{{html_url}}">{{stargazers_count}} <i class="fa fa-star"></i> <span class="feature-title">{{full_name}}</span>
+            </a><br/>   
+          {{/each}}
+        </div>
+        <div class="">
+          <h3>People worked with</h3>
+          {{#each sortandarrayify collaborators}}
+            <div class="collaborator">
+            <a href="{{f_html_url}}"><img src="{{f_avatar_url}}" class="mini-avatar"><span class="feature-title">{{f_login}}</span>
+            </a></div>
+          {{/each}}
+        </div>
+    </div>
+</template>
+<template name="update_user">
+    <input id="logout" type="submit" value="Log Out">
+    <form id="update-user-form" action="action" class="settings-form">
+        <h1>My Settings</h1>
+        <div>
+            <label>Name</label>
+            <input id="user_name" type="text" value="{{name}}">
+        </div>
+        <div>
+            <label>Contact</label>
+            <input id="user_contact" type="text" value="{{contact}}">
+        </div>
+        <div>
+            <label>Skills</label>
+            <ul id="user_skills" class="ac-custom ac-checkbox ac-cross fs-anim-lower">
+                <li><input id="sb1" name="sb1" type="checkbox"><label for="sb1">Webdev </label></li>
+                <li><input id="sb2" name="sb2" type="checkbox"><label for="sb2">Designer</label></li>
+                <li><input id="sb3" name="sb3" type="checkbox"><label for="sb3">Backend</label></li>
+                <li><input id="sb4" name="sb4" type="checkbox"><label for="sb4">Mobile</label></li>
+                <li><input id="sb5" name="sb5" type="checkbox"><label for="sb5">Hardware</label></li>
+            </ul>
+            {{skills}}
+        </div>
+        <div>
+            <label>Github username</label>
+            <input id="user_github" type="text" value="{{github}}">
+        </div>
+        <div>
+            <input type="submit" value="Save Changes">
+        </div>
+    </form>
+</template>
         
 <template name="potentialTeams">
     {{#each ideas}}    

@@ -2,7 +2,7 @@ var csv = Meteor.require('csv');
 var fs = Meteor.require('fs');
 var path = Npm.require('path');
 
-function loadData() {
+function loadData(hackathon_id) {
   var basepath = path.resolve('.').split('.meteor')[0];
   console.log(basepath);
   console.log(csv);
@@ -10,10 +10,59 @@ function loadData() {
   console.log(stream);
     stream.pipe(
     csv.parse     ()).pipe(
-    csv.transform (function(record){
-        return record.map(function(value){return value.toUpperCase()});
-    })).pipe(
+    csv.transform (Meteor.bindEnvironment(function(record){
+/*
+        var idea = {
+            name: name,
+            description: description,
+            userId: Meteor.userId(),
+            hackathon_id: hackathon._id,
+//            avatar_url: Meteor.user().profile.avatar_url,
+//            github_username: Meteor.user().profile.login,
+            user_profile: Meteor.user().profile,
+            skills: {
+                webdev: webdev,
+                backend: backend,
+                mobile: mobile,
+                design: design,
+                hardware: hardware
+            },
+            comments: {}
+        };
+        Meteor.call('create_idea', idea, function(err, res) {});
+    }
+    */
+        var user = record[0],
+            email = record[1],
+            idea = record[3];
+        console.log("user: " + user);
+        console.log("email: " + email);
+        console.log("idea: " + idea);
+        var idea = {
+            description: idea,
+            hackathon_id: hackathon_id,
+            user_profile: {
+                name: user,
+                email: email,
+                contact: email
+            },
+            skills: {
+                webdev: true,
+                backend: true,
+                mobile: true,
+                design: true,
+                hardware: false 
+            },
+            comments: {}
+        }
+        console.log(idea);
+        Meteor.call('create_idea', idea, function(err, res) {});
+//        return record.map(function(value){return value.toUpperCase()});
+    })));
+/*
+.pipe(
     csv.stringify ()).pipe(process.stdout);
+    */
         /*
   csv().from.stream(
     fs.createReadStream(basepath+'server/data/enron_data.csv'),
@@ -43,7 +92,7 @@ Meteor.startup(function () {
 // code to run on server at startup
 //    Ideas.remove({});
     var User = Meteor.users.findOne({"services.github.username":"kainolophobia"});
-    var User = Meteor.users.findOne({"services.github.username":"jumploops"});
+//    var User = Meteor.users.findOne({"services.github.username":"jumploops"});
     console.log(User);
 //    Meteor.users.remove({_id: "3QsrE6TsjakgjBuvP"});
     if(User) {
@@ -51,18 +100,22 @@ Meteor.startup(function () {
     } 
     var hackathons = Hackathons.remove({"title":"blah"});
 //    var hackathons = Hackathons.remove({});
+//    var ideas = Ideas.remove({});
     console.log(hackathons);
 
     if (Hackathons.find().count() === 0) {
-      var names = ["MHacks",
-                   "YC Hacks",
-                   "HackMIT"
-                   ];
-      for (var i = 0; i < names.length; i++) {
-        Meteor.call('create_hackathon', names[i]);
-      }
+        var names = ["MHacks",
+                     "YC Hacks",
+                     "HackMIT"
+                    ];
+        for (var i = 0; i < names.length; i++) {
+            Meteor.call('create_hackathon', names[i]);
+        }
+        var hackathon = Hackathons.findOne({url_title: 'mhacks'});
+        if(hackathon) {
+            loadData(hackathon._id);
+        }
     }
-    loadData();
 });
 
 Meteor.publish("user", function (username) {
