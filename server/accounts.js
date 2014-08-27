@@ -25,8 +25,8 @@ Meteor.startup(function () {
             var user = Meteor.users.findOne(user_id);
             if(!user) return;
             var ideas = Ideas.find({ $and: [
-                {'user_profile.name': user.profile.name},
-                {'user_profile.email': user.profile.contact},
+                {$or: [{'user_profile.name': user.profile.name},
+                {'user_profile.email': user.profile.contact}]},
                 {userId: null}
             ]}).fetch();
             _.each(ideas, function(idea) {
