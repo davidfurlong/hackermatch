@@ -541,105 +541,6 @@ function renderChart(){
     }
 }
 
-Template.potentialTeams.helpers({
-    ideas: function() {
-        if(Meteor.user()) {
-            var skills = Meteor.user().profile.skills;
-            var skillArray = [];
-            for(var key in skills) {
-                if(skills[key] == true) {
-                    var attr = "skills." + key;
-                    var skill_pair = {};
-                    skill_pair[attr] = true;
-                    skill_pair["userId"] = { $ne: Meteor.userId()};
-                    skillArray.push(skill_pair);
-                }
-            }
-           
-            if(skillArray.length == 0) {
-                return;
-            }
-            var hackathon = Session.get("current_hackathon");
-            if(!hackathon) return;
-            var x = Ideas.find(
-                                {$and: [
-                                    {hackathon_id: hackathon._id},
-                                    {$or: skillArray}
-                                ]}
-            ).fetch();
-            _.each(x, function(idea) {
-                var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
-                if(heart && heart.hearted) {
-                    //Only added this to idea list that template receives, such that it's a local change only
-                    idea.hearted = true;
-                } else {
-                    idea.hearted = false;
-                }
-                idea.commentCount = Comments.find({ideaId: idea._id}).fetch().length;
-            });
-            return x;
-        } else return;
-     }
-});
-
-Template.ideaList.helpers({
-    ideas: function() {
-        var hackathon = Session.get("current_hackathon");
-        if(!hackathon) return;
-        var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
-        _.each(x, function(idea) {
-            var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
-            if(heart && heart.hearted) {
-                //Only added this to idea list that template receives, such that it's a local change only
-                idea.hearted = true;
-            } else {
-                idea.hearted = false;
-            }
-            idea.commentCount = Comments.find({ideaId: idea._id}).fetch().length;
-        });
-        return x;
-    }
-});
-
-Template.heartedList.helpers({
-    ideas: function() {
-        var hackathon = Session.get("current_hackathon");
-        if(!hackathon) return;
-        var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
-        x = _.filter(x, function(idea) {
-            var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
-            if(heart && heart.hearted) {
-                //Only added this to idea list that template receives, such that it's a local change only
-                idea.hearted = true;
-            } else {
-                idea.hearted = false;
-            }
-            idea.commentCount = Comments.find({ideaId: idea._id}).fetch().length;
-            return idea.hearted;
-        });
-        return x;
-    }
-});
-
-Template.yourIdeaList.helpers({
-    ideas: function() {
-        var hackathon = Session.get("current_hackathon");
-        if(!hackathon) return;
-        var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: Meteor.userId()}]}).fetch();
-        _.each(x, function(idea) {
-            var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
-            if(heart && heart.hearted) {
-                //Only added this to idea list that template receives, such that it's a local change only
-                idea.hearted = true;
-            } else {
-                idea.hearted = false;
-            }
-            idea.commentCount = Comments.find({ideaId: idea._id}).fetch().length;
-        });
-        return x;
-    }
-});
-
 Template.sidebar.events({
     'submit #comment-create' : function(e, t) {
         e.preventDefault();
@@ -1298,4 +1199,120 @@ Template.login.events({
          return false; 
       }
 });
+
+
+Template.idea_filter.filters = function () {
+    var filter_info = [];
+    var total_count = 0;                                                                                 
+    _.each(IdeaFilters, function (key, value) {
+        filter_info.push({filter: value, count: key().length});
+    });
+
+    filter_info = _.sortBy(filter_info, function (x) { return x.filter; });
+    return filter_info;
+};                                                                                                     
+
+Template.idea_filter.filter_text = function () {
+    return this.filter;
+};                                                                                                     
+Template.idea_filter.selected = function () {
+    return Session.equals('idea_filter', this.filter) ? 'selected' : '';
+};                                                                                                     
+Template.idea_filter.events({ 
+  'mousedown .filter': function () {
+    if (Session.equals('idea_filter', this.filter)) {
+//        Session.set('idea_filter', null);
+    } else {
+        Session.set('idea_filter', this.filter);
+    }
+  }
+});
+
+var IdeaFilters = {
+    'Hearted': function() {
+        var hackathon = Session.get("current_hackathon");
+        if(!hackathon) return;
+        var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
+        x = _.filter(x, function(idea) {
+            var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
+            if(heart && heart.hearted) {
+                //Only added this to idea list that template receives, such that it's a local change only
+                idea.hearted = true;
+            } else {
+                idea.hearted = false;
+            }
+            idea.commentCount = Comments.find({ideaId: idea._id}).fetch().length;
+            return idea.hearted;
+        });
+        return x;
+    },
+    'Needs your help': function() {
+    //Ideas that need your skills list
+        var skills = Meteor.user().profile.skills;
+        var skillArray = [];
+        for(var key in skills) {
+            if(skills[key] == true) {
+                var attr = "skills." + key;
+                var skill_pair = {};
+                skill_pair[attr] = true;
+                skill_pair["userId"] = { $ne: Meteor.userId()};
+                skillArray.push(skill_pair);
+            }
+        }
+
+        if(skillArray.length == 0) {
+            return;
+        }
+        var hackathon = Session.get("current_hackathon");
+        if(!hackathon) return;
+        var x = Ideas.find({
+            $and: [
+                {hackathon_id: hackathon._id},
+                {$or: skillArray}
+            ]
+        }).fetch();
+        return x;
+    },
+    'All': function() {
+        var hackathon = Session.get("current_hackathon");
+        if(!hackathon) return;
+        var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
+        return x;
+    },
+    'Yours': function() {
+    //Your ideas
+        var hackathon = Session.get("current_hackathon");
+        if(!hackathon) return;
+        var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: Meteor.userId()}]}).fetch();
+        return x;
+    }
+}
+
+Template.idea_list.helpers({
+    ideas: function() {
+        var hackathon = Session.get("current_hackathon");
+        if(!hackathon) return;
+        var filter = Session.get("idea_filter");
+
+        var x = [];
+
+        //Get Idea based off filter type
+        x = IdeaFilters[filter]();
+        
+//        x = _.sortBy(x, function (x) { return -x.hearts; });
+        //Heart and add comment counts to ideas
+        _.each(x, function(idea) {
+            var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
+            if(heart && heart.hearted) {
+                //Only added this to idea list that template receives, such that it's a local change only
+                idea.hearted = true;
+            } else {
+                idea.hearted = false;
+            }
+            idea.commentCount = Comments.find({ideaId: idea._id}).fetch().length;
+        });
+        return x;
+    }
+});
+
 
