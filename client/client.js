@@ -287,6 +287,14 @@ Handlebars.registerHelper('positive', function(num){
     return num > 0
 });
 
+Handlebars.registerHelper('arrayify', function(obj){
+    var ray = [];
+    for(var a in obj){
+        ray.push(a);
+    }
+    return ray;
+});
+
 Handlebars.registerHelper('sortandarrayify',function(obj){
     var result = [];
     //console.log(obj);
@@ -331,6 +339,10 @@ Template.profile.helpers( {
 });
 
 Template.profile_contents.helpers({
+    hackathons: function() {
+        if(this)
+            return this.roles;
+    },
     name: function() {
         if(this.profile) {
             return this.profile.name;
@@ -613,6 +625,7 @@ Template.profile_sidebar.opened = function() {
         return true;
     }
 }
+
  
 Template.sidebar.helpers({
     idea: function() {
@@ -756,7 +769,6 @@ Template.home.events({
     }
 });
 
-
 Template.admin.events({
     'submit #create_hackathon' : function(e, t) {
         e.preventDefault();
@@ -772,7 +784,6 @@ Template.admin.events({
     }
 });
 
-   
 Template.idea_create_template.events({
     'keyup #idea-create' : function(e){
         if(e.keyCode == 13){
@@ -830,6 +841,7 @@ Template.idea_create_template.events({
             hackathon_id: hackathon._id,
 //            avatar_url: Meteor.user().profile.avatar_url,
 //            github_username: Meteor.user().profile.login,
+            time: new Date().getTime(),
             user_profile: Meteor.user().profile,
             skills: {
                 webdev: webdev,
@@ -875,6 +887,7 @@ Template.settings.helpers({
         }
     }
 });
+
 Template.settings.events({
     'submit #update-user-form' : function(e, t) {
       e.preventDefault();
@@ -945,7 +958,6 @@ Template.settings.events({
         }
     }
 });
-
 
 Template.signup.rendered = function(){
   if( document.createElement('svg').getAttributeNS ) {
