@@ -1,4 +1,12 @@
 
+.filter_text {
+    cursor: pointer; cursor: hand; 
+}
+
+.selected {
+    color: yellow;
+}
+
 .pt-page-1 {
     margin-top: 20px;
 }
@@ -539,7 +547,7 @@ a.link-border:focus::before {
 
 .row.label {
 	font-family: 'Raleway';
-	font-size: 16pt;
+	font-size: 14pt;
 	color: #8D8D8D;
 	font-weight: 700;
 	margin-top: 20px;
@@ -585,13 +593,13 @@ a.link-border:focus::before {
 	text-transform: uppercase;
 	letter-spacing: 1px;
 	font-weight: 700;
-	font-size: 16pt;
+	font-size: 14pt;
 }
 
 .row .item-desc {
 	cursor: pointer;
 	color: #CCC;
-	font-size: 16pt;
+	font-size: 14pt;
 }
 
 

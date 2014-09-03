@@ -112,25 +112,7 @@
     </form>
 </template>
         
-<template name="potentialTeams">
-    {{#each ideas}}    
-        {{> ideaRow }}
-    {{/each}}
-</template>
-
-<template name="heartedList">
-    {{#each ideas}}
-        {{> ideaRow}}
-    {{/each}}
-</template>
-
-<template name="yourIdeaList">
-    {{#each ideas}}    
-        {{> ideaRow }}
-    {{/each}}
-</template>
-
-<template name="ideaList">
+<template name="idea_list">
     {{#each ideas}}    
         {{> ideaRow }}
     {{/each}}
@@ -292,29 +274,21 @@
 </div><!-- /fs-form-wrap -->
 </template>
 
+<template name="idea_filter">
+    <div class="filters">
+        {{#each filters}}
+        <div class="filter {{selected}}">
+            <span class="filter_text">{{filter_text}} <span class="count">({{count}})</span></span>
+        </div>
+        {{/each}}
+    </div>
+</template>
+
 <template name="showHackathons">
     <div class="row label">
-        PROJECTS THAT NEED YOUR SKILLS
+        {{> idea_filter }}
     </div>
     <div>
-        {{> potentialTeams}}
-    </div>
-    <div class="row label">
-        HEARTED
-    </div>
-    <div>
-        {{> heartedList}}
-    </div>
-    <div class="row label">
-        YOUR IDEAS
-    </div>
-    <div>
-        {{> yourIdeaList}}
-    </div>
-    <div class="row label">
-        ALL
-    </div>
-    <div>
-        {{> ideaList}}
+        {{> idea_list}} 
     </div>
 </template>
