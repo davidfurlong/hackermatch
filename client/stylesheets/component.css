@@ -1836,7 +1836,7 @@ input[type=text]::-ms-clear {
 	width: 50%;
 	background: rgba(256,256,256,1);
 	color: black;
-	padding: 0px 40px 20px 40px;
+	padding: 20px 40px 20px 40px;
 }
 
 .profile_sidebar {
@@ -1874,14 +1874,24 @@ input[type=text]::-ms-clear {
 }
 
 .sidebar input {
-	padding: 10px 10px;
+	padding: 15px 20px;
+	font-size: 20px;
 	outline: none;
 	border: 1px solid #bbb;
 	margin: 0;
 }
 
+.sidebar input[type="submit"] {
+	background: #efefef;
+	border-left: 0;
+}
+
+.sidebar input[type="submit"]:hover {
+	background: #dedede;
+}
+
 #comment-text {
-	width: calc(100% - 80px);
+	width: calc(100% - 128px);
 }
 
 #comment-create {
@@ -1902,7 +1912,22 @@ input[type=text]::-ms-clear {
 	margin-top: 23px;
 }
 
+.sidebar h1 {
+	margin-top: 5px;
+}
 
+.sidebar-author .comment-avatar img {
+	margin-top: 0;
+}
+
+.sidebar-author.comment .comment-author {
+	font-size: 15px;
+}
+
+.sidebar-author.comment {
+	margin-top: 10px;
+	border: 0;
+}
 
 .comment-avatar img {
 	position: relative;
