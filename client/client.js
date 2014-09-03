@@ -142,8 +142,13 @@ Router.map(function() {
     });
     this.route('signup', {
         path: '/signup', 
-        data: {
-            title: 'MHacks'
+        data: function() {
+            var invite_code = Session.get("invite_code");
+            Meteor.call('hackathon_by_code', invite_code, function(err, title) {
+                Session.set("invite_title", title);
+            });
+            var title = Session.get("invite_title");
+            return  { title: title };
         },
         onBeforeAction: function () {
             if (Meteor.user()) {
@@ -214,8 +219,18 @@ Router.map(function() {
                 hackathon = Hackathons.findOne({url_title: url_title});
                 if(hackathon) {
                     Session.set("current_hackathon", hackathon);
+                } 
+            } 
+
+            //Check to see if actually an invite code not a hackathon
+            var invite_code = this.params._title;
+            Meteor.call('hackathon_by_code', invite_code, function(err, title) {
+                if(title) {
+                    Session.set("invite_code", invite_code);
+                    Router.go('home');
                 }
-            }
+            });
+
             return hackathon;
         },
         waitOn: function() { return Meteor.subscribe('hackathon_and_ideas', this.params._title)},
@@ -226,6 +241,7 @@ Router.map(function() {
             if (!Meteor.user()) {
               if (Meteor.loggingIn()) {
               } else {
+                Session.set("invite_code", this.params._title);
                 Router.go('signup');
               }
             }
@@ -576,6 +592,15 @@ Template.sidebar.events({
     }
 });
 
+Template.home.invite_code = function() {
+
+    var invite_code = Session.get('invite_code');
+    if(invite_code) {
+        return invite_code;
+    } else {
+        return 'I6WK9';
+    }
+}
 
 Template.profile_sidebar.opened = function() {
     var profileSelected = Session.get("selectedProfile");
@@ -1294,6 +1319,10 @@ Template.idea_list.helpers({
         if(!hackathon) return;
         var filter = Session.get("idea_filter");
 
+        if(!filter) {
+            filter = 'All';
+            Session.set('idea_filter', filter);
+        }
         var x = [];
 
         //Get Idea based off filter type

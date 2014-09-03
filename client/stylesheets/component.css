@@ -1,10 +1,19 @@
 
+.filter_bar_text {
+    float: left;
+    padding-right: 15px;
+}
+
+.filter {
+    float: left;
+    padding-right: 15px;
+}
 .filter_text {
     cursor: pointer; cursor: hand; 
 }
 
 .selected {
-    color: yellow;
+    color: white;
 }
 
 .pt-page-1 {

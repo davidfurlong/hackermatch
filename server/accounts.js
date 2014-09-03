@@ -117,6 +117,20 @@ Meteor.startup(function () {
             return false;
         },
 
+        hackathon_by_code: function (invite_code) {
+            console.log('hackathon by code ' + invite_code);
+
+            var hackathon = Hackathons.findOne({invite_code: invite_code});
+           
+            if(hackathon) {
+                console.log("hackathon title: " + hackathon.title);
+                return hackathon.title;
+            } else {
+                return null;
+            } 
+        },
+
+
         join_hackathon: function (invite_code) {
             //console.log('join_hackathon called ' + invite_code);
 
