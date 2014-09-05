@@ -142,8 +142,13 @@ Router.map(function() {
     });
     this.route('signup', {
         path: '/signup', 
-        data: {
-            title: 'MHacks'
+        data: function() {
+            var invite_code = Session.get("invite_code");
+            Meteor.call('hackathon_by_code', invite_code, function(err, title) {
+                Session.set("invite_title", title);
+            });
+            var title = Session.get("invite_title");
+            return  { title: title };
         },
         onBeforeAction: function () {
             if (Meteor.user()) {
@@ -214,8 +219,18 @@ Router.map(function() {
                 hackathon = Hackathons.findOne({url_title: url_title});
                 if(hackathon) {
                     Session.set("current_hackathon", hackathon);
+                } 
+            } 
+
+            //Check to see if actually an invite code not a hackathon
+            var invite_code = this.params._title;
+            Meteor.call('hackathon_by_code', invite_code, function(err, title) {
+                if(title) {
+                    Session.set("invite_code", invite_code);
+                    Router.go('home');
                 }
-            }
+            });
+
             return hackathon;
         },
         waitOn: function() { return Meteor.subscribe('hackathon_and_ideas', this.params._title)},
@@ -226,6 +241,7 @@ Router.map(function() {
             if (!Meteor.user()) {
               if (Meteor.loggingIn()) {
               } else {
+                Session.set("invite_code", this.params._title);
                 Router.go('signup');
               }
             }
@@ -269,6 +285,14 @@ Handlebars.registerHelper('reverse', function(ray){
 
 Handlebars.registerHelper('positive', function(num){
     return num > 0
+});
+
+Handlebars.registerHelper('arrayify', function(obj){
+    var ray = [];
+    for(var a in obj){
+        ray.push(a);
+    }
+    return ray;
 });
 
 Handlebars.registerHelper('sortandarrayify',function(obj){
@@ -315,6 +339,10 @@ Template.profile.helpers( {
 });
 
 Template.profile_contents.helpers({
+    hackathons: function() {
+        if(this)
+            return this.roles;
+    },
     name: function() {
         if(this.profile) {
             return this.profile.name;
@@ -541,105 +569,6 @@ function renderChart(){
     }
 }
 
-Template.potentialTeams.helpers({
-    ideas: function() {
-        if(Meteor.user()) {
-            var skills = Meteor.user().profile.skills;
-            var skillArray = [];
-            for(var key in skills) {
-                if(skills[key] == true) {
-                    var attr = "skills." + key;
-                    var skill_pair = {};
-                    skill_pair[attr] = true;
-                    skill_pair["userId"] = { $ne: Meteor.userId()};
-                    skillArray.push(skill_pair);
-                }
-            }
-           
-            if(skillArray.length == 0) {
-                return;
-            }
-            var hackathon = Session.get("current_hackathon");
-            if(!hackathon) return;
-            var x = Ideas.find(
-                                {$and: [
-                                    {hackathon_id: hackathon._id},
-                                    {$or: skillArray}
-                                ]}
-            ).fetch();
-            _.each(x, function(idea) {
-                var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
-                if(heart && heart.hearted) {
-                    //Only added this to idea list that template receives, such that it's a local change only
-                    idea.hearted = true;
-                } else {
-                    idea.hearted = false;
-                }
-                idea.commentCount = Comments.find({ideaId: idea._id}).fetch().length;
-            });
-            return x;
-        } else return;
-     }
-});
-
-Template.ideaList.helpers({
-    ideas: function() {
-        var hackathon = Session.get("current_hackathon");
-        if(!hackathon) return;
-        var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
-        _.each(x, function(idea) {
-            var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
-            if(heart && heart.hearted) {
-                //Only added this to idea list that template receives, such that it's a local change only
-                idea.hearted = true;
-            } else {
-                idea.hearted = false;
-            }
-            idea.commentCount = Comments.find({ideaId: idea._id}).fetch().length;
-        });
-        return x;
-    }
-});
-
-Template.heartedList.helpers({
-    ideas: function() {
-        var hackathon = Session.get("current_hackathon");
-        if(!hackathon) return;
-        var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
-        x = _.filter(x, function(idea) {
-            var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
-            if(heart && heart.hearted) {
-                //Only added this to idea list that template receives, such that it's a local change only
-                idea.hearted = true;
-            } else {
-                idea.hearted = false;
-            }
-            idea.commentCount = Comments.find({ideaId: idea._id}).fetch().length;
-            return idea.hearted;
-        });
-        return x;
-    }
-});
-
-Template.yourIdeaList.helpers({
-    ideas: function() {
-        var hackathon = Session.get("current_hackathon");
-        if(!hackathon) return;
-        var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: Meteor.userId()}]}).fetch();
-        _.each(x, function(idea) {
-            var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
-            if(heart && heart.hearted) {
-                //Only added this to idea list that template receives, such that it's a local change only
-                idea.hearted = true;
-            } else {
-                idea.hearted = false;
-            }
-            idea.commentCount = Comments.find({ideaId: idea._id}).fetch().length;
-        });
-        return x;
-    }
-});
-
 Template.sidebar.events({
     'submit #comment-create' : function(e, t) {
         e.preventDefault();
@@ -675,6 +604,15 @@ Template.sidebar.events({
     }
 });
 
+Template.home.invite_code = function() {
+
+    var invite_code = Session.get('invite_code');
+    if(invite_code) {
+        return invite_code;
+    } else {
+        return 'I6WK9';
+    }
+}
 
 Template.profile_sidebar.opened = function() {
     var profileSelected = Session.get("selectedProfile");
@@ -687,6 +625,7 @@ Template.profile_sidebar.opened = function() {
         return true;
     }
 }
+
  
 Template.sidebar.helpers({
     idea: function() {
@@ -830,20 +769,21 @@ Template.home.events({
     }
 });
 
-
 Template.admin.events({
     'submit #create_hackathon' : function(e, t) {
         e.preventDefault();
 
         var title = t.find("#new_hackathon_name").value;
-
+        if(title.indexOf('/') != -1){
+            alert('Hackathon names can\'t contain / because we use them for routes');
+            return;         
+        }
         t.$("#new_hackathon_name").val("");
 
         Meteor.call('create_hackathon', title, function(err, res) {});
     }
 });
 
-   
 Template.idea_create_template.events({
     'keyup #idea-create' : function(e){
         if(e.keyCode == 13){
@@ -901,6 +841,7 @@ Template.idea_create_template.events({
             hackathon_id: hackathon._id,
 //            avatar_url: Meteor.user().profile.avatar_url,
 //            github_username: Meteor.user().profile.login,
+            time: new Date().getTime(),
             user_profile: Meteor.user().profile,
             skills: {
                 webdev: webdev,
@@ -946,6 +887,7 @@ Template.settings.helpers({
         }
     }
 });
+
 Template.settings.events({
     'submit #update-user-form' : function(e, t) {
       e.preventDefault();
@@ -1016,7 +958,6 @@ Template.settings.events({
         }
     }
 });
-
 
 Template.signup.rendered = function(){
   if( document.createElement('svg').getAttributeNS ) {
@@ -1218,8 +1159,19 @@ Template.signup.events({
                 profile = _.extend(profile, Meteor.user().profile);
                 //Temporarily set contact info as email
                 profile.contact = profile.email;
-                Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":profile}})
-                Router.go('home');
+                Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":profile}});
+              
+                var invite_title = Session.get("invite_title");
+                var invite_code = Session.get("invite_code");
+                if(invite_title && invite_code) {
+                    Meteor.call('join_hackathon', invite_code, function(err, res) {
+                        if(res) {
+                            Router.go('hackathon', {_title: res});
+                        }    
+                    });
+                } else {
+                    Router.go('home');
+                }
             }
       });
 
@@ -1295,4 +1247,124 @@ Template.login.events({
          return false; 
       }
 });
+
+
+Template.idea_filter.filters = function () {
+    var filter_info = [];
+    var total_count = 0;                                                                                 
+    _.each(IdeaFilters, function (key, value) {
+        filter_info.push({filter: value, count: key().length});
+    });
+
+    filter_info = _.sortBy(filter_info, function (x) { return x.filter; });
+    return filter_info;
+};                                                                                                     
+
+Template.idea_filter.filter_text = function () {
+    return this.filter;
+};                                                                                                     
+Template.idea_filter.selected = function () {
+    return Session.equals('idea_filter', this.filter) ? 'selected' : '';
+};                                                                                                     
+Template.idea_filter.events({ 
+  'mousedown .filter': function () {
+    if (Session.equals('idea_filter', this.filter)) {
+//        Session.set('idea_filter', null);
+    } else {
+        Session.set('idea_filter', this.filter);
+    }
+  }
+});
+
+var IdeaFilters = {
+    'Hearted': function() {
+        var hackathon = Session.get("current_hackathon");
+        if(!hackathon) return;
+        var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
+        x = _.filter(x, function(idea) {
+            var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
+            if(heart && heart.hearted) {
+                //Only added this to idea list that template receives, such that it's a local change only
+                idea.hearted = true;
+            } else {
+                idea.hearted = false;
+            }
+            idea.commentCount = Comments.find({ideaId: idea._id}).fetch().length;
+            return idea.hearted;
+        });
+        return x;
+    },
+    'Needs your help': function() {
+    //Ideas that need your skills list
+        var skills = Meteor.user().profile.skills;
+        var skillArray = [];
+        for(var key in skills) {
+            if(skills[key] == true) {
+                var attr = "skills." + key;
+                var skill_pair = {};
+                skill_pair[attr] = true;
+                skill_pair["userId"] = { $ne: Meteor.userId()};
+                skillArray.push(skill_pair);
+            }
+        }
+
+        if(skillArray.length == 0) {
+            return;
+        }
+        var hackathon = Session.get("current_hackathon");
+        if(!hackathon) return;
+        var x = Ideas.find({
+            $and: [
+                {hackathon_id: hackathon._id},
+                {$or: skillArray}
+            ]
+        }).fetch();
+        return x;
+    },
+    'All': function() {
+        var hackathon = Session.get("current_hackathon");
+        if(!hackathon) return;
+        var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
+        return x;
+    },
+    'Yours': function() {
+    //Your ideas
+        var hackathon = Session.get("current_hackathon");
+        if(!hackathon) return;
+        var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: Meteor.userId()}]}).fetch();
+        return x;
+    }
+}
+
+Template.idea_list.helpers({
+    ideas: function() {
+        var hackathon = Session.get("current_hackathon");
+        if(!hackathon) return;
+        var filter = Session.get("idea_filter");
+
+        if(!filter) {
+            filter = 'All';
+            Session.set('idea_filter', filter);
+        }
+        var x = [];
+
+        //Get Idea based off filter type
+        x = IdeaFilters[filter]();
+        
+//        x = _.sortBy(x, function (x) { return -x.hearts; });
+        //Heart and add comment counts to ideas
+        _.each(x, function(idea) {
+            var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
+            if(heart && heart.hearted) {
+                //Only added this to idea list that template receives, such that it's a local change only
+                idea.hearted = true;
+            } else {
+                idea.hearted = false;
+            }
+            idea.commentCount = Comments.find({ideaId: idea._id}).fetch().length;
+        });
+        return x;
+    }
+});
+
 

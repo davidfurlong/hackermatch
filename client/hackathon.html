@@ -112,25 +112,7 @@
     </form>
 </template>
         
-<template name="potentialTeams">
-    {{#each ideas}}    
-        {{> ideaRow }}
-    {{/each}}
-</template>
-
-<template name="heartedList">
-    {{#each ideas}}
-        {{> ideaRow}}
-    {{/each}}
-</template>
-
-<template name="yourIdeaList">
-    {{#each ideas}}    
-        {{> ideaRow }}
-    {{/each}}
-</template>
-
-<template name="ideaList">
+<template name="idea_list">
     {{#each ideas}}    
         {{> ideaRow }}
     {{/each}}
@@ -183,19 +165,19 @@
 
 <template name="sidebar">
 <div class="sidebar" style="{{#if opened}}{{else}}display:none;{{/if}}" >
-    <div class="sidebar-item-title"><h1>{{idea.name}}</h1></div>
     <div class="sidebar-item-author">
         posted by 
         {{#if idea.user_profile.avatar_url}}
         <a href="/user/{{idea.user_profile.login}}" style="margin-left:10px"><img src="{{idea.user_profile.avatar_url}}" width="32px" height="32px" style="border-radius:50px;margin-top:-5px"></a>
         {{/if}}
         <a href="/user/{{idea.user_profile.login}}">{{idea.user_profile.name}}</a>
-        
+        {{toMoment time}}
     </div>
+    <div class="sidebar-item-title"><h1>{{idea.name}}</h1></div>
     <div class="sidebar-item-desc">{{idea.description}}</div>
     {{#if anyTrue idea.skills}}
         <div class="sidebar-item-skills">
-            <span class="sidebar-prompt">Looking for </span>
+            <span class="sidebar-prompt">Looking for people with </span>
 
             {{#if idea.skills.webdev}}
             <span class="badge t1">Frontend</span>
@@ -211,15 +193,11 @@
             {{/if}}
             {{#if idea.skills.mobile}}
             <span class="badge t5">Mobile</span>
-            {{/if}}  
+            {{/if}}
+            <span class="sidebar-prompt"> skills</span>  
 	   </div>
     {{/if}}
-	
-    <div class="sidebar-item-contact">
-    {{#if idea.user_profile.contact}}
-    	contact <a href="mailto:{{idea.user_profile.contact}}">{{idea.user_profile.contact}}</a>
-    {{/if}}
-    </div> 
+    <br/>
     <div class="sidebar-item-comments">
 	    <form id="comment-create" action="action" autocomplete="off">
             <input id="comment-text" type="text" placeholder="Discuss here">
@@ -242,7 +220,7 @@
             <img src="monkey.png" width="48px" height="48px" style="border-radius:50px;">
             {{/if}}
         </span>
-        <span class="comment-author"><a href="/user/{{login}}">{{username}}</a></span>
+        <span class="comment-author"><a href="/user/{{login}}">{{#if username}}{{username}}{{else}}{{login}}{{/if}}</a></span>
         <span class="comment-skills">
             {{#if skills.webdev}}
             <span class="badge t1">Frontend</span>
@@ -296,30 +274,22 @@
 </div><!-- /fs-form-wrap -->
 </template>
 
-<template name="showHackathons">
-    <div class="row label">
-        PROJECTS THAT NEED YOUR SKILLS
-    </div>
-    <div>
-        {{> potentialTeams}}
-    </div>
-    <div class="row label">
-        HEARTED
-    </div>
-    <div>
-        {{> heartedList}}
-    </div>
-    <div class="row label">
-        YOUR IDEAS
-    </div>
-    <div>
-        {{> yourIdeaList}}
-    </div>
-    <div class="row label">
-        ALL
-    </div>
-    <div>
-        {{> ideaList}}
+<template name="idea_filter">
+    <span class="filter_bar_text">Ideas:</span>
+    <div class="filters">
+        {{#each filters}}
+        <div class="filter {{selected}}">
+            <span class="filter_text">{{filter_text}} <span class="count">({{count}})</span> </span>
+        </div>
+        {{/each}}
     </div>
 </template>
 
+<template name="showHackathons">
+    <div class="row label">
+        {{> idea_filter }}
+    </div>
+    <div>
+        {{> idea_list}} 
+    </div>
+</template>
