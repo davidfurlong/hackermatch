@@ -1351,7 +1351,7 @@ Template.idea_list.helpers({
         //Get Idea based off filter type
         x = IdeaFilters[filter]();
         
-//        x = _.sortBy(x, function (x) { return -x.hearts; });
+        x = _.sortBy(x, function (x) { return -x.hearts; });
         //Heart and add comment counts to ideas
         _.each(x, function(idea) {
             var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
