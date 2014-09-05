@@ -1280,7 +1280,7 @@ var IdeaFilters = {
     'Hearted': function() {
         var hackathon = Session.get("current_hackathon");
         if(!hackathon) return;
-        var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
+        var x = Ideas.find({hackathon_id: hackathon._id}).fetch();
         x = _.filter(x, function(idea) {
             var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
             if(heart && heart.hearted) {
@@ -1324,7 +1324,8 @@ var IdeaFilters = {
     'All': function() {
         var hackathon = Session.get("current_hackathon");
         if(!hackathon) return;
-        var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
+        //var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
+        var x = Ideas.find({hackathon_id: hackathon._id}).fetch();
         return x;
     },
     'Yours': function() {
