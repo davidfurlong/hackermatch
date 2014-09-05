@@ -301,8 +301,11 @@
 	border-bottom: 1px dashed rgba(0,0,0,0.3);
 }
 
+.settings-form input[type="text"]{
+    color: white;
+}
+
 .settings-form input:focus {
-	color: rgba(0,0,0,0.5);
 	border-bottom: 1px dashed rgba(0,0,0,0.5);
 }
 
@@ -451,7 +454,7 @@ a.link-border::before {
 }
 
 #register-form .ac-custom label{
-	color: rgba(0,0,0,0.3);
+	color: white;
 }
 
 a.link-border:hover::before,
