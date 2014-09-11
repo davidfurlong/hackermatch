@@ -92,9 +92,22 @@ Meteor.startup(function () {
 });
 
 Meteor.publish("user", function (username) {
-
-    return Meteor.users.find({'services.github.username': username}); 
+    return  Meteor.users.find({'services.github.username': username}); 
 });
+    
+Meteor.publish("user_and_ideas", function (username){
+    console.log(username);
+    return [
+        Meteor.users.find({'services.github.username': username}),
+        Ideas.find({'github_username': username})
+    ];
+})
+     
+Meteor.publish("one_users_ideas", function (username){
+    console.log(username);
+    return Ideas.find({'github_username': username});
+});
+
 
 //Very inefficient function that finds hackathon by title, then uses 
 // the id of the returned hackathon to "publish" the cursor of that 

@@ -5,8 +5,44 @@
 	position: absolute;
 	top: 0px;
 	width: 100%;
-	padding: 10px 30px;
 }
+
+footer {
+	margin-top: 5px;
+	color: #777;
+}
+
+body, html {
+	min-height: 100%;
+}
+
+.specializations input {
+	float: left;
+}
+
+.reminder {
+	padding: 5px 10px;
+	border: 1px solid rgba(0,0,0,0.3);
+	cursor: pointer;
+	color: rgba(0,0,0,0.3);
+	border-radius: 2px;
+}
+
+.reminder:hover {
+	border: 1px solid rgba(0,0,0,0.3);
+	color: rgba(0,0,0,0.5);
+}
+
+#no-idea-posted {
+	border: 1px solid rgba(156,97,243,0.7);
+	color: rgba(156,97,243,0.7);
+}
+
+#no-idea-posted:hover {
+	border: 1px solid rgba(156,97,243,0.9);
+	color: rgba(156,97,243,0.9);
+}
+
 
 @font-face {
   font-family: 'Avenir-Book';
@@ -126,9 +162,6 @@ html {
 	padding-top: 70px;
 }
 
-html, body {
-	height: 100%;
-}
 
 .container {
 	height: 100%;
@@ -157,4 +190,45 @@ a:hover, a:focus {
 	color: rgba(0,0,0,0.95);
 }
 
+#sidebar-exit {
+	display: none;
+}
+
 /* CONTENT ALL */
+
+@media (max-width: 500px) {
+    #hackermatch-name {
+    	display: none;
+    }
+
+    .row.item .item-action {
+    	width: 30px;
+    }
+
+    .row .item-hearts {
+    	font-size: 10pt;
+    }
+    .ion-heart {
+    	display: none;
+    }
+    .item-text {
+    	max-width: calc(100% - 40px);
+    }
+    .row.item li.item-icon {
+    	display: none;
+    }
+}
+
+@media (max-width: 800px) {
+	.sidebar {
+		width: 100%;
+	}
+	#sidebar-exit {
+		display: block;
+	}
+	#comment-create {
+		font-size: 10pt;
+	}
+}
+
+

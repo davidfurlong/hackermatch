@@ -165,6 +165,7 @@
 
 <template name="sidebar">
 <div class="sidebar" style="{{#if opened}}{{else}}display:none;{{/if}}" >
+    <div id="sidebar-exit"><i class="fa fa-times"></i></div>
     <div class="sidebar-item-author">
         posted by 
         {{#if idea.user_profile.avatar_url}}
@@ -286,6 +287,11 @@
 </template>
 
 <template name="showHackathons">
+    {{#if noIdeaPosted}}
+        <div id="no-idea-posted" class="reminder">
+            Post an Idea <div style="float:right"><i class="fa fa-arrow-circle-o-right"></i></div>
+        </div>
+    {{/if}}
     <div class="row label">
         {{> idea_filter }}
     </div>

@@ -36,6 +36,14 @@
    color: rgba(0,0,0,0.3);  
 }
 
+#join_hackathon_code {
+	float: left;
+}
+
+.inl-flex {
+	display: inline-flex;
+}
+
 #join_hackathon_code:-moz-placeholder { /* Firefox 18- */
    color: rgba(0,0,0,0.3);  
 }
@@ -177,17 +185,19 @@
 }
 
 .signup-button {
-	font-size: 16pt;
-	color: white;
-	border: 1px solid white;
+	font-size: 14px;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: rgba(256,256,256, 0.8);
+	border: 2px solid rgba(256,256,256, 0.5);
 	padding: 16px 32px;
-	border-radius: 4px;
-	background: transparent;
+	border-radius: 2px;
+	background: rgba(256,256,256,0.05);
 }
 
 .signup-button:hover {
-	background: white;
-	color: #333;
+	border: 2px dashed rgba(256,256,256,0.5);
+	background: rgba(256,256,256,0.1);
 }
 
 .messages {
@@ -269,16 +279,16 @@
 	text-align: right;
 }
 
-.settings-form {
-	width: 600px;
-	margin: 0 auto;
+.settings-form, .hackathons-form {
+	max-width: 600px;
+	margin: 0px auto;
 }
 
-.settings-form > div {
+.settings-form > div, .hackathons-form > div {
 	margin: 10px 0;
 }
 
-.settings-form label {
+.settings-form label, .hackathons-form label {
 	line-height: 50px;
 }
 
@@ -291,7 +301,21 @@
 	height: 0;
 }
 
-.settings-form input {
+.hackathons-form input {
+	padding: 10px 21px;
+	background: transparent;
+	color: rgba(0,0,0,0.3);
+	outline: none;
+	border: 0;
+	border-bottom: 1px dashed rgba(0,0,0,0.3);
+}
+
+.hackathons-form input:focus {
+	color: rgba(0,0,0,0.5);
+	border-bottom: 1px dashed rgba(0,0,0,0.5);
+}
+
+.settings-form input, .settings-form textarea {
 	float: right;
 	padding: 10px 21px;
 	background: transparent;
@@ -301,16 +325,26 @@
 	border-bottom: 1px dashed rgba(0,0,0,0.3);
 }
 
+.settings-form textarea {
+	border: 1px dashed rgba(0,0,0,0.3);
+	padding: 10px;
+}
+
+.settings-form textarea:focus {
+	color: rgba(0,0,0,0.5);
+	border: 1px dashed rgba(0,0,0,0.5);
+}
+
 .settings-form input:focus {
 	color: rgba(0,0,0,0.5);
 	border-bottom: 1px dashed rgba(0,0,0,0.5);
 }
 
-#update-user-form input[type="text"]{
+#update-user-form input[type="text"], #update-user-form textarea{
 	width: 250px;
 }
 
-.settings-form input[type="submit"] {
+.settings-form input[type="submit"], .hackathons-form input[type="submit"] {
 	font-weight: 700;
 }
 
@@ -454,6 +488,11 @@ a.link-border::before {
 	color: rgba(0,0,0,0.3);
 }
 
+#register-form .ac-custom input[type="checkbox"]:checked + label {
+	color: rgba(0,0,0,0.5);
+}
+
+
 a.link-border:hover::before,
 a.link-border:focus::before {
 	opacity: 1;
@@ -555,7 +594,6 @@ a.link-border:focus::before {
 }
 
 .row.label {
-	font-family: 'Raleway';
 	font-size: 14pt;
 	color: #8D8D8D;
 	font-weight: 700;
@@ -663,8 +701,8 @@ a.link-border:focus::before {
 
 /* Form */
 .fs-form {
-	position: relative;
-	text-align: left;
+/*	position: relative;
+*/	text-align: left;
 	font-size: 2.5em;
 }
 
@@ -685,7 +723,7 @@ a.link-border:focus::before {
 /* Views (fullscreen and overview)*/
 .fs-form-full {
 	top: 32%;
-	margin: 0 auto;
+	margin: 100px auto;
 	width: 70%;
 }
 
@@ -693,7 +731,6 @@ a.link-border:focus::before {
 .fs-message-error {
 	max-width: 960px;
 }
-
 
 .pt-page {
 

@@ -20,17 +20,6 @@ Router.map(function() {
         layoutTemplate: ''
 
     });
-    this.route('signupProfile', {
-        path: '/signup-profile',
-        data: {
-            title: ''
-        },
-        onBeforeAction: function () {
-            if (Meteor.user()){
-                Router.go('profile');
-            }
-        }
-    });
     this.route('profile', {
         path: '/profile',
         data: function() { 
@@ -43,6 +32,7 @@ Router.map(function() {
         yieldTemplates: {
           'base_nav': {to: 'nav'}
         },
+        waitOn: function() { return Meteor.subscribe('one_users_ideas', this.params._username)},
         onBeforeAction: function() {
             if (!Meteor.user()){
                 if (Meteor.loggingIn()) {
@@ -95,7 +85,7 @@ Router.map(function() {
         yieldTemplates: {
           'base_nav': {to: 'nav'}
         },
-        waitOn: function() { return Meteor.subscribe('user', this.params._username)},
+        waitOn: function() { return Meteor.subscribe('user_and_ideas', this.params._username)},
         onBeforeAction: function() {
             if (!Meteor.user()){
                 if (Meteor.loggingIn()) {
@@ -420,7 +410,6 @@ Template.profile_contents.helpers({
                         hasAccess = true;
                 }
                 if(hasAccess){
-
                     for(var k = 0; k < temp.length; k ++){
                         if(collaborators[temp[k].f_login] != undefined){
                             collaborators[temp[k].f_login].count ++;
@@ -480,8 +469,8 @@ Template.profile_contents.helpers({
             window.setTimeout(function(){renderChart()}, 1000);       
         }
     },
-    languages: function(){
-        if(this.profile) {
+    languages: function(){ 
+        if(this.profile && !this.profile.languages) { // Only runs the first time
             var repos = this.profile.repos;
             var languages = {};
             for(var i=0;i<repos.length;i++){
@@ -512,8 +501,41 @@ Template.profile_contents.helpers({
                 }
                 i++;
             }
+
+            var languages = {
+                languages: sortable.map(function(el){
+                    return el[0]
+                })
+            }
+            updated_profile = _.extend(Meteor.user().profile, languages);
+               
+            // Trim and validate the input
+            Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":updated_profile}});
+
+            Meteor.call('attach_ideas', Meteor.user()._id);
+            Meteor.call('update_ideas', Meteor.user()._id);
+            
             return sentence;
         }
+        else if(this.profile.languages) {
+            var sortable = this.profile.languages;
+            var sentence = ""; 
+            var i = 0;
+            while(i<sortable.length-1){
+                if(i == sortable.length-2){
+                    sentence += sortable[i];
+                }
+                else {
+                    sentence += sortable[i] + ", ";
+                }
+                i++;
+            }
+            return sentence;
+        }
+    },
+    myIdeas: function(){
+        console.log(Ideas.find().fetch());
+        return Ideas.find({'github_username': this.profile.login}).fetch();
     }
 });
 
@@ -570,6 +592,9 @@ function renderChart(){
 }
 
 Template.sidebar.events({
+    'click #sidebar-exit' : function(e, t){
+        $('.page-container').trigger('click');
+    },
     'submit #comment-create' : function(e, t) {
         e.preventDefault();
         var text = t.find('#comment-text').value;
@@ -720,6 +745,19 @@ Template.hackathon.events({
     }
 });
 
+Template.home.helpers({
+    profileIncomplete: function() {
+        var me = Meteor.user().profile;
+        return me.bio == null || me.bio == "" || me.contact == null || me.contact == "" || me.name == "" || me.name == null
+    }
+});
+
+Template.home.events({
+    'click #incomplete-profile': function (e, t){
+        Router.go('settings');
+    }
+});
+
 /*
 Template.hackathonList.helpers({
   hackathons: function() {
@@ -766,6 +804,26 @@ Template.home.events({
                 Router.go('hackathon', {_title: res});
             }    
         });
+    }
+});
+
+Template.showHackathons.helpers({
+    noIdeaPosted: function(){
+        if(Ideas){
+            var hackathon = Session.get("current_hackathon");
+            if(!hackathon) return true;
+            var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
+            if(x.length > 0){
+                return false
+            }
+            return true
+        }
+    }
+});
+
+Template.showHackathons.events({
+    'click #no-idea-posted': function(){
+        Router.go('/idea');
     }
 });
 
@@ -885,22 +943,45 @@ Template.settings.helpers({
             setTimeout(function(){$('.ac-cross input[type="checkbox"]').trigger('change')},1000);
             return '';
         }
+    },
+    description: function() {
+        if(Meteor.user() && Meteor.user().profile.bio){
+            return Meteor.user().profile.bio;
+        }
+    },
+    languages: function() {
+        if(Meteor.user() && Meteor.user().profile.languages){
+            return Meteor.user().profile.languages;
+        }
     }
 });
 
 Template.settings.events({
-    'submit #update-user-form' : function(e, t) {
-      e.preventDefault();
-      var q1 = t.find('#user_name').value
+    'click .delete-language': function(e, t){
+        $(e.currentTarget).closest('.specialization').remove()
+    },
+    'click .add-language': function(){
+        $('.specializations').append('<div class="specialization">'+
+                            '<input  class="language" type="text" value=""><input type="button" value="x" class="delete-language">'+
+                        '</div>');
+        $('.specialization').last().find('.language').focus()
+    },
+    'submit #update-user-form' : function(e, t){
+        e.preventDefault();
+        var q1 = t.find('#user_name').value
         , q2 = t.find('#user_contact').value
         , q3 = t.find('#user_skills').value
         , q4 = t.find('#user_github').value
-        //, q5 = t.find('#user_picture').value
+        , q5 = t.find('#user_description').value
         , webdev = t.find('#sb1').checked
         , design = t.find('#sb2').checked
         , backend = t.find('#sb3').checked
         , mobile = t.find('#sb4').checked
         , hardware = t.find('#sb5').checked;
+
+        var langs = t.findAll('.language').map(function(el){
+            return el.value
+        });
 
         var updated_profile = {
             name: q1,
@@ -912,42 +993,19 @@ Template.settings.events({
                 hardware: hardware,
                 mobile: mobile,
                 webdev: webdev
-            }
+            },
+            bio: q5, 
+            languages: langs
         };
         updated_profile = _.extend(Meteor.user().profile, updated_profile);
-            
+           
         // Trim and validate the input
         Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":updated_profile}});
 
         Meteor.call('attach_ideas', Meteor.user()._id);
         Meteor.call('update_ideas', Meteor.user()._id);
-
-        var hackathon = Session.get("current_hackathon");
        
-        //TODO make a better error case, shouldn't even get this far...
-        if(!hackathon || hackathon == "") {
-            console.log("no hackathon selected");
-            Router.go('home');
-            return;
-        }
-        
-        Router.go('hackathon', {_title: hackathon.title});
-    /*
-      Accounts.createUser({email: email, password : password}, function(err){
-          if (err) {
-            console.log('no user :(');
-            Router.go('home');
-            // Inform the user that account creation failed
-          } else {
-            console.log('created user!');
-            Router.go('home');
-            // Success. Account has been created and the user
-            // has logged in successfully. 
-          }
-
-      });
-    */
-      return false;
+        return false;
     },
     'click #logout': function (e, t) {
         e.preventDefault();
@@ -1150,7 +1208,7 @@ Template.signup.events({
         //console.log(profile);
 
       Meteor.loginWithGithub({
-            requestPermissions: []
+            requestPermissions: ['user:email']
       }, function (err) {
             if (err) {
               Session.set('errorMessage', err.reason || 'Unknown error');
@@ -1183,32 +1241,6 @@ Template.signup.events({
       return false;
     }
 });
-
-Template.signupProfile.events({
-    'submit #register-form' : function(e, t) {
-      e.preventDefault();
-
-    var profile = {}
-
-      Meteor.loginWithGithub({
-            requestPermissions: ['user:email']
-      }, function (err) {
-            if (err) {
-              Session.set('errorMessage', err.reason || 'Unknown error');
-            }
-            if(Meteor.user()) {
-                profile = _.extend(profile, Meteor.user().profile);
-                //Temporarily set contact info as email
-                profile.contact = profile.email;
-                Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":profile}})
-                Router.go('profile');
-            }
-      });
-
-      return false;
-    }
-});
-
 
 Template.login.events({
 
