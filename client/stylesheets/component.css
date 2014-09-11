@@ -1793,7 +1793,7 @@ input[type=text]::-ms-clear {
 	font-size: 20pt;
 	padding: 0 0 0 60px;
 	vertical-align: top;
-	color: rgba(0,0,0,0.3);
+	color: rgba(0,0,0,0.15);
 	cursor: pointer;
 	-webkit-transition: color 0.3s;
 	transition: color 0.3s;
@@ -1822,7 +1822,7 @@ input[type=text]::-ms-clear {
 
 .ac-custom label::before {
 	content: '';
-	border: 1px solid rgba(0,0,0,0.3);
+	border: 1px solid rgba(0,0,0,0.15);
 	-webkit-transition: opacity 0.3s;
 	transition: opacity 0.3s;
 }
@@ -1833,7 +1833,7 @@ input[type=text]::-ms-clear {
 
 .ac-custom input[type="checkbox"]:checked + label,
 .ac-custom input[type="radio"]:checked + label {
-	color: rgba(0,0,0,0.5);
+	color: rgba(0,0,0,0.3);
 } 
 
 .ac-custom input[type="checkbox"]:checked + label::before,

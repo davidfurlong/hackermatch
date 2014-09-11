@@ -20,6 +20,10 @@ body, html {
 	float: left;
 }
 
+.specializations {
+	float: right;
+}
+
 .specialization input[type='button'] {
 	width: 46px;
 }
