@@ -196,7 +196,7 @@
 }
 
 .signup-button:hover {
-	border: 2px solid rgba(256,256,256,0.5);
+	border: 2px dashed rgba(256,256,256,0.5);
 	background: rgba(256,256,256,0.1);
 }
 
@@ -306,38 +306,36 @@
 	background: transparent;
 	color: rgba(0,0,0,0.3);
 	outline: none;
-	border: 0;
-	border-bottom: 1px dashed rgba(0,0,0,0.3);
+	border: 1px solid rgba(0,0,0,0.1);
 }
 
 .hackathons-form input:focus {
 	color: rgba(0,0,0,0.5);
-	border-bottom: 1px dashed rgba(0,0,0,0.5);
+	border: 1px solid rgba(0,0,0,0.3);
 }
 
 .settings-form input, .settings-form textarea {
 	float: right;
-	padding: 10px 21px;
+	padding: 10px;
 	background: transparent;
 	color: rgba(0,0,0,0.3);
 	outline: none;
-	border: 0;
-	border-bottom: 1px dashed rgba(0,0,0,0.3);
+	border: 1px solid rgba(0,0,0,0.1);
 }
 
 .settings-form textarea {
-	border: 1px dashed rgba(0,0,0,0.3);
+	border: 1px solid rgba(0,0,0,0.1);
 	padding: 10px;
 }
 
 .settings-form textarea:focus {
 	color: rgba(0,0,0,0.5);
-	border: 1px dashed rgba(0,0,0,0.5);
+	border: 1px solid rgba(0,0,0,0.3);
 }
 
 .settings-form input:focus {
 	color: rgba(0,0,0,0.5);
-	border-bottom: 1px dashed rgba(0,0,0,0.5);
+	border: 1px solid rgba(0,0,0,0.3);
 }
 
 #update-user-form input[type="text"], #update-user-form textarea{
@@ -562,6 +560,10 @@ a.link-border:focus::before {
 	vertical-align: top;
 }
 
+.fs-form-full {
+    top: 25% !important;
+}
+
 .fs-form-wrap {
 	position: relative;
 	width: 100%;
@@ -718,14 +720,18 @@ a.link-border:focus::before {
 
 /* Views (fullscreen and overview)*/
 .fs-form-full {
-	margin: 50px auto;
+	top: 32%;
+	margin: 100px auto;
 	width: 70%;
-	box-sizing: border-box;
 }
 
 .fs-form-full,
 .fs-message-error {
 	max-width: 960px;
+}
+
+.pt-page {
+
 }
 
 .fs-form-overview {

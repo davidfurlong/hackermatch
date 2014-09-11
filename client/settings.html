@@ -33,14 +33,16 @@
                     </div>
                     <div class="languages cf">
                         <label>Specializations</label>
-                        <input type="button" class="add-language" value="+ Add">
                         <div class="specializations">
                         {{#each languages}}
-                        <div class="specialization">
+                        <div class="specialization cf">
                             <input  class="language" type="text" value="{{.}}"><input type="button" value="x" class="delete-language">
                         </div>
                         {{/each}}
-                        </div>  
+                        </div> 
+                        <div style="float: left">
+                            <input type="button" class="add-language" value="+ Add">
+                        </div>
                     </div>
                     <div class="cf save-changes">
 

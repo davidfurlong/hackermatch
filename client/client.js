@@ -809,7 +809,7 @@ Template.home.events({
 
 Template.showHackathons.helpers({
     noIdeaPosted: function(){
-        if(Ideas){
+        if(Meteor.user()){
             var hackathon = Session.get("current_hackathon");
             if(!hackathon) return true;
             var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
@@ -961,7 +961,7 @@ Template.settings.events({
         $(e.currentTarget).closest('.specialization').remove()
     },
     'click .add-language': function(){
-        $('.specializations').append('<div class="specialization">'+
+        $('.specializations').append('<div class="specialization cf">'+
                             '<input  class="language" type="text" value=""><input type="button" value="x" class="delete-language">'+
                         '</div>');
         $('.specialization').last().find('.language').focus()

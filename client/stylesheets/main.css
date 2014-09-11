@@ -20,6 +20,10 @@ body, html {
 	float: left;
 }
 
+.specialization input[type='button'] {
+	width: 46px;
+}
+
 .reminder {
 	padding: 5px 10px;
 	border: 1px solid rgba(0,0,0,0.3);
