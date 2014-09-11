@@ -196,7 +196,7 @@
 }
 
 .signup-button:hover {
-	border: 2px dashed rgba(256,256,256,0.5);
+	border: 2px solid rgba(256,256,256,0.5);
 	background: rgba(256,256,256,0.1);
 }
 
@@ -562,10 +562,6 @@ a.link-border:focus::before {
 	vertical-align: top;
 }
 
-.fs-form-full {
-    top: 25% !important;
-}
-
 .fs-form-wrap {
 	position: relative;
 	width: 100%;
@@ -722,18 +718,14 @@ a.link-border:focus::before {
 
 /* Views (fullscreen and overview)*/
 .fs-form-full {
-	top: 32%;
-	margin: 100px auto;
+	margin: 50px auto;
 	width: 70%;
+	box-sizing: border-box;
 }
 
 .fs-form-full,
 .fs-message-error {
 	max-width: 960px;
-}
-
-.pt-page {
-
 }
 
 .fs-form-overview {
@@ -1824,7 +1816,7 @@ input[type=text]::-ms-clear {
 
 .ac-custom label::before {
 	content: '';
-	border: 4px solid #fff;
+	border: 1px solid rgba(0,0,0,0.3);
 	-webkit-transition: opacity 0.3s;
 	transition: opacity 0.3s;
 }
