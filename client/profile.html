@@ -1,114 +1,102 @@
 <template name="profile">
+  <div id="profile">
     {{#if has_github_profile }}
         {{> profile_contents }}
     {{else}}
         <div style="height: 100%; width: 100%" class="loading-profile">
         <div style="position: fixed; top: 50%; left: 50%; ">
-            <img style="float: left;"  src="http://viewvc.svn.mozilla.org/vc/addons/trunk/bandwagon/skin/images/spinner.gif?revision=18591&view=co&pathrev=18591">
             <h3 style="color: black; float:right; margin-top: 5px; margint-left: 10px; margin-left: 10px;" >Profile loading</h3>
         </div> 
         </div> 
     {{/if}}
+  </div>
 </template>
-
 <template name="profile_contents">
-  <div class="profile" id="profile">
-        <div id="row1" class="row">
-          <div class="col-md-6 col-md-offset-3">
-            <div id="picture">
-              <img src="{{avatar_url}}" height="200px" width="200px" />
-            </div>
-            <div id="details">
-              <div id="name">
-              <center>
-              {{#if name }}
-                {{name}}
-              {{else}}
-                {{github}}
-              {{/if}}
-              </center>
-              </div>
-              <div id="contact">
-                <center>
-                <div>
-                  {{#if languages }}
-                    {{languages}}
-                  {{/if}}
-                </div>
-                <div class="profile-skills">
-                  {{#if skills }}
-                    {{#each bitmaparray skills}}
-                      <span class="badge {{.}}">{{.}}</span> 
-                    {{/each}}
-                  {{/if}}
-                </div>
-                <div>
-                {{#if github }}
-                  <a href="{{github_url}}"><i class="fa fa-github"></i></a>
-                {{/if}}
-                {{#if contact }}
-                  <a href="mailto:{{contact}}"><i class="fa fa-paper-plane-o"></i></a>
-                {{/if}}
-                {{#if location }}
-                  <br/>
-                  <i class="fa fa-map-marker"></i>
-                  {{location}}
-                {{/if}}
-                </div>
-                </center>
-              </div>
-            </div>
-            <div class="feature-row row">
-              <div class="col-md-6 col-md-offset-1">
-              <div class="feature feature-text  all-repos">
-                <h3>Worked on</h3>
-                {{#each featured}}
-                  <a href="{{html_url}}">{{stargazers_count}} <i class="fa fa-star"></i> <span class="feature-title">{{full_name}}</span>
-                  </a><br/>   
-                {{/each}}
-              </div>
-              </div>
-              <div class="col-md-5">
-              <div class="feature feature-text  all-repos">
-                <h3>Worked with</h3>
-                {{#each sortandarrayify collaborators}}
-                  <div class="collaborator">
-                  <a href="{{f_html_url}}"><img src="{{f_avatar_url}}" class="mini-avatar"><span class="feature-title">{{f_login}}</span>
-                  </a></div>
-                {{/each}}
-              </div>
-              </div>
-            </div>
-          </div>
-        </div>  
-        <div class="row">
-          <div class="col-md-6 col-md-offset-3">
-            <h3>Hackathons</h3>
-            {{#each arrayify hackathons}}
-              <img class="hackathon-badge" title="{{this}}" src="/badges/{{this}}.png">
-            {{/each}}
-          </div>
+  <div class="row">
+    <div class="col-md-3">
+      <div id="picture">
+        <img src="{{avatar_url}}" height="200px" width="200px" /> <!-- {{avatar_url}} -->
+      </div>
+      <div id="contact">
+        {{#if github }}
+          <a href="{{github_url}}"><i class="fa fa-github"></i> Github</a>
+        {{/if}}
+        &nbsp;&nbsp;&nbsp;
+        {{#if contact }}
+            <a href="mailto:{{contact}}"><i class="fa fa-paper-plane-o"></i> Email</a>
+        {{/if}}
+        {{#if location }}
+          <br/>
+          <i class="fa fa-map-marker"></i>
+          {{location}}
+        {{/if}}
+      </div>
+    </div>
+    <div class="col-md-9" id="profile-bio">
+      <h3 class="title">
+          {{#if name}}
+            {{name}}
+          {{else}}
+            {{github}}
+          {{/if}}
+        </h3>
+      {{bio}}
+     <!--  <p>
+      <div class="profile-skills">
+        {{#if skills }}
+          {{#each bitmaparray skills}}
+            <span class="badge {{.}}">{{.}}</span> 
+          {{/each}}
+        {{/if}}
+      </div>
+      </p> -->
+    </div>
+  </div>
+  <div class="row languages">
+    <div class="col-md-12">
+      {{#if languages }}
+        {{languages}}
+      {{/if}}
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="title">Projects</h3>
+      {{#each featured}}
+        <a href="{{html_url}}">{{stargazers_count}} <i class="fa fa-star"></i> <span class="feature-title"><b>{{getName .}}</b></span>{{#if description}} - <span>{{description}}</span>{{/if}}
+        </a><br/>   
+      {{/each}}
+    </div>
+    <div class="col-md-6">
+      <h3 class="title">Collaborators</h3>
+      {{#each sortandarrayify collaborators}}
+        <span class="collaborator">
+        <a href="{{f_html_url}}"><img src="{{f_avatar_url}}" class="mini-avatar"><span class="feature-title"><b>{{f_login}}</b></span>
+        </a></span>
+      {{/each}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h3 class="title">Activity</h3>
+      {{#each myIdeas}}
+        <div>
+        <span>
+          <i class="fa fa-plus"></i>
+          <b> {{name}}</b>
+          {{description}}
+          </span>
         </div>
-        <div class="row">
-          <div class="col-md-6 col-md-offset-3">
-            <h3>Ideas</h3>
-            {{#each myIdeas}}
-              <p>
-                <b>{{name}}</b>
-                {{description}}
-              </p>
-            {{/each}}
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6 col-md-offset-3">
-            <div id="graph"> 
-              <div id="lineLegend"></div>
-              <canvas id="canvas" width="500px" height="200px"></canvas>      
-            </div>
-            {{dateGraph}}
-          </div>
-        </div>
+      {{/each}}
+    </div>
+  </div>
+  <div class="row hackathons">
+    <div class="col-md-12">
+      {{#each arrayify hackathons}}
+        <img class="hackathon-badge" title="{{this}}" src="/badges/{{this}}.png">
+      {{/each}}
+    </div>
   </div>
   <script type="text/javascript">
     $("img").error(function () {

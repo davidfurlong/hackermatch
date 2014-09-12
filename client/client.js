@@ -263,6 +263,10 @@ Handlebars.registerHelper('anyTrue', function(obj){
     return false;
 });
 
+Handlebars.registerHelper('getName', function(obj){
+    return obj['name'];
+});
+
 Handlebars.registerHelper('toMoment', function(time){
     return moment(time).fromNow();
 });

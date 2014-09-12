@@ -16,6 +16,10 @@ body, html {
 	min-height: 100%;
 }
 
+.bio-row {
+	font-size: 16pt;
+}
+
 .specializations input {
 	float: left;
 }
