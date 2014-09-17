@@ -31,7 +31,13 @@
             {{/if}}
         </li>
         <li data-id="{{_id}}" class="item-text">
-        	<span class="item-title">{{profile.name}}</span>
+        	<span class="item-title">
+            {{#if profile.name}}
+            {{profile.name}}
+            {{else}}
+            {{profile.login}}
+            {{/if}}
+            </span>
         	<span class="item-desc">{{profile.bio}}</span>
         	<hr/>
             <span class="item-skills">
