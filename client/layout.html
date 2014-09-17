@@ -1,5 +1,5 @@
 <template name="layout">
-    <div class="container">
+    <div class="container page-wrap">
         <div id="title-bar" class="cf">
             <div id="brand">
                 <a href="/home" id="home-link"><img src="/logo_2.png" height="36px" style="margin-top:-5px;margin-right:10px"><span id="hackermatch-name">hackermatch</span></a> 
@@ -13,22 +13,30 @@
             <div class="top-right-menu">
                 {{> yield region='nav'}}
                 {{#if currentUser}}
-                <a id="settings-link" href="/settings">settings</a>
+                <a id="settings-link" href="/settings"><i class="fa fa-cog" style="color:white"></i></a> 
                 {{/if}}
                 {{#if isInRole 'admin' 'all'}}
-                <a id="admin-link" href="/admin">admin</a>
+                <a id="admin-link" href="/admin"><i class="fa fa-code"></i></a>
                 {{/if}}
             </div>
         </div>	
         <div class="content-view">
             {{> yield}}
+            <footer class="site-footer">
+                <center>
+                <span>Made in SF</span>
+                </center>
+            </footer>
         </div>
+        <button class="feedback-btn feedback-btn-blue">Feedback</button>
     </div><!-- /container -->
-    <footer>
-        <center>
-        <span>Made with &#60;3 in SF</span>
-        </center>
-    </footer>
+    <script type="text/javascript">
+        $.feedback({
+           html2canvasURL: 'html2canvas.js',
+           githubpath: 'davidfurlong/hackermatch-feedback', // CHANGE THIS TO YOUR PATH
+           serverURL: 'http://feedbackbot.herokuapp.com' // YOU CAN HOST YOUR OWN GITHUB BOT IF YOU WANT
+         });
+    </script>
 </template>
 <template name="base_nav">
 <!--

@@ -1,5 +1,6 @@
 <template name="hackathon_nav">
-    <a id="create-idea-link" href="/idea">add idea</a>
+    <a id="find-ideas-link" href="/{{selected_hackathon.url_title}}">Ideas</a>
+    <a id="find-teams-link" href="/people">People</a>
 </template>
 <template name="hackathon">
     {{> profile_sidebar}}
@@ -78,7 +79,7 @@
           {{/each}}
         </div>
     </div>
-</template>
+</template><!-- 
 <template name="update_user">
     <input id="logout" type="submit" value="Log Out">
     <form id="update-user-form" action="action" class="settings-form">
@@ -110,7 +111,7 @@
             <input type="submit" value="Save Changes">
         </div>
     </form>
-</template>
+</template> -->
         
 <template name="idea_list">
     {{#each ideas}}    
@@ -287,11 +288,12 @@
 </template>
 
 <template name="showHackathons">
-    {{#if noIdeaPosted}}
-        <div id="no-idea-posted" class="reminder">
-            Post an Idea <div style="float:right"><i class="fa fa-arrow-circle-o-right"></i></div>
-        </div>
-    {{/if}}
+    <div id="no-idea-posted" class="reminder">
+        <i class="flaticon-light85"></i><span class="label">Post an Idea</span><div style="float:right"><i class="flaticon-right192"></i></div>
+    </div>
+    <div id="team-reminder" class="reminder">
+        <i class="flaticon-personal32"></i><span class="label">Find people</span><div style="float:right"><i class="flaticon-right192"></i></div>
+    </div>
     <div class="row label">
         {{> idea_filter }}
     </div>

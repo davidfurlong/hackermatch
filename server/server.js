@@ -92,7 +92,7 @@ Meteor.startup(function () {
 });
 
 Meteor.publish("user", function (username) {
-    return  Meteor.users.find({'services.github.username': username}); 
+    return Meteor.users.find({'services.github.username': username}); 
 });
     
 Meteor.publish("user_and_ideas", function (username){
@@ -139,6 +139,25 @@ Meteor.publish("hackathon_and_ideas", function (hackathon_title) {
     }
 });
 
+Meteor.publish("users_and_hackathon", function (hackathon_title) {
+    var url_title = encodeURI(hackathon_title.toLowerCase().replace(/ /g, ''));
+    var hackathon = Hackathons.findOne({url_title: url_title});
+    var hackathon_id = null;
+    if(hackathon) {
+        hackathon_id = hackathon._id; 
+    }
+
+    if (Roles.userIsInRole(this.userId, ['hacker', 'organizer', 'admin'], url_title)) {
+        var s = "roles."+url_title;
+        var query = {}
+        query["roles"][url_title] = {$all: ['hacker']};
+        return Meteor.users().find(query);
+    } else {
+        // user not authorized. do not publish secrets
+        this.stop();
+        return;
+    }
+});
 
 // server: publish the set of parties the logged-in user can see.
 Meteor.publish("hackathons", function () {

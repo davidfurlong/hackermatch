@@ -5,11 +5,18 @@
 	position: absolute;
 	top: 0px;
 	width: 100%;
+	padding: 10px 30px;
 }
 
 footer {
 	margin-top: 5px;
 	color: #777;
+	margin-bottom: 5px;
+	box-sizing: border-box;
+}
+
+#profile-bio {
+	margin-top: 20px;
 }
 
 body, html {
@@ -38,6 +45,20 @@ body, html {
 	cursor: pointer;
 	color: rgba(0,0,0,0.3);
 	border-radius: 2px;
+	font-size: 20pt;
+}
+
+#feedback-module {
+	color: black;
+}
+
+hr {
+	margin: 5px 0 2px 0;
+	border-top: 1px dashed #333;
+}
+
+.reminder .label {
+	margin-left: 20px;
 }
 
 .reminder:hover {
@@ -54,6 +75,18 @@ body, html {
 	border: 1px solid rgba(156,97,243,0.9);
 	color: rgba(156,97,243,0.9);
 }
+
+#team-reminder {
+	margin-top: 10px;
+	border: 1px solid rgba(243,243,21,0.7);
+	color: rgba(243,243,21,0.7);
+}
+
+#team-reminder:hover {
+	border: 1px solid rgba(243,243,21,0.9);
+	color: rgba(243,243,21,0.9);
+}
+
 
 
 @font-face {
@@ -126,12 +159,15 @@ html {
 }
 
 .index-page {
-	background: #ffcb00;
+	background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAGElEQVQIW2NkYGD4D8SMMBrEQAFwGZwqAKzeBAUqvbkLAAAAAElFTkSuQmCC');
 }
 
+
 #splash a {
-    color: #1e3261;
-}
+    color: white;
+    font-size: 60px;
+/*    text-shadow:0px 0px 0 rgb(221,221,221),0px 1px 0 rgb(206,206,206),0px 2px 0 rgb(192,192,192),0px 3px 0 rgb(177,177,177),0px 4px 0 rgb(163,163,163),0px 5px 0 rgb(148,148,148), 0px 6px 0 rgb(134,134,134),0px 7px 6px rgba(0,0,0,0.6),0px 7px 1px rgba(0,0,0,0.5),0px 0px 6px rgba(0,0,0,.2);
+*/}
 
 #splash a:hover {
     color: #fff;
@@ -167,6 +203,15 @@ html {
     *zoom: 1;
 }
 
+html, body {
+	height: 100%;
+}
+.wrapper {
+	min-height: 100%;
+	height: auto !important; /* This line and the next line are not necessary unless you need IE6 support */
+	height: 100%;
+	margin: 0 auto -50px; /* the bottom margin is the negative value of the footer's height */
+}
 /* ELEMENT STYLES */
 
 .view {
@@ -199,6 +244,10 @@ a:hover, a:focus {
 
 .sidebar a:hover, .sidebar a:focus {
 	color: rgba(0,0,0,0.95);
+}
+
+#register-form .ac-custom svg {
+	margin-top: -22px;
 }
 
 #sidebar-exit {

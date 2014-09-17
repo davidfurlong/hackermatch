@@ -21,7 +21,7 @@
 }
 
 #settings {
-    height: 100%;
+    height: auto;
     background: #7BA5FF;
 }
 
@@ -65,7 +65,7 @@
 }
 
 #title-bar {
-	background: rgba(70, 70, 70, 0.9) !important;
+	background: rgba(0,0,0,0.6) !important;
 	position: fixed !important;
 /*	border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
    /* -moz-background-clip: padding;     
@@ -289,7 +289,7 @@
 }
 
 .settings-form label, .hackathons-form label {
-	line-height: 50px;
+	line-height: 40px;
 }
 
 .settings-form .github_username {
@@ -347,7 +347,7 @@
 }
 
 .view .ac-custom svg {
-	margin-top: -25px;
+	margin-top: -20px;
 }
 
 .fixer-quick.ac-custom svg {
@@ -709,10 +709,6 @@ a.link-border:focus::before {
 	text-align: left;
 }
 
-.idea-list:hover {
-	background: #121212;
-	border-radius: 10px;
-}
 
 .no-js .fs-form {
 	padding: 0 0 6em 0;
@@ -1791,7 +1787,7 @@ input[type=text]::-ms-clear {
 	display: inline-block;
 	position: relative;
 	font-size: 20pt;
-	padding: 0 0 0 60px;
+	padding: 10px 0 0 60px;
 	vertical-align: top;
 	color: rgba(0,0,0,0.15);
 	cursor: pointer;
@@ -1806,7 +1802,7 @@ input[type=text]::-ms-clear {
 	height: 50px;
 	top: 50%;
 	left: 0;
-	margin-top: -25px;
+	margin-top: -20px;
 	position: absolute;
 	cursor: pointer;
 }
