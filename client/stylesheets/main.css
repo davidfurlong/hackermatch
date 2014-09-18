@@ -64,7 +64,7 @@ body, html {
 }
 
 .reminder {
-	padding: 5px 10px;
+	padding: 5px 20px;
 	border: 1px solid rgba(0,0,0,0.3);
 	cursor: pointer;
 	color: rgba(0,0,0,0.3);
@@ -278,15 +278,46 @@ a:hover, a:focus {
 	display: none;
 }
 
+
+.ideas-icon {
+	display: none !important;
+}
+.teams-icon {
+	display: none !important;
+}
 /* CONTENT ALL */
 
 @media (max-width: 500px) {
     #hackermatch-name {
     	display: none;
     }
+    #brand {
+    	font-size: 20px;
+    }
+  	.fs-controls {
+  		height: 300px;
+  	}
+  	.pt-page {
+  		padding: 0;
+  	}
 
     .row.item .item-action {
     	width: 30px;
+    }
+    #ideas-text {
+    	display: none;
+    }
+    .top-right-menu {
+    	margin-top: 0;
+    }
+    .ideas-icon {
+    	display: inline !important;
+    }
+    #teams-text {
+    	display: none;
+    }
+    .teams-icon {
+    	display: inline !important;
     }
 
     .row .item-hearts {

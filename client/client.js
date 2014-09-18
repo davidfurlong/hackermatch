@@ -1097,22 +1097,19 @@ Template.settings.events({
         var q1 = t.find('#user_name').value
         , q2 = t.find('#user_contact').value
         , q3 = t.find('#user_skills').value
-        , q4 = t.find('#user_github').value
         , q5 = t.find('#user_description').value
         , webdev = t.find('#sb1').checked
         , design = t.find('#sb2').checked
         , backend = t.find('#sb3').checked
         , mobile = t.find('#sb4').checked
         , hardware = t.find('#sb5').checked;
-
-        var langs = t.findAll('.language').map(function(el){
-            return el.value
+        var langs = $('.language').toArray().map(function(el){
+            return $(el).val();
         });
-
+        console.log(langs);
         var updated_profile = {
             name: q1,
             contact: q2,
-            github: q4,
             skills: {
                 backend: backend,
                 design: design,

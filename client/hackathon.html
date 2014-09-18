@@ -1,6 +1,6 @@
 <template name="hackathon_nav">
-    <a id="find-ideas-link" href="/{{selected_hackathon.url_title}}">Ideas</a>
-    <a id="find-teams-link" href="/people">People</a>
+    <a id="find-ideas-link" href="/{{selected_hackathon.url_title}}"><span id="ideas-text">Ideas</span><i class="ideas-icon fa fa-lightbulb-o"></i></a>
+    <a id="find-teams-link" href="/people"><span id="teams-text">People</span><i class="teams-icon fa fa-user"></i></a>
 </template>
 <template name="hackathon">
     {{> profile_sidebar}}
