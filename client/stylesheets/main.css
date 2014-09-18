@@ -44,7 +44,7 @@ body, html {
 	border: 1px solid rgba(0,0,0,0.3);
 	cursor: pointer;
 	color: rgba(0,0,0,0.3);
-	border-radius: 2px;
+	border-radius: 25px;
 	font-size: 20pt;
 }
 
