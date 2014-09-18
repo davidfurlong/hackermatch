@@ -209,7 +209,11 @@ Router.map(function() {
             }
             return hackathon;
         },
-        waitOn: function() { return Meteor.subscribe('users_and_hackathon', Session.get("current_hackathon"))},
+        waitOn: function() { 
+            var hackathon = Session.get("current_hackathon");
+            if(!hackathon) return;
+            return Meteor.subscribe('users_and_hackathon', hackathon.title)
+        },
         yieldTemplates: {
             'hackathon_nav': {to: 'nav'}
         },

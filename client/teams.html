@@ -25,20 +25,21 @@
     <ul class="row item idea-list cf person-row" data-id="{{profile.login}}">
         <li class="item-icon">
             {{#if profile.avatar_url}}
-            <a href="/user/{{profile.login}}"><img src="{{profile.avatar_url}}" width="64px" height="64px" style="border-radius:50px"></a>
+            <a href="/user/{{username}}"><img src="{{profile.avatar_url}}" width="64px" height="64px" style="border-radius:50px"></a>
             {{else}}
-            <img src="monkey.png" width="64px" height="64px" style="border-radius:50px;">
+            <a href="/user/{{username}}"><img src="monkey.png" width="64px" height="64px" style="border-radius:50px;"></a>
             {{/if}}
         </li>
         <li data-id="{{_id}}" class="item-text">
-        	<span class="item-title">
+        	<span class="item-title">{{profile.looking_for}}
+            </span>
+            <span class="item-desc">
             {{#if profile.name}}
             {{profile.name}}
             {{else}}
             {{profile.login}}
             {{/if}}
             </span>
-        	<span class="item-desc">{{profile.bio}}</span>
         	<hr/>
             <span class="item-skills">
                 <span class="skill_tag"></span>
