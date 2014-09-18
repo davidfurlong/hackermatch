@@ -64,7 +64,7 @@ body, html {
 }
 
 .reminder {
-	padding: 5px 10px;
+	padding: 5px 20px;
 	border: 1px solid rgba(0,0,0,0.3);
 	cursor: pointer;
 	color: rgba(0,0,0,0.3);
@@ -279,11 +279,11 @@ a:hover, a:focus {
 }
 
 
-#ideas-icon {
-	display: none;
+.ideas-icon {
+	display: none !important;
 }
-#teams-icon {
-	display: none;
+.teams-icon {
+	display: none !important;
 }
 /* CONTENT ALL */
 
@@ -310,14 +310,14 @@ a:hover, a:focus {
     .top-right-menu {
     	margin-top: 0;
     }
-    #ideas-icon {
-    	display: block;
+    .ideas-icon {
+    	display: inline !important;
     }
     #teams-text {
     	display: none;
     }
-    #teams-icon {
-    	display: block;
+    .teams-icon {
+    	display: inline !important;
     }
 
     .row .item-hearts {
