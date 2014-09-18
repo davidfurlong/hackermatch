@@ -1420,7 +1420,7 @@ Template.idea_filter.events({
 });
 
 var IdeaFilters = {
-    'Interested': function() {
+    'Hearted': function() {
         var hackathon = Session.get("current_hackathon");
         if(!hackathon) return;
         var x = Ideas.find({hackathon_id: hackathon._id}).fetch();

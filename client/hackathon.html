@@ -121,13 +121,9 @@
 
 <template name="ideaRow">
     <ul class="row item idea-list cf">
-        <li data-id="{{_id}}" class="item-action item-heart {{#if hearted}}hearted{{/if}}">
-            {{#if hearted}}
-            <div class="interested-in">Interested</div>
-            {{else}}
-           <div class="interested-in">Not Interested</div>
-            {{/if}}
-        	<span class="item-hearts">{{len hearts}}</span>
+        <li data-id="{{_id}}" class="item-action item-heart">
+            <i class="ion-heart btn btn-icon-only icon-star {{#if hearted}}hearted{{/if}}"></i>
+            <span class="item-hearts">{{len hearts}}</span>
         </li>
         <li data-id="{{_id}}" class="item-text">
         	<span class="item-title">{{name}}</span>
@@ -205,7 +201,7 @@
     {{/if}}
     <br/>
     <div class="sidebar-interested">
-    Interested:
+    Hearted by:
     {{#each idea.hearts}}
     <a href="/user/{{.}}">{{.}}</a>
     {{/each}}
