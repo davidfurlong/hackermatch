@@ -1100,11 +1100,10 @@ Template.settings.events({
         , backend = t.find('#sb3').checked
         , mobile = t.find('#sb4').checked
         , hardware = t.find('#sb5').checked;
-
-        var langs = t.findAll('.language').map(function(el){
-            return el.value
+        var langs = $('.language').toArray().map(function(el){
+            return $(el).val();
         });
-
+        console.log(langs);
         var updated_profile = {
             name: q1,
             contact: q2,
