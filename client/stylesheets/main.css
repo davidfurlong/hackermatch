@@ -1,11 +1,31 @@
 /* NAV BAR */
 
 #title-bar {
-	z-index: 1000;
+	z-index: 20;
 	position: absolute;
 	top: 0px;
 	width: 100%;
 	padding: 10px 30px;
+}
+
+.item-heart {
+	font-size: 14px;
+	width: 100%;
+	background: transparent;
+	outline: none;
+	margin-bottom: 4px;
+	padding: 2px 5px;
+	border-radius: 3px;
+	color: #efefef;
+}
+
+.interested-in {
+	font-size: 14px;
+	width: 100%;
+}
+
+#idea-create .fixer-quick.ac-custom svg {
+	margin-top: -22px;
 }
 
 footer {

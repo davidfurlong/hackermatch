@@ -54,8 +54,8 @@ Meteor.startup(function () {
             //console.log('hearting idea ' + idea_id);
             var heart = Hearts.findOne({ $and: [{idea_id: idea_id}, {user_id: this.userId}]});
             var idea = Ideas.findOne({_id: idea_id});
-
-            if(heart && idea) {
+            if(typeof idea.hearts == "number"){
+              if(heart && idea) {
                 if(heart.hearted) {
                     Hearts.update({_id:heart._id}, {$set:{"hearted":false}});
                     idea.hearts--;
@@ -66,7 +66,21 @@ Meteor.startup(function () {
                     Ideas.update({_id:idea._id}, {$set:{"hearts":idea.hearts}});
                 }
                 return;
+              }
             }
+            else {
+              if(heart && idea) {
+                  if(heart.hearted) {
+                      Hearts.update({_id:heart._id}, {$set:{"hearted":false}});
+                      Ideas.update({_id:idea._id}, {$pull:{"hearts":Meteor.user().profile.login}});
+                  } else {
+                      Hearts.update({_id:heart._id}, {$set:{"hearted":true}});
+                      Ideas.update({_id:idea._id}, {$push:{"hearts":Meteor.user().profile.login}});
+                  }
+                  return;
+              }
+            }
+            
 
 
             if(idea && this.userId) {
@@ -80,12 +94,17 @@ Meteor.startup(function () {
 
                 Hearts.insert(heart, function(err, result) {
                     if(err) {
-                        //console.log("error hearting idea");
+                      //console.log("error hearting idea");
                     } else {
-                        //console.log("hearted idea!");
-                        //Add initial heart to idea
+                      //console.log("hearted idea!");
+                      //Add initial heart to idea
+                      if(typeof idea.hearts == "number"){
                         idea.hearts++;
                         Ideas.update({_id:idea._id}, {$set:{"hearts":idea.hearts}});
+                      }
+                      else {
+                        Ideas.update({_id:idea._id}, {$push:{"hearts":Meteor.user().profile.login}});
+                      }
                     }
                 });
             }
@@ -93,16 +112,7 @@ Meteor.startup(function () {
 
         create_idea: function(idea) {
 
-            /*
-            var exists = Ideas.findOne({name: name});
-            if(exists) {
-                console.log("idea exists!");
-                //do something else
-                //can we select on name attribute again?
-            }
-            */
-
-            idea.hearts = 0;
+            idea.hearts = [];
 
             //Ideas.insert({name: name}, function(err, result) {
             Ideas.insert(idea, function(err, idea_id) {
