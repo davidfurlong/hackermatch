@@ -24,6 +24,10 @@
 	width: 100%;
 }
 
+#idea-create .fixer-quick.ac-custom svg {
+	margin-top: -22px;
+}
+
 footer {
 	margin-top: 5px;
 	color: #777;
