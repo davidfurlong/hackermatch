@@ -274,6 +274,13 @@ Handlebars.registerHelper('selected_hackathon',function(){
     return hackathon;
 });
 
+Handlebars.registerHelper('len',function(ray){
+    if(typeof ray == "object")
+        return ray.length;
+    else 
+        return ray;
+});
+
 Handlebars.registerHelper('bitmaparray',function(obj){
     result = [];
     for (var key in obj) {
@@ -1413,10 +1420,10 @@ Template.idea_filter.events({
 });
 
 var IdeaFilters = {
-    'Hearted': function() {
+    'Interested': function() {
         var hackathon = Session.get("current_hackathon");
         if(!hackathon) return;
-        var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
+        var x = Ideas.find({hackathon_id: hackathon._id}).fetch();
         x = _.filter(x, function(idea) {
             var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
             if(heart && heart.hearted) {
@@ -1430,7 +1437,7 @@ var IdeaFilters = {
         });
         return x;
     },
-    'Needs your help': function() {
+    'Needs your skills': function() {
     //Ideas that need your skills list
         var skills = Meteor.user().profile.skills;
         var skillArray = [];

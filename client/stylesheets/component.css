@@ -427,7 +427,7 @@ a.link-border {
 }
 
 .hearted {
-    color: #fd6a62 !important;
+    color: #69EE69 !important;
 }
 
 .ion-heart {
@@ -957,15 +957,15 @@ button.fs-continue,
 }
 
 .fs-fields input:focus {
-	background-color: transparent; /* Fixes chrome bug with placeholder */
+	background-color: transparent; 
 }
 
 .fs-fields.signup input:focus {
-	background-color: transparent; /* Fixes chrome bug with placeholder */
+	background-color: transparent; 
 }
 
 .fs-form-overview .fs-fields input:focus {
-	background-color: transparent; /* Fixes chrome bug with placeholder */
+	background-color: transparent; 
 }
 
 .fs-form-overview .fs-fields input {
@@ -1878,7 +1878,7 @@ input[type=text]::-ms-clear {
 .sidebar {
 	position: fixed;
 	right: 0px;
-	z-index: 99999;
+	z-index: 22;
 	top: 0px;
 	height: 100%;
 	width: 50%;
@@ -2003,7 +2003,7 @@ input[type=text]::-ms-clear {
 .blur {
 	/*-webkit-transition: all 0.25s cubic-bezier(0.600, 0.040, 0.980, 0.335);
 	transition: all 0.25s cubic-bezier(0.600, 0.040, 0.980, 0.335);*/
-	-webkit-filter: blur(10px);
+	-webkit-filter: opacity(0.2);
 }
 
 #pt-main.blur .item-icon, #pt-main.blur .item-title, #pt-main.blur .item-desc {	
