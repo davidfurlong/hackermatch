@@ -1,3 +1,6 @@
+.flaticon-light85 {
+    color: yellow;
+}
 
 .filter_bar_text {
     float: left;
@@ -21,7 +24,7 @@
 }
 
 #settings {
-    height: 100%;
+    height: auto;
     background: #7BA5FF;
 }
 
@@ -34,6 +37,14 @@
 
 #join_hackathon_code::-webkit-input-placeholder {
    color: rgba(0,0,0,0.3);  
+}
+
+#join_hackathon_code {
+	float: left;
+}
+
+.inl-flex {
+	display: inline-flex;
 }
 
 #join_hackathon_code:-moz-placeholder { /* Firefox 18- */
@@ -57,7 +68,7 @@
 }
 
 #title-bar {
-	background: rgba(70, 70, 70, 0.9) !important;
+	background: rgba(0,0,0,0.6) !important;
 	position: fixed !important;
 /*	border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
    /* -moz-background-clip: padding;     
@@ -177,17 +188,19 @@
 }
 
 .signup-button {
-	font-size: 16pt;
-	color: white;
-	border: 1px solid white;
+	font-size: 14px;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: rgba(256,256,256, 0.8);
+	border: 2px solid rgba(256,256,256, 0.5);
 	padding: 16px 32px;
-	border-radius: 4px;
-	background: transparent;
+	border-radius: 2px;
+	background: rgba(256,256,256,0.05);
 }
 
 .signup-button:hover {
-	background: white;
-	color: #333;
+	border: 2px dashed rgba(256,256,256,0.5);
+	background: rgba(256,256,256,0.1);
 }
 
 .messages {
@@ -269,17 +282,17 @@
 	text-align: right;
 }
 
-.settings-form {
-	width: 600px;
-	margin: 0 auto;
+.settings-form, .hackathons-form {
+	max-width: 600px;
+	margin: 0px auto;
 }
 
-.settings-form > div {
+.settings-form > div, .hackathons-form > div {
 	margin: 10px 0;
 }
 
-.settings-form label {
-	line-height: 50px;
+.settings-form label, .hackathons-form label {
+	line-height: 40px;
 }
 
 .settings-form .github_username {
@@ -291,14 +304,36 @@
 	height: 0;
 }
 
-.settings-form input {
-	float: right;
+.hackathons-form input {
 	padding: 10px 21px;
 	background: transparent;
 	color: rgba(0,0,0,0.3);
 	outline: none;
-	border: 0;
-	border-bottom: 1px dashed rgba(0,0,0,0.3);
+	border: 1px solid rgba(0,0,0,0.1);
+}
+
+.hackathons-form input:focus {
+	color: rgba(0,0,0,0.5);
+	border: 1px solid rgba(0,0,0,0.3);
+}
+
+.settings-form input, .settings-form textarea {
+	float: right;
+	padding: 10px;
+	background: transparent;
+	color: rgba(0,0,0,0.3);
+	outline: none;
+	border: 1px solid rgba(0,0,0,0.1);
+}
+
+.settings-form textarea {
+	border: 1px solid rgba(0,0,0,0.1);
+	padding: 10px;
+}
+
+.settings-form textarea:focus {
+	color: rgba(0,0,0,0.5);
+	border: 1px solid rgba(0,0,0,0.3);
 }
 
 .settings-form input[type="text"]{
@@ -309,16 +344,16 @@
 	border-bottom: 1px dashed rgba(0,0,0,0.5);
 }
 
-#update-user-form input[type="text"]{
+#update-user-form input[type="text"], #update-user-form textarea{
 	width: 250px;
 }
 
-.settings-form input[type="submit"] {
+.settings-form input[type="submit"], .hackathons-form input[type="submit"] {
 	font-weight: 700;
 }
 
 .view .ac-custom svg {
-	margin-top: -25px;
+	margin-top: -20px;
 }
 
 .fixer-quick.ac-custom svg {
@@ -457,6 +492,11 @@ a.link-border::before {
 	color: white;
 }
 
+#register-form .ac-custom input[type="checkbox"]:checked + label {
+	color: rgba(0,0,0,0.5);
+}
+
+
 a.link-border:hover::before,
 a.link-border:focus::before {
 	opacity: 1;
@@ -558,7 +598,6 @@ a.link-border:focus::before {
 }
 
 .row.label {
-	font-family: 'Raleway';
 	font-size: 14pt;
 	color: #8D8D8D;
 	font-weight: 700;
@@ -666,8 +705,8 @@ a.link-border:focus::before {
 
 /* Form */
 .fs-form {
-	position: relative;
-	text-align: left;
+/*	position: relative;
+*/	text-align: left;
 	font-size: 2.5em;
 }
 
@@ -676,10 +715,6 @@ a.link-border:focus::before {
 	text-align: left;
 }
 
-.idea-list:hover {
-	background: #121212;
-	border-radius: 10px;
-}
 
 .no-js .fs-form {
 	padding: 0 0 6em 0;
@@ -688,7 +723,7 @@ a.link-border:focus::before {
 /* Views (fullscreen and overview)*/
 .fs-form-full {
 	top: 32%;
-	margin: 0 auto;
+	margin: 100px auto;
 	width: 70%;
 }
 
@@ -696,7 +731,6 @@ a.link-border:focus::before {
 .fs-message-error {
 	max-width: 960px;
 }
-
 
 .pt-page {
 
@@ -929,15 +963,15 @@ button.fs-continue,
 }
 
 .fs-fields input:focus {
-	background-color: transparent; /* Fixes chrome bug with placeholder */
+	background-color: transparent; 
 }
 
 .fs-fields.signup input:focus {
-	background-color: transparent; /* Fixes chrome bug with placeholder */
+	background-color: transparent; 
 }
 
 .fs-form-overview .fs-fields input:focus {
-	background-color: transparent; /* Fixes chrome bug with placeholder */
+	background-color: transparent; 
 }
 
 .fs-form-overview .fs-fields input {
@@ -1759,9 +1793,9 @@ input[type=text]::-ms-clear {
 	display: inline-block;
 	position: relative;
 	font-size: 20pt;
-	padding: 0 0 0 60px;
+	padding: 10px 0 0 60px;
 	vertical-align: top;
-	color: rgba(0,0,0,0.3);
+	color: rgba(0,0,0,0.15);
 	cursor: pointer;
 	-webkit-transition: color 0.3s;
 	transition: color 0.3s;
@@ -1774,7 +1808,7 @@ input[type=text]::-ms-clear {
 	height: 50px;
 	top: 50%;
 	left: 0;
-	margin-top: -25px;
+	margin-top: -20px;
 	position: absolute;
 	cursor: pointer;
 }
@@ -1790,7 +1824,7 @@ input[type=text]::-ms-clear {
 
 .ac-custom label::before {
 	content: '';
-	border: 4px solid #fff;
+	border: 1px solid rgba(0,0,0,0.15);
 	-webkit-transition: opacity 0.3s;
 	transition: opacity 0.3s;
 }
@@ -1801,7 +1835,7 @@ input[type=text]::-ms-clear {
 
 .ac-custom input[type="checkbox"]:checked + label,
 .ac-custom input[type="radio"]:checked + label {
-	color: rgba(0,0,0,0.5);
+	color: rgba(0,0,0,0.3);
 } 
 
 .ac-custom input[type="checkbox"]:checked + label::before,
@@ -1850,7 +1884,7 @@ input[type=text]::-ms-clear {
 .sidebar {
 	position: fixed;
 	right: 0px;
-	z-index: 99999;
+	z-index: 22;
 	top: 0px;
 	height: 100%;
 	width: 50%;
@@ -1975,7 +2009,7 @@ input[type=text]::-ms-clear {
 .blur {
 	/*-webkit-transition: all 0.25s cubic-bezier(0.600, 0.040, 0.980, 0.335);
 	transition: all 0.25s cubic-bezier(0.600, 0.040, 0.980, 0.335);*/
-	-webkit-filter: blur(10px);
+	-webkit-filter: opacity(0.2);
 }
 
 #pt-main.blur .item-icon, #pt-main.blur .item-title, #pt-main.blur .item-desc {	

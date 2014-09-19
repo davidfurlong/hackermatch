@@ -2,6 +2,78 @@ var csv = Meteor.require('csv');
 var fs = Meteor.require('fs');
 var path = Npm.require('path');
 
+function loadHtn(hackathon_id) {
+  var basepath = path.resolve('.').split('.meteor')[0];
+  //console.log(basepath);
+  //console.log(csv);
+  var record_count = 0;
+  var stream = fs.createReadStream(basepath+'htn.csv');
+  //console.log(stream);
+    stream.pipe(
+    csv.parse     ()).pipe(
+    csv.transform (Meteor.bindEnvironment(function(record){
+        
+        var username = "htn_user" + record_count;
+        var email = "notset"+record_count+"@hackermat.ch";
+        record_count++;
+        var name = record[1],
+            contact = record[2],
+            dev_skills = record[3],
+            design_skills = record[4],
+            other_skills = record[5],
+            linkedin = record[6],
+            github = record[7],
+            personal_site = record[8],
+            cool_stuff = record[9],
+            university = record[10],
+            looking_for = record[11];
+        //console.log("user: " + user);
+        //console.log("email: " + email);
+        //console.log("idea: " + idea);
+        var profile = {
+            name: name,
+            login: username,
+//            hackathon_id: hackathon_id,
+            contact: contact,
+            dev_skills: dev_skills,
+            design_skills: design_skills,
+            other_skills: other_skills,
+            urls: {
+                linkedin: linkedin,
+                github: github,
+                personal_site: personal_site
+            },
+            cool_stuff: cool_stuff,
+            university: university,
+            looking_for: looking_for
+        };
+        var password = "bogus_password";
+        var options = {
+            username: username,
+            email: email,
+            password: password,
+            profile: profile
+        }
+        console.log(profile);
+        console.log("htn user: " + record_count);
+        console.log(username);
+        
+        var user = Accounts.createUser(options);
+        console.log(user);
+        /*, function(err, res) {
+            console.log('user created');
+            console.log(res);
+            //Roles.addUsersToRoles(user._id, ['hacker'], 'ychacks');
+        });    
+        */
+        //console.log(idea);
+//        return record.map(function(value){return value.toUpperCase()});
+    })));
+}
+
+
+
+
 function loadData(hackathon_id) {
   var basepath = path.resolve('.').split('.meteor')[0];
   //console.log(basepath);
@@ -73,6 +145,7 @@ Meteor.startup(function () {
     } 
     var hackathons = Hackathons.remove({"title":"blah"});
 //    var hackathons = Hackathons.remove({});
+//    Meteor.users.remove({}); 
 //    var ideas = Ideas.remove({});
     //console.log(hackathons);
 
@@ -80,6 +153,7 @@ Meteor.startup(function () {
         var names = ["MHacks",
                      "YC Hacks",
                      "HackMIT"
+//                     "Hack the North"
                     ];
         for (var i = 0; i < names.length; i++) {
             Meteor.call('create_hackathon', names[i]);
@@ -88,13 +162,37 @@ Meteor.startup(function () {
         if(hackathon) {
             loadData(hackathon._id);
         }
+        var hackathon = Hackathons.findOne({url_title: 'hackthenorth'});
+        if(hackathon) {
+            loadHtn(hackathon._id);
+        }
     }
+    console.log("blah");
+    /*
+    var htn_users = Meteor.users.find({username: /htn_user./i}).fetch();
+    _.each(htn_users, function(user) {
+        Roles.addUsersToRoles(user._id, ['hacker'], 'hackthenorth');
+    });
+    */
 });
 
 Meteor.publish("user", function (username) {
-
     return Meteor.users.find({'services.github.username': username}); 
 });
+    
+Meteor.publish("user_and_ideas", function (username){
+    console.log(username);
+    return [
+        Meteor.users.find({'services.github.username': username}),
+        Ideas.find({'github_username': username})
+    ];
+})
+     
+Meteor.publish("one_users_ideas", function (username){
+    console.log(username);
+    return Ideas.find({'github_username': username});
+});
+
 
 //Very inefficient function that finds hackathon by title, then uses 
 // the id of the returned hackathon to "publish" the cursor of that 
@@ -126,6 +224,28 @@ Meteor.publish("hackathon_and_ideas", function (hackathon_title) {
     }
 });
 
+Meteor.publish("users_and_hackathon", function (hackathon_title) {
+    var user = Meteor.users.findOne({_id: this.userId});
+    if(!hackathon_title) return;
+    var url_title = encodeURI(hackathon_title.toLowerCase().replace(/ /g, ''));
+    var hackathon = Hackathons.findOne({url_title: url_title});
+    var hackathon_id = null;
+    if(hackathon) {
+        hackathon_id = hackathon._id; 
+    }
+
+    if (Roles.userIsInRole(this.userId, ['hacker', 'organizer', 'admin'], url_title)) {
+        var query = {
+            roles: {}
+        };
+        query["roles"][url_title] = ['hacker'];
+        return Meteor.users.find(query);
+    } else {
+        // user not authorized. do not publish secrets
+        this.stop();
+        return;
+    }
+});
 
 // server: publish the set of parties the logged-in user can see.
 Meteor.publish("hackathons", function () {

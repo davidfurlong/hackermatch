@@ -1,0 +1,89 @@
+<template name="people">
+	{{> sidebar}}
+	<div id="pt-main" class="">
+	    <div class="view pt-page-1">
+	        <div class="inner-view page-container">
+	            {{#if isInRole 'hacker' url_title}}
+	                {{> showpersons}}
+	            {{else}}
+	                <div class="row label">
+	                    You have not joined this hackathon
+	                </div>
+	            {{/if}}
+	        </div>
+	    </div>
+	</div>
+</template>
+
+<template name="person_list">
+    {{#each People}}    
+        {{> personRow }}
+    {{/each}}
+</template>
+
+<template name="personRow">
+    <ul class="row item idea-list cf person-row" data-id="{{profile.login}}">
+        <li class="item-icon">
+            {{#if profile.avatar_url}}
+            <a href="/user/{{username}}"><img src="{{profile.avatar_url}}" width="64px" height="64px" style="border-radius:50px"></a>
+            {{else}}
+            <a href="/user/{{username}}"><img src="monkey.png" width="64px" height="64px" style="border-radius:50px;"></a>
+            {{/if}}
+        </li>
+        <li data-id="{{_id}}" class="item-text">
+        	<span class="item-title">{{profile.looking_for}}
+            </span>
+            <span class="item-desc">
+            {{#if profile.name}}
+            {{profile.name}}
+            {{else}}
+            {{profile.login}}
+            {{/if}}
+            </span>
+        	<hr/>
+            <span class="item-skills">
+                <span class="skill_tag"></span>
+        	    {{#if profile.skills.webdev}}
+        	    <span class="badge t1">Frontend</span>
+        	    {{/if}}
+        	    {{#if profile.skills.design}}
+        	    <span class="badge t2">Design</span>
+        	    {{/if}}
+        	    {{#if profile.skills.backend}}
+        	    <span class="badge t3">Backend</span>
+        	    {{/if}}
+        	    {{#if profile.skills.hardware}}
+        	    <span class="badge t4">Hardware</span>
+        	    {{/if}}
+        	    {{#if profile.skills.mobile}}
+        	    <span class="badge t5">Mobile</span>
+        	    {{/if}}
+        	</span>
+            <span class="langs item-skills">
+                {{#each profile.languages}}
+                {{.}},
+                {{/each}}
+            </span>
+        </li>
+    </ul>
+</template>
+
+<template name="person_filter">
+    <span class="filter_bar_text">People:</span>
+    <div class="filters">
+        {{#each filters}}
+        <div class="filter {{selected}}">
+            <span class="filter_text">{{filter}} <span class="count">({{count}})</span> </span>
+        </div>
+        {{/each}}
+    </div>
+</template>
+
+<template name="showpersons">
+    <div class="row label">
+        {{> person_filter}}
+    </div>
+    <div>
+        {{> person_list}} 
+    </div>
+</template>

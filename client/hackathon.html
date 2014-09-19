@@ -1,5 +1,6 @@
 <template name="hackathon_nav">
-    <a id="create-idea-link" href="/idea">add idea</a>
+    <a id="find-ideas-link" href="/{{selected_hackathon.url_title}}"><span id="ideas-text">Ideas</span><i class="ideas-icon fa fa-lightbulb-o"></i></a>
+    <!--    <a id="find-teams-link" href="/people"><span id="teams-text">People</span><i class="teams-icon fa fa-user"></i></a> -->
 </template>
 <template name="hackathon">
     {{> profile_sidebar}}
@@ -78,7 +79,7 @@
           {{/each}}
         </div>
     </div>
-</template>
+</template><!-- 
 <template name="update_user">
     <input id="logout" type="submit" value="Log Out">
     <form id="update-user-form" action="action" class="settings-form">
@@ -110,7 +111,7 @@
             <input type="submit" value="Save Changes">
         </div>
     </form>
-</template>
+</template> -->
         
 <template name="idea_list">
     {{#each ideas}}    
@@ -122,7 +123,7 @@
     <ul class="row item idea-list cf">
         <li data-id="{{_id}}" class="item-action item-heart">
             <i class="ion-heart btn btn-icon-only icon-star {{#if hearted}}hearted{{/if}}"></i>
-        	<span class="item-hearts">{{hearts}}</span>
+            <span class="item-hearts">{{len hearts}}</span>
         </li>
         <li data-id="{{_id}}" class="item-text">
         	<span class="item-title">{{name}}</span>
@@ -165,6 +166,7 @@
 
 <template name="sidebar">
 <div class="sidebar" style="{{#if opened}}{{else}}display:none;{{/if}}" >
+    <div id="sidebar-exit"><i class="fa fa-times"></i></div>
     <div class="sidebar-item-author">
         posted by 
         {{#if idea.user_profile.avatar_url}}
@@ -198,6 +200,12 @@
 	   </div>
     {{/if}}
     <br/>
+    <div class="sidebar-interested">
+    Hearted by:
+    {{#each idea.hearts}}
+    <a href="/user/{{.}}">{{.}}</a>
+    {{/each}}
+    </div>
     <div class="sidebar-item-comments">
 	    <form id="comment-create" action="action" autocomplete="off">
             <input id="comment-text" type="text" placeholder="Discuss here">
@@ -285,6 +293,14 @@
 </template>
 
 <template name="showHackathons">
+    <div id="no-idea-posted" class="reminder">
+        <i class="flaticon-light85"></i><span class="label">Post an Idea</span><div style="float:right"><i class="flaticon-right192"></i></div>
+    </div>
+    <!--
+    <div id="team-reminder" class="reminder">
+        <i class="flaticon-personal32"></i><span class="label">Find people</span><div style="float:right"><i class="flaticon-right192"></i></div>
+    </div>
+    -->
     <div class="row label">
         {{> idea_filter }}
     </div>
