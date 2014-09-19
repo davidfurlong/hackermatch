@@ -1340,8 +1340,19 @@ Template.signup.events({
                 profile = _.extend(profile, Meteor.user().profile);
                 //Temporarily set contact info as email
                 profile.contact = profile.email;
-                Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":profile}})
-                Router.go('home');
+                Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":profile}});
+              
+                var invite_title = Session.get("invite_title");
+                var invite_code = Session.get("invite_code");
+                if(invite_title && invite_code) {
+                    Meteor.call('join_hackathon', invite_code, function(err, res) {
+                        if(res) {
+                            Router.go('hackathon', {_title: res});
+                        }    
+                    });
+                } else {
+                    Router.go('home');
+                }
             }
       });
 
@@ -1468,7 +1479,8 @@ var IdeaFilters = {
     'All': function() {
         var hackathon = Session.get("current_hackathon");
         if(!hackathon) return;
-        var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
+        //var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
+        var x = Ideas.find({hackathon_id: hackathon._id}).fetch();
         return x;
     },
     'Yours': function() {
@@ -1495,7 +1507,7 @@ Template.idea_list.helpers({
         //Get Idea based off filter type
         x = IdeaFilters[filter]();
         
-//        x = _.sortBy(x, function (x) { return -x.hearts; });
+        x = _.sortBy(x, function (x) { return -x.hearts; });
         //Heart and add comment counts to ideas
         _.each(x, function(idea) {
             var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});

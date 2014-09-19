@@ -333,9 +333,12 @@
 	border: 1px solid rgba(0,0,0,0.3);
 }
 
+.settings-form input[type="text"]{
+    color: white;
+}
+
 .settings-form input:focus {
-	color: rgba(0,0,0,0.5);
-	border: 1px solid rgba(0,0,0,0.3);
+	border-bottom: 1px dashed rgba(0,0,0,0.5);
 }
 
 #update-user-form input[type="text"], #update-user-form textarea{
@@ -483,7 +486,7 @@ a.link-border::before {
 }
 
 #register-form .ac-custom label{
-	color: rgba(0,0,0,0.3);
+	color: white;
 }
 
 #register-form .ac-custom input[type="checkbox"]:checked + label {
