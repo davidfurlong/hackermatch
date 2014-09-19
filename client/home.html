@@ -3,21 +3,37 @@
     <p class="big"><a href="/{{url_title}}">{{title}}</a></p>
 </template>
 
-
 <template name="home">
 <div class="view home-view">
     <div class="inner-view">
-        <div class="settings-form">
+        <div class="hackathons-form">
+            {{#if profileIncomplete}}
+                <div id="incomplete-profile" class="reminder">
+                    Complete your profile <div style="float:right"><i class="fa fa-arrow-circle-o-right"></i></div>
+                </div>
+            {{/if}}
             <div>
                 <h1>my hackathons</h1>
                 {{> myHackathonList }}
             </div>
-            <form action="action" id="join_hackathon">
-                <label>join hackathon</label>
-                    <input id="add_hackathon_button" type="submit" value="Submit">
-                    <input id="join_hackathon_code" autocomplete="off" type="text" placeholder="invite code" value="{{invite_code}}">
-            </form>
-            <center style='margin-top: 50px'><a href="mailto:dvfurlong@gmail.com">Want to add a hackathon?</a></center>
+            <div class="row">
+                <form action="action" id="join_hackathon">
+                    <div class="col-md-6">
+                        <label>join hackathon</label>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="inl-flex"> 
+                            <input id="join_hackathon_code" autocomplete="off" type="text" placeholder="invite code" value="{{invite_code}}">
+                            <input id="add_hackathon_button" type="submit" value="Submit">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <center style='margin-top: 50px'><a href="mailto:dvfurlong@gmail.com">Want to add a hackathon?</a></center>
+                </div>
+            </div>
         </div>
     </div>
 </div>

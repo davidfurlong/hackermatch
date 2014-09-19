@@ -2,7 +2,6 @@
     <div id="pt-main" class="pt-perspective">
         <div id="settings" class="view pt-page-current">
             <div class="inner-view">
-                <input id="logout" type="submit" value="log out">
                 <form id="update-user-form" action="action" class="settings-form">
                     <h1>my settings</h1>
                     <div>
@@ -26,9 +25,26 @@
                     </div>
                     <div class="github_username">
                         <label>Github username</label>
-                        <input id="user_github" type="text" value="{{github}}">
+                        <input id="user_github" style="border:0" type="text" value="{{github}}" disabled>
                     </div>
-                    <div>
+                    <div class="description cf">
+                        <label>About you</label>
+                        <textarea maxlength="200" spellcheck="false" style="resize:vertical" rows="7" id="user_description" value="{{description}}"></textarea>
+                    </div>
+                    <div class="languages-in cf">
+                        <label>Specializations</label>
+                        <div class="specializations">
+                        {{#each languages}}
+                        <div class="specialization cf">
+                            <input  class="language" type="text" value="{{.}}"><input type="button" value="x" class="delete-language">
+                        </div>
+                        {{/each}}
+                        </div> 
+                        <div style="float: right">
+                            <input type="button" class="add-language" value="+ Add">
+                        </div>
+                    </div>
+                    <div class="cf save-changes">
                         <input type="submit" value="Save Changes">
                     </div>
                 </form>

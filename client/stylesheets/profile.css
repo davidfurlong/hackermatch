@@ -1,12 +1,25 @@
-.profile {
+#profile-bio {
+	font-size: 20pt;
 }
 
-/*.loading-profile {
-    background: #fff;
-}
-*/
 .pt-triggers {
 	background: #3b3f45;
+}
+
+#contact {
+	text-align: center;
+	width: 100%;
+}
+
+#profile a {
+	color: #555;
+}
+
+.title {
+	color: #bbb;
+	text-transform: uppercase;
+	font-size: 16px;
+
 }
 
 #profile {
@@ -16,6 +29,15 @@
 	padding: 70px 0px;
 	background: #efefef;
 	-webkit-font-smoothing: antialiased;
+}
+
+
+
+.languages {
+	margin-top: 30px;
+	background: white;
+	padding: 10px 20px;
+	font-size: 16pt;
 }
 
 #profile-link:hover {
@@ -31,6 +53,12 @@
 	color: #fff;
 	font-weight: 700;
     float: right;
+}
+
+.hackathons {
+	margin-top: 20px;
+	background: white;
+	padding: 10px 20px;
 }
 
 .collaborator {
@@ -64,6 +92,14 @@
 
 #profile a:hover {
 	color: #444;
+}
+
+.profile-skills .badge {
+	font-size: 20pt;
+}
+
+.profile-skills .badge:first-child {
+	padding-left: 0px;
 }
 
 .profile-skills.badge.t1, .profile-skills.badge.mobile {
@@ -162,12 +198,18 @@
 .feature-row {
 	max-width: 100%;
 }
-	.feature {
-		height: 100%;
-		width: 23%;
-		min-width: 300px;
-		padding: 5px;
-	}
+.feature {
+	max-width: 100%;
+	overflow: hidden;
+	-ms-word-break: break-all;
+
+	/* Non standard for webkit */
+	word-break: break-word;
+
+	-webkit-hyphens: auto;
+   	-moz-hyphens: auto;
+   	hyphens: auto;
+}
 	.title-dot {
 		width: 10px;
 		margin-right: 5px;
