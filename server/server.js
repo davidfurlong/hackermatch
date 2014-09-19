@@ -152,8 +152,8 @@ Meteor.startup(function () {
     if (Hackathons.find().count() === 0) {
         var names = ["MHacks",
                      "YC Hacks",
-                     "HackMIT",
-                     "Hack the North"
+                     "HackMIT"
+//                     "Hack the North"
                     ];
         for (var i = 0; i < names.length; i++) {
             Meteor.call('create_hackathon', names[i]);
@@ -168,10 +168,12 @@ Meteor.startup(function () {
         }
     }
     console.log("blah");
+    /*
     var htn_users = Meteor.users.find({username: /htn_user./i}).fetch();
     _.each(htn_users, function(user) {
         Roles.addUsersToRoles(user._id, ['hacker'], 'hackthenorth');
     });
+    */
 });
 
 Meteor.publish("user", function (username) {

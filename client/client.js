@@ -199,7 +199,8 @@ Router.map(function() {
                 }
             }
         }
-    });    
+    });   
+    /*
     this.route('people', {path: '/people' , 
         data: function() {
             var hackathon = Session.get("current_hackathon");
@@ -232,6 +233,7 @@ Router.map(function() {
             }
         }
     });    
+    */
     this.route('hackathon', {path: '/:_title' , 
         data: function() {
             var url_title = encodeURI(this.params._title.toLowerCase().replace(/ /g, ''));
@@ -281,6 +283,8 @@ Handlebars.registerHelper('selected_hackathon',function(){
 Handlebars.registerHelper('len',function(ray){
     if(typeof ray == "object")
         return ray.length;
+    else if(typeof ray == "object")
+        return 1;
     else 
         return ray;
 });
@@ -949,7 +953,7 @@ Template.showHackathons.events({
         Router.go('/idea');
     },
     'click #team-reminder': function(){
-        Router.go('/people');
+//        Router.go('/people');
     }
 });
 
