@@ -135,7 +135,7 @@
   background-clip: padding-box;
   z-index: 40000;
 }
-.feedback-btn-gray {
+.feedback-btn-gray, .feedback-btn-blue  {
   text-align: center;
   cursor: pointer;
   border: 1px solid #dcdcdc;
@@ -158,14 +158,6 @@
   background-image: -ms-linear-gradient(top,#f8f8f8,#f1f1f1);
   background-image: -o-linear-gradient(top,#f8f8f8,#f1f1f1);
   background-image: linear-gradient(top,#f8f8f8,#f1f1f1);
-}
-.feedback-btn-blue {
-  text-align: center;
-  cursor: pointer;
-  border-radius: 2px;
-  background-color: #357ae8;
-  border: 1px solid #c6c6c6;
-  color: #fff;
 }
 #feedback-note-tmp,
 #feedback-overview-note {  resize: none }
