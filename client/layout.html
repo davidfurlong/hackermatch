@@ -13,6 +13,12 @@
             <div class="top-right-menu">
                 {{> yield region='nav'}}
                 {{#if currentUser}}
+                <a id="notifications-trigger">
+                <i class="fa fa-bell-o"></i>
+                {{#if has notifications}}
+                    {{len notifications}}
+                {{/if}}
+                </a>
                 <a id="settings-link" href="/settings"><i class="fa fa-cog" style="color:white"></i></a> 
                 {{/if}}
                 {{#if isInRole 'admin' 'all'}}

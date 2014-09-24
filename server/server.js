@@ -176,6 +176,10 @@ Meteor.startup(function () {
     */
 });
 
+Meteor.publish("user_notifications", function(userId){
+    return Notifications.find({'userId': userId});
+});
+
 Meteor.publish("user", function (username) {
     return Meteor.users.find({'services.github.username': username}); 
 });

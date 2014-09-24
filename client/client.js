@@ -280,6 +280,10 @@ Handlebars.registerHelper('selected_hackathon',function(){
     return hackathon;
 });
 
+Handlebars.registerHelper('has', function(ray){
+    return ray.length > 0;
+})
+
 Handlebars.registerHelper('len',function(ray){
     if(typeof ray == "object")
         return ray.length;
@@ -667,6 +671,31 @@ Template.sidebar.events({
                     //console.log("comment added!");
                 }
             });
+            var idea = Session.get("selectedIdea");
+            var subscribers = Comments.find({$and: [{ideaId: Session.get("selectedIdea")}, {userId: Meteor.userId()}] }).fetch(); // todo this code is likely wrong
+            
+            for(var i = 0; i < subscribers.length; i++){
+               var heartedNotification = {};
+               heartedNotification[idea.userId] = {
+                 type:"comment",
+                 message: "New comment on "+idea.name,
+                 url: null,
+                 priority: 2,
+                 timestamp: (new Date()).getTime(),
+                 hackathon: idea.hackathon_id
+               };
+               var notifId = Notifications.find({userId: idea.userId}).fetch()._id;
+               console.log(Notifications.find({userId: idea.userId}).fetch());
+
+               Notifications.update({_id: notifId}, {notifications: {$push: heartedNotification}}, function(err, result) {
+                 if(err){
+                   console.error('failed to create notification model for user')
+                 }
+                 else {
+                   console.log('new notification for user'+idea.userId);
+                 }
+               }); 
+            }
         }
     },
     'keyup #comment-create' : function(e){
@@ -1088,13 +1117,26 @@ Template.settings.helpers({
 
 Template.settings.events({
     'click .delete-language': function(e, t){
-        $(e.currentTarget).closest('.specialization').remove()
+        $(e.currentTarget).closest('.specialization').remove();
+        var langs = $('.language').toArray().map(function(el){
+            return $(el).val();
+        });
+        var updated_profile = {
+            languages: langs
+        };
+        updated_profile = _.extend(Meteor.user().profile, updated_profile);
+        Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":updated_profile}});
     },
     'click .add-language': function(){
-        $('.specializations').append('<div class="specialization cf">'+
-                            '<input  class="language" type="text" value=""><input type="button" value="x" class="delete-language">'+
-                        '</div>');
-        $('.specialization').last().find('.language').focus()
+        var langs = $('.language').toArray().map(function(el){
+            return $(el).val();
+        });
+        langs.push('');
+        var updated_profile = {
+            languages: langs
+        };
+        updated_profile = _.extend(Meteor.user().profile, updated_profile);
+        Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":updated_profile}});
     },
     'submit #update-user-form' : function(e, t){
         e.preventDefault();
@@ -1125,10 +1167,9 @@ Template.settings.events({
             languages: langs
         };
         updated_profile = _.extend(Meteor.user().profile, updated_profile);
-           
+        
         // Trim and validate the input
         Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":updated_profile}});
-
         Meteor.call('attach_ideas', Meteor.user()._id);
         Meteor.call('update_ideas', Meteor.user()._id);
        
@@ -1377,6 +1418,12 @@ Template.signup.events({
 */
 
       return false;
+    }
+});
+
+Template.layout.helpers({
+    'notifications': function(){
+        return Notifications.find({userId: Meteor.userId()});
     }
 });
 
