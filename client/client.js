@@ -670,30 +670,30 @@ Template.sidebar.events({
                     //console.log("comment added!");
                 }
             });
-            var idea = Session.get("selectedIdea");
+            // todo subscribers are not unique duplicated
             var subscribers = Comments.find({$and: [{ideaId: Session.get("selectedIdea")}, {userId: Meteor.userId()}] }).fetch(); // todo this code is likely wrong
-            
+            var idea = Ideas.findOne({_id: Session.get("selectedIdea")});
             for(var i = 0; i < subscribers.length; i++){
-               var heartedNotification = {};
-               heartedNotification[idea.userId] = {
-                 type:"comment",
-                 message: "New comment on "+idea.name,
-                 url: null,
-                 priority: 2,
-                 timestamp: (new Date()).getTime(),
-                 hackathon: idea.hackathon_id
-               };
-               var notifId = Notifications.find({userId: idea.userId}).fetch()._id;
-               console.log(Notifications.find({userId: idea.userId}).fetch());
+                var heartedNotification = {};
+                heartedNotification[idea.userId] = {
+                    type: "comment",
+                    message: "New comment on "+idea.name,
+                    url: null,
+                    priority: 2,
+                    timestamp: (new Date()).getTime(),
+                    hackathon: idea.hackathon_id
+                };
+                var notifId = Notifications.find({userId: idea.userId}).fetch()._id;
+                console.log(Notifications.find({userId: idea.userId}).fetch());
 
-               Notifications.update({_id: notifId}, {notifications: {$push: heartedNotification}}, function(err, result) {
-                 if(err){
-                   console.error('failed to create notification model for user')
-                 }
-                 else {
-                   console.log('new notification for user'+idea.userId);
-                 }
-               }); 
+                Notifications.update({_id: notifId}, {notifications: {$push: heartedNotification}}, function(err, result) {
+                    if(err){
+                        console.error('failed to create notification model for user')
+                    }
+                    else {
+                        console.log('new notification for user'+idea.userId);
+                    }
+                }); 
             }
         }
     },
@@ -749,7 +749,7 @@ Template.person_list.helpers({
         //Get Idea based off filter type
         x = TeamFilters[filter]();
         
-//        x = _.sortBy(x, function (x) { return -x.hearts; });
+        // x = _.sortBy(x, function (x) { return -x.hearts; });
         //Heart and add comment counts to ideas
         // _.each(x, function(idea) {
             
@@ -776,7 +776,7 @@ Template.person_filter.selected = function() {
 Template.person_filter.events({ 
   'mousedown .filter': function () {
     if (Session.equals('team_filter', this.filter)) {
-//        Session.set('idea_filter', null);
+        //Session.set('idea_filter', null);
     } else {
         Session.set('team_filter', this.filter);
     }
@@ -794,7 +794,7 @@ Template.home.invite_code = function() {
 
 Template.profile_sidebar.opened = function() {
     var profileSelected = Session.get("selectedProfile");
-//    Session.set("selectedIdea", "");
+    // Session.set("selectedIdea", "");
     if(!profileSelected || profileSelected == "") {
         return false;
     } else {
@@ -819,7 +819,7 @@ Template.sidebar.helpers({
 });
 Template.sidebar.opened = function() {
     var ideaSelected = Session.get("selectedIdea");
-//    Session.set("selectedIdea", "");
+    // Session.set("selectedIdea", "");
     if(!ideaSelected || ideaSelected == "") {
         return false;
     } else {
@@ -830,52 +830,53 @@ Template.sidebar.opened = function() {
 }
 Template.hackathon.rendered =  function() {
     /*
-$.getScript("js/inline.js", function(data, textStatus, jqxhr) {
-                      [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {    
-                          new SelectFx( el, {
-                              stickyPlaceholder: false,
-                              onChange: function(val){
-                                  document.querySelector('span.cs-placeholder').style.backgroundColor = val;
-                              }
-                          });
-                      } );
-})
-*/
+    $.getScript("js/inline.js", function(data, textStatus, jqxhr) {
+                          [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {    
+                              new SelectFx( el, {
+                                  stickyPlaceholder: false,
+                                  onChange: function(val){
+                                      document.querySelector('span.cs-placeholder').style.backgroundColor = val;
+                                  }
+                              });
+                          } );
+    })
+    */
 }
 
 Template.settings.rendered =  function() {
-$.getScript("js/inline.js", function(data, textStatus, jqxhr) {
-                      [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {    
-                          new SelectFx( el, {
-                              stickyPlaceholder: false,
-                              onChange: function(val){
-                                  document.querySelector('span.cs-placeholder').style.backgroundColor = val;
-                              }
-                          });
-                      } );
-})
+    $.getScript("js/inline.js", function(data, textStatus, jqxhr) {
+        [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {    
+            new SelectFx( el, {
+                stickyPlaceholder: false,
+                onChange: function(val){
+                    document.querySelector('span.cs-placeholder').style.backgroundColor = val;
+                }
+            });
+        });
+    })
 }
+
 Template.idea_create_template.rendered =  function() {
-$.getScript("js/inline.js", function(data, textStatus, jqxhr) {
-                  (function() {
-                      var formWrap = document.getElementById( 'fs-form-wrap-idea' );
-  
-                      [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {    
-                          new SelectFx( el, {
-                              stickyPlaceholder: false,
-                              onChange: function(val){
-                                  document.querySelector('span.cs-placeholder').style.backgroundColor = val;
-                              }
-                          });
-                      } );
-  
-                      window.FForm2 = new FForm( formWrap, {
-                          onReview : function() {
-                              classie.add( document.body, 'overview' ); // for demo purposes only
-                          }
-                      } );
-                  })();
-              });    
+    $.getScript("js/inline.js", function(data, textStatus, jqxhr) {
+        (function() {
+            var formWrap = document.getElementById( 'fs-form-wrap-idea' );
+
+            [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {    
+                new SelectFx( el, {
+                    stickyPlaceholder: false,
+                    onChange: function(val){
+                        document.querySelector('span.cs-placeholder').style.backgroundColor = val;
+                    }
+                });
+            });
+
+            window.FForm2 = new FForm( formWrap, {
+                onReview : function() {
+                    classie.add( document.body, 'overview' ); // for demo purposes only
+                }
+            });
+        })();
+    });    
 }
 
 Template.hackathon.events({
@@ -953,8 +954,7 @@ Template.home.events({
 
         t.$("#join_hackathon_code").val("");
 
-        Meteor.call('join_hackathon', invite_code, function(err, res) {
-            
+        Meteor.call('join_hackathon', invite_code, function(err, res) {       
             if(res) {
                 Router.go('hackathon', {_title: res});
             }    
@@ -981,7 +981,7 @@ Template.showHackathons.events({
         Router.go('/idea');
     },
     'click #team-reminder': function(){
-//        Router.go('/people');
+        // Router.go('/people');
     }
 });
 
@@ -1055,8 +1055,8 @@ Template.idea_create_template.events({
             description: description,
             userId: Meteor.userId(),
             hackathon_id: hackathon._id,
-//            avatar_url: Meteor.user().profile.avatar_url,
-//            github_username: Meteor.user().profile.login,
+            //            avatar_url: Meteor.user().profile.avatar_url,
+            //            github_username: Meteor.user().profile.login,
             time: new Date().getTime(),
             user_profile: Meteor.user().profile,
             skills: {
