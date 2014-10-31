@@ -1,9 +1,6 @@
-
-
 Meteor.startup(function () {
 
     var user = Meteor.users.findOne({"services.github.username": "kainolophobia"});
-    //console.log(user);
     if(user) {
         Roles.addUsersToRoles(user._id, ['admin'], 'all');
         Roles.addUsersToRoles(user._id, ['hacker'], 'ychacks');
@@ -20,10 +17,8 @@ Meteor.startup(function () {
     }
 
     Meteor.methods({
-
+        //attaching lost ideas to users - a result of manual importing from other source of ideas
         attach_ideas: function (user_id) {
-            //console.log('attaching lost ideas to users ' + user_id);
-
             var user = Meteor.users.findOne(user_id);
             if(!user) return;
             var ideas = Ideas.find({ $and: [
@@ -37,10 +32,8 @@ Meteor.startup(function () {
                 Meteor.call('heart_idea', idea._id);
             });
         },
-
-        update_ideas: function (user_id) { // updates user info for ideas
-            //console.log('updating ideas with user info' + user_id);
-
+        // updates user info for ideas
+        update_ideas: function (user_id) { 
             var user = Meteor.users.findOne(user_id);
             if(!user) return;
             var ideas = Ideas.find({ $and: [
@@ -50,11 +43,10 @@ Meteor.startup(function () {
                 Ideas.update({_id:idea._id}, {$set:{"user_profile":user.profile}});
             });
         },
-
+        // Hearts an idea
         heart_idea: function (idea_id) {
             var heart = Hearts.findOne({ $and: [{idea_id: idea_id}, {user_id: this.userId}]});
             var idea = Ideas.findOne({_id: idea_id});
-
             // attach notification
             var heartedNotification = {};
             heartedNotification[idea.userId] = {
@@ -70,11 +62,12 @@ Meteor.startup(function () {
                 console.error('failed to create notification model for user')
               }
               else {
-                console.log('new notification for user'+idea.userId);
+                console.log('new notification for user '+idea.userId);
               }
             });
 
-            if(typeof idea.hearts == "number"){
+            // Updates DB
+            if(typeof idea.hearts == "number"){ // safety check for NaN
               if(heart && idea) {
                 if(heart.hearted) {
                     Hearts.update({_id:heart._id}, {$set:{"hearted":false}});
@@ -100,14 +93,8 @@ Meteor.startup(function () {
                   return;
               }
             }
-            
-
             if(idea && this.userId) {
-                  
-                
-
                 // apply heart
-
                 heart = {
                     idea_id: idea._id,
                     user_id: this.userId,
@@ -134,131 +121,129 @@ Meteor.startup(function () {
         },
 
         create_idea: function(idea) {
+          idea.hearts = [];
 
-            idea.hearts = [];
-
-            //Ideas.insert({name: name}, function(err, result) {
-            Ideas.insert(idea, function(err, idea_id) {
-                if(err) {
-                    console.log("error creating idea");
-                } else {
-                    //console.log(idea_id);
-                    //console.log("idea id? " + idea_id);
-                    Meteor.call('heart_idea', idea_id, function(err, res) {});
-                }
-            });
-            return false;
+          //Ideas.insert({name: name}, function(err, result) {
+          Ideas.insert(idea, function(err, idea_id) {
+              if(err) {
+                  console.log("error creating idea");
+              } else {
+                  //console.log(idea_id);
+                  //console.log("idea id? " + idea_id);
+                  Meteor.call('heart_idea', idea_id, function(err, res) {});
+              }
+          });
+          return false;
         },
 
         hackathon_by_code: function (invite_code) {
-            //console.log('hackathon by code ' + invite_code);
+          //console.log('hackathon by code ' + invite_code);
 
-            var hackathon = Hackathons.findOne({invite_code: invite_code});
-           
-            if(hackathon) {
-                //console.log("hackathon title: " + hackathon.title);
-                return hackathon.title;
-            } else {
-                return null;
-            } 
+          var hackathon = Hackathons.findOne({invite_code: invite_code});
+         
+          if(hackathon) {
+              //console.log("hackathon title: " + hackathon.title);
+              return hackathon.title;
+          } else {
+              return null;
+          } 
         },
-
 
         join_hackathon: function (invite_code) {
             //console.log('join_hackathon called ' + invite_code);
 
-            var hackathon = Hackathons.findOne({invite_code: invite_code});
-            
-            if(hackathon) {
-                var group = hackathon.url_title;
-                Roles.addUsersToRoles(this.userId, ['hacker'], group);
-                Meteor.call('attach_ideas', this.userId, function(err, res) {});
-                return hackathon.url_title;
-            } else {
-                return null;
-            } 
+          var hackathon = Hackathons.findOne({invite_code: invite_code});
+          
+          if(hackathon) {
+              var group = hackathon.url_title;
+              Roles.addUsersToRoles(this.userId, ['hacker'], group);
+              Meteor.call('attach_ideas', this.userId, function(err, res) {});
+              return hackathon.url_title;
+          } else {
+              return null;
+          } 
         },
 
         create_hackathon: function(title) {
             
-            //check for valid title
-            if(!title || title.indexOf('/') != -1) {
-                //Err out
-                return false;
-            }
+          //check for valid title
+          if(!title || title.indexOf('/') != -1) {
+              //Err out
+              return false;
+          }
 
-            if (this.userId) {
-                if(!Roles.userIsInRole(this.userId, ['admin'], 'all')) {
-                    //don't let non-admins create_hackathons
-                    return false;
-                }
-            }
+          if (this.userId) {
+              if(!Roles.userIsInRole(this.userId, ['admin'], 'all')) {
+                  //don't let non-admins create_hackathons
+                  return false;
+              }
+          }
 
-            var url_title = encodeURI(title.toLowerCase().replace(/ /g, ''));
-            //Need to check and make sure this hash is unique...
-            var hash = ((Math.floor(Math.random() * 1e8) + new Date().getMilliseconds()).toString(36)).toUpperCase().substring(0,5);
-             
-            var code_exists = Hackathons.findOne({invite_code: hash});
-            while(code_exists) {
-                hash = ((Math.floor(Math.random() * 1e8) + new Date().getMilliseconds()).toString(36)).toUpperCase().substring(0,5);
-                code_exists = Hackathons.findOne({invite_code: hash});
-            }
+          var url_title = encodeURI(title.toLowerCase().replace(/ /g, ''));
+          //Need to check and make sure this hash is unique...
+          var hash = ((Math.floor(Math.random() * 1e8) + new Date().getMilliseconds()).toString(36)).toUpperCase().substring(0,5);
+           
+          var code_exists = Hackathons.findOne({invite_code: hash});
+          while(code_exists) {
+              hash = ((Math.floor(Math.random() * 1e8) + new Date().getMilliseconds()).toString(36)).toUpperCase().substring(0,5);
+              code_exists = Hackathons.findOne({invite_code: hash});
+          }
 
-            var hackathon = {
-                title: title,
-                url_title: url_title,
-                invite_code: hash,
-                created_by: this.userId
-        /*
-                description: description,
-                userId: Meteor.userId(),
-                avatar_url: Meteor.user().profile.avatar_url,
-                skills: {
-                    webdev: webdev,
-                    backend: backend,
-                    mobile: mobile,
-                    design: design,
-                    hardware: hardware
-                },
-                comments: {}
-        */
-            };
+          var hackathon = {
+              title: title,
+              url_title: url_title,
+              invite_code: hash,
+              created_by: this.userId
+          /*
+              description: description,
+              userId: Meteor.userId(),
+              avatar_url: Meteor.user().profile.avatar_url,
+              skills: {
+                  webdev: webdev,
+                  backend: backend,
+                  mobile: mobile,
+                  design: design,
+                  hardware: hardware
+              },
+              comments: {}
+          */
+          };
 
-            var exists = Hackathons.findOne({title: title});
-            if(exists) {
-                //console.log("hackathon exists!");
-                return;
-                //do something else
-                //can we select on name attribute again?
-            }
+          var exists = Hackathons.findOne({title: title});
+          if(exists) {
+              //console.log("hackathon exists!");
+              return;
+              //do something else
+              //can we select on name attribute again?
+          }
 
-            //console.log(hackathon.title + " invite code: " + hackathon.invite_code);
-            Hackathons.insert(hackathon, function(err, result) {
-                if(err) {
-                    console.log("error creating hackathon");
-                } else {
-                    //console.log("hackathon created!");
-                    
-                    //reset input field
-                }
+          //console.log(hackathon.title + " invite code: " + hackathon.invite_code);
+          Hackathons.insert(hackathon, function(err, result) {
+              if(err) {
+                  console.log("error creating hackathon");
+              } else {
+                  //console.log("hackathon created!");
+                  
+                  //reset input field
+              }
 
-        //            Router.go('home');
-            });
-            return;
+          // Router.go('home');
+          });
+          return;
         }
     });
 });
 
 Accounts.onCreateUser(function (options, user) {
 
-    console.log("options: ");
-    console.log(options);
-    user.profile = options.profile;
-    if(!user.services.github) return user;
+  console.log("options: ");
+  console.log(options);
+  user.profile = options.profile;
+  if(!user.services.github) return user;
 
   var accessToken = user.services.github.accessToken,
-      result,
-      profile;
+    result,
+    profile;
 
   result = Meteor.http.get("https://api.github.com/user", {
     headers: {
@@ -291,12 +276,11 @@ Accounts.onCreateUser(function (options, user) {
 
   var htn_user = Meteor.users.findOne({username: /htn_user./i, "profile.name": user.profile.name});
   if(htn_user) {
-
-      console.log("htn user found! ");
-      console.log(htn_user);
-      user.profile = _.extend(htn_user.profile, user.profile);
-      user.roles = _.extend(htn_user.roles, user.roles);
-      Meteor.users.remove({_id: htn_user._id}); 
+    console.log("htn user found! ");
+    console.log(htn_user);
+    user.profile = _.extend(htn_user.profile, user.profile);
+    user.roles = _.extend(htn_user.roles, user.roles);
+    Meteor.users.remove({_id: htn_user._id}); 
   }
 
   //Async http request
@@ -309,8 +293,6 @@ Accounts.onCreateUser(function (options, user) {
     }
   }, function(error, repos) {
   
-  
-
       var reposFormatted = JSON.parse(repos.content);
       var userRepositories = [];
       // No repos = [] not error so this is fine. 
@@ -470,7 +452,6 @@ Accounts.onCreateUser(function (options, user) {
         }
       });
   });
-
 
   //console.log("User initial profile creation finished");
 
