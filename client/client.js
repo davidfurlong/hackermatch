@@ -1118,13 +1118,26 @@ Template.settings.helpers({
 
 Template.settings.events({
     'click .delete-language': function(e, t){
-        $(e.currentTarget).closest('.specialization').remove()
+        $(e.currentTarget).closest('.specialization').remove();
+        var langs = $('.language').toArray().map(function(el){
+            return $(el).val();
+        });
+        var updated_profile = {
+            languages: langs
+        };
+        updated_profile = _.extend(Meteor.user().profile, updated_profile);
+        Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":updated_profile}});
     },
     'click .add-language': function(){
-        $('.specializations').append('<div class="specialization cf">'+
-                            '<input  class="language" type="text" value=""><input type="button" value="x" class="delete-language">'+
-                        '</div>');
-        $('.specialization').last().find('.language').focus()
+        var langs = $('.language').toArray().map(function(el){
+            return $(el).val();
+        });
+        langs.push('');
+        var updated_profile = {
+            languages: langs
+        };
+        updated_profile = _.extend(Meteor.user().profile, updated_profile);
+        Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":updated_profile}});
     },
     'submit #update-user-form' : function(e, t){
         e.preventDefault();
@@ -1155,10 +1168,9 @@ Template.settings.events({
             languages: langs
         };
         updated_profile = _.extend(Meteor.user().profile, updated_profile);
-           
+        
         // Trim and validate the input
         Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":updated_profile}});
-
         Meteor.call('attach_ideas', Meteor.user()._id);
         Meteor.call('update_ideas', Meteor.user()._id);
        

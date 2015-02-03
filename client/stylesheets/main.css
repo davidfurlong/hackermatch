@@ -19,6 +19,14 @@
 	color: #efefef;
 }
 
+.index-start {
+	border-radius:200px;
+	font-size:24px;
+	outline:none;
+	background: #232529;
+	color: #fff;
+}
+
 .sidebar-interested {
 	margin-bottom: 5px;
 }
