@@ -1,0 +1,6 @@
+#!/bin/bash
+
+
+sudo forever stop hm1
+sudo forever stop hm2
+

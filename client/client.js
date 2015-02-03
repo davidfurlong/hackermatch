@@ -15,6 +15,8 @@ Router.map(function() {
         onBeforeAction: function () {
             if (Meteor.user()) {
                 Router.go('home');
+            } else {
+                this.next();
             }
         },
         layoutTemplate: ''
@@ -35,10 +37,13 @@ Router.map(function() {
         onBeforeAction: function() {
             if (!Meteor.user()){
                 if (Meteor.loggingIn()) {
+                    this.next();
                 }
                 else{
                   Router.go('signup');
                 }
+            } else {
+                this.next();
             }
         }
     });
@@ -65,13 +70,17 @@ Router.map(function() {
         onBeforeAction: function() {
             if (!Meteor.user()){
                 if (Meteor.loggingIn()) {
+                    this.next();
                 }
                 else{
                   Router.go('signup');
                 }
+            } else {
+                this.next();
             }
         }
     });
+    /* TODO breaks in meteor 0.9+ need to name route differently..?
     this.route('profile', {
         path: '/user/:_username',
         data: function() { 
@@ -88,6 +97,7 @@ Router.map(function() {
         onBeforeAction: function() {
             if (!Meteor.user()){
                 if (Meteor.loggingIn()) {
+                    this.next();
                 }
                 else{
                   Router.go('signup');
@@ -95,6 +105,7 @@ Router.map(function() {
             }
         }
     });
+    */
     this.route('home', {
         path: '/home',
         data: function() {
@@ -111,13 +122,18 @@ Router.map(function() {
 //            Session.set("current_hackathon", null);
             if (!Meteor.user()) {
               if (Meteor.loggingIn()) {
+                    this.next();
               }
               else{
                 Router.go('signup');
               }
+            } else {
+                this.next();
             }
+
         }
     });
+    /*
     this.route('signup', {
         path: '/login', 
         data: {
@@ -126,9 +142,12 @@ Router.map(function() {
         onBeforeAction: function () {
             if (Meteor.user()) {
                 Router.go('home');
+            } else {
+                this.next();
             }
         }
     });
+    */
     this.route('signup', {
         path: '/signup', 
         data: function() {
@@ -142,6 +161,8 @@ Router.map(function() {
         onBeforeAction: function () {
             if (Meteor.user()) {
                 Router.go('home');
+            } else {
+                this.next();
             }
         }
     });
@@ -166,10 +187,13 @@ Router.map(function() {
 //            Session.set("current_hackathon", null);
             if (!Meteor.user()) {
               if (Meteor.loggingIn()) {
+                this.next();
               }
               else{
                 Router.go('signup');
               }
+            } else {
+                this.next();
             }
         }
     });
@@ -190,12 +214,15 @@ Router.map(function() {
         onBeforeAction: function () {
             if (!Meteor.user()) {
               if (Meteor.loggingIn()) {
+                this.next();
               } else {
                 Router.go('signup');
               }
             } else {
                 if(!Session.get("current_hackathon")) {
                     Router.go('home'); 
+                } else {
+                    this.next();
                 }
             }
         }
@@ -264,10 +291,13 @@ Router.map(function() {
         onBeforeAction: function () {
             if (!Meteor.user()) {
               if (Meteor.loggingIn()) {
+                this.next();
               } else {
                 Session.set("invite_code", this.params._title);
                 Router.go('signup');
               }
+            } else {
+                this.next();
             }
         }
     });
