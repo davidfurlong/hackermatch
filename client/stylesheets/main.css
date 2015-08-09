@@ -9,12 +9,9 @@
 }
 
 html {
-	overflow-x: hidden;
-	font-family: 'Avenir-Book', 'Avenir', helvetica, sans-serif;
-	background: #222;
-	color: #fff;
+/*	font-family: 'Avenir-Book', 'Avenir', helvetica, sans-serif;
 	font-weight: 400;
-	font-size: 1em;
+	font-size: 1em;*/
 }
 
 .item-heart {
@@ -47,13 +44,6 @@ html {
 
 #idea-create .fixer-quick.ac-custom svg {
 	margin-top: -22px;
-}
-
-footer {
-	margin-top: 5px;
-	color: #777;
-	margin-bottom: 5px;
-	box-sizing: border-box;
 }
 
 #profile-bio {
@@ -220,24 +210,10 @@ hr {
     *zoom: 1;
 }
 
-html, body {
-	height: 100%;
-}
-.wrapper {
-	min-height: 100%;
-	height: auto !important; /* This line and the next line are not necessary unless you need IE6 support */
-	height: 100%;
-	margin: 0 auto -50px; /* the bottom margin is the negative value of the footer's height */
-}
 /* ELEMENT STYLES */
 
 .view {
 	padding-top: 70px;
-}
-
-
-.container {
-	height: 100%;
 }
 
 .hackathon-badge {
@@ -338,5 +314,3 @@ a:hover, a:focus {
 		font-size: 10pt;
 	}
 }
-
-

@@ -17,8 +17,7 @@ Router.map(function() {
             } else {
                 this.next();
             }
-        },
-        layoutTemplate: ''
+        }
     });
     this.route('profile', {
         path: '/profile',
@@ -28,9 +27,6 @@ Router.map(function() {
                 user['title'] = 'profile';
             }
             return user;
-        },
-        yieldTemplates: {
-          'base_nav': {to: 'nav'}
         },
         waitOn: function() { return Meteor.subscribe('one_users_ideas', this.params._username)},
         onBeforeAction: function() {
@@ -63,9 +59,6 @@ Router.map(function() {
             return user;
         },
         waitOn: function() { return Meteor.subscribe('user', this.params._username)},
-        yieldTemplates: {
-          'base_nav': {to: 'nav'}
-        },
         onBeforeAction: function() {
             if (!Meteor.user()){
                 if (Meteor.loggingIn()) {
@@ -89,9 +82,6 @@ Router.map(function() {
             }
             return user;
         },
-        yieldTemplates: {
-          'base_nav': {to: 'nav'}
-        },
         waitOn: function() { return Meteor.subscribe('user_and_ideas', this.params._username)},
         onBeforeAction: function() {
             if (!Meteor.user()){
@@ -112,9 +102,6 @@ Router.map(function() {
             x.title = '';
             x.hackathons = Hackathons.find({}).fetch();
             return x;
-        },
-        yieldTemplates: {
-          'base_nav': {to: 'nav'}
         },
         waitOn: function() { return Meteor.subscribe('myHackathons', this.userId)},
         onBeforeAction: function () {
@@ -162,9 +149,6 @@ Router.map(function() {
                 obj.override_title_url = '/' + hackathon.url_title;
             }
             return obj;
-        },
-        yieldTemplates: {
-          'base_nav': {to: 'nav'}
         },
         waitOn: function() { return Meteor.subscribe('hackathons', this.userId)},
         onBeforeAction: function () {

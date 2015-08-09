@@ -1,7 +1,53 @@
-<template name="base_nav">
-<!--
-    {{#if selected_hackathon}}
-    <a id="hackathon-link" href="/{{selected_hackathon.url_title}}">find team</a>
-    {{/if}}
-    -->
+<template name="nav">
+	<nav class="navbar navbar-default">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="/home">hackermatch</a>
+	    </div>
+
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	      <ul class="nav navbar-nav">
+	        <!-- <li class="active"><a href="#">
+	        	{{#if selected_hackathon}}
+                <a id="title-url" href="/{{selected_hackathon.url_title}}">{{selected_hackathon.title}}</a>
+                {{else}}
+                <a href="" id="title-url">{{title}}</a>
+                {{/if}}<span class="sr-only">(current)</span></a></li> -->
+<!-- 	        <li><a>Explore</a></li>
+ -->	  </ul>
+	      <ul class="nav navbar-nav navbar-right">
+	        <li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+				<ul class="dropdown-menu" role="menu">
+				{{> yield region='nav'}}
+				    {{#if currentUser}}
+				        <li>
+				        	<a id="notifications-trigger">
+				            <i class="fa fa-bell-o"></i>
+				            {{#if has notifications}}
+				                {{len notifications}}
+				            {{/if}}
+				            </a>
+				        </li>
+				        <li>
+				        	<a id="settings-link" href="/settings"><i class="fa fa-cog" style="color:white"></i></a>
+				        </li> 
+				    {{/if}}
+				    {{#if isInRole 'admin' 'all'}}
+				    	<li>
+				    		<a id="admin-link" href="/admin"><i class="fa fa-code"></i></a>
+				    	</li>
+				    {{/if}}
+				</ul>
+    	    </li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
 </template>
