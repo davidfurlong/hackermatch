@@ -19,7 +19,6 @@
 	color: #bbb;
 	text-transform: uppercase;
 	font-size: 16px;
-
 }
 
 #profile {
@@ -30,8 +29,6 @@
 	background: #efefef;
 	-webkit-font-smoothing: antialiased;
 }
-
-
 
 .languages {
 	margin-top: 30px;
@@ -120,20 +117,11 @@
 
 .profile-skills.badge.t5, .profile-skills.badge.webdev {
 	background: #f68dbb;
-}*/
+}
 
 .full-width {
 	width: 500px;
 }
-
-* {
-	box-sizing: border-box;
-}
-
-#row1 {
-
-}
-
 
 	/* ROW 1 */
 
@@ -202,7 +190,6 @@
 	max-width: 100%;
 	overflow: hidden;
 	-ms-word-break: break-all;
-
 	/* Non standard for webkit */
 	word-break: break-word;
 

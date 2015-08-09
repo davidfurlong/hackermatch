@@ -1,0 +1,7 @@
+#title-bar {
+	z-index: 20;
+	position: absolute;
+	top: 0px;
+	width: 100%;
+	padding: 10px 30px;
+}

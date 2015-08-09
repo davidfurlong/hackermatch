@@ -1,11 +1,20 @@
-/* NAV BAR */
+@font-face {
+  font-family: 'Avenir-Book';
+  src: url('/fonts/avenir/Avenir-Book.ttf')  format('truetype'), /* Safari, Android, iOS */
+}
 
-#title-bar {
-	z-index: 20;
-	position: absolute;
-	top: 0px;
-	width: 100%;
-	padding: 10px 30px;
+@font-face {
+  font-family: 'Avenir-Black';
+  src: url('/fonts/avenir/Avenir-Black.ttf')  format('truetype'), /* Safari, Android, iOS */
+}
+
+html {
+	overflow-x: hidden;
+	font-family: 'Avenir-Book', 'Avenir', helvetica, sans-serif;
+	background: #222;
+	color: #fff;
+	font-weight: 400;
+	font-size: 1em;
 }
 
 .item-heart {
@@ -49,10 +58,6 @@ footer {
 
 #profile-bio {
 	margin-top: 20px;
-}
-
-body, html {
-	min-height: 100%;
 }
 
 .bio-row {
@@ -119,26 +124,6 @@ hr {
 	color: rgba(243,243,21,0.9);
 }
 
-
-
-@font-face {
-  font-family: 'Avenir-Book';
-  src: url('/fonts/avenir/Avenir-Book.ttf')  format('truetype'), /* Safari, Android, iOS */
-}
-
-@font-face {
-  font-family: 'Avenir-Black';
-  src: url('/fonts/avenir/Avenir-Black.ttf')  format('truetype'), /* Safari, Android, iOS */
-}
-
-html {
-	overflow-x: hidden;
-	font-family: 'Avenir-Book', 'Avenir', helvetica, sans-serif;
-	background: #222;
-	color: #fff;
-	font-weight: 400;
-	font-size: 1em;
-}
 
 #brand {
 	padding-left: 10px;
