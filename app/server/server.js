@@ -3,12 +3,12 @@ var fs = Meteor.require('fs');
 var path = Npm.require('path');
 
 function loadHtn(hackathon_id) {
-  var basepath = path.resolve('.').split('.meteor')[0];
-  //console.log(basepath);
-  //console.log(csv);
-  var record_count = 0;
-  var stream = fs.createReadStream(basepath+'htn.csv');
-  //console.log(stream);
+    var basepath = path.resolve('.').split('.meteor')[0];
+    //console.log(basepath);
+    //console.log(csv);
+    var record_count = 0;
+    var stream = fs.createReadStream(basepath+'htn.csv');
+    //console.log(stream);
     stream.pipe(
     csv.parse     ()).pipe(
     csv.transform (Meteor.bindEnvironment(function(record){
@@ -27,9 +27,6 @@ function loadHtn(hackathon_id) {
             cool_stuff = record[9],
             university = record[10],
             looking_for = record[11];
-        //console.log("user: " + user);
-        //console.log("email: " + email);
-        //console.log("idea: " + idea);
         var profile = {
             name: name,
             login: username,
@@ -60,18 +57,8 @@ function loadHtn(hackathon_id) {
         
         var user = Accounts.createUser(options);
         console.log(user);
-        /*, function(err, res) {
-            console.log('user created');
-            console.log(res);
-            //Roles.addUsersToRoles(user._id, ['hacker'], 'ychacks');
-        });    
-        */
-        //console.log(idea);
-//        return record.map(function(value){return value.toUpperCase()});
     })));
 }
-
-
 
 
 function loadData(hackathon_id) {
@@ -135,25 +122,25 @@ function loadData(hackathon_id) {
 
 
 Meteor.startup(function () {
-// code to run on server at startup
-//    Ideas.remove({});
+    // code to run on server at startup
+    //    Ideas.remove({});
     var User = Meteor.users.findOne({"services.github.username":"kainolophobia"});
-//    var User = Meteor.users.findOne({"services.github.username":"jumploops"});
+    //    var User = Meteor.users.findOne({"services.github.username":"jumploops"});
     //console.log(User);
     if(User) {
-//        Meteor.users.remove({_id: User._id});
+    //        Meteor.users.remove({_id: User._id});
     } 
     var hackathons = Hackathons.remove({"title":"blah"});
-//    var hackathons = Hackathons.remove({});
-//    Meteor.users.remove({}); 
-//    var ideas = Ideas.remove({});
+    //    var hackathons = Hackathons.remove({});
+    //    Meteor.users.remove({}); 
+    //    var ideas = Ideas.remove({});
     //console.log(hackathons);
 
     if (Hackathons.find().count() === 0) {
         var names = ["MHacks",
                      "YC Hacks",
                      "HackMIT"
-//                     "Hack the North"
+    //                     "Hack the North"
                     ];
         for (var i = 0; i < names.length; i++) {
             Meteor.call('create_hackathon', names[i]);
@@ -167,7 +154,6 @@ Meteor.startup(function () {
             loadHtn(hackathon._id);
         }
     }
-    console.log("blah");
     /*
     var htn_users = Meteor.users.find({username: /htn_user./i}).fetch();
     _.each(htn_users, function(user) {
@@ -288,7 +274,3 @@ Meteor.publish("myHackathons", function () {
     }
     //return Hackathons.find({$or: hackathonList}).fetch();
 });
-
-
-
-

@@ -1,5 +1,3 @@
-
-
 ServiceConfiguration.configurations.remove({
     service : 'github'
 });
@@ -25,6 +23,3 @@ ServiceConfiguration.configurations.insert({
 //    clientId: '191ae17422ad5a993ca3',
 //    secret  : 'e067a8a9ccdc7c9dd29667895f81f88cdd40ff0a'
 });
-
-
-
