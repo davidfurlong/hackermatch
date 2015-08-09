@@ -1,5 +1,5 @@
-var csv = Meteor.require('csv'); 
-var fs = Meteor.require('fs');
+var csv = Meteor.npmRequire('csv'); 
+var fs = Meteor.npmRequire('fs');
 var path = Npm.require('path');
 
 function loadHtn(hackathon_id) {
