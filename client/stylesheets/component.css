@@ -129,11 +129,6 @@
 	font-style: normal;
 }
 
-* {
-	-webkit-font-smoothing: antialiased;
-	font-smoothing: antialiased;
-}
-
 .homepage-splash {
 	width: auto;
 	margin: 100px auto ;
@@ -383,7 +378,6 @@
     float: right;
 }
 
-
 #logout {
 	padding: 10px 20px;
 	background: transparent;
@@ -394,7 +388,6 @@
 	font-weight: 700;
     float: right;
 }
-
 
 .row.item .item-action {
 	padding: 0;

@@ -12,6 +12,8 @@ html {
 /*	font-family: 'Avenir-Book', 'Avenir', helvetica, sans-serif;
 	font-weight: 400;
 	font-size: 1em;*/
+	-webkit-font-smoothing: antialiased;
+	font-smoothing: antialiased;
 }
 
 .item-heart {

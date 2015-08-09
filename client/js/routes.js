@@ -19,6 +19,17 @@ Router.map(function() {
             }
         }
     });
+    this.route('index_hackathon', {
+        path: '/hackathon/:hackathon',
+        data: function() { return this.params.hackathon },
+        onBeforeAction: function () {
+            if (Meteor.user()) {
+                Router.go('home');
+            } else {
+                this.next();
+            }
+        }
+    });
     this.route('profile', {
         path: '/profile',
         data: function() { 
