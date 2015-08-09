@@ -32,11 +32,15 @@ my-app/
      settings.json
  app/
    client/
+     js/
+      events.js
+      helpers.js
+      others.js
      collections/
      lib/
      stylesheets/
      templates/
-     head.html
+      pages/
    lib/
      collections/
      controllers/
