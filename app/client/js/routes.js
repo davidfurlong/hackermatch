@@ -118,7 +118,7 @@ Router.map(function() {
         },
         waitOn: function() { return Meteor.subscribe('myHackathons', this.userId)},
         onBeforeAction: function () {
-//            Session.set("current_hackathon", null);
+            // Session.set("current_hackathon", null);
             if (!Meteor.user()) {
               if (Meteor.loggingIn()) {
                     this.next();
