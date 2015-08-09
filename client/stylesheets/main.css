@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'Avenir-Book';
-  src: url('/fonts/avenir/Avenir-Book.ttf')  format('truetype'), /* Safari, Android, iOS */
+  src: url('/fonts/Avenir/Avenir-Book.ttf')  format('truetype'), /* Safari, Android, iOS */
 }
 
 @font-face {
   font-family: 'Avenir-Black';
-  src: url('/fonts/avenir/Avenir-Black.ttf')  format('truetype'), /* Safari, Android, iOS */
+  src: url('/fonts/Avenir/Avenir-Black.ttf')  format('truetype'), /* Safari, Android, iOS */
 }
 
 html {
@@ -15,6 +15,30 @@ html {
 	-webkit-font-smoothing: antialiased;
 	font-smoothing: antialiased;
 }
+
+
+/* HOME PAGE */
+#home-nav > .navbar {
+	margin-bottom: 0;
+}
+
+#home-splash {
+	height: 300px;
+	background: url('/images/home_splash.jpg') no-repeat;
+	background-size: 100%;
+	font-size: 20pt;
+	background-position: 0px -200px !important;
+}
+
+#home-splash h1 {
+	color: white;
+	font-weight: 100;
+}
+
+#home-splash-container {
+	padding: 0;
+}
+/* END HOME PAGE */
 
 .item-heart {
 	font-size: 14px;

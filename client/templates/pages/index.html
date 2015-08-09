@@ -1,15 +1,13 @@
 <template name="index">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                Panel heading
-                </div>
-                <div class="panel-body">
-                Panel content
-                </div>
-                <div class="panel-footer">Panel footer</div>
+    <div id="home-nav">
+    {{> nav}}
+    </div>
+    <div class="container-fluid" id="home-splash-container"> 
+        <div class="row">
+            <div class="col-md-12" id="home-splash">
+                <h1>Find your next team mate</h1>
             </div>
         </div>
     </div>
+    {{> footer}}
 </template>

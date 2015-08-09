@@ -8,27 +8,28 @@ Router.onBeforeAction('loading');
 Router.map(function() {
     this.route('index', {
         path: '/',
-        data: {
-            title: ''
+        layoutTemplate: ''
+    });
+    this.route('create_hackathon', {
+        path: '/create'
+    });
+    this.route('index_hackathon', {
+        path: '/join/:hackathon',
+        data: function() { 
+            // todo get number of hackers at the hackathon
+            return { 'name': this.params.hackathon }
         },
         onBeforeAction: function () {
             if (Meteor.user()) {
+                // todo if member of hackathon go to the hackathon instead
                 Router.go('home');
             } else {
                 this.next();
             }
         }
     });
-    this.route('index_hackathon', {
-        path: '/hackathon/:hackathon',
-        data: function() { return this.params.hackathon },
-        onBeforeAction: function () {
-            if (Meteor.user()) {
-                Router.go('home');
-            } else {
-                this.next();
-            }
-        }
+    this.route('about', {
+        path: '/about'
     });
     this.route('profile', {
         path: '/profile',
@@ -83,9 +84,8 @@ Router.map(function() {
             }
         }
     });
-    /* TODO breaks in meteor 0.9+ need to name route differently..?
     this.route('profile', {
-        path: '/user/:_username',
+        path: '/profile/:_username',
         data: function() { 
             var user = Meteor.users.findOne({'services.github.username': this.params._username}); 
             if(user) {
@@ -93,19 +93,8 @@ Router.map(function() {
             }
             return user;
         },
-        waitOn: function() { return Meteor.subscribe('user_and_ideas', this.params._username)},
-        onBeforeAction: function() {
-            if (!Meteor.user()){
-                if (Meteor.loggingIn()) {
-                    this.next();
-                }
-                else{
-                  Router.go('signup');
-                }
-            }
-        }
+        waitOn: function() { return Meteor.subscribe('user_and_ideas', this.params._username)}
     });
-    */
     this.route('home', {
         path: '/home',
         data: function() {
