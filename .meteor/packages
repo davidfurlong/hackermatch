@@ -5,13 +5,14 @@
 
 standard-app-packages
 insecure
-modernizr-meteor
 accounts-base
 accounts-password
 accounts-github
 service-configuration
-roles
-react
-npm
 iron:router
 alanning:roles
+twbs:bootstrap
+pagebakers:ionicons
+fortawesome:fontawesome
+less
+mrt:modernizr-meteor
