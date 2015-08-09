@@ -22,6 +22,23 @@
 <!-- 	        <li><a>Explore</a></li>
  -->	  </ul>
 	      <ul class="nav navbar-nav navbar-right">
+	      {{#if currentUser}}
+	      	<li><a href="">My hackathons</a></li>
+	      	<li>
+	      		<a id="notifications-trigger">
+	      	    <i class="fa fa-bell-o"></i>
+	      	    {{#if has notifications}}
+	      	        {{len notifications}}
+	      	    {{/if}}
+	      	    </a>
+	      	</li>
+	      	<li>
+	      		<a id="settings-link" href="/settings">Account</a>
+	      	</li> 
+	      {{else}}
+	      	<li><a href="">Login</a></li>
+	      	<li><a href="">Signup</a></li>
+	      {{/if}}
 	        <!-- <li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">
