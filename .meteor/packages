@@ -6,10 +6,12 @@
 standard-app-packages
 insecure
 modernizr-meteor
-iron-router
 accounts-base
 accounts-password
 accounts-github
 service-configuration
 roles
+react
 npm
+iron:router
+alanning:roles

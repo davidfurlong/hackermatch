@@ -1,3 +1,6 @@
+// Does the sidebar toggling on the ideas page
+
+
 $(document).ready(function(){
 	$('.sidebar').on('click', function(e) {
 	    e.stopPropagation();
@@ -8,7 +11,6 @@ $(document).ready(function(){
 		$('.pt-page-1 .page-container').removeClass('blur');
 
 	});
-
 
 	$('.item-title, .item-desc, .item-icon').on('click', function(e){
 		e.stopPropagation();
