@@ -392,3 +392,70 @@ Template.settings.helpers({
         }
     }
 });
+
+Template.layout.helpers({
+    'notifications': function(){
+        return Notifications.find({userId: Meteor.userId()});
+    }
+});
+
+
+Template.idea_list.helpers({
+    ideas: function() {
+        var hackathon = Session.get("current_hackathon");
+        if(!hackathon) return;
+        var filter = Session.get("idea_filter");
+
+        if(!filter) {
+            filter = 'All';
+            Session.set('idea_filter', filter);
+        }
+        var x = [];
+
+        //Get Idea based off filter type
+        x = IdeaFilters[filter]();
+        
+        x = _.sortBy(x, function (x) { return -x.hearts; });
+        //Heart and add comment counts to ideas
+        _.each(x, function(idea) {
+            var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
+            if(heart && heart.hearted) {
+                //Only added this to idea list that template receives, such that it's a local change only
+                idea.hearted = true;
+            } else {
+                idea.hearted = false;
+            }
+            idea.commentCount = Comments.find({ideaId: idea._id}).fetch().length;
+        });
+        return x;
+    }
+});
+
+ 
+Template.sidebar.helpers({
+    idea: function() {
+        var idea = Ideas.findOne({_id: Session.get("selectedIdea")});
+        if(idea) {
+            var author = Meteor.users.findOne({_id: idea.userId});
+            var commentThread = Comments.find({ideaId: idea._id}).fetch();
+            idea.author = author;
+            idea.commentThread = commentThread;
+            return idea;
+        }
+    }
+});
+
+
+Template.showHackathons.helpers({
+    noIdeaPosted: function(){
+        if(Meteor.user()){
+            var hackathon = Session.get("current_hackathon");
+            if(!hackathon) return true;
+            var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
+            if(x.length > 0){
+                return false
+            }
+            return true
+        }
+    }
+});
