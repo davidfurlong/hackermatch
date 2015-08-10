@@ -84,8 +84,9 @@ Router.map(function() {
             }
         }
     });
-    this.route('profile', {
+    this.route('profileOther', {
         path: '/profile/:_username',
+        template: 'profile',
         data: function() { 
             var user = Meteor.users.findOne({'services.github.username': this.params._username}); 
             if(user) {

@@ -1,54 +1,95 @@
 <template name="settings">
-    <div id="pt-main" class="pt-perspective">
-        <div id="settings" class="view pt-page-current">
-            <div class="inner-view">
-                <form id="update-user-form" action="action" class="settings-form">
-                    <h1>my settings</h1>
-                    <div>
-                        <label>Name</label>
-                        <input id="user_name" type="text" value="{{name}}">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <form id="update-user-form" action="action" class="form-horizontal">
+                <legend>Settings</legend>
+                <div class="form-group">
+                    <label for="user_name" class="col-lg-2 control-label">Name</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="user_name"  value="{{name}}">
                     </div>
-                    <div>
-                        <label>Contact</label>
-                        <input id="user_contact" type="text" value="{{contact}}">
+                </div>
+                <div class="form-group">
+                    <label for="user_contact" class="col-lg-2 control-label">Contact</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="user_contact"  value="{{contact}}">
                     </div>
-                    <div>
-                        <label>Skills</label>
-                        <ul id="user_skills" class="ac-custom ac-checkbox ac-cross fs-anim-lower">
-                            <li><input id="sb1" name="sb1" type="checkbox"><label for="sb1">Webdev </label></li>
-                            <li><input id="sb2" name="sb2" type="checkbox"><label for="sb2">Designer</label></li>
-                            <li><input id="sb3" name="sb3" type="checkbox"><label for="sb3">Backend</label></li>
-                            <li><input id="sb4" name="sb4" type="checkbox"><label for="sb4">Mobile</label></li>
-                            <li><input id="sb5" name="sb5" type="checkbox"><label for="sb5">Hardware</label></li>
-                        </ul>
-                        {{skills}}
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Skills</label>
+                    <div class="col-lg-10">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox"> Designer
+                          </label>
+                        </div>
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox"> Frontend
+                          </label>
+                        </div>
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox"> Backend
+                          </label>
+                        </div>
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox"> iOS
+                          </label>
+                        </div>
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox"> Android
+                          </label>
+                        </div>
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox"> Hardware
+                          </label>
+                        </div>
                     </div>
-                    <div class="github_username">
-                        <label>Github username</label>
-                        <input id="user_github" style="border:0" type="text" value="{{github}}" disabled>
+                    {{skills}}
+                </div>
+                <div class="form-group">
+                    <label for="user_github" class="col-lg-2 control-label">Github Username</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="user_github"  value="{{github}}">
                     </div>
-                    <div class="description cf">
-                        <label>About you</label>
-                        <textarea maxlength="200" spellcheck="false" style="resize:vertical" rows="7" id="user_description" value="{{description}}"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="user_description" class="col-lg-2 control-label">About you</label>
+                    <div class="col-lg-10">
+                        <textarea class="form-control" maxlength="200" spellcheck="false" style="resize:vertical" rows="7" id="user_description" value="{{description}}"></textarea>
+                        <span class="help-block">Don't know what to say? Talk about things you have tried or want to build.</span>
                     </div>
-                    <div class="languages-in cf">
-                        <label>Specializations</label>
-                        <div class="specializations">
+                </div>
+                <div class="form-group">
+                    <label for="user_contact" class="col-lg-2 control-label">Specializations</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="user_contact"  value="{{contact}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Specializations</label>
+                    <div class="specializations col-lg-10 input-group">
                         {{#each languages}}
-                        <div class="specialization cf">
-                            <input  class="language" type="text" value="{{.}}"><input type="button" value="x" class="delete-language">
+                        <div class="specialization">
+                            <input  class="language" type="text" value="{{.}}"><input type="button" value="x" class="delete-language form-control">
                         </div>
                         {{/each}}
-                        </div> 
-                        <div style="float: right">
-                            <input type="button" class="add-language" value="+ Add">
-                        </div>
+                        <span class="input-group-btn">
+                          <button class="btn btn-default add-language" type="button">+ Add</button>
+                        </span>
+                    </div> 
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <button type="reset" class="btn btn-default">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
                     </div>
-                    <div class="cf save-changes">
-                        <input type="submit" value="Save Changes">
-                    </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </template>

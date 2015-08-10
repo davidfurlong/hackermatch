@@ -274,9 +274,42 @@ Template.settings.events({
     }
 });
 
-Template.signup.events({
+Template.nav.events({
+    'click #join-link' : function(){
+        var profile = {}
+
+        Meteor.loginWithGithub({
+            requestPermissions: ['user:email']
+        }, function (err) {
+            if (err) {
+                Session.set('errorMessage', err.reason || 'Unknown error');
+            }
+            if(Meteor.user()) {
+                profile = _.extend(profile, Meteor.user().profile);
+                //Temporarily set contact info as email
+                profile.contact = profile.email;
+                Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":profile}});
+
+                var invite_title = Session.get("invite_title");
+                var invite_code = Session.get("invite_code");
+                if(invite_title && invite_code) {
+                    Meteor.call('join_hackathon', invite_code, function(err, res) {
+                        if(res) {
+                            Router.go('hackathon', {_title: res});
+                        }    
+                    });
+                } 
+                else {
+                    Router.go('home');
+                }
+            }
+        });
+    }
+});
+
+Template.indexHackathon.events({
     'submit #register-form' : function(e, t) {
-      e.preventDefault();
+        e.preventDefault();
     
         var webdev = t.find('#cb1').checked,
             backend = t.find('#cb3').checked,
@@ -344,32 +377,32 @@ Template.signup.events({
     }
 });
 
-Template.login.events({
-    'submit #login-form' : function(e, t){
-        e.preventDefault();
-        // retrieve the input field values
-        var email = t.find('#login-email').value
-        , password = t.find('#login-password').value;
+// Template.login.events({
+//     'submit #login-form' : function(e, t){
+//         e.preventDefault();
+//         // retrieve the input field values
+//         var email = t.find('#login-email').value
+//         , password = t.find('#login-password').value;
 
-        // Trim and validate your fields here.... 
+//         // Trim and validate your fields here.... 
 
-        // If validation passes, supply the appropriate fields to the
-        // Meteor.loginWithPassword() function.
-        Meteor.loginWithPassword(email, password, function(err){
-            if (err) {
-                console.log(err);
-                // The user might not have been found, or their passwword
-                // could be incorrect. Inform the user that their
-                // login attempt has failed. 
-            } 
-            else {
-                Router.go('home');
-                // The user has been logged in.
-            }
-        });
-        return false; 
-    }
-});
+//         // If validation passes, supply the appropriate fields to the
+//         // Meteor.loginWithPassword() function.
+//         Meteor.loginWithPassword(email, password, function(err){
+//             if (err) {
+//                 console.log(err);
+//                 // The user might not have been found, or their passwword
+//                 // could be incorrect. Inform the user that their
+//                 // login attempt has failed. 
+//             } 
+//             else {
+//                 Router.go('home');
+//                 // The user has been logged in.
+//             }
+//         });
+//         return false; 
+//     }
+// });
 
 Template.idea_filter.events({ 
   'mousedown .filter': function () {
