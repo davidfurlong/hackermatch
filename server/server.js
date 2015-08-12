@@ -175,11 +175,10 @@ Meteor.publish("one_users_ideas", function (username){
 // same hackathon. Should probably get cursor first, then return it 
 // after fetching id.
 Meteor.publish("hackathon_and_ideas", function (hackathon_title) {
-    
     var url_title = encodeURI(hackathon_title.toLowerCase().replace(/ /g, ''));
     var hackathon = Hackathons.findOne({url_title: url_title});
-    
     var hackathon_id = null;
+    
     if(hackathon) {
         hackathon_id = hackathon._id; 
     }

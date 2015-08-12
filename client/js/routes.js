@@ -29,6 +29,7 @@ Router.map(function() {
             }
         }
     });
+    
     this.route('people', {
         path: '/:hackathon/hackers' , 
         data: function() {
@@ -62,16 +63,28 @@ Router.map(function() {
             }
         }
     });
-    this.route('hackathon_nav', {
+    this.route('ideas', {
         path: '/:hackathon/ideas' , 
         data: function() {
             return {};
-        }
-    });
-    this.route('alerts', {
-        path: '/alerts' , 
-        data: function() {
-            return {};
+        },
+        onBeforeAction: function () {
+            if (!Meteor.user()) {
+                if (Meteor.loggingIn()) {
+                    this.next();
+                } 
+                else {
+                    Router.go('signup');
+                }
+            }
+            else {
+                if(false){ // todo CHECK if member of hackathon or admin
+                    Router.go('home');
+                }
+                else {
+                    this.next();
+                }
+            }  
         }
     });
     this.route('create_idea', {
@@ -112,6 +125,12 @@ Router.map(function() {
             } else {
                 this.next();
             }
+        }
+    });
+    this.route('alerts', {
+        path: '/alerts' , 
+        data: function() {
+            return {};
         }
     });
     this.route('about', {
@@ -171,7 +190,7 @@ Router.map(function() {
         }
     });
     this.route('profileOther', {
-        path: '/profile/:_username',
+        path: '/user/:_username',
         template: 'profile',
         data: function() { 
             var user = Meteor.users.findOne({'services.github.username': this.params._username}); 
@@ -253,13 +272,12 @@ Router.map(function() {
             }
         }
     });
-    
+    // THIS HAS TO BE THE LAST ROUTE
     this.route('hackathon', {
-        path: '/:_title' , 
+        path: '/:hackathon', 
         data: function() {
-            var url_title = encodeURI(this.params._title.toLowerCase().replace(/ /g, ''));
+            var url_title = encodeURI(this.params.hackathon.toLowerCase().replace(/ /g, ''));
             var hackathon = Session.get("current_hackathon");
-
             if(!hackathon || hackathon.url_title != url_title) {
                 hackathon = Hackathons.findOne({url_title: url_title});
                 if(hackathon) {
@@ -268,7 +286,7 @@ Router.map(function() {
             }
 
             //Check to see if actually an invite code not a hackathon
-            var invite_code = this.params._title;
+            var invite_code = this.params.hackathon;
             Meteor.call('hackathon_by_code', invite_code, function(err, title) {
                 if(title) {
                     Session.set("invite_code", invite_code);
@@ -278,19 +296,17 @@ Router.map(function() {
 
             return hackathon;
         },
-        waitOn: function() { return Meteor.subscribe('hackathon_and_ideas', this.params._title)},
+        waitOn: function() { 
+            return Meteor.subscribe('hackathon_and_ideas', this.params.hackathon)
+        },
         yieldTemplates: {
             'hackathon_nav': {to: 'nav'}
         },
         onBeforeAction: function () {
-            if (!Meteor.user()) {
-              if (Meteor.loggingIn()) {
-                this.next();
-              } else {
-                Session.set("invite_code", this.params._title);
-                Router.go('signup');
-              }
-            } else {
+            if (!Meteor.user()) {// TODO OR NOT A MEMBER OF hackathon
+                Router.go(this.params.hackathon+'/join');
+            } 
+            else {
                 this.next();
             }
         }

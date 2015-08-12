@@ -1,26 +1,26 @@
 <template name="admin">
-{{#if isInRole 'admin' 'all'}}
-<div class="view admin-view">
-    <div class="inner-view">
-        <div class="settings-form">
-            <h1>admin settings</h1>
-            <div>
-                {{> adminHackathonList }}
+    {{#if isInRole 'admin' 'all'}}
+    <div class="view admin-view">
+        <div class="inner-view">
+            <div class="settings-form">
+                <h1>admin settings</h1>
+                <div>
+                    {{> adminHackathonList }}
+                </div>
+                <form action="action" id="create_hackathon">
+                    <label>New hackathon</label>
+                    <input id="add_hackathon_button" type="submit" value="Add">
+                    <input id="new_hackathon_name" autocomplete="off" type="text" value="{{hackathon_name}}">
+                </form>
+                <!-- 
+                <div>
+                    <input type="submit" value="Save Changes">
+                </div>
+                -->
             </div>
-            <form action="action" id="create_hackathon">
-                <label>New hackathon</label>
-                <input id="add_hackathon_button" type="submit" value="Add">
-                <input id="new_hackathon_name" autocomplete="off" type="text" value="{{hackathon_name}}">
-            </form>
-            <!-- 
-            <div>
-                <input type="submit" value="Save Changes">
-            </div>
-            -->
         </div>
     </div>
-</div>
-{{/if}}
+    {{/if}}
 </template>
 
 <template name="adminHackathonList">
@@ -43,6 +43,3 @@
     <td><p class='invite-code'>{{invite_code}}</p></td>
 </tr>
 </template>
-
-
-    

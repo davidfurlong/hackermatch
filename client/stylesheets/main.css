@@ -13,6 +13,10 @@ html {
 	font-smoothing: antialiased;
 }
 
+body {
+	font-family: Avenir-Book, Avenir, helvetica, sans-serif;
+}
+
 /* HOME PAGE */
 #home-nav > .navbar {
 	margin-bottom: 0;
@@ -192,6 +196,12 @@ html {
 
 #sidebar-exit {
 	display: none;
+}
+
+#idea-filter li {
+	list-style-type: none;
+	display: inline;
+	padding: 0 10px;
 }
 
 .ideas-icon {

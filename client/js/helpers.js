@@ -1,4 +1,3 @@
-
 /* START HANDLEBARS HELPERS */
 
 Handlebars.registerHelper('selected_hackathon',function(){
@@ -77,33 +76,129 @@ Handlebars.registerHelper('sortandarrayify',function(obj){
 
 /* END HANDLEBARS HELPERS */
 
+var IdeaFilters = {
+    'Hearted': function() {
+        var hackathon = Session.get("current_hackathon");
+        if(!hackathon) return;
+        var x = Ideas.find({hackathon_id: hackathon._id}).fetch();
+        x = _.filter(x, function(idea) {
+            var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
+            if(heart && heart.hearted) {
+                //Only added this to idea list that template receives, such that it's a local change only
+                idea.hearted = true;
+            } else {
+                idea.hearted = false;
+            }
+            idea.commentCount = Comments.find({ideaId: idea._id}).fetch().length;
+            return idea.hearted;
+        });
+        return x;
+    },
+    //Ideas that need your skills list
+    'Needs your skills': function() {  
+        var skills = Meteor.user().profile.skills;
+        var skillArray = [];
+        for(var key in skills) {
+            if(skills[key] == true) {
+                var attr = "skills." + key;
+                var skill_pair = {};
+                skill_pair[attr] = true;
+                skill_pair["userId"] = { $ne: Meteor.userId()};
+                skillArray.push(skill_pair);
+            }
+        }
+
+        if(skillArray.length == 0) {
+            return;
+        }
+        var hackathon = Session.get("current_hackathon");
+        if(!hackathon) return;
+        var x = Ideas.find({
+            $and: [
+                {hackathon_id: hackathon._id},
+                {$or: skillArray}
+            ]
+        }).fetch();
+        return x;
+    },
+    'All': function() {
+        var hackathon = Session.get("current_hackathon");
+        if(!hackathon) return;
+        //var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
+        var x = Ideas.find({hackathon_id: hackathon._id}).fetch();
+        return x;
+    },
+    'Yours': function() {
+        //Your ideas
+        var hackathon = Session.get("current_hackathon");
+        if(!hackathon) return;
+        var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: Meteor.userId()}]}).fetch();
+        return x;
+    }
+}
+
+
 Template.index.rendered = function(){
     $('.pt-triggers').css('background-color', 'transparent');
 }
 
-Template.ideaRow.events({
-    // open idea in sidebar
-    'click li.item-text' : function(e, t) {
-        e.preventDefault();
-        var idea_id = e.currentTarget.dataset.id;
-        Session.set("selectedIdea", idea_id);
+Template.person_filter.helpers({
+    filters: function(){
+        var filter_info = [];
+        var total_count = 0;                                                                                 
+        _.each(TeamFilters, function (key, value) {
+            filter_info.push({filter: value, count: key().length});
+        });
+
+        filter_info = _.sortBy(filter_info, function (x) { return x.filter; });
+        return filter_info;
     },
-    // toggle heart action
-    'click li.item-heart' : function(e, t) {
-        e.preventDefault();
-        var idea_id = e.currentTarget.dataset.id;
-        Meteor.call('heart_idea', idea_id, function(err, res) {});
+    selected: function(){
+        return Session.equals('team_filter', this.filter) ? 'selected' : '';  
     }
-});
+})
+
+Template.idea_filter.helpers({
+    filters: function(){
+        var filter_info = [];
+        var total_count = 0;                                                                                 
+        _.each(IdeaFilters, function (key, value) {
+            filter_info.push({filter: value, count: key().length});
+        });
+
+        filter_info = _.sortBy(filter_info, function (x) { return x.filter; });
+        return filter_info;
+    },
+    filter_text: function(){
+       return this.filter; 
+    },
+    selected: function(){
+        return Session.equals('idea_filter', this.filter) ? 'selected' : '';  
+    }
+})
 
 // Used to check whether profile is done loading yet
-Template.profile.helpers( {
+Template.profile.helpers({
     has_github_profile: function(){
         console.log(this);
         if(this.profile) {
             return true
         }
     }
+});
+
+Template.profile_sidebar.helpers({
+    opened: function(){
+        var profileSelected = Session.get("selectedProfile");
+        // Session.set("selectedIdea", "");
+        if(!profileSelected || profileSelected == "") {
+            return false;
+        } else {
+            Session.set('profile_sidebarOpened', 'open');
+            $('.pt-triggers, #pt-main, #title-bar').addClass('blur');
+            return true;
+        }
+    } 
 });
 
 Template.profile_contents.helpers({
@@ -317,7 +412,6 @@ Template.profile_contents.helpers({
     }
 });
 
-
 Template.person_list.helpers({
     People: function(){
         var hackathon = Session.get("current_hackathon");
@@ -348,9 +442,16 @@ Template.home.helpers({
             var me = Meteor.user().profile;
             return me.bio == null || me.bio == "" || me.contact == null || me.contact == "" || me.name == "" || me.name == null
         }
+    },
+    invite_code: function(){
+        var invite_code = Session.get('invite_code');
+        if(invite_code) {
+            return invite_code;
+        } else {
+            return 'I6WK9';
+        }
     }
 });
-
 
 Template.settings.helpers({
     name: function() {
@@ -400,7 +501,6 @@ Template.nav.helpers({
     }
 });
 
-
 Template.idea_list.helpers({
     ideas: function() {
         var hackathon = Session.get("current_hackathon");
@@ -414,6 +514,7 @@ Template.idea_list.helpers({
         var x = [];
 
         //Get Idea based off filter type
+        // TODO THROWS ERROR
         x = IdeaFilters[filter]();
         
         x = _.sortBy(x, function (x) { return -x.hearts; });
@@ -443,9 +544,19 @@ Template.sidebar.helpers({
             idea.commentThread = commentThread;
             return idea;
         }
+    },
+    opened: function(){
+        var ideaSelected = Session.get("selectedIdea");
+        // Session.set("selectedIdea", "");
+        if(!ideaSelected || ideaSelected == "") {
+            return false;
+        } else {
+            Session.set('sidebarOpened', 'open');
+            $('.pt-triggers, #pt-main, #title-bar').addClass('blur');
+            return true;
+        }
     }
 });
-
 
 Template.showHackathons.helpers({
     noIdeaPosted: function(){

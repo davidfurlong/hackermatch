@@ -52,11 +52,6 @@ Template.sidebar.events({
                 }); 
             }
         }
-    },
-    'keyup #comment-create' : function(e){
-        if(e.keyCode == 13){
-            $('#comment-create').submit();
-        }
     }
 });
 
@@ -83,6 +78,21 @@ Template.hackathon.events({
             Session.set('profile_sidebarOpened', '');
             $('.pt-triggers, #pt-main, #title-bar').removeClass('blur');
         } 
+    }
+});
+
+Template.ideaRow.events({
+    // open idea in sidebar
+    'click li.item-text' : function(e, t) {
+        e.preventDefault();
+        var idea_id = e.currentTarget.dataset.id;
+        Session.set("selectedIdea", idea_id);
+    },
+    // toggle heart action
+    'click li.item-heart' : function(e, t) {
+        e.preventDefault();
+        var idea_id = e.currentTarget.dataset.id;
+        Meteor.call('heart_idea', idea_id, function(err, res) {});
     }
 });
 
@@ -138,18 +148,28 @@ Template.createHackathon.events({
     }
 });
 
+Template.person_filter.events({ 
+  'mousedown .filter': function () {
+    if (Session.equals('team_filter', this.filter)) {
+        //Session.set('idea_filter', null);
+    } else {
+        Session.set('team_filter', this.filter);
+    }
+  }
+});
+
 Template.createIdea.events({
     'submit #create-idea': function(e){
         // get form submitted values
         var ideaName = e.target['idea-name'].value;
         var ideaDescription = e.target['idea-description'].value;
         var ideaSkillsNeeded = {
-            design: e.target['idea-need-designer'].value,
-            frontend: e.target['idea-need-frontend'].value,
-            backend: e.target['idea-need-backend'].value,
-            ios: e.target['idea-need-ios'].value,
-            android: e.target['idea-need-android'].value,
-            hardware: e.target['idea-need-hardware'].value
+            design: typeof e.target['idea-need-designer'] !== 'undefined' && (e.target['idea-need-designer'].value == 'on' ? true : false),
+            frontend: typeof e.target['idea-need-frontend'] !== 'undefined' && (e.target['idea-need-frontend'].value  == 'on' ? true : false),
+            backend: typeof e.target['idea-need-backend'] !== 'undefined' && (e.target['idea-need-backend'].value == 'on' ? true : false),
+            ios: typeof e.target['idea-need-ios'] !== 'undefined' && (e.target['idea-need-ios'].value == 'on' ? true : false),
+            android: typeof e.target['idea-need-android'] !== 'undefined' && (e.target['idea-need-android'].value == 'on' ? true : false),
+            hardware: typeof e.target['idea-need-hardware'] !== 'undefined' && (e.target['idea-need-hardware'].value == 'on' ? true : false)
         }
 
         var hackathon = Session.get("current_hackathon");
@@ -169,10 +189,9 @@ Template.createIdea.events({
                 // TODO notify user of error
                 console.log(error);
             }
-            Router.go('hackathon', {_title: hackathon.title});
         });
 
-        
+        Router.go('hackathon', {_title: hackathon.title});
     }
 });
 
