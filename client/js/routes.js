@@ -96,6 +96,7 @@ Router.map(function() {
                     Router.go('signup');
                 }
             }
+            this.next();
         }
     }); 
     this.route('index_hackathon', {
