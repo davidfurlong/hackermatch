@@ -1,72 +1,72 @@
-<template name="create_idea">
-    <div id="pt-main" class="pt-perspective">
-        <div class="pt-page pt-page-3 pt-page-current">
-            {{> idea_create_template }}
+<template name="createIdea">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <form class="form-horizontal">
+                <legend>Add an idea</legend>
+                <div class="form-group">
+                  <label for="textArea" class="col-lg-2 control-label">What is your idea?</label>
+                  <div class="col-lg-10">
+                    <textarea class="form-control" rows="3" id="textArea"></textarea>
+                    <span class="help-block">Try to keep your description to the point and include the most important things your idea does.</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="inputIdeaName" class="col-lg-2 control-label">Idea name or one-liner</label>
+                  <div class="col-lg-10">
+                    <input type="text" class="form-control" id="inputIdeaName" placeholder="">
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Which skills do you need?</label>
+                    <div class="col-lg-10">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox"> Designer
+                          </label>
+                        </div>
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox"> Frontend
+                          </label>
+                        </div>
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox"> Backend
+                          </label>
+                        </div>
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox"> iOS
+                          </label>
+                        </div>
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox"> Android
+                          </label>
+                        </div>
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox"> Hardware
+                          </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <button type="submit" class="btn btn-primary">Add Idea</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            $('body').on('click', '.messages-threads .convo', function(){
-                // swap to that message thread.
-            })
-            $('#new-conversation').click(function(){
-                var person = prompt('Who do you want to Message', 'Dave');
-                if(person != null){
-                    // Create new conversation thread to X.
-                }
-            });
-            
-            $('body').on('keydown', '.message-input', function(e){
-                if(e.keyCode == 13){
-                    console.log('submit message');
-                    $(e.currentTarget).val('');
-                }
-            });
-
-            $('body').on( 'click', '.btn-7f', activate);
-            $('.pt-page').css('minHeight', $(window).height()+50);
-            // $('body').height($('.pt-page-current').height());
-            // $('.messages').height($('.pt-page-2').height());
-            
-            
-        });
-        function activate(e) {
-            var self = e.currentTarget, activatedClass = 'btn-activated';
-            if( !classie.has( this, activatedClass ) ) {
-                classie.add( this, activatedClass );
-            }
-            else {
-                classie.remove(self, activatedClass);
-            }
-        }
-    </script>
 </template>
 
-<template name="idea_create_template">
-<div class="fs-form-wrap idea" id="fs-form-wrap-idea">
-    <form id="idea-create" action="action" class="fs-form idea fs-form-full" autocomplete="off">
-        <ol class="fs-fields">
-            <li>
-                <label class="fs-field-label fs-anim-upper" for="q1">What's your idea?</label>
-                <textarea class="fs-anim-lower" id="q1" name="q1" placeholder="Describe here"></textarea>
-            </li>
-            <li>
-                <label class="fs-field-label fs-anim-upper" for="q2">What's it called?</label>
-                <input class="fs-anim-lower" id="q2" name="q2" type="text" placeholder="(optional)"/>
-            </li>
-            <li id="last-field" data-input-trigger>
-                <label class="fs-field-label fs-anim-upper" for="q3">What skills does this idea need?</label>
-                <ul class="ac-custom ac-checkbox ac-cross fs-anim-lower fixer-quick">
-                    <li><input id="cb1" name="cb1" type="checkbox"><label for="cb1">Frontend</label></li>
-                    <li><input id="cb2" name="cb2" type="checkbox"><label for="cb2">Designer</label></li>
-                    <li><input id="cb3" name="cb3" type="checkbox"><label for="cb3">Backend</label></li>
-                    <li><input id="cb4" name="cb4" type="checkbox"><label for="cb4">Mobile</label></li>
-                    <li><input id="cb5" name="cb5" type="checkbox"><label for="cb5">Hardware</label></li>
-                </ul>
-            </li>
-        </ol><!-- /fs-fields -->
-        <button class="fs-submit" type="submit">Add idea</button>
-    </form><!-- /fs-form -->
-</div><!-- /fs-form-wrap -->
+<template name="idea_filter">
+    <div class="filters">
+        {{#each filters}}
+        <div class="filter {{selected}}">
+            <span class="filter_text">{{filter_text}} <span class="count">({{count}})</span> </span>
+        </div>
+        {{/each}}
+    </div>
 </template>

@@ -132,6 +132,12 @@ Template.admin.events({
     }
 });
 
+Template.create_hackathon.events({
+    'submit #add-hackathon-form': function(){
+        
+    }
+});
+
 Template.idea_create_template.events({
     'keyup #idea-create' : function(e){
         if(e.keyCode == 13){

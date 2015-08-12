@@ -3,11 +3,9 @@
     {{#if has_github_profile }}
         {{> profile_contents }}
     {{else}}
-        <div style="height: 100%; width: 100%" class="loading-profile">
-        <div style="position: fixed; top: 50%; left: 50%; ">
-            <h3 style="color: black; float:right; margin-top: 5px; margint-left: 10px; margin-left: 10px;" >Profile loading</h3>
-        </div> 
-        </div> 
+      <div class="loading-profile">
+        <h3>Profile loading</h3>
+      </div>
     {{/if}}
   </div>
 </template>
@@ -15,7 +13,7 @@
   <div class="row">
     <div class="col-md-3">
       <div id="picture">
-        <img src="{{avatar_url}}" height="200px" width="200px" /> <!-- {{avatar_url}} -->
+        <img src="{{avatar_url}}" height="200px" width="200px" />
       </div>
       <div id="contact">
         {{#if github }}

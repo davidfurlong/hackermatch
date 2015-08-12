@@ -1,51 +1,38 @@
-
-<template name="hackathonRow">
-    <p class="big"><a href="/{{url_title}}">{{title}}</a></p>
-</template>
-
 <template name="home">
-<div class="view home-view">
-    <div class="inner-view">
-        <div class="hackathons-form">
-            {{#if profileIncomplete}}
+            <!-- {{#if profileIncomplete}}
                 <div id="incomplete-profile" class="reminder">
                     Complete your profile <div style="float:right"><i class="fa fa-arrow-circle-o-right"></i></div>
                 </div>
-            {{/if}}
-            <div>
-                <h1>my hackathons</h1>
+            {{/if}} -->
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="row">
+                <h1>My hackathons</h1>
                 {{> myHackathonList }}
             </div>
             <div class="row">
                 <form action="action" id="join_hackathon">
-                    <div class="col-md-6">
-                        <label>join hackathon</label>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="inl-flex"> 
-                            <input id="join_hackathon_code" autocomplete="off" type="text" placeholder="invite code" value="{{invite_code}}">
-                            <input id="add_hackathon_button" type="submit" value="Submit">
-                        </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-addon">Join Hackathon by code</span>
+                        <input type="text" class="form-control" id="join_hackathon_code" placeholder="invite code" value="{{invite_code}}">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default" id="add_hackathon_button" type="submit">Join</button>
+                        </span>
+                      </div>
                     </div>
                 </form>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <center style='margin-top: 50px'><a href="mailto:dvfurlong@gmail.com">Want to add a hackathon?</a></center>
-                </div>
-            </div>
         </div>
     </div>
-</div>
+                
+            
 </template>
 
 <template name="myHackathonList">
-    {{#each hackathons}}
-        {{> hackathonRow }}
-    {{/each}}
+    <ul id="my-hackathon-list">
+        {{#each hackathons}}
+            <li><a href="/{{url_title}}">{{title}}</a></li>
+        {{/each}}
+    </ul>
 </template>
-
-
-
-
-

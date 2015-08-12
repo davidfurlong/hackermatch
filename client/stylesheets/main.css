@@ -9,13 +9,9 @@
 }
 
 html {
-/*	font-family: 'Avenir-Book', 'Avenir', helvetica, sans-serif;
-	font-weight: 400;
-	font-size: 1em;*/
 	-webkit-font-smoothing: antialiased;
 	font-smoothing: antialiased;
 }
-
 
 /* HOME PAGE */
 #home-nav > .navbar {
@@ -39,6 +35,17 @@ html {
 	padding: 0;
 }
 /* END HOME PAGE */
+
+/* hackathon sidebar */
+
+.sidebar-profile-avatar {
+	border-radius:50px;
+	margin-top:-5px;
+	width: 32px;
+	height: 32px;
+}
+
+/* end hackathon sidebar */
 
 .item-heart {
 	font-size: 14px;
@@ -92,61 +99,16 @@ html {
 	width: 46px;
 }
 
-.reminder {
-	padding: 5px 20px;
-	border: 1px solid rgba(0,0,0,0.3);
-	cursor: pointer;
-	color: rgba(0,0,0,0.3);
-	border-radius: 25px;
-	font-size: 20pt;
-}
-
 #feedback-module {
 	color: black;
 }
 
-hr {
-	margin: 5px 0 2px 0;
-	border-top: 1px dashed #333;
+#my-hackathon-list {
+	font-size: 16px;
 }
 
-.reminder .label {
-	margin-left: 20px;
-}
-
-.reminder:hover {
-	border: 1px solid rgba(0,0,0,0.3);
-	color: rgba(0,0,0,0.5);
-}
-
-#no-idea-posted {
-	border: 1px solid white;
-	color: white;
-}
-
-#no-idea-posted:hover {
-	border: 1px solid rgba(156,97,243,0.9);
-	color: rgba(156,97,243,0.9);
-}
-
-#team-reminder {
-	margin-top: 10px;
-	border: 1px solid rgba(243,243,21,0.7);
-	color: rgba(243,243,21,0.7);
-}
-
-#team-reminder:hover {
-	border: 1px solid rgba(243,243,21,0.9);
-	color: rgba(243,243,21,0.9);
-}
-
-
-#brand {
-	padding-left: 10px;
-	font-size: 24pt;
-	font-weight: 600;
-	float: left;
-	font-family: 'Avenir-Black', 'Avenir', helvetica, sans-serif;
+#my-hackathon-list > li {
+	list-style-type: none;
 }
 
 #home-link {
@@ -178,40 +140,9 @@ hr {
 	color: #ccc;
 }
 
-.top-right-menu a {
-	font-size: 24pt;
-	margin-right: 30px;
-	cursor: pointer;
-	color: #eee;
-
-}
-
 .user-title {
 	font-weight: 200;
 	color: rgba(0,0,0,0.3);
-}
-
-.index-page {
-	background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAGElEQVQIW2NkYGD4D8SMMBrEQAFwGZwqAKzeBAUqvbkLAAAAAElFTkSuQmCC');
-}
-
-
-#splash a {
-    color: white;
-    font-size: 60px;
-/*    text-shadow:0px 0px 0 rgb(221,221,221),0px 1px 0 rgb(206,206,206),0px 2px 0 rgb(192,192,192),0px 3px 0 rgb(177,177,177),0px 4px 0 rgb(163,163,163),0px 5px 0 rgb(148,148,148), 0px 6px 0 rgb(134,134,134),0px 7px 6px rgba(0,0,0,0.6),0px 7px 1px rgba(0,0,0,0.5),0px 0px 6px rgba(0,0,0,.2);
-*/}
-
-#splash a:hover {
-    color: #fff;
-}
-
-.top-right-menu a:hover {
-	color: #fff;
-}
-
-.pt-page {
-	box-sizing: border-box;
 }
 
 /* TOOLS */
@@ -247,16 +178,6 @@ hr {
 	width: 128px;
 }
 
-a {
-	color: rgba(0,0,0,0.3);
-	text-decoration: none;
-	outline: none;
-}
-
-a:hover, a:focus {
-	color: rgba(0,0,0,0.5);
-}
-
 .sidebar a {
 	color: rgba(0,0,0,0.8);
 }
@@ -272,7 +193,6 @@ a:hover, a:focus {
 #sidebar-exit {
 	display: none;
 }
-
 
 .ideas-icon {
 	display: none !important;

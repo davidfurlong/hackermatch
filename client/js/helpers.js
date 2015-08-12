@@ -99,8 +99,9 @@ Template.ideaRow.events({
 // Used to check whether profile is done loading yet
 Template.profile.helpers( {
     has_github_profile: function(){
+        console.log(this);
         if(this.profile) {
-            return this.profile.updated_at; 
+            return true
         }
     }
 });
@@ -393,7 +394,7 @@ Template.settings.helpers({
     }
 });
 
-Template.layout.helpers({
+Template.nav.helpers({
     'notifications': function(){
         return Notifications.find({userId: Meteor.userId()});
     }

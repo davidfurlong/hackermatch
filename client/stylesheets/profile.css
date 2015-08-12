@@ -2,10 +2,6 @@
 	font-size: 20pt;
 }
 
-.pt-triggers {
-	background: #3b3f45;
-}
-
 #contact {
 	text-align: center;
 	width: 100%;
@@ -19,15 +15,6 @@
 	color: #bbb;
 	text-transform: uppercase;
 	font-size: 16px;
-}
-
-#profile {
-	color: #222;
-	margin: 0;
-	clear: both;
-	padding: 70px 0px;
-	background: #efefef;
-	-webkit-font-smoothing: antialiased;
 }
 
 .languages {

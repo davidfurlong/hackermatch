@@ -1,28 +1,42 @@
-<template name="hackathon_nav">
-    <a id="find-ideas-link" href="/{{selected_hackathon.url_title}}"><span id="ideas-text">Ideas</span><i class="ideas-icon fa fa-lightbulb-o"></i></a>
-    <!--    <a id="find-teams-link" href="/people"><span id="teams-text">People</span><i class="teams-icon fa fa-user"></i></a> -->
+<template name="hackathonNav">
+    <h1>{{selected_hackathon.url_title}}</h1>
+      <ul>
+          <li>
+              <a id="find-ideas-link" href="/{{selected_hackathon.url_title}}/ideas">Ideas
+              </a>
+          </li>
+          <li>
+              <a id="find-teams-link" href="/{{selected_hackathon.url_title}}/hackers">
+              People
+              </a>
+          </li>
+          <li>
+              <a id="" href="/{{selected_hackathon.url_title}}/ideas/new">
+              Add Idea
+              </a>
+          </li>
+      </ul>
 </template>
+
 <template name="hackathon">
+    {{> hackathonNav}}
     {{> profile_sidebar}}
-    {{> sidebar}}
-    <div id="pt-main" class="">
-        <div class="view pt-page-1">
-            <div class="inner-view page-container">
-                {{#if isInRole 'hacker' url_title}}
-                    {{> showHackathons}}
-                {{else}}
-                    <div class="row label">
-                        You have not joined this hackathon
-                    </div>
-                {{/if}}
+    {{> sidebar}} <!-- This is the comments sidebar -->
+    <div class="container">
+        {{#if isInRole 'hacker' url_title}}
+            {{> showHackathons}}
+        {{else}}
+            <div class="row label">
+                You have not joined this hackathon
             </div>
-        </div>
+        {{/if}}
     </div>
 </template>
+
 <template name="profile_sidebar">
     <div class="profile_sidebar" style="{{#if opened}}{{else}}display:none;{{/if}}" >
         {{#if profile.avatar_url}}
-            <img src="{{idea.author.profile.avatar_url}}" width="32px" height="32px" style="border-radius:50px;margin-top:-5px">
+            <img src="{{idea.author.profile.avatar_url}}" class="sidebar-profile-avatar">
         {{/if}}
         <div class="sidebar-item-title">
             <h1>{{profile.name}}</h1>
@@ -79,40 +93,8 @@
           {{/each}}
         </div>
     </div>
-</template><!-- 
-<template name="update_user">
-    <input id="logout" type="submit" value="Log Out">
-    <form id="update-user-form" action="action" class="settings-form">
-        <h1>My Settings</h1>
-        <div>
-            <label>Name</label>
-            <input id="user_name" type="text" value="{{name}}">
-        </div>
-        <div>
-            <label>Contact</label>
-            <input id="user_contact" type="text" value="{{contact}}">
-        </div>
-        <div>
-            <label>Skills</label>
-            <ul id="user_skills" class="ac-custom ac-checkbox ac-cross fs-anim-lower">
-                <li><input id="sb1" name="sb1" type="checkbox"><label for="sb1">Webdev </label></li>
-                <li><input id="sb2" name="sb2" type="checkbox"><label for="sb2">Designer</label></li>
-                <li><input id="sb3" name="sb3" type="checkbox"><label for="sb3">Backend</label></li>
-                <li><input id="sb4" name="sb4" type="checkbox"><label for="sb4">Mobile</label></li>
-                <li><input id="sb5" name="sb5" type="checkbox"><label for="sb5">Hardware</label></li>
-            </ul>
-            {{skills}}
-        </div>
-        <div>
-            <label>Github username</label>
-            <input id="user_github" type="text" value="{{github}}">
-        </div>
-        <div>
-            <input type="submit" value="Save Changes">
-        </div>
-    </form>
-</template> -->
-        
+</template>
+
 <template name="idea_list">
     {{#each ideas}}    
         {{> ideaRow }}
@@ -165,60 +147,61 @@
 </template>
 
 <template name="sidebar">
-<div class="sidebar" style="{{#if opened}}{{else}}display:none;{{/if}}" >
-    <div id="sidebar-exit"><i class="fa fa-times"></i></div>
-    <div class="sidebar-item-author">
-        posted by 
-        {{#if idea.user_profile.avatar_url}}
-        <a href="/user/{{idea.user_profile.login}}" style="margin-left:10px"><img src="{{idea.user_profile.avatar_url}}" width="32px" height="32px" style="border-radius:50px;margin-top:-5px"></a>
-        {{/if}}
-        <a href="/user/{{idea.user_profile.login}}">{{idea.user_profile.name}}</a>
-        {{toMoment time}}
-    </div>
-    <div class="sidebar-item-title"><h1>{{idea.name}}</h1></div>
-    <div class="sidebar-item-desc">{{idea.description}}</div>
-    {{#if anyTrue idea.skills}}
-        <div class="sidebar-item-skills">
-            <span class="sidebar-prompt">Looking for people with </span>
+    <div class="sidebar" style="{{#if opened}}{{else}}display:none;{{/if}}" >
+        <div id="sidebar-exit"><i class="fa fa-times"></i></div>
+        <div class="sidebar-item-author">
+            posted by 
+            {{#if idea.user_profile.avatar_url}}
+            <a href="/user/{{idea.user_profile.login}}" style="margin-left:10px"><img src="{{idea.user_profile.avatar_url}}" width="32px" height="32px" style="border-radius:50px;margin-top:-5px"></a>
+            {{/if}}
+            <a href="/user/{{idea.user_profile.login}}">{{idea.user_profile.name}}</a>
+            {{toMoment time}}
+        </div>
+        <div class="sidebar-item-title"><h1>{{idea.name}}</h1></div>
+        <div class="sidebar-item-desc">{{idea.description}}</div>
+        {{#if anyTrue idea.skills}}
+            <div class="sidebar-item-skills">
+                <span class="sidebar-prompt">Looking for people with </span>
 
-            {{#if idea.skills.webdev}}
-            <span class="badge t1">Frontend</span>
-            {{/if}}
-            {{#if idea.skills.design}}
-            <span class="badge t2">Design</span>
-            {{/if}}
-            {{#if idea.skills.backend}}
-            <span class="badge t3">Backend</span>
-            {{/if}}
-            {{#if idea.skills.hardware}}
-            <span class="badge t4">Hardware</span>
-            {{/if}}
-            {{#if idea.skills.mobile}}
-            <span class="badge t5">Mobile</span>
-            {{/if}}
-            <span class="sidebar-prompt"> skills</span>  
-	   </div>
-    {{/if}}
-    <br/>
-    <div class="sidebar-interested">
-    Hearted by:
-    {{#each idea.hearts}}
-    <a href="/user/{{.}}">{{.}}</a>
-    {{/each}}
+                {{#if idea.skills.webdev}}
+                <span class="badge t1">Frontend</span>
+                {{/if}}
+                {{#if idea.skills.design}}
+                <span class="badge t2">Design</span>
+                {{/if}}
+                {{#if idea.skills.backend}}
+                <span class="badge t3">Backend</span>
+                {{/if}}
+                {{#if idea.skills.hardware}}
+                <span class="badge t4">Hardware</span>
+                {{/if}}
+                {{#if idea.skills.mobile}}
+                <span class="badge t5">Mobile</span>
+                {{/if}}
+                <span class="sidebar-prompt"> skills</span>  
+    	   </div>
+        {{/if}}
+        <br/>
+        <div class="sidebar-interested">
+        Hearted by:
+        {{#each idea.hearts}}
+        <a href="/user/{{.}}">{{.}}</a>
+        {{/each}}
+        </div>
+        <div class="sidebar-item-comments">
+    	    <form id="comment-create" action="action" autocomplete="off">
+                <input id="comment-text" type="text" placeholder="Discuss here">
+    		    <input type="submit" value="Comment">
+            </form>
+            <div class="sidebar-item-comments-thread">
+                {{#each reverse idea.commentThread}}    
+                    {{> comment_template }}
+                {{/each}}
+    		</div>
+        </div>
     </div>
-    <div class="sidebar-item-comments">
-	    <form id="comment-create" action="action" autocomplete="off">
-            <input id="comment-text" type="text" placeholder="Discuss here">
-		    <input type="submit" value="Comment">
-        </form>
-        <div class="sidebar-item-comments-thread">
-            {{#each reverse idea.commentThread}}    
-                {{> comment_template }}
-            {{/each}}
-		</div>
-    </div>
-</div>
 </template>
+
 <template name="comment_template">
 	<div class="comment">
         <span class="comment-avatar">
@@ -253,54 +236,7 @@
 	</div>
 </template>
 
-
-<template name="idea_create_template_1">
-<div class="fs-form-wrap idea" id="fs-form-wrap-idea">
-    <form id="idea-create" action="action" class="fs-form idea fs-form-full" autocomplete="off">
-        <ol class="fs-fields">
-            <li>
-                <label class="fs-field-label fs-anim-upper" for="q1">What's your idea?</label>
-                <textarea class="fs-anim-lower" id="q1" name="q1" placeholder="Describe here"></textarea>
-            </li>
-            <li>
-                <label class="fs-field-label fs-anim-upper" for="q2">What's it called?</label>
-                <input class="fs-anim-lower" id="q2" name="q2" type="text" placeholder="(optional)"/>
-            </li>
-            <li id="last-field" data-input-trigger>
-                <label class="fs-field-label fs-anim-upper" for="q3">Who else do you need on your team?</label>
-                <ul class="ac-custom ac-checkbox ac-cross fs-anim-lower">
-                    <li><input id="cb1" name="cb1" type="checkbox"><label for="cb1">Frontend</label></li>
-                    <li><input id="cb2" name="cb2" type="checkbox"><label for="cb2">Designer</label></li>
-                    <li><input id="cb3" name="cb3" type="checkbox"><label for="cb3">Backend</label></li>
-                    <li><input id="cb4" name="cb4" type="checkbox"><label for="cb4">Mobile</label></li>
-                    <li><input id="cb5" name="cb5" type="checkbox"><label for="cb5">Hardware</label></li>
-                </ul>
-            </li>
-        </ol><!-- /fs-fields -->
-        <button class="fs-submit" type="submit">Add idea</button>
-    </form><!-- /fs-form -->
-</div><!-- /fs-form-wrap -->
-</template>
-
-<template name="idea_filter">
-    <div class="filters">
-        {{#each filters}}
-        <div class="filter {{selected}}">
-            <span class="filter_text">{{filter_text}} <span class="count">({{count}})</span> </span>
-        </div>
-        {{/each}}
-    </div>
-</template>
-
 <template name="showHackathons">
-    <div id="no-idea-posted" class="reminder">
-        <i class="flaticon-light85"></i><span class="label">Post an Idea</span><div style="float:right"><i class="flaticon-right192"></i></div>
-    </div>
-    <!--
-    <div id="team-reminder" class="reminder">
-        <i class="flaticon-personal32"></i><span class="label">Find people</span><div style="float:right"><i class="flaticon-right192"></i></div>
-    </div>
-    -->
     <div class="row label">
         {{> idea_filter }}
     </div>

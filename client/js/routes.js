@@ -8,13 +8,104 @@ Router.onBeforeAction('loading');
 Router.map(function() {
     this.route('index', {
         path: '/',
-        layoutTemplate: ''
+        layoutTemplate: '',
+        onBeforeAction: function() {
+            if (Meteor.user()) {
+                Router.go('home');
+            } else {
+                this.next();
+            }
+        }
     });
     this.route('create_hackathon', {
-        path: '/create'
+        path: '/create',
+        onBeforeAction: function () {
+            if (!Meteor.user()) {
+                if (Meteor.loggingIn()) {
+                } 
+                else {
+                Router.go('signup');
+                }
+            }
+        }
     });
+    this.route('people', {
+        path: '/:hackathon/hackers' , 
+        data: function() {
+            var hackathon = Session.get("current_hackathon");
+            if(hackathon) {
+                hackathon.override_title = hackathon.title;
+                hackathon.override_title_url = '/' + hackathon.url_title;
+            }
+            return hackathon;
+        },
+        waitOn: function() { 
+            var hackathon = Session.get("current_hackathon");
+            if(!hackathon) return;
+            return Meteor.subscribe('users_and_hackathon', hackathon.title)
+        },
+        yieldTemplates: {
+            'hackathon_nav': {to: 'nav'}
+        },
+        onBeforeAction: function () {
+            if (!Meteor.user()) {
+                if (Meteor.loggingIn()) {
+                } 
+                else {
+                Router.go('signup');
+                }
+            } 
+            else {
+                if(!Session.get("current_hackathon")) {
+                    Router.go('home'); 
+                }
+            }
+        }
+    });
+    this.route('hackathon_nav', {
+        path: '/:hackathon/ideas' , 
+        data: function() {
+            return {};
+        }
+    });
+    this.route('alerts', {
+        path: '/alerts' , 
+        data: function() {
+            return {};
+        }
+    });
+    this.route('create_idea', {
+        path: '/:hackathon/ideas/new' , 
+        data: function() {
+            var hackathon = Session.get("current_hackathon");
+            if(hackathon) {
+                hackathon.override_title = hackathon.title;
+                hackathon.override_title_url = '/' + hackathon.url_title;
+            }
+            return hackathon;
+        },
+        //  waitOn: function() { return Meteor.subscribe('hackathon_and_ideas', this.params._title)},
+        yieldTemplates: {
+          'hackathon_nav': {to: 'nav'}
+        },
+        onBeforeAction: function () {
+            if (!Meteor.user()) {
+              if (Meteor.loggingIn()) {
+                this.next();
+              } else {
+                Router.go('signup');
+              }
+            } else {
+                if(!Session.get("current_hackathon")) {
+                    Router.go('home'); 
+                } else {
+                    this.next();
+                }
+            }
+        }
+    }); 
     this.route('index_hackathon', {
-        path: '/join/:hackathon',
+        path: '/:hackathon/join',
         data: function() { 
             // todo get number of hackers at the hackathon
             return { 'name': this.params.hackathon }
@@ -138,7 +229,8 @@ Router.map(function() {
             }
         }
     });
-    this.route('admin', {path: '/admin', 
+    this.route('admin', {
+        path: '/admin', 
         data: function() {
             var obj = {
                 title: 'admin',
@@ -166,71 +258,9 @@ Router.map(function() {
             }
         }
     });
-   
-    this.route('create_idea', {path: '/idea' , 
-        data: function() {
-            var hackathon = Session.get("current_hackathon");
-            if(hackathon) {
-                hackathon.override_title = hackathon.title;
-                hackathon.override_title_url = '/' + hackathon.url_title;
-            }
-            return hackathon;
-        },
-        //  waitOn: function() { return Meteor.subscribe('hackathon_and_ideas', this.params._title)},
-        yieldTemplates: {
-          'hackathon_nav': {to: 'nav'}
-        },
-        onBeforeAction: function () {
-            if (!Meteor.user()) {
-              if (Meteor.loggingIn()) {
-                this.next();
-              } else {
-                Router.go('signup');
-              }
-            } else {
-                if(!Session.get("current_hackathon")) {
-                    Router.go('home'); 
-                } else {
-                    this.next();
-                }
-            }
-        }
-    });   
-    /*
-    this.route('people', {path: '/people' , 
-        data: function() {
-            var hackathon = Session.get("current_hackathon");
-            if(hackathon) {
-                hackathon.override_title = hackathon.title;
-                hackathon.override_title_url = '/' + hackathon.url_title;
-            }
-            return hackathon;
-        },
-        waitOn: function() { 
-            var hackathon = Session.get("current_hackathon");
-            if(!hackathon) return;
-            return Meteor.subscribe('users_and_hackathon', hackathon.title)
-        },
-        yieldTemplates: {
-            'hackathon_nav': {to: 'nav'}
-        },
-        onBeforeAction: function () {
-            if (!Meteor.user()) {
-                if (Meteor.loggingIn()) {
-                } 
-                else {
-                Router.go('signup');
-                }
-            } 
-            else {
-                if(!Session.get("current_hackathon")) {
-                    Router.go('home'); 
-                }
-            }
-        }
-    });    
-    */
-    this.route('hackathon', {path: '/:_title' , 
+    
+    this.route('hackathon', {
+        path: '/:_title' , 
         data: function() {
             var url_title = encodeURI(this.params._title.toLowerCase().replace(/ /g, ''));
             var hackathon = Session.get("current_hackathon");
