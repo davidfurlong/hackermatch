@@ -119,6 +119,9 @@ a.link-border {
 
 .ion-heart {
     color: #ddd;
+}
+
+.icon-star {
 	cursor: pointer;
 }
 
@@ -303,6 +306,14 @@ a.link-border:focus::before {
 	color: black;
 	padding: 20px 40px 20px 40px;
 	border-left: 1px solid #999;
+}
+
+.count {
+	color: #aaa;
+}
+
+.filter a:hover, .filter a:active, .filter a:visited {
+	text-decoration: none;
 }
 
 .sidebar h1 {

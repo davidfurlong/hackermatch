@@ -1,0 +1,70 @@
+<template name="idea_filter">
+    <ul class="filters" id="idea-filter">
+        {{#each filters}}
+        <li class="filter {{selected}}">
+            <a href="">
+                <span class="filter_text">{{filter_text}} <span class="count">({{count}})</span> </span>
+            </a>
+        </li>
+        {{/each}}
+    </ul>
+</template>
+
+<template name="idea_list">
+    {{#each ideas}}    
+        {{> ideaRow }}
+    {{/each}}
+</template>
+
+<template name="ideas">
+    {{> hackathon_nav }}
+    {{> idea_list }}
+</template>
+
+<template name="ideaRow">
+    <ul class="row item idea-list cf">
+        <li data-id="{{_id}}" class="item-action item-heart">
+            <i class="ion-heart icon-star {{#if hearted}}hearted{{/if}}"></i>
+            <span class="item-hearts">{{len hearts}}</span>
+        </li>
+        <li data-id="{{_id}}" class="item-text">
+        	<span class="item-title">{{name}}</span>
+        	<span class="item-desc">{{description}}</span>
+        	<br/>
+            <span class="item-skills">
+                <span class="skill_tag">Looking for:</span>
+        	    {{#if skills.frontend}}
+                <span class="badge t1">Frontend</span>
+                {{/if}}
+                {{#if skills.design}}
+                <span class="badge t2">Design</span>
+                {{/if}}
+                {{#if skills.backend}}
+                <span class="badge t3">Backend</span>
+                {{/if}}
+                {{#if skills.hardware}}
+                <span class="badge t4">Hardware</span>
+                {{/if}}
+                {{#if skills.ios}}
+                <span class="badge t5">iOS</span>
+                {{/if}}
+                {{#if skills.android}}
+                <span class="badge t6">Android</span>
+                {{/if}}
+        	</span>
+            <span class="item-comments">
+            {{#if positive commentCount}}
+                {{commentCount}}
+                <i class="fa fa-comment"></i>
+            {{/if}}
+            </span>
+        </li>
+        <li class="item-icon" style="float:right;">
+            {{#if user_profile.avatar_url}}
+            <a href="/user/{{user_profile.login}}"><img src="{{user_profile.avatar_url}}" width="64px" height="64px" style="border-radius:50px"></a>
+            {{else}}
+            <img src="monkey.png" width="64px" height="64px" style="border-radius:50px;">
+            {{/if}}
+        </li>
+    </ul>
+</template>

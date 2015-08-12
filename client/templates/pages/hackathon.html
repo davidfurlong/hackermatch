@@ -111,8 +111,7 @@
         {{#if anyTrue idea.skills}}
             <div class="sidebar-item-skills">
                 <span class="sidebar-prompt">Looking for people with </span>
-
-                {{#if idea.skills.webdev}}
+                {{#if idea.skills.frontend}}
                 <span class="badge t1">Frontend</span>
                 {{/if}}
                 {{#if idea.skills.design}}
@@ -124,15 +123,18 @@
                 {{#if idea.skills.hardware}}
                 <span class="badge t4">Hardware</span>
                 {{/if}}
-                {{#if idea.skills.mobile}}
-                <span class="badge t5">Mobile</span>
+                {{#if idea.skills.ios}}
+                <span class="badge t5">iOS</span>
+                {{/if}}
+                {{#if idea.skills.android}}
+                <span class="badge t6">Android</span>
                 {{/if}}
                 <span class="sidebar-prompt"> skills</span>  
     	   </div>
         {{/if}}
         <br/>
         <div class="sidebar-interested">
-        Hearted by:
+        <i class="ion ion-heart"></i>
         {{#each idea.hearts}}
         <a href="/user/{{.}}">{{.}}</a>
         {{/each}}
@@ -162,11 +164,11 @@
         </span>
         <span class="comment-author"><a href="/user/{{login}}">{{#if username}}{{username}}{{else}}{{login}}{{/if}}</a></span>
         <span class="comment-skills">
-            {{#if skills.webdev}}
+            {{#if skills.frontend}}
             <span class="badge t1">Frontend</span>
             {{/if}}
             {{#if skills.design}}
-            <span class="badge t2">Designer</span>
+            <span class="badge t2">Design</span>
             {{/if}}
             {{#if skills.backend}}
             <span class="badge t3">Backend</span>
@@ -174,8 +176,11 @@
             {{#if skills.hardware}}
             <span class="badge t4">Hardware</span>
             {{/if}}
-            {{#if skills.mobile}}
-            <span class="badge t5">Mobile</span>
+            {{#if skills.ios}}
+            <span class="badge t5">iOS</span>
+            {{/if}}
+            {{#if skills.android}}
+            <span class="badge t6">Android</span>
             {{/if}}  
         </span>
         <span class="comment-time">{{toMoment time}}</span>

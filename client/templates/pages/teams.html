@@ -43,21 +43,24 @@
         	<hr/>
             <span class="item-skills">
                 <span class="skill_tag"></span>
-        	    {{#if profile.skills.webdev}}
-        	    <span class="badge t1">Frontend</span>
-        	    {{/if}}
-        	    {{#if profile.skills.design}}
-        	    <span class="badge t2">Design</span>
-        	    {{/if}}
-        	    {{#if profile.skills.backend}}
-        	    <span class="badge t3">Backend</span>
-        	    {{/if}}
-        	    {{#if profile.skills.hardware}}
-        	    <span class="badge t4">Hardware</span>
-        	    {{/if}}
-        	    {{#if profile.skills.mobile}}
-        	    <span class="badge t5">Mobile</span>
-        	    {{/if}}
+        	    {{#if profile.skills.frontend}}
+                <span class="badge t1">Frontend</span>
+                {{/if}}
+                {{#if profile.skills.design}}
+                <span class="badge t2">Design</span>
+                {{/if}}
+                {{#if profile.skills.backend}}
+                <span class="badge t3">Backend</span>
+                {{/if}}
+                {{#if profile.skills.hardware}}
+                <span class="badge t4">Hardware</span>
+                {{/if}}
+                {{#if profile.skills.ios}}
+                <span class="badge t5">iOS</span>
+                {{/if}}
+                {{#if profile.skills.android}}
+                <span class="badge t5">Android</span>
+                {{/if}}
         	</span>
             <span class="langs item-skills">
                 {{#each profile.languages}}

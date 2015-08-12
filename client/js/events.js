@@ -164,14 +164,14 @@ Template.createIdea.events({
         var ideaName = e.target['idea-name'].value;
         var ideaDescription = e.target['idea-description'].value;
         var ideaSkillsNeeded = {
-            design: typeof e.target['idea-need-designer'] !== 'undefined' && (e.target['idea-need-designer'].value == 'on' ? true : false),
-            frontend: typeof e.target['idea-need-frontend'] !== 'undefined' && (e.target['idea-need-frontend'].value  == 'on' ? true : false),
-            backend: typeof e.target['idea-need-backend'] !== 'undefined' && (e.target['idea-need-backend'].value == 'on' ? true : false),
-            ios: typeof e.target['idea-need-ios'] !== 'undefined' && (e.target['idea-need-ios'].value == 'on' ? true : false),
-            android: typeof e.target['idea-need-android'] !== 'undefined' && (e.target['idea-need-android'].value == 'on' ? true : false),
-            hardware: typeof e.target['idea-need-hardware'] !== 'undefined' && (e.target['idea-need-hardware'].value == 'on' ? true : false)
+            design: e.target['idea-need-designer'].checked,
+            frontend: e.target['idea-need-frontend'].checked,
+            backend: e.target['idea-need-backend'].checked,
+            ios: e.target['idea-need-ios'].checked,
+            android: e.target['idea-need-android'].checked,
+            hardware: e.target['idea-need-hardware'].checked,
         }
-
+        
         var hackathon = Session.get("current_hackathon");
 
         var idea = {
@@ -184,6 +184,8 @@ Template.createIdea.events({
             skills: ideaSkillsNeeded,
             comments: {}
         };
+        Router.go('hackathon', { hackathon: hackathon.title});
+
         Meteor.call('create_idea', idea, function(err, res) {
             if(err){
                 // TODO notify user of error
@@ -191,7 +193,7 @@ Template.createIdea.events({
             }
         });
 
-        Router.go('hackathon', {_title: hackathon.title});
+        
     }
 });
 

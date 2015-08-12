@@ -137,7 +137,6 @@ var IdeaFilters = {
     }
 }
 
-
 Template.index.rendered = function(){
     $('.pt-triggers').css('background-color', 'transparent');
 }
@@ -498,6 +497,10 @@ Template.settings.helpers({
 Template.nav.helpers({
     'notifications': function(){
         return Notifications.find({userId: Meteor.userId()});
+    },
+    'hackathons': function(){
+        console.log(Hackathons.find({}).fetch());
+        return Hackathons.find({}).fetch()
     }
 });
 
@@ -532,7 +535,6 @@ Template.idea_list.helpers({
         return x;
     }
 });
-
  
 Template.sidebar.helpers({
     idea: function() {

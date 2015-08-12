@@ -1,6 +1,7 @@
 Router.configure({
     notFoundTemplate: 'notFound',
-    layoutTemplate: 'layout'
+    layoutTemplate: 'layout',
+    loadingTemplate: 'loading'
 });
 
 Router.onBeforeAction('loading');
@@ -33,7 +34,7 @@ Router.map(function() {
     this.route('people', {
         path: '/:hackathon/hackers' , 
         data: function() {
-            var hackathon = Session.get("current_hackathon");
+            var hackathon = this.params.hackathon;
             if(hackathon) {
                 hackathon.override_title = hackathon.title;
                 hackathon.override_title_url = '/' + hackathon.url_title;
@@ -90,10 +91,10 @@ Router.map(function() {
     this.route('create_idea', {
         path: '/:hackathon/ideas/new' , 
         data: function() {
-            var hackathon = Session.get("current_hackathon");
+            var hackathon = this.params.hackathon;
             if(hackathon) {
-                hackathon.override_title = hackathon.title;
-                hackathon.override_title_url = '/' + hackathon.url_title;
+                hackathon.override_title = hackathon;
+                hackathon.override_title_url = '/' + hackathon;
             }
             return hackathon;
         },
@@ -109,7 +110,9 @@ Router.map(function() {
                     Router.go('signup');
                 }
             }
-            this.next();
+            else {
+                this.next();  
+            }   
         }
     }); 
     this.route('index_hackathon', {
