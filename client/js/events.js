@@ -132,81 +132,47 @@ Template.admin.events({
     }
 });
 
-Template.create_hackathon.events({
+Template.createHackathon.events({
     'submit #add-hackathon-form': function(){
-        
+        // todo add hackathon 
     }
 });
 
-Template.idea_create_template.events({
-    'keyup #idea-create' : function(e){
-        if(e.keyCode == 13){
-            if($('.fs-number-current').text() == "3") {
-                e.preventDefault();
-                $('.fs-continue').click();
-            }
+Template.createIdea.events({
+    'submit #create-idea': function(e){
+        // get form submitted values
+        var ideaName = e.target['idea-name'].value;
+        var ideaDescription = e.target['idea-description'].value;
+        var ideaSkillsNeeded = {
+            design: e.target['idea-need-designer'].value,
+            frontend: e.target['idea-need-frontend'].value,
+            backend: e.target['idea-need-backend'].value,
+            ios: e.target['idea-need-ios'].value,
+            android: e.target['idea-need-android'].value,
+            hardware: e.target['idea-need-hardware'].value
         }
-    },
-    'click .fs-continue' : function(e, t) {
-        if($('.fs-number-current').text() != "3") {
-            return;
-        }
-        e.preventDefault();
-        var description = t.find('#q1').value
-        , name = t.find('#q2').value
-        , webdev = t.find('#cb1').checked
-        , design = t.find('#cb2').checked
-        , backend = t.find('#cb3').checked
-        , mobile = t.find('#cb4').checked
-        , hardware = t.find('#cb5').checked;
 
-
-        //hackety hackety hack
-        $('#my-group').trigger('click');
-        $('#idea-create').removeClass('fs-form-overview')
-        $('#idea-create').addClass('fs-form-full');
-        $("#my-group").trigger("click");
-        $('.fs-fields li').removeClass('fs-current');
-        $($('.fs-fields li')[0]).addClass('fs-current');
-        $('.fs-fields input').val('');
-        $('.fs-fields textarea').val('');
-      
-        $('.fs-controls > *').addClass('fs-show');
-        $('.fs-controls').height($('.pt-page-3').height());
-        //using pageTransitions library, instead of Meteor routing...
-        
         var hackathon = Session.get("current_hackathon");
-       
-        //TODO make a better error case, shouldn't even get this far...
-        if(!hackathon || hackathon == "") {
-            console.log("no hackathon selected");
-            Router.go('home');
-            return;
-        }
-        
-        Router.go('hackathon', {_title: hackathon.title});
-
-        if(!description) return;
 
         var idea = {
-            name: name,
-            description: description,
-            userId: Meteor.userId(),
+            name: ideaName,
+            description: ideaDescription,
+            user_id: Meteor.userId(),
             hackathon_id: hackathon._id,
-            //            avatar_url: Meteor.user().profile.avatar_url,
-            //            github_username: Meteor.user().profile.login,
-            time: new Date().getTime(),
+            time_created: new Date().getTime(),
             user_profile: Meteor.user().profile,
-            skills: {
-                webdev: webdev,
-                backend: backend,
-                mobile: mobile,
-                design: design,
-                hardware: hardware
-            },
+            skills: ideaSkillsNeeded,
             comments: {}
         };
-        Meteor.call('create_idea', idea, function(err, res) {});
+        Meteor.call('create_idea', idea, function(err, res) {
+            if(err){
+                // TODO notify user of error
+                console.log(error);
+            }
+            Router.go('hackathon', {_title: hackathon.title});
+        });
+
+        
     }
 });
 

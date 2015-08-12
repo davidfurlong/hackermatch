@@ -84,22 +84,16 @@ Router.map(function() {
             }
             return hackathon;
         },
-        //  waitOn: function() { return Meteor.subscribe('hackathon_and_ideas', this.params._title)},
         yieldTemplates: {
           'hackathon_nav': {to: 'nav'}
         },
         onBeforeAction: function () {
             if (!Meteor.user()) {
-              if (Meteor.loggingIn()) {
-                this.next();
-              } else {
-                Router.go('signup');
-              }
-            } else {
-                if(!Session.get("current_hackathon")) {
-                    Router.go('home'); 
-                } else {
+                if (Meteor.loggingIn()) {
                     this.next();
+                } 
+                else {
+                    Router.go('signup');
                 }
             }
         }

@@ -119,7 +119,6 @@ Meteor.startup(function () {
                 });
             }
         },
-
         create_idea: function(idea) {
           idea.hearts = [];
 
@@ -128,14 +127,12 @@ Meteor.startup(function () {
               if(err) {
                   console.log("error creating idea");
               } else {
-                  //console.log(idea_id);
-                  //console.log("idea id? " + idea_id);
+                  // TODO can save this call by inserting in above
                   Meteor.call('heart_idea', idea_id, function(err, res) {});
               }
           });
           return false;
         },
-
         hackathon_by_code: function (invite_code) {
           //console.log('hackathon by code ' + invite_code);
 
@@ -164,8 +161,7 @@ Meteor.startup(function () {
           } 
         },
 
-        create_hackathon: function(title) {
-            
+        create_hackathon: function(title) {     
           //check for valid title
           if(!title || title.indexOf('/') != -1) {
               //Err out
@@ -235,9 +231,6 @@ Meteor.startup(function () {
 });
 
 Accounts.onCreateUser(function (options, user) {
-
-  console.log("options: ");
-  console.log(options);
   user.profile = options.profile;
   if(!user.services.github) return user;
 
@@ -457,4 +450,3 @@ Accounts.onCreateUser(function (options, user) {
 
   return user;
 });
-

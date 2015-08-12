@@ -1,19 +1,19 @@
 <template name="createIdea">
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <form class="form-horizontal">
-                <legend>Add an idea</legend>
+        <div class="col-md-6">
+            <form class="form-horizontal" id="create-idea">
+                <legend>Create a new idea</legend>
                 <div class="form-group">
-                  <label for="textArea" class="col-lg-2 control-label">What is your idea?</label>
+                  <label for="idea-name" class="col-lg-2 control-label">Idea name or one-liner</label>
                   <div class="col-lg-10">
-                    <textarea class="form-control" rows="3" id="textArea"></textarea>
-                    <span class="help-block">Try to keep your description to the point and include the most important things your idea does.</span>
+                    <input type="text"  name="idea-name" class="form-control" id="idea-name" placeholder="" required>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="inputIdeaName" class="col-lg-2 control-label">Idea name or one-liner</label>
+                  <label for="idea-description" class="col-lg-2 control-label">Describe what your idea does</label>
                   <div class="col-lg-10">
-                    <input type="text" class="form-control" id="inputIdeaName" placeholder="">
+                    <textarea class="form-control" id="idea-description" name="idea-description" rows="2" required></textarea>
+                    <span class="help-block">Try to keep your description to the point and include the most important things your idea does.</span>
                   </div>
                 </div>
                 <div class="form-group">
@@ -21,32 +21,32 @@
                     <div class="col-lg-10">
                         <div class="checkbox">
                           <label>
-                            <input type="checkbox"> Designer
+                            <input type="checkbox" name="idea-need-designer"> Designer
                           </label>
                         </div>
                         <div class="checkbox">
                           <label>
-                            <input type="checkbox"> Frontend
+                            <input type="checkbox" name="idea-need-frontend"> Frontend
                           </label>
                         </div>
                         <div class="checkbox">
                           <label>
-                            <input type="checkbox"> Backend
+                            <input type="checkbox" name="idea-need-backend"> Backend
                           </label>
                         </div>
                         <div class="checkbox">
                           <label>
-                            <input type="checkbox"> iOS
+                            <input type="checkbox" name="idea-need-ios"> iOS
                           </label>
                         </div>
                         <div class="checkbox">
                           <label>
-                            <input type="checkbox"> Android
+                            <input type="checkbox" name="idea-need-android"> Android
                           </label>
                         </div>
                         <div class="checkbox">
                           <label>
-                            <input type="checkbox"> Hardware
+                            <input type="checkbox"  name="idea-need-hardware"> Hardware
                           </label>
                         </div>
                     </div>
@@ -54,6 +54,26 @@
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
                         <button type="submit" class="btn btn-primary">Add Idea</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <form class="form-horizontal">
+                <legend>Add an existing idea</legend>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">My Ideas</label>
+                    <div class="col-lg-10">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox"> TODO
+                          </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <button type="submit" class="btn btn-primary">Add Ideas</button>
                     </div>
                 </div>
             </form>

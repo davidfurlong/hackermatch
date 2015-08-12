@@ -1,7 +1,7 @@
-
 Idea = function (doc) {
   _.extend(this, doc);
 };
+
 _.extend(Idea.prototype, {
   sayName: function () {
     console.log(this.name);

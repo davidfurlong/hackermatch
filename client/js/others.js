@@ -76,8 +76,6 @@ var TeamFilters = { // TODO ADAM
     // }   
 }
 
-
-
 Template.person_filter.filters = function() {
         var filter_info = [];
         var total_count = 0;                                                                                 
@@ -135,20 +133,6 @@ Template.sidebar.opened = function() {
         return true;
     }
 }
-Template.hackathon.rendered =  function() {
-    /*
-    $.getScript("js/inline.js", function(data, textStatus, jqxhr) {
-                          [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {    
-                              new SelectFx( el, {
-                                  stickyPlaceholder: false,
-                                  onChange: function(val){
-                                      document.querySelector('span.cs-placeholder').style.backgroundColor = val;
-                                  }
-                              });
-                          } );
-    })
-    */
-}
 
 Template.settings.rendered =  function() {
     $.getScript("js/inline.js", function(data, textStatus, jqxhr) {
@@ -162,32 +146,6 @@ Template.settings.rendered =  function() {
         });
     })
 }
-
-Template.idea_create_template.rendered =  function() {
-    $.getScript("js/inline.js", function(data, textStatus, jqxhr) {
-        (function() {
-            var formWrap = document.getElementById( 'fs-form-wrap-idea' );
-
-            [].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {    
-                new SelectFx( el, {
-                    stickyPlaceholder: false,
-                    onChange: function(val){
-                        document.querySelector('span.cs-placeholder').style.backgroundColor = val;
-                    }
-                });
-            });
-
-            window.FForm2 = new FForm( formWrap, {
-                onReview : function() {
-                    classie.add( document.body, 'overview' ); // for demo purposes only
-                }
-            });
-        })();
-    });    
-}
-
-
-
 
 /*
 Template.hackathonList.helpers({
@@ -220,7 +178,6 @@ Template.myHackathonList.helpers({
 });
 */
 
-
 Template.idea_filter.filters = function () {
     var filter_info = [];
     var total_count = 0;                                                                                 
@@ -239,7 +196,6 @@ Template.idea_filter.filter_text = function () {
 Template.idea_filter.selected = function () {
     return Session.equals('idea_filter', this.filter) ? 'selected' : '';
 }; 
-
 
 var IdeaFilters = {
     'Hearted': function() {

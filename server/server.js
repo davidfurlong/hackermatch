@@ -116,31 +116,23 @@ function loadData(hackathon_id) {
         }
         //console.log(idea);
         Meteor.call('create_idea', idea, function(err, res) {});
-//        return record.map(function(value){return value.toUpperCase()});
+        // return record.map(function(value){return value.toUpperCase()});
     })));
 }
 
-
 Meteor.startup(function () {
     // code to run on server at startup
-    //    Ideas.remove({});
     var User = Meteor.users.findOne({"services.github.username":"kainolophobia"});
     //    var User = Meteor.users.findOne({"services.github.username":"jumploops"});
-    //console.log(User);
     if(User) {
     //        Meteor.users.remove({_id: User._id});
     } 
     var hackathons = Hackathons.remove({"title":"blah"});
-    //    var hackathons = Hackathons.remove({});
-    //    Meteor.users.remove({}); 
-    //    var ideas = Ideas.remove({});
-    //console.log(hackathons);
 
     if (Hackathons.find().count() === 0) {
         var names = ["MHacks",
                      "YC Hacks",
                      "HackMIT"
-    //                     "Hack the North"
                     ];
         for (var i = 0; i < names.length; i++) {
             Meteor.call('create_hackathon', names[i]);
@@ -154,12 +146,6 @@ Meteor.startup(function () {
             loadHtn(hackathon._id);
         }
     }
-    /*
-    var htn_users = Meteor.users.find({username: /htn_user./i}).fetch();
-    _.each(htn_users, function(user) {
-        Roles.addUsersToRoles(user._id, ['hacker'], 'hackthenorth');
-    });
-    */
 });
 
 Meteor.publish("user_notifications", function(userId){
