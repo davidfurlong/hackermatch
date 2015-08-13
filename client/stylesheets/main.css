@@ -79,6 +79,15 @@ body {
 	width: 100%;
 }
 
+#hackathon-nav {
+	list-style-type: none;
+}
+
+#hackathon-nav li {
+	display: inline;
+	padding: 0px 10px;
+}
+
 #idea-create .fixer-quick.ac-custom svg {
 	margin-top: -22px;
 }

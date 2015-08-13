@@ -75,6 +75,30 @@ Handlebars.registerHelper('sortandarrayify',function(obj){
 });
 
 /* END HANDLEBARS HELPERS */
+/* START GLOBAL VARS */
+var TeamFilters = { // TODO ADAM
+    'All': function(){
+        return Meteor.users.find().fetch();
+    }
+    // 'All': function() {
+    //     var hackathon = Session.get("current_hackathon");
+    //     if(!hackathon) return;
+    //     var x = Meteor.users().find().fetch();
+    //     return x;
+    // },
+    // 'Looking for more members': function() {
+    //     var hackathon = Session.get("current_hackathon");
+    //     if(!hackathon) return;
+    //     var x = Meteor.users().find().fetch();
+    //     return x;
+    // },
+    // 'Looking for a team': function() {
+    //     var hackathon = Session.get("current_hackathon");
+    //     if(!hackathon) return;
+    //     var x = Meteor.users().find().fetch();
+    //     return x;
+    // }   
+}
 
 var IdeaFilters = {
     'Hearted': function() {
@@ -136,6 +160,7 @@ var IdeaFilters = {
         return x;
     }
 }
+/* END GLOBAL VARS */
 
 Template.index.rendered = function(){
     $('.pt-triggers').css('background-color', 'transparent');

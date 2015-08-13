@@ -1,7 +1,4 @@
 Template.sidebar.events({
-    'click #sidebar-exit' : function(e, t){
-        $('.page-container').trigger('click');
-    },
     'submit #comment-create' : function(e, t) {
         e.preventDefault();
         var text = t.find('#comment-text').value;
@@ -57,7 +54,7 @@ Template.sidebar.events({
 
 Template.personRow.events({
     'click .person-row': function(e){
-        Router.go('/user/'+$(e.currentTarget).closest('.person-row').data('id'));
+        Router.go('/profile/'+$(e.currentTarget).closest('.person-row').data('id'));
     }
 });
 
