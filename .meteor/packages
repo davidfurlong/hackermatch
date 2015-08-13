@@ -16,3 +16,7 @@ pagebakers:ionicons
 fortawesome:fontawesome
 less
 mrt:modernizr-meteor
+meteorhacks:npm
+
+
+npm-container

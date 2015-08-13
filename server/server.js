@@ -129,7 +129,7 @@ Meteor.startup(function () {
     } 
     var hackathons = Hackathons.remove({"title":"blah"});
 
-    if (Hackathons.find().count() === 0) {
+    if (false && Hackathons.find().count() === 0) {
         var names = ["MHacks",
                      "YC Hacks",
                      "HackMIT"
