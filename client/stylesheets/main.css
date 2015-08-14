@@ -204,7 +204,9 @@ body {
 }
 
 #sidebar-exit {
-	display: none;
+	font-size: 23pt;
+	margin-top: -10px;
+	cursor: pointer;
 }
 
 #idea-filter li {

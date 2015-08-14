@@ -524,8 +524,22 @@ Template.nav.helpers({
         return Notifications.find({userId: Meteor.userId()});
     },
     'hackathons': function(){
-        console.log(Hackathons.find({}).fetch());
-        return Hackathons.find({}).fetch()
+        var user = Meteor.user();
+        if(!user) return;
+        var hackathonList = [];
+        _.each(user.roles, function(role, hackathon) {
+            var entry = {};
+            if(role == "admin") {
+                console.log("admin role found");
+            }
+            console.log(role);
+            console.log(hackathon);
+            entry['url_title'] = hackathon;
+            hackathonList.push(entry);
+        });
+        var x = Hackathons.find({$or: hackathonList}).fetch();
+        // TODO $or is not working
+        return x;
     }
 });
 

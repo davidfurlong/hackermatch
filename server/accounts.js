@@ -161,69 +161,57 @@ Meteor.startup(function () {
           } 
         },
 
-        create_hackathon: function(title) {     
-          //check for valid title
-          if(!title || title.indexOf('/') != -1) {
-              //Err out
-              return false;
+        create_hackathon: function(obj) {     
+          if (!obj) return;
+
+          // don't let non-admins create_hackathons
+          // if (this.userId) {
+          //     if(!Roles.userIsInRole(this.userId, ['admin'], 'all')) {
+          //         return false;
+          //     }
+          // }
+
+          var hackathon;
+          if(typeof obj == "string"){
+            // if passed just a title
+            hackathon = {
+              'title': obj
+            }
+          }
+          else {
+            // if passed hackathon object
+            hackathon = obj;
           }
 
-          if (this.userId) {
-              if(!Roles.userIsInRole(this.userId, ['admin'], 'all')) {
-                  //don't let non-admins create_hackathons
-                  return false;
-              }
-          }
-
-          var url_title = encodeURI(title.toLowerCase().replace(/ /g, ''));
+          var url_title = encodeURI(hackathon.title.toLowerCase().replace(/ /g, ''));
           //Need to check and make sure this hash is unique...
           var hash = ((Math.floor(Math.random() * 1e8) + new Date().getMilliseconds()).toString(36)).toUpperCase().substring(0,5);
            
           var code_exists = Hackathons.findOne({invite_code: hash});
           while(code_exists) {
-              hash = ((Math.floor(Math.random() * 1e8) + new Date().getMilliseconds()).toString(36)).toUpperCase().substring(0,5);
-              code_exists = Hackathons.findOne({invite_code: hash});
+            hash = ((Math.floor(Math.random() * 1e8) + new Date().getMilliseconds()).toString(36)).toUpperCase().substring(0,5);
+            code_exists = Hackathons.findOne({invite_code: hash});
           }
+          
+          hackathon['url_title'] = url_title;
+          hackathon['invite_code'] = hash;
+          hackathon['created_by'] = this.userId;
 
-          var hackathon = {
-              title: title,
-              url_title: url_title,
-              invite_code: hash,
-              created_by: this.userId
-          /*
-              description: description,
-              userId: Meteor.userId(),
-              avatar_url: Meteor.user().profile.avatar_url,
-              skills: {
-                  webdev: webdev,
-                  backend: backend,
-                  mobile: mobile,
-                  design: design,
-                  hardware: hardware
-              },
-              comments: {}
-          */
-          };
-
-          var exists = Hackathons.findOne({title: title});
+          var exists = Hackathons.findOne({title: hackathon.title});
           if(exists) {
-              //console.log("hackathon exists!");
               return;
-              //do something else
+              // TODO throw sensible error
               //can we select on name attribute again?
           }
 
-          //console.log(hackathon.title + " invite code: " + hackathon.invite_code);
           Hackathons.insert(hackathon, function(err, result) {
               if(err) {
                   console.log("error creating hackathon");
               } else {
-                  //console.log("hackathon created!");
-                  
-                  //reset input field
+                  // TODO add user to hackathon and then
+                  // TODO ADAM this throws an error
+                  Router.go('hackathon/'+hackathon['url_title']);
               }
-
-          // Router.go('home');
           });
           return;
         }

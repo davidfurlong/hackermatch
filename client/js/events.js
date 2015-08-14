@@ -1,4 +1,14 @@
 Template.sidebar.events({
+    'click #sidebar-exit': function(e){
+        var id = e;
+        if(Session.get("sidebarOpened") == "open" || Session.get('profile_sidebarOpened') == "open") {
+           e.preventDefault();
+           Session.set('selectedIdea', '');
+           Session.set('sidebarOpened', '');
+           Session.set('selectedProfile', '');
+           Session.set('profile_sidebarOpened', '');
+        }
+    },
     'submit #comment-create' : function(e, t) {
         e.preventDefault();
         var text = t.find('#comment-text').value;
@@ -101,6 +111,7 @@ Template.home.events({
 
 Template.home.events({
     'submit #join_hackathon' : function(e, t) {
+        // TODO
         e.preventDefault();
 
         var invite_code = t.find("#join_hackathon_code").value;
@@ -140,8 +151,18 @@ Template.admin.events({
 });
 
 Template.createHackathon.events({
-    'submit #add-hackathon-form': function(){
-        // todo add hackathon 
+    'submit #add-hackathon-form': function(e, t){
+        e.preventDefault();
+        // todo test & act well on optional inputs
+        var isOrganizer = e.target['hackathon-isOrganizer'].checked;
+        var hackathon = {
+            'title': e.target['hackathon-name'].value,
+            'url': e.target['hackathon-url'].value,
+            'logo': e.target['hackathon-logo-url'].value
+        }
+        hackathon.title = hackathon.title.replace('/', '&#47;');
+        Meteor.call('create_hackathon', hackathon, function(err, res) {});
+        // todo make current user organizer if checked
     }
 });
 
@@ -156,7 +177,7 @@ Template.person_filter.events({
 });
 
 Template.createIdea.events({
-    'submit #create-idea': function(e){
+    'submit #create-idea': function(e, t){
         // get form submitted values
         var ideaName = e.target['idea-name'].value;
         var ideaDescription = e.target['idea-description'].value;
@@ -188,9 +209,7 @@ Template.createIdea.events({
                 // TODO notify user of error
                 console.log(error);
             }
-        });
-
-        
+        });    
     }
 });
 

@@ -10,20 +10,26 @@
 						<div class="form-group">
 						    <label for="inputEmail" class="col-lg-2 control-label">Hackathon name*</label>
 						    <div class="col-lg-10">
-						        <input type="text" class="form-control" placeholder="Hackathon name">
+						        <input type="text" class="form-control" placeholder="Hackathon name" name="hackathon-name" required>
 						    </div>
 						</div>
 						<div class="form-group">
 							<label for="inputEmail" class="col-lg-2 control-label">Website</label>
 							<div class="col-lg-10">
-							    <input type="text" class="form-control" placeholder="http://hackermat.ch">
+							    <input type="text" class="form-control" placeholder="http://hackermat.ch" name="hackathon-url">
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="checkbox col-lg-10 col-lg-offset-2">
 							  <label>
-							    <input type="checkbox"> I am an organizer of this hackathon
+							    <input type="checkbox" name="hackathon-isOrganizer"> I am an organizer of this hackathon
 							  </label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputEmail" class="col-lg-2 control-label">Image</label>
+							<div class="col-lg-10">
+							    <input type="text" class="form-control" placeholder="logo url" name="hackathon-logo-url" >
 							</div>
 						</div>
 						<div class="form-group">

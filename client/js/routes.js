@@ -28,6 +28,9 @@ Router.map(function() {
                 Router.go('signup');
                 }
             }
+            else {
+                this.next();
+            }
         }
     });
     

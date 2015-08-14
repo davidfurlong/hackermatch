@@ -10,11 +10,21 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="user_contact" class="col-lg-2 control-label">Contact</label>
+                    <label for="user_contact" class="col-lg-2 control-label">Email</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="user_contact"  value="{{contact}}">
+                        <input type="email" class="form-control" id="user_contact"  value="{{contact}}">
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox"> Get email notifications
+                          </label>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Skills</label>
                     <div class="col-lg-10">
@@ -60,7 +70,7 @@
                 <div class="form-group">
                     <label for="user_description" class="col-lg-2 control-label">About you</label>
                     <div class="col-lg-10">
-                        <textarea class="form-control" maxlength="200" spellcheck="false" style="resize:vertical" rows="7" id="user_description" value="{{description}}"></textarea>
+                        <textarea class="form-control" maxlength="200" spellcheck="false" style="resize:vertical" rows="4" id="user_description" value="{{description}}"></textarea>
                         <span class="help-block">Don't know what to say? Talk about things you have tried or want to build.</span>
                     </div>
                 </div>
@@ -85,7 +95,6 @@
                 </div>
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        <button type="reset" class="btn btn-default">Cancel</button>
                         <button type="submit" class="btn btn-primary">Save Changes</button>
                     </div>
                 </div>
