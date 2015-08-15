@@ -133,15 +133,16 @@ Meteor.startup(function () {
           });
           return false;
         },
-        hackathon_by_code: function (invite_code) {
+        hackathon_by_code: function (invite_code, url_title) {
           //console.log('hackathon by code ' + invite_code);
 
-          var hackathon = Hackathons.findOne({invite_code: invite_code});
+          var hackathon = Hackathons.findOne({$and: [{invite_code: invite_code}, {url_title: url_title}]});
          
           if(hackathon) {
               //console.log("hackathon title: " + hackathon.title);
-              return hackathon.title;
+              return hackathon;
           } else {
+              // todo better error message;
               return null;
           } 
         },
@@ -390,18 +391,9 @@ Accounts.onCreateUser(function (options, user) {
       var user_id = user._id;
 
       var current_user = Meteor.users.findOne(user._id);
-      //console.log("user._id: " + user._id);
-      //console.log("current_user._id: " + current_user._id);
-
-      //Should contain github info
-      //console.log("profile 1 : " );
-      //console.log(profile);
 
       //should contain github info plus all skills/changed features since request started
       profile = current_user.profile;
-      
-      //console.log("profile 2 : " );
-      //console.log(profile);
 
       profile = _.extend(profile, {'repos': userRepositories});
 

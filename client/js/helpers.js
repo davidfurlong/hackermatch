@@ -73,8 +73,8 @@ Handlebars.registerHelper('sortandarrayify',function(obj){
     
     return result;
 });
-
 /* END HANDLEBARS HELPERS */
+
 /* START GLOBAL VARS */
 var TeamFilters = { // TODO ADAM
     'All': function(){
@@ -118,7 +118,6 @@ var IdeaFilters = {
         });
         return x;
     },
-    //Ideas that need your skills list
     'Needs your skills': function() {  
         var skills = Meteor.user().profile.skills;
         var skillArray = [];
@@ -162,10 +161,6 @@ var IdeaFilters = {
 }
 /* END GLOBAL VARS */
 
-Template.index.rendered = function(){
-    $('.pt-triggers').css('background-color', 'transparent');
-}
-
 Template.person_filter.helpers({
     filters: function(){
         var filter_info = [];
@@ -204,7 +199,6 @@ Template.idea_filter.helpers({
 // Used to check whether profile is done loading yet
 Template.profile.helpers({
     has_github_profile: function(){
-        console.log(this);
         if(this.profile) {
             return true
         }
@@ -214,12 +208,10 @@ Template.profile.helpers({
 Template.profile_sidebar.helpers({
     opened: function(){
         var profileSelected = Session.get("selectedProfile");
-        // Session.set("selectedIdea", "");
         if(!profileSelected || profileSelected == "") {
             return false;
         } else {
             Session.set('profile_sidebarOpened', 'open');
-            $('.pt-triggers, #pt-main, #title-bar').addClass('blur');
             return true;
         }
     } 
@@ -431,7 +423,6 @@ Template.profile_contents.helpers({
         }
     },
     myIdeas: function(){
-        console.log(Ideas.find().fetch());
         return Ideas.find({'github_username': this.profile.login}).fetch();
     }
 });
@@ -496,14 +487,12 @@ Template.settings.helpers({
     skills: function() {
         if(Meteor.user() && Meteor.user().profile){
             var skills = Meteor.user().profile.skills;
-
+            // TODO DAVID
             $('#sb1').prop('checked', skills.webdev);
             $('#sb2').prop('checked', skills.design);
             $('#sb3').prop('checked', skills.backend);
             $('#sb4').prop('checked', skills.mobile);
             $('#sb5').prop('checked', skills.hardware);
-            $('.ac-cross input[type="checkbox"]').trigger('change');
-            setTimeout(function(){$('.ac-cross input[type="checkbox"]').trigger('change')},1000);
             return '';
         }
     },
@@ -532,13 +521,11 @@ Template.nav.helpers({
             if(role == "admin") {
                 console.log("admin role found");
             }
-            console.log(role);
-            console.log(hackathon);
             entry['url_title'] = hackathon;
             hackathonList.push(entry);
         });
         var x = Hackathons.find({$or: hackathonList}).fetch();
-        // TODO $or is not working
+        // TODO ADAM $or is not working or something
         return x;
     }
 });
@@ -556,11 +543,10 @@ Template.idea_list.helpers({
         var x = [];
 
         //Get Idea based off filter type
-        // TODO THROWS ERROR
         x = IdeaFilters[filter]();
         
         x = _.sortBy(x, function (x) { return -x.hearts; });
-        //Heart and add comment counts to ideas
+        // Heart and add comment counts to ideas
         _.each(x, function(idea) {
             var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
             if(heart && heart.hearted) {
@@ -593,7 +579,6 @@ Template.sidebar.helpers({
             return false;
         } else {
             Session.set('sidebarOpened', 'open');
-            $('.pt-triggers, #pt-main, #title-bar').addClass('blur');
             return true;
         }
     }

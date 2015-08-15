@@ -49,35 +49,4 @@ function renderChart(){
         }
         legend(document.getElementById("lineLegend"), window.lineChartData.datasets);
     }
-}
-
-/*
-Template.hackathonList.helpers({
-  hackathons: function() {
-        var x = Hackathons.find({}).fetch();
-        return x;
-  }
-});
-*/
-/*
-Template.myHackathonList.helpers({
-  hackathons: function() {
-        var user = Meteor.user();
-        if(!user) return;
-        var hackathonList = [];
-        _.each(user.roles, function(role, hackathon) {
-            var entry = {};
-            if(role == "admin") {
-                console.log("admin role found");
-            }
-            console.log(role);
-            console.log(hackathon);
-            entry['url_title'] = hackathon;
-            hackathonList.push(entry);
-        });
-        console.dir(hackathonList);
-        var x = Hackathons.find({$or: hackathonList}).fetch();
-        return x;
-  }
-});
-*/                                                                                              
+}                                                                                            

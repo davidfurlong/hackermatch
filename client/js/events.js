@@ -158,7 +158,8 @@ Template.createHackathon.events({
         var hackathon = {
             'title': e.target['hackathon-name'].value,
             'url': e.target['hackathon-url'].value,
-            'logo': e.target['hackathon-logo-url'].value
+            'logo': e.target['hackathon-logo-url'].value,
+            'open': e.target['hackathon-open-join'].value
         }
         hackathon.title = hackathon.title.replace('/', '&#47;');
         Meteor.call('create_hackathon', hackathon, function(err, res) {});
@@ -202,12 +203,14 @@ Template.createIdea.events({
             skills: ideaSkillsNeeded,
             comments: {}
         };
-        Router.go('hackathon', { hackathon: hackathon.title});
 
         Meteor.call('create_idea', idea, function(err, res) {
             if(err){
                 // TODO notify user of error
                 console.log(error);
+            }
+            else {
+                Router.go('hackathon', { hackathon: hackathon.title});
             }
         });    
     }
@@ -316,28 +319,23 @@ Template.nav.events({
     }
 });
 
-Template.indexHackathon.events({
+Template.joinHackathon.events({
     'submit #register-form' : function(e, t) {
+        // TODO check if user, then do something else.
+
         e.preventDefault();
     
-        var webdev = t.find('#cb1').checked,
-            backend = t.find('#cb3').checked,
-            mobile = t.find('#cb4').checked,
-            design = t.find('#cb2').checked,
-            hardware = t.find('#cb5').checked;
+        var userSkills = {
+            design: e.target['user-skill-designer'].checked,
+            frontend: e.target['user-skill-frontend'].checked,
+            backend: e.target['user-skill-backend'].checked,
+            ios: e.target['user-skill-ios'].checked,
+            android: e.target['user-skill-android'].checked,
+            hardware: e.target['user-skill-hardware'].checked,
+        }
 
-        // Trim and validate the input
         var profile = {
-            //                name: name,
-            //                contact: email,
-            //                github: github,
-            skills: {
-                webdev: webdev,
-                backend: backend,
-                mobile: mobile,
-                design: design,
-                hardware: hardware
-            }
+            skills: userSkills
         }
 
         Meteor.loginWithGithub({

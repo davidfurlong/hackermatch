@@ -129,6 +129,7 @@ Meteor.startup(function () {
     } 
     var hackathons = Hackathons.remove({"title":"blah"});
 
+    // TODO
     if (false && Hackathons.find().count() === 0) {
         var names = ["MHacks",
                      "YC Hacks",
@@ -225,16 +226,16 @@ Meteor.publish("users_and_hackathon", function (hackathon_title) {
 // server: publish the set of parties the logged-in user can see.
 Meteor.publish("hackathons", function () {
     if (Roles.userIsInRole(this.userId, ['admin'], 'all')) {
-
         return Hackathons.find({});
-
-    } else {
+    } 
+    else {
         // user not authorized. do not publish secrets
         this.stop();
         return;
     }
 });
 
+// TODO what is the difference between this and the above?
 // server: publish the set of parties the logged-in user can see.
 Meteor.publish("myHackathons", function () {
     var user = Meteor.users.findOne({_id: this.userId});
@@ -257,5 +258,4 @@ Meteor.publish("myHackathons", function () {
     } else {
         return
     }
-    //return Hackathons.find({$or: hackathonList}).fetch();
 });
