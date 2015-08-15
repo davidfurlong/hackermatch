@@ -238,7 +238,7 @@ Template.settings.events({
         var updated_profile = {
             name: e.target['user-name'].value,
             contact: e.target['user-email'].value,
-            email_notifications: e.target['user-email-notifications'].value,
+            email_notifications: e.target['user-email-notifications'].checked,
             skills: {
                 backend: e.target['user-skill-backend'].checked,
                 design: e.target['user-skill-design'].checked,
