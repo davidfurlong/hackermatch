@@ -136,8 +136,9 @@
         {{/if}}
         <br/>
         <div class="sidebar-interested">
-        <i class="ion ion-heart"></i>
-        {{#each idea.hearts}}
+        <!-- TODO make heart red if toggled -->
+        <i class="ion ion-heart pointer {{#if idea.hearted}}hearted{{/if}}" id="heart-idea-toggle"></i>
+        {{#each idea.hearts}} <!-- TODO THIS THROWS ERROR IF idea.hearts is empty -->
         <a href="/profile/{{.}}">{{.}}</a>
         {{/each}}
         </div>

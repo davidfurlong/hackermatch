@@ -100,16 +100,9 @@ body {
 	font-size: 16pt;
 }
 
-.specializations input {
-	float: left;
-}
-
-.specializations {
-	float: right;
-}
-
-.specialization input[type='button'] {
-	width: 46px;
+.form-horizontal .specialization {
+	margin-left: 0px;
+	margin-right: 0px;
 }
 
 #feedback-module {

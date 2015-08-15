@@ -146,7 +146,14 @@ Meteor.startup(function () {
               return null;
           } 
         },
-
+        is_hackathon_open_join: function(url_title){
+          var hackathon = Hackathons.findOne({url_title: url_title});    
+          if(hackathon.open) { // hackathon.open may be undefined for old db
+              return true;
+          } else {
+              return false;
+          } 
+        },
         join_hackathon: function (invite_code) {
             //console.log('join_hackathon called ' + invite_code);
 

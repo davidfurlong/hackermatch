@@ -1,4 +1,3 @@
-
 function renderChart(){
     if(window.renderedChart != true){
         window.renderedChart = true;

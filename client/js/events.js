@@ -9,6 +9,10 @@ Template.sidebar.events({
            Session.set('profile_sidebarOpened', '');
         }
     },
+    'click #heart-idea-toggle': function(e){
+        var idea_id = Session.get('selectedIdea');
+        Meteor.call('heart_idea', idea_id, function(err, res) {});
+    },
     'submit #comment-create' : function(e, t) {
         e.preventDefault();
         var text = t.find('#comment-text').value;
@@ -106,23 +110,6 @@ Template.ideaRow.events({
 Template.home.events({
     'click #incomplete-profile': function (e, t){
         Router.go('settings');
-    }
-});
-
-Template.home.events({
-    'submit #join_hackathon' : function(e, t) {
-        // TODO
-        e.preventDefault();
-
-        var invite_code = t.find("#join_hackathon_code").value;
-
-        t.$("#join_hackathon_code").val("");
-
-        Meteor.call('join_hackathon', invite_code, function(err, res) {       
-            if(res) {
-                Router.go('hackathon', {_title: res});
-            }    
-        });
     }
 });
 
@@ -241,30 +228,26 @@ Template.settings.events({
     },
     'submit #update-user-form' : function(e, t){
         e.preventDefault();
-        var q1 = t.find('#user_name').value
-        , q2 = t.find('#user_contact').value
-        , q3 = t.find('#user_skills').value
-        , q5 = t.find('#user_description').value
-        , webdev = t.find('#sb1').checked
-        , design = t.find('#sb2').checked
-        , backend = t.find('#sb3').checked
-        , mobile = t.find('#sb4').checked
-        , hardware = t.find('#sb5').checked;
-        var langs = $('.language').toArray().map(function(el){
-            return $(el).val();
-        });
-        console.log(langs);
+        var langs = [];
+        var iter = 0;
+        while(e.target['user-specialization-'+iter] != undefined){
+            langs.push(e.target['user-specialization-'+iter].value);
+            iter++;
+        }
+
         var updated_profile = {
-            name: q1,
-            contact: q2,
+            name: e.target['user-name'].value,
+            contact: e.target['user-email'].value,
+            email_notifications: e.target['user-email-notifications'].value,
             skills: {
-                backend: backend,
-                design: design,
-                hardware: hardware,
-                mobile: mobile,
-                webdev: webdev
+                backend: e.target['user-skill-backend'].checked,
+                design: e.target['user-skill-design'].checked,
+                hardware: e.target['user-skill-hardware'].checked,
+                ios: e.target['user-skill-ios'].checked,
+                frontend: e.target['user-skill-frontend'].checked,
+                android: e.target['user-skill-android'].checked
             },
-            bio: q5, 
+            bio: e.target['user-description'].value, 
             languages: langs
         };
         updated_profile = _.extend(Meteor.user().profile, updated_profile);
@@ -276,13 +259,15 @@ Template.settings.events({
        
         return false;
     },
-    'click #logout': function (e, t) {
+    'submit #join-hackathon' : function(e, t) {
         e.preventDefault();
-        if (Meteor.user()) {
-            Meteor.logout(function() {
-                Router.go('index');
-            });
-        }
+        var invite_code = e.target['join-code'].value;
+
+        Meteor.call('join_hackathon', invite_code, function(err, res) {       
+            if(res) {
+                Router.go('hackathon', {hackathon: res});
+            }    
+        });
     }
 });
 
@@ -316,6 +301,40 @@ Template.nav.events({
                 }
             }
         });
+    }
+});
+
+Template.signup.events({
+    'submit #register-form': function(e, t){
+       e.preventDefault();
+       
+       var userSkills = {
+           design: e.target['user-skill-designer'].checked,
+           frontend: e.target['user-skill-frontend'].checked,
+           backend: e.target['user-skill-backend'].checked,
+           ios: e.target['user-skill-ios'].checked,
+           android: e.target['user-skill-android'].checked,
+           hardware: e.target['user-skill-hardware'].checked,
+       }
+
+       var profile = {
+           skills: userSkills
+       }
+
+       Meteor.loginWithGithub({
+           requestPermissions: ['user:email']
+       }, function (err) {
+           if (err) {
+             Session.set('errorMessage', err.reason || 'Unknown error');
+           }
+           if(Meteor.user()) {
+               profile = _.extend(profile, Meteor.user().profile);
+               //Temporarily set contact info as email
+               profile.contact = profile.email;
+               Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":profile}});
+           }
+       });
+       return false; 
     }
 });
 

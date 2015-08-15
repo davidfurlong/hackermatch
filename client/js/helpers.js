@@ -1,5 +1,15 @@
 /* START HANDLEBARS HELPERS */
 
+Handlebars.registerHelper('addIndex', function (all) {
+    return _.map(all, function(val, index) {
+        return {index: index, value: val};
+    });
+});
+
+Handlebars.registerHelper('isChecked', function(bool){
+    return (bool == true ? 'checked' : '');
+});
+
 Handlebars.registerHelper('selected_hackathon',function(){
     var hackathon = Session.get('current_hackathon');
     return hackathon;
@@ -118,7 +128,7 @@ var IdeaFilters = {
         });
         return x;
     },
-    'Needs your skills': function() {  
+    'Needs your skills' : function() {  
         var skills = Meteor.user().profile.skills;
         var skillArray = [];
         for(var key in skills) {
@@ -132,7 +142,7 @@ var IdeaFilters = {
         }
 
         if(skillArray.length == 0) {
-            return;
+            return [];
         }
         var hackathon = Session.get("current_hackathon");
         if(!hackathon) return;
@@ -144,21 +154,19 @@ var IdeaFilters = {
         }).fetch();
         return x;
     },
-    'All': function() {
+    'All' : function() {
         var hackathon = Session.get("current_hackathon");
         if(!hackathon) return;
-        //var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
         var x = Ideas.find({hackathon_id: hackathon._id}).fetch();
         return x;
     },
     'Yours': function() {
-        //Your ideas
         var hackathon = Session.get("current_hackathon");
         if(!hackathon) return;
         var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: Meteor.userId()}]}).fetch();
         return x;
     }
-}
+};
 /* END GLOBAL VARS */
 
 Template.person_filter.helpers({
@@ -180,10 +188,11 @@ Template.person_filter.helpers({
 Template.idea_filter.helpers({
     filters: function(){
         var filter_info = [];
-        var total_count = 0;                                                                                 
+        var total_count = 0;    
+        
         _.each(IdeaFilters, function (key, value) {
             filter_info.push({filter: value, count: key().length});
-        });
+        });                                                    
 
         filter_info = _.sortBy(filter_info, function (x) { return x.filter; });
         return filter_info;
@@ -410,8 +419,8 @@ Template.profile_contents.helpers({
             var sortable = this.profile.languages;
             var sentence = ""; 
             var i = 0;
-            while(i<sortable.length-1){
-                if(i == sortable.length-2){
+            while(i<sortable.length){
+                if(i == sortable.length-1){
                     sentence += sortable[i];
                 }
                 else {
@@ -484,16 +493,14 @@ Template.settings.helpers({
             return Meteor.user().profile.login; 
         }
     },
-    skills: function() {
+    email_notifications: function() {
+        if(Meteor.user() && Meteor.user().profile) {
+            return Meteor.user().profile.email_notifications;
+        }
+    },
+    skill: function() {
         if(Meteor.user() && Meteor.user().profile){
-            var skills = Meteor.user().profile.skills;
-            // TODO DAVID
-            $('#sb1').prop('checked', skills.webdev);
-            $('#sb2').prop('checked', skills.design);
-            $('#sb3').prop('checked', skills.backend);
-            $('#sb4').prop('checked', skills.mobile);
-            $('#sb5').prop('checked', skills.hardware);
-            return '';
+            return Meteor.user().profile.skills;
         }
     },
     description: function() {
@@ -519,7 +526,7 @@ Template.nav.helpers({
         _.each(user.roles, function(role, hackathon) {
             var entry = {};
             if(role == "admin") {
-                console.log("admin role found");
+                // console.log("admin role found");
             }
             entry['url_title'] = hackathon;
             hackathonList.push(entry);
@@ -569,6 +576,14 @@ Template.sidebar.helpers({
             var commentThread = Comments.find({ideaId: idea._id}).fetch();
             idea.author = author;
             idea.commentThread = commentThread;
+            var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
+            if(heart && heart.hearted) {
+                //Only added this to idea list that template receives, such that it's a local change only
+                idea.hearted = true;
+            } 
+            else {
+                idea.hearted = false;
+            }
             return idea;
         }
     },

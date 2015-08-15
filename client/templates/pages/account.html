@@ -4,22 +4,22 @@
             <form id="update-user-form" action="action" class="form-horizontal">
                 <legend>Settings</legend>
                 <div class="form-group">
-                    <label for="user_name" class="col-lg-2 control-label">Name</label>
+                    <label for="user-name" class="col-lg-2 control-label">Name</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="user_name"  value="{{name}}">
+                        <input type="text" class="form-control" name="user-name"  value="{{name}}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="user_contact" class="col-lg-2 control-label">Email</label>
+                    <label for="user-contact" class="col-lg-2 control-label">Email</label>
                     <div class="col-lg-10">
-                        <input type="email" class="form-control" id="user_contact"  value="{{contact}}">
+                        <input type="email" class="form-control" name="user-email"  value="{{contact}}">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
                         <div class="checkbox">
                           <label>
-                            <input type="checkbox"> Get email notifications
+                            <input type="checkbox" name="user-email-notifications" {{isChecked email_notifications}}> Get email notifications
                           </label>
                         </div>
                     </div>
@@ -30,32 +30,32 @@
                     <div class="col-lg-10">
                         <div class="checkbox">
                           <label>
-                            <input type="checkbox"> Designer
+                            <input type="checkbox" name="user-skill-design" {{isChecked skill.design}}> Designer
                           </label>
                         </div>
                         <div class="checkbox">
                           <label>
-                            <input type="checkbox"> Frontend
+                            <input type="checkbox" name="user-skill-frontend" {{isChecked skill.frontend}}> Frontend
                           </label>
                         </div>
                         <div class="checkbox">
                           <label>
-                            <input type="checkbox"> Backend
+                            <input type="checkbox" name="user-skill-backend" {{isChecked skill.backend}}> Backend
                           </label>
                         </div>
                         <div class="checkbox">
                           <label>
-                            <input type="checkbox"> iOS
+                            <input type="checkbox" name="user-skill-ios" {{isChecked skill.ios}}> iOS
                           </label>
                         </div>
                         <div class="checkbox">
                           <label>
-                            <input type="checkbox"> Android
+                            <input type="checkbox" name="user-skill-android" {{isChecked skill.android}}> Android
                           </label>
                         </div>
                         <div class="checkbox">
                           <label>
-                            <input type="checkbox"> Hardware
+                            <input type="checkbox" name="user-skill-hardware" {{isChecked skill.hardware}}> Hardware
                           </label>
                         </div>
                     </div>
@@ -64,32 +64,31 @@
                 <div class="form-group">
                     <label for="user_github" class="col-lg-2 control-label">Github Username</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="user_github"  value="{{github}}">
+                        <input type="text" class="form-control" name="user-github"  value="{{github}}" disabled>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="user_description" class="col-lg-2 control-label">About you</label>
                     <div class="col-lg-10">
-                        <textarea class="form-control" maxlength="200" spellcheck="false" style="resize:vertical" rows="4" id="user_description" value="{{description}}"></textarea>
+                        <textarea class="form-control" maxlength="200" spellcheck="false" style="resize:vertical" rows="4" name="user-description" value="{{description}}"></textarea>
                         <span class="help-block">Don't know what to say? Talk about things you have tried or want to build.</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="user_contact" class="col-lg-2 control-label">Specializations</label>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control" id="user_contact"  value="{{contact}}">
-                    </div>
-                </div>
-                <div class="form-group">
                     <label class="col-lg-2 control-label">Specializations</label>
-                    <div class="specializations col-lg-10 input-group">
-                        {{#each languages}}
-                        <div class="specialization">
-                            <input  class="language" type="text" value="{{.}}"><input type="button" value="x" class="delete-language form-control">
+                    <div class="specializations col-lg-10">
+                        {{#each addIndex languages}}
+                        <div class="form-group specialization">
+                          <div class="input-group">
+                            <input type="text" name="user-specialization-{{index}}" class="form-control language" value="{{value}}">
+                            <span class="input-group-btn">
+                              <button class="btn btn-default delete-language" type="button"><i class="fa fa-times"></i></button>
+                            </span>
+                          </div>
                         </div>
                         {{/each}}
                         <span class="input-group-btn">
-                          <button class="btn btn-default add-language" type="button">+ Add</button>
+                          <button class="btn btn-default add-language" type="button"><i class="fa fa-plus"></i> Add</button>
                         </span>
                     </div> 
                 </div>
@@ -101,8 +100,20 @@
             </form>
         </div>
         <div class="col-md-6">
-        <h2>Manage Hackathons</h2>
-        <!-- <p>TODO join / leave hackathons</p> -->
+            <h5>Manage Hackathons</h5>
+            <div class="row">
+                <form action="action" id="join-hackathon">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-addon">Join Hackathon by code</span>
+                        <input type="text" class="form-control" placeholder="invite code" name="join-code">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default" id="add_hackathon_button" type="submit">Join</button>
+                        </span>
+                      </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </template>

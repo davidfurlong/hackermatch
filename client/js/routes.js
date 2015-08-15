@@ -90,7 +90,6 @@ Router.map(function() {
                     Session.set("current_hackathon", hackathon);
                 } 
             }
-
             return hackathon;
         },
         waitOn: function() { 
@@ -138,16 +137,23 @@ Router.map(function() {
     this.route('joinHackathon', {
         path: '/:hackathon/join',
         data: function() { 
-            // todo get number of hackers at the hackathon
+            // todo non critical get number of hackers at the hackathon
             return { 
                 'name': this.params.hackathon,
                 'isNotUser':  Meteor.user() == null
             }
         },
         onBeforeAction: function () {
-            // todo check if hackathon open else redirect need invite code
-            // todo if member of hackathon go to the hackathon instead
-            this.next();
+            // TODO if member of hackathon go to the hackathon instead
+            var h = this.params.hackathon;
+            Meteor.call('is_hackathon_open_join', h, function(err, hackathonOpen){
+                if(hackathonOpen) {
+                    this.next();
+                }
+                else {
+                    Router.go('error', {title: "Hackathon requires invite or no such hackathon"});
+                }  
+            });
         }
     });
     this.route('joinHackathonInvite', {
@@ -159,7 +165,7 @@ Router.map(function() {
             }
         },
         onBeforeAction: function(){
-            // TODO check if member of hackathon go to /:hackathon
+            // TODO non critical check if member of hackathon go to /:hackathon
             // Checks if valid invite code to a hackathon
             var invite_code = this.params.invite_code;
             var h = this.params.hackathon;
@@ -200,7 +206,8 @@ Router.map(function() {
                 else{
                   Router.go('signup');
                 }
-            } else {
+            } 
+            else {
                 this.next();
             }
         }
@@ -208,17 +215,7 @@ Router.map(function() {
     this.route('settings', {
         path: '/settings',
         data: function() { 
-            var user = Meteor.user(); 
-            if(user) {
-                user['title'] = 'settings';
-            } else {
-                user = {};
-            }
-            var hackathon = Session.get("current_hackathon");
-            if(hackathon) {
-                user.override_title = hackathon.title;
-                user.override_title_url = '/' + hackathon.url_title;
-            }
+            var user = Meteor.user();
             return user;
         },
         waitOn: function() { return Meteor.subscribe('user', this.params._username)},
@@ -227,10 +224,11 @@ Router.map(function() {
                 if (Meteor.loggingIn()) {
                     this.next();
                 }
-                else{
+                else {
                   Router.go('signup');
                 }
-            } else {
+            } 
+            else {
                 this.next();
             }
         }
@@ -336,6 +334,9 @@ Router.map(function() {
         },
         yieldTemplates: {
             'hackathon_nav': {to: 'nav'}
+        },
+        waitOn: function() { 
+            return Meteor.subscribe('hackathon_and_ideas', this.params.hackathon)
         },
         onBeforeAction: function () {
             // todo check is a hackathon

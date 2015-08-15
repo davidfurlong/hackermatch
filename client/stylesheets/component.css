@@ -196,8 +196,12 @@ a.link-border:focus::before {
 	background: transparent;
 }
 
-.badge.t1, .badge.mobile {
+.badge.t1, .badge.ios {
 	color: #fd6a62;
+}
+
+.badge.t1, .badge.android {
+	color: #123445;
 }
 
 .badge.t2, .badge.hardware {
@@ -212,7 +216,7 @@ a.link-border:focus::before {
 	color: #fdc162;
 }
 
-.badge.t5, .badge.webdev {
+.badge.t5, .badge.frontend {
 	color: #f68dbb;
 }
 
@@ -310,6 +314,10 @@ a.link-border:focus::before {
 
 .count {
 	color: #aaa;
+}
+
+.pointer {
+	cursor: pointer;
 }
 
 .filter a:hover, .filter a:active, .filter a:visited {
