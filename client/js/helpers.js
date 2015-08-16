@@ -370,41 +370,22 @@ Template.profile_contents.helpers({
     languages: function(){ 
         if(this.profile && !this.profile.languages) { // Only runs the first time
             var repos = this.profile.repos;
-            var languages = {};
+            var languages = [];
+             
             for(var i=0;i<repos.length;i++){
                 var t = JSON.parse(repos[i].languages);
 
                 for(var a in t){
-                    if(languages.hasOwnProperty(a)){
-                        languages[a] += t[a];
-                    }
-                    else {
-                        languages[a] = t[a];
-                    }
+                    languages.push(t[a]);
                 }
             }
 
-            var sortable = [];
-            for (var a in languages)
-                sortable.push([a, languages[a]])
-            sortable.sort(function(a, b) {return b[1] - a[1]})
-            var sentence = ""; 
-            var i = 0;
-            while(i<sortable.length-1 && i < 4){
-                if(i == sortable.length-2 || i == 3){
-                    sentence += sortable[i][0];
-                }
-                else {
-                    sentence += sortable[i][0] + ", ";
-                }
-                i++;
-            }
+            languages = languages.reduce(function(p, c) {
+                if (p.indexOf(c) < 0) p.push(c);
+                return p;
+            }, []);
+            // TODO test this works
 
-            var languages = {
-                languages: sortable.map(function(el){
-                    return el[0]
-                })
-            }
             updated_profile = _.extend(Meteor.user().profile, languages);
                
             // Trim and validate the input
@@ -416,19 +397,7 @@ Template.profile_contents.helpers({
             return sentence;
         }
         else if(this.profile.languages) {
-            var sortable = this.profile.languages;
-            var sentence = ""; 
-            var i = 0;
-            while(i<sortable.length){
-                if(i == sortable.length-1){
-                    sentence += sortable[i];
-                }
-                else {
-                    sentence += sortable[i] + ", ";
-                }
-                i++;
-            }
-            return sentence;
+            return this.profile.languages;
         }
     },
     myIdeas: function(){
@@ -567,7 +536,23 @@ Template.idea_list.helpers({
         return x;
     }
 });
- 
+
+Template.idea_page.helpers({
+    idea: function() {
+        var idea = Ideas.findOne({_id: Session.get("selectedIdea")});
+        console.log(Session.get("selectedIdea"));
+        if(idea) {
+            var author = Meteor.users.findOne({_id: idea.userId});
+            var commentThread = Comments.find({ideaId: idea._id}).fetch();
+            idea.author = author;
+            idea.commentThread = commentThread;
+            var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
+            idea.hearted = heart && heart.hearted;
+            return idea;
+        }
+    }
+});
+
 Template.sidebar.helpers({
     idea: function() {
         var idea = Ideas.findOne({_id: Session.get("selectedIdea")});
@@ -577,13 +562,7 @@ Template.sidebar.helpers({
             idea.author = author;
             idea.commentThread = commentThread;
             var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
-            if(heart && heart.hearted) {
-                //Only added this to idea list that template receives, such that it's a local change only
-                idea.hearted = true;
-            } 
-            else {
-                idea.hearted = false;
-            }
+            idea.hearted = heart && heart.hearted;
             return idea;
         }
     },

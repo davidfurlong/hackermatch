@@ -78,6 +78,40 @@ Router.map(function() {
             }
         }
     });
+    this.route('idea', {
+        path: '/ideas/:idea',
+        template: 'idea_page',
+        data: function(){
+            Session.set("selectedIdea", this.params.idea);
+
+            var idea = Ideas.findOne({_id: this.params.idea});
+            console.log(idea);
+            if(idea) {
+                var author = Meteor.users.findOne({_id: idea.userId});
+                var commentThread = Comments.find({ideaId: idea._id}).fetch();
+                idea.author = author;
+                idea.commentThread = commentThread;
+                var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
+                idea.hearted = heart && heart.hearted;
+                return idea;
+            }
+            else
+                Router.go('error', {title: 'Idea not found'});
+        },
+        waitOn: function(){
+            return Meteor.subscribe('single_idea', this.params.idea)
+        },
+        onBeforeAction: function () {
+            // TODO
+            if (!Meteor.user()) {
+                Router.go('signup');
+            } 
+            else {
+                Session.set("selectedIdea", this.params.idea);
+                this.next();
+            }
+        }
+    });
     this.route('ideas', {
         path: '/:hackathon/ideas' , 
         template: 'hackathon',

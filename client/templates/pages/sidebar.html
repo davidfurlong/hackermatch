@@ -1,0 +1,157 @@
+
+<template name="profile_sidebar">
+    <div class="profile_sidebar" style="{{#if opened}}{{else}}display:none;{{/if}}" >
+        {{#if profile.avatar_url}}
+            <img src="{{idea.author.profile.avatar_url}}" class="sidebar-profile-avatar">
+        {{/if}}
+        <div class="sidebar-item-title">
+            <h1>{{profile.name}}</h1>
+        </div>
+        <div class="profile-skills">
+            {{#if skills }}
+                {{#each bitmaparray skills}}
+                    <span class="badge {{.}}">{{.}}</span> 
+                {{/each}}
+            {{/if}}
+        </div>
+        <div class="user-details"> 
+            <span class="sidebar-item-contact">
+            {{#if idea.author.profile.contact}}
+                contact <a href="mailto:{{idea.author.profile.contact}}">{{idea.author.profile.contact}}</a>
+            {{/if}}
+            </span> 
+            <span>
+              {{#if languages }}
+                {{languages}}
+              {{/if}}
+            </span>
+            <span>
+            {{#if github }}
+              <a href="{{github_url}}"><i class="fa fa-github"></i>{{github}}</a>
+            {{/if}}
+            </span>
+            <span>
+              {{#if contact }}
+                <i class="fa fa-paper-plane-o"></i>
+                {{contact}}
+              {{/if}}
+            </span>
+            <span>
+              {{#if location }}
+                <i class="fa fa-map-marker"></i>
+                {{location}}
+              {{/if}}
+            </span>
+        </div>
+        <div class="">
+          <span class="user-title">Worked on</span>
+          {{#each featured}}
+            <a href="{{html_url}}">{{stargazers_count}} <i class="fa fa-star"></i> <span class="feature-title">{{full_name}}</span>
+            </a><br/>   
+          {{/each}}
+        </div>
+        <div class="">
+          <span class="user-title">People worked with</span>
+          {{#each sortandarrayify collaborators}}
+            <div class="collaborator">
+            <a href="{{f_html_url}}"><img src="{{f_avatar_url}}" class="mini-avatar"><span class="feature-title">{{f_login}}</span>
+            </a></div>
+          {{/each}}
+        </div>
+    </div>
+</template>
+
+<template name="sidebar">
+    <div class="sidebar" style="{{#if opened}}{{else}}display:none;{{/if}}" >
+        <div class="pull-right"><a href="/ideas/{{_id}}"><i class="fa fa-link"></i></a><i id="sidebar-exit" class="fa fa-times"></i></div>
+        <div class="sidebar-item-author">
+            posted by 
+            {{#if idea.user_profile.avatar_url}}
+            <a href="/profile/{{idea.user_profile.login}}" style="margin-left:10px"><img src="{{idea.user_profile.avatar_url}}" width="32px" height="32px" style="border-radius:50px;margin-top:-5px"></a>
+            {{/if}}
+            <a href="/profile/{{idea.user_profile.login}}">{{idea.user_profile.name}}</a>
+            {{toMoment time}}
+        </div>
+        <div class="sidebar-item-title"><h1>{{idea.name}}</h1></div>
+        <div class="sidebar-item-desc">{{idea.description}}</div>
+        {{#if anyTrue idea.skills}}
+            <div class="sidebar-item-skills">
+                <span class="sidebar-prompt">Looking for people with </span>
+                {{#if idea.skills.frontend}}
+                <span class="badge t1">Frontend</span>
+                {{/if}}
+                {{#if idea.skills.design}}
+                <span class="badge t2">Design</span>
+                {{/if}}
+                {{#if idea.skills.backend}}
+                <span class="badge t3">Backend</span>
+                {{/if}}
+                {{#if idea.skills.hardware}}
+                <span class="badge t4">Hardware</span>
+                {{/if}}
+                {{#if idea.skills.ios}}
+                <span class="badge t5">iOS</span>
+                {{/if}}
+                {{#if idea.skills.android}}
+                <span class="badge t6">Android</span>
+                {{/if}}
+                <span class="sidebar-prompt"> skills</span>  
+    	   </div>
+        {{/if}}
+        <br/>
+        <div class="sidebar-interested">
+        <i class="ion ion-heart pointer {{#if idea.hearted}}hearted{{/if}}" id="heart-idea-toggle"></i>
+        {{#each idea.hearts}} <!-- this throws errors on old hackathons as hearts is a # not an array -->
+        <a href="/profile/{{.}}">{{.}}</a>
+        {{/each}}
+        </div>
+        <div class="sidebar-item-comments">
+    	    <form id="comment-create" action="action" autocomplete="off">
+                <input id="comment-text" type="text" placeholder="Discuss here">
+    		    <input type="submit" value="Comment">
+            </form>
+            <div class="sidebar-item-comments-thread">
+                {{#each reverse idea.commentThread}}    
+                    {{> comment_template }}
+                {{/each}}
+    		</div>
+        </div>
+    </div>
+</template>
+
+<template name="comment_template">
+	<div class="comment">
+        <span class="comment-avatar">
+            {{#if avatar_url}} 
+            <a href="/profile/{{login}}"><img src="{{avatar_url}}" width="48px" height="48px" style="border-radius:50px"></a>
+            {{else}}
+            <img src="monkey.png" width="48px" height="48px" style="border-radius:50px;">
+            {{/if}}
+        </span>
+        <span class="comment-author"><a href="/profile/{{login}}">{{#if username}}{{username}}{{else}}{{login}}{{/if}}</a></span>
+        <span class="comment-skills">
+            {{#if skills.frontend}}
+            <span class="badge t1">Frontend</span>
+            {{/if}}
+            {{#if skills.design}}
+            <span class="badge t2">Design</span>
+            {{/if}}
+            {{#if skills.backend}}
+            <span class="badge t3">Backend</span>
+            {{/if}}
+            {{#if skills.hardware}}
+            <span class="badge t4">Hardware</span>
+            {{/if}}
+            {{#if skills.ios}}
+            <span class="badge t5">iOS</span>
+            {{/if}}
+            {{#if skills.android}}
+            <span class="badge t6">Android</span>
+            {{/if}}  
+        </span>
+        <span class="comment-time">{{toMoment time}}</span>
+        <!--        <span class="comment-skill"><span class="badge t1">W</span></span> -->
+        <br/>
+        <span class="comment-content">{{text}}</span>
+	</div>
+</template>

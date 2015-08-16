@@ -157,6 +157,7 @@ Meteor.publish("user", function (username) {
     return Meteor.users.find({'services.github.username': username}); 
 });
     
+// TODO ADAM iron router now supports arrays of waiton / subscriptions
 Meteor.publish("user_and_ideas", function (username){
     console.log(username);
     return [
@@ -166,10 +167,13 @@ Meteor.publish("user_and_ideas", function (username){
 })
      
 Meteor.publish("one_users_ideas", function (username){
-    console.log(username);
     return Ideas.find({'github_username': username});
 });
 
+Meteor.publish("single_idea", function(ideaid){
+    // todo security
+    return Ideas.findOne({'_id': ideaid});
+});
 
 //Very inefficient function that finds hackathon by title, then uses 
 // the id of the returned hackathon to "publish" the cursor of that 
@@ -235,7 +239,6 @@ Meteor.publish("hackathons", function () {
     }
 });
 
-// TODO what is the difference between this and the above?
 // server: publish the set of parties the logged-in user can see.
 Meteor.publish("myHackathons", function () {
     var user = Meteor.users.findOne({_id: this.userId});

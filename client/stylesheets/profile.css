@@ -1,3 +1,4 @@
+
 #profile-bio {
 	font-size: 20pt;
 }
@@ -79,7 +80,7 @@
 }
 
 .profile-skills .badge {
-	font-size: 20pt;
+	font-size: 16px;
 }
 
 .profile-skills .badge:first-child {

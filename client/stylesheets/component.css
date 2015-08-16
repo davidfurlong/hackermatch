@@ -188,20 +188,22 @@ a.link-border:focus::before {
     font-size: 14px;
     display: none;
 }
+
 .badge {
 	box-sizing: border-box;
 	padding: 2px 0px;
 	text-transform: uppercase;
 	font-size: 11pt;
 	background: transparent;
+	color: #333;
 }
 
-.badge.t1, .badge.ios {
+.badge.t6, .badge.ios {
 	color: #fd6a62;
 }
 
 .badge.t1, .badge.android {
-	color: #123445;
+	color: #FFB347;
 }
 
 .badge.t2, .badge.hardware {
@@ -213,7 +215,7 @@ a.link-border:focus::before {
 }
 
 .badge.t4, .badge.design {
-	color: #fdc162;
+	color: #F4D35E;
 }
 
 .badge.t5, .badge.frontend {

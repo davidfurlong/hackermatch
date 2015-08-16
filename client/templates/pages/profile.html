@@ -47,7 +47,9 @@
             {{/each}}
           {{/if}}
           {{#if languages }}
-            {{languages}}
+            {{#each languages}}
+            <span class="badge">{{.}}</span> 
+            {{/each}}
           {{/if}}
         </div>
       </p>

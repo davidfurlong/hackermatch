@@ -10,6 +10,66 @@
     </ul>
 </template>
 
+<template name="idea_page">
+    {{> hackathonNav}}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="sidebar-item-author">
+                posted by 
+                {{#if idea.user_profile.avatar_url}}
+                <a href="/profile/{{idea.user_profile.login}}" style="margin-left:10px"><img src="{{idea.user_profile.avatar_url}}" width="32px" height="32px" style="border-radius:50px;margin-top:-5px"></a>
+                {{/if}}
+                <a href="/profile/{{idea.user_profile.login}}">{{idea.user_profile.name}}</a>
+                {{toMoment time}}
+            </div>
+            <div class="sidebar-item-title"><h1>{{idea.name}}</h1></div>
+            <div class="sidebar-item-desc">{{idea.description}}</div>
+            {{#if anyTrue idea.skills}}
+                <div class="sidebar-item-skills">
+                    <span class="sidebar-prompt">Looking for people with </span>
+                    {{#if idea.skills.frontend}}
+                    <span class="badge t1">Frontend</span>
+                    {{/if}}
+                    {{#if idea.skills.design}}
+                    <span class="badge t2">Design</span>
+                    {{/if}}
+                    {{#if idea.skills.backend}}
+                    <span class="badge t3">Backend</span>
+                    {{/if}}
+                    {{#if idea.skills.hardware}}
+                    <span class="badge t4">Hardware</span>
+                    {{/if}}
+                    {{#if idea.skills.ios}}
+                    <span class="badge t5">iOS</span>
+                    {{/if}}
+                    {{#if idea.skills.android}}
+                    <span class="badge t6">Android</span>
+                    {{/if}}
+                    <span class="sidebar-prompt"> skills</span>  
+               </div>
+            {{/if}}
+            <br/>
+            <div class="sidebar-interested">
+            <i class="ion ion-heart pointer {{#if idea.hearted}}hearted{{/if}}" id="heart-idea-toggle"></i>
+            {{#each idea.hearts}} <!-- this throws errors on old hackathons as hearts is a # not an array -->
+            <a href="/profile/{{.}}">{{.}}</a>
+            {{/each}}
+            </div>
+            <div class="sidebar-item-comments">
+                <form id="comment-create" action="action" autocomplete="off">
+                    <input id="comment-text" type="text" placeholder="Discuss here">
+                    <input type="submit" value="Comment">
+                </form>
+                <div class="sidebar-item-comments-thread">
+                    {{#each reverse idea.commentThread}}    
+                        {{> comment_template }}
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
 <template name="idea_list">
     {{#each ideas}}    
         {{> ideaRow }}

@@ -27,6 +27,7 @@ Meteor.startup(function () {
                 {userId: null}
             ]}).fetch();
             _.each(ideas, function(idea) {
+                // TODO do not store user profiles in ideas
                 Ideas.update({_id:idea._id}, {$set:{"userId":user._id}});
                 Ideas.update({_id:idea._id}, {$set:{"user_profile":user.profile}});
                 Meteor.call('heart_idea', idea._id);
