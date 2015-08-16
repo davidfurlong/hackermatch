@@ -134,8 +134,12 @@ Meteor.publish("one_users_ideas", function (username){
     return Ideas.find({'github_username': username});
 });
 
-Meteor.publish("idea", function(ideaid){
-    return Ideas.findOne({'_id': ideaid});
+Meteor.publish("ideaFull", function(ideaId){
+    return [
+        Ideas.find({'_id': ideaId}),
+        Comments.find({ideaId: ideaId}),
+        Hearts.find({ $and: [{idea_id: ideaId}, {user_id: this.userId}]})
+    ];
 });
 
 // TODO Very inefficient function that finds hackathon by title, then uses 

@@ -537,8 +537,56 @@ Template.idea_list.helpers({
     }
 });
 
-Template.idea_page.helpers({
+Template.ideaPage.created = function() {
+    var ideaId = Router.current().params._id;
+    //console.log("idea id: " + ideaId);
+    this.ideaHandle = Meteor.subscribe('ideaFull', ideaId);
+}
+Template.ideaPage.helpers({
+  // Make a helper for ready state
+  dataReady: function () {
+    return Template.instance().ideaHandle.ready();
+  },
+  idea: function () {
+    var ideaId = Router.current().params._id;
+
+    var idea = Ideas.findOne({_id: ideaId});
+    //console.log(idea);
+    if(idea) {
+        var author = Meteor.users.findOne({_id: idea.userId});
+        var commentThread = Comments.find({ideaId: idea._id}).fetch();
+        idea.author = author;
+        idea.commentThread = commentThread;
+        var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
+        idea.hearted = heart && heart.hearted;
+    }
+    return idea;
+  },
+  heartsExist: function() {
+    var ideaId = Router.current().params._id;
+
+    var idea = Ideas.findOne({_id: ideaId});
+    var exist = false;
+    if(idea) {
+        if(_.isArray(idea.hearts)) {
+            exist = true;
+        }
+    }
+
+    return exist;
+  }
+
+});
+        
+Template.ideaPage.destroyed = function () {
+  // Make sure the data goes away when we don’t need it anymore
+  this.ideaHandle.stop();
+};
+
+/*
+Template.ideaPage.helpers({
     idea: function() {
+        console.log(this);
         var idea = Ideas.findOne({_id: Session.get("selectedIdea")});
         console.log(Session.get("selectedIdea"));
         if(idea) {
@@ -552,6 +600,7 @@ Template.idea_page.helpers({
         }
     }
 });
+*/
 
 Template.sidebar.helpers({
     idea: function() {

@@ -10,8 +10,9 @@
     </ul>
 </template>
 
-<template name="idea_page">
-    {{> hackathonNav}}
+<template name="ideaPage">
+{{#if dataReady}}
+{{> hackathonNav}}
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <div class="sidebar-item-author">
@@ -50,10 +51,13 @@
             {{/if}}
             <br/>
             <div class="sidebar-interested">
-            <i class="ion ion-heart pointer {{#if idea.hearted}}hearted{{/if}}" id="heart-idea-toggle"></i>
-            {{#each idea.hearts}} <!-- this throws errors on old hackathons as hearts is a # not an array -->
-            <a href="/profile/{{.}}">{{.}}</a>
-            {{/each}}
+                <i class="ion ion-heart pointer {{#if idea.hearted}}hearted{{/if}}" id="heart-idea-toggle"></i>
+
+            {{#if heartsExist}} 
+                {{#each idea.hearts}} <!-- this throws errors on old hackathons as hearts is a # not an array -->
+                <a href="/profile/{{.}}">{{.}}</a>
+                {{/each}}
+            {{/if}}
             </div>
             <div class="sidebar-item-comments">
                 <form id="comment-create" action="action" autocomplete="off">
@@ -68,6 +72,10 @@
             </div>
         </div>
     </div>
+{{else}}
+    {{> loading}}
+{{/if}}
+
 </template>
 
 <template name="idea_list">
