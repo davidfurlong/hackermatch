@@ -53,9 +53,7 @@ Router.map(function() {
             return hackathon;
         },
         waitOn: function() { 
-            var hackathon = Session.get("current_hackathon");
-            if(!hackathon) return;
-            return Meteor.subscribe('users_and_hackathon', hackathon.title)
+            return Meteor.subscribe('users_and_hackathon', this.params.hackathon)
         },
         yieldTemplates: {
             'hackathon_nav': {to: 'nav'}
@@ -99,7 +97,7 @@ Router.map(function() {
                 Router.go('error', {title: 'Idea not found'});
         },
         waitOn: function(){
-            return Meteor.subscribe('single_idea', this.params.idea)
+            return Meteor.subscribe('idea', this.params.idea)
         },
         onBeforeAction: function () {
             // TODO
@@ -122,7 +120,7 @@ Router.map(function() {
                 hackathon = Hackathons.findOne({url_title: url_title});
                 if(hackathon) {
                     Session.set("current_hackathon", hackathon);
-                } 
+                }
             }
             return hackathon;
         },
@@ -277,7 +275,9 @@ Router.map(function() {
             }
             return user;
         },
-        waitOn: function() { return Meteor.subscribe('user_and_ideas', this.params._username)}
+        waitOn: function() { 
+            return [ Meteor.subscribe('user', this.params._username), Meteor.subscribe('one_users_ideas', this.params._username) ]
+        }
     });
     this.route('home', {
         path: '/home',

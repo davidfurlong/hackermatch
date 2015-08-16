@@ -1,5 +1,5 @@
 // Does the sidebar toggling on the ideas page
-
+// TODO
 if (Meteor.isClient){
 	$(document).ready(function(){
 		$('.sidebar').on('click', function(e) {
