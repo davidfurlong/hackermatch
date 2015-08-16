@@ -40,7 +40,7 @@ Meteor.startup(function () {
             var user_profile_min = _.pick(user.profile,
               "login", "avatar_url", "name");
 
-            Ideas.update({userId: user_id}, {$set:{"user_profile":user_profile_min});
+            Ideas.update({userId: user_id}, {"user_profile":user_profile_min});
         },
         // Hearts an idea
         heart_idea: function (idea_id) {
