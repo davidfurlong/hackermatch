@@ -4,8 +4,6 @@ var path = Npm.require('path');
 
 function loadHtn(hackathon_id) {
     var basepath = path.resolve('.').split('.meteor')[0];
-    //console.log(basepath);
-    //console.log(csv);
     var record_count = 0;
     var stream = fs.createReadStream(basepath+'htn.csv');
     //console.log(stream);
@@ -60,7 +58,6 @@ function loadHtn(hackathon_id) {
     })));
 }
 
-
 function loadData(hackathon_id) {
   var basepath = path.resolve('.').split('.meteor')[0];
   //console.log(basepath);
@@ -70,33 +67,9 @@ function loadData(hackathon_id) {
     stream.pipe(
     csv.parse     ()).pipe(
     csv.transform (Meteor.bindEnvironment(function(record){
-/*
-        var idea = {
-            name: name,
-            description: description,
-            userId: Meteor.userId(),
-            hackathon_id: hackathon._id,
-//            avatar_url: Meteor.user().profile.avatar_url,
-//            github_username: Meteor.user().profile.login,
-            user_profile: Meteor.user().profile,
-            skills: {
-                webdev: webdev,
-                backend: backend,
-                mobile: mobile,
-                design: design,
-                hardware: hardware
-            },
-            comments: {}
-        };
-        Meteor.call('create_idea', idea, function(err, res) {});
-    }
-    */
         var user = record[0],
             email = record[1],
             idea = record[3];
-        //console.log("user: " + user);
-        //console.log("email: " + email);
-        //console.log("idea: " + idea);
         var idea = {
             description: idea,
             hackathon_id: hackathon_id,
@@ -106,15 +79,15 @@ function loadData(hackathon_id) {
                 contact: email
             },
             skills: {
-                webdev: false,
+                frontend: false,
                 backend: false,
-                mobile: false,
+                ios: false,
+                android: false,
                 design: false,
                 hardware: false 
             },
             comments: {}
         }
-        //console.log(idea);
         Meteor.call('create_idea', idea, function(err, res) {});
         // return record.map(function(value){return value.toUpperCase()});
     })));
@@ -156,43 +129,32 @@ Meteor.publish("user_notifications", function(userId){
 Meteor.publish("user", function (username) {
     return Meteor.users.find({'services.github.username': username}); 
 });
-    
-// TODO ADAM iron router now supports arrays of waiton / subscriptions
-Meteor.publish("user_and_ideas", function (username){
-    console.log(username);
-    return [
-        Meteor.users.find({'services.github.username': username}),
-        Ideas.find({'github_username': username})
-    ];
-})
      
 Meteor.publish("one_users_ideas", function (username){
     return Ideas.find({'github_username': username});
 });
 
-Meteor.publish("single_idea", function(ideaid){
-    // todo security
+Meteor.publish("idea", function(ideaid){
     return Ideas.findOne({'_id': ideaid});
 });
 
-//Very inefficient function that finds hackathon by title, then uses 
+// TODO Very inefficient function that finds hackathon by title, then uses 
 // the id of the returned hackathon to "publish" the cursor of that 
 // same hackathon. Should probably get cursor first, then return it 
 // after fetching id.
 Meteor.publish("hackathon_and_ideas", function (hackathon_title) {
-    var url_title = encodeURI(hackathon_title.toLowerCase().replace(/ /g, ''));
-    var hackathon = Hackathons.findOne({url_title: url_title});
+    var hackathon = Hackathons.findOne({ url_title: hackathon_title});
     var hackathon_id = null;
     
     if(hackathon) {
         hackathon_id = hackathon._id; 
     }
 
-    if (Roles.userIsInRole(this.userId, ['hacker', 'organizer', 'admin'], url_title)) {
+    if (Roles.userIsInRole(this.userId, ['hacker', 'organizer', 'admin'], hackathon_title)) {
         return [
-    // Need to remove users and comments from access like this
+            // Need to remove users and comments from access like this
             Comments.find({}),
-    // end TODO
+            // end TODO
             Hackathons.find({_id: hackathon_id}),
             Ideas.find({hackathon_id: hackathon_id}),
             Hearts.find({ $and: [{hackathon_id: hackathon_id}, {user_id: this.userId}]})
@@ -206,19 +168,16 @@ Meteor.publish("hackathon_and_ideas", function (hackathon_title) {
 
 Meteor.publish("users_and_hackathon", function (hackathon_title) {
     var user = Meteor.users.findOne({_id: this.userId});
-    if(!hackathon_title) return;
-    var url_title = encodeURI(hackathon_title.toLowerCase().replace(/ /g, ''));
-    var hackathon = Hackathons.findOne({url_title: url_title});
+    var hackathon = Hackathons.findOne({url_title: hackathon_title});
     var hackathon_id = null;
     if(hackathon) {
         hackathon_id = hackathon._id; 
     }
-
-    if (Roles.userIsInRole(this.userId, ['hacker', 'organizer', 'admin'], url_title)) {
+    if (Roles.userIsInRole(this.userId, ['hacker', 'organizer', 'admin'], hackathon_title)) {
         var query = {
             roles: {}
         };
-        query["roles"][url_title] = ['hacker'];
+        query["roles"][hackathon_title] = ['hacker'];
         return Meteor.users.find(query);
     } else {
         // user not authorized. do not publish secrets
@@ -232,8 +191,7 @@ Meteor.publish("hackathons", function () {
     if (Roles.userIsInRole(this.userId, ['admin'], 'all')) {
         return Hackathons.find({});
     } 
-    else {
-        // user not authorized. do not publish secrets
+    else { // user not authorized. do not publish secrets
         this.stop();
         return;
     }
@@ -242,23 +200,16 @@ Meteor.publish("hackathons", function () {
 // server: publish the set of parties the logged-in user can see.
 Meteor.publish("myHackathons", function () {
     var user = Meteor.users.findOne({_id: this.userId});
-    //console.log(user);
     if(!user) return;
     var hackathonList = [];
     _.each(user.roles, function(role, hackathon) {
         var entry = {};
-        if(role == "admin") {
-            //console.log("admin role found");
-        }
-        //console.log(role);
-        //console.log(hackathon);
         entry['url_title'] = hackathon;
         hackathonList.push(entry);
     });
-    //console.dir(hackathonList);
     if(hackathonList.length) {
         return Hackathons.find({$or: hackathonList});
     } else {
-        return
+        return;
     }
 });

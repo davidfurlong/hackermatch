@@ -37,12 +37,10 @@ Meteor.startup(function () {
         update_ideas: function (user_id) { 
             var user = Meteor.users.findOne(user_id);
             if(!user) return;
-            var ideas = Ideas.find({ $and: [
-                {userId: user_id}
-            ]}).fetch();
-            _.each(ideas, function(idea) {
-                Ideas.update({_id:idea._id}, {$set:{"user_profile":user.profile}});
-            });
+            var user_profile_min = _.pick(user.profile,
+              "login", "avatar_url", "name");
+
+            Ideas.update({userId: user_id}, {$set:{"user_profile":user_profile_min});
         },
         // Hearts an idea
         heart_idea: function (idea_id) {
@@ -140,7 +138,6 @@ Meteor.startup(function () {
           var hackathon = Hackathons.findOne({$and: [{invite_code: invite_code}, {url_title: url_title}]});
          
           if(hackathon) {
-              //console.log("hackathon title: " + hackathon.title);
               return hackathon;
           } else {
               // todo better error message;
@@ -156,8 +153,6 @@ Meteor.startup(function () {
           } 
         },
         join_hackathon: function (invite_code) {
-            //console.log('join_hackathon called ' + invite_code);
-
           var hackathon = Hackathons.findOne({invite_code: invite_code});
           
           if(hackathon) {
@@ -172,13 +167,6 @@ Meteor.startup(function () {
 
         create_hackathon: function(obj) {     
           if (!obj) return;
-
-          // don't let non-admins create_hackathons
-          // if (this.userId) {
-          //     if(!Roles.userIsInRole(this.userId, ['admin'], 'all')) {
-          //         return false;
-          //     }
-          // }
 
           var hackathon;
           if(typeof obj == "string"){
@@ -260,9 +248,7 @@ Accounts.onCreateUser(function (options, user) {
     "html_url");
 
   user.profile = profile;
-
   user.username = profile.login;
-
 
   var htn_user = Meteor.users.findOne({username: /htn_user./i, "profile.name": user.profile.name});
   if(htn_user) {
