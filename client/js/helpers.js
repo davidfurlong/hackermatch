@@ -484,7 +484,18 @@ Template.settings.helpers({
     }
 });
 
+Template.nav.created = function() {
+
+    this.hackathonsHandle = Meteor.subscribe('myHackathons');
+}
+Template.nav.destroyed = function() {
+
+    this.hackathonsHandle.stop();
+}
 Template.nav.helpers({
+    dataReady: function () {
+        return Template.instance().hackathonsHandle.ready();
+    },
     'notifications': function(){
         return Notifications.find({userId: Meteor.userId()});
     },
