@@ -229,7 +229,10 @@ Router.map(function() {
             var user = Meteor.user();
             return user;
         },
-        waitOn: function() { return Meteor.subscribe('user', this.params._username)},
+        waitOn: function() { 
+            return 
+            [ Meteor.subscribe('user', this.params._username), Meteor.subscribe("myHackathons")]
+        },
         onBeforeAction: function() {
             if (!Meteor.user()){
                 if (Meteor.loggingIn()) {

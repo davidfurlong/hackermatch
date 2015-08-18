@@ -82,42 +82,53 @@
                           <div class="input-group">
                             <input type="text" name="user-specialization-{{index}}" class="form-control language" value="{{value}}">
                             <span class="input-group-btn">
-                              <button class="btn btn-default delete-language" type="button"><i class="fa fa-times"></i></button>
+                              <button class="btn btn-default outline delete-language" type="button">x</button>
                             </span>
                           </div>
                         </div>
                         {{/each}}
-                        <span class="input-group-btn">
-                          <button class="btn btn-default add-language" type="button"><i class="fa fa-plus"></i> Add</button>
+                        <span class="">
+                          <button class="btn btn-default outline pull-right add-language" type="button">+ Add</button>
                         </span>
                     </div> 
                 </div>
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="submit" class="btn btn-primary outline">Save Changes</button>
                     </div>
                 </div>
             </form>
         </div>
-        <div class="col-md-6">
-            <h5>Manage Hackathons</h5>
-            <div class="row">
-                <form action="action" id="join-hackathon">
-                    <div class="form-group">
-                      <div class="input-group">
-                        <span class="input-group-addon">Join Hackathon by code</span>
-                        <input type="text" class="form-control" placeholder="invite code" name="join-code">
-                        <span class="input-group-btn">
-                          <button class="btn btn-default" id="add_hackathon_button" type="submit">Join</button>
-                        </span>
-                      </div>
-                    </div>
-                </form>
-            </div>
-            <div class="row">
-                <!-- todo be able to join open hackathons -->
-                <!-- todo be able to leave hackathons -->
-            </div>
+        <div class="col-md-6">  
+            <form id="manage-hackathon" class="form-horizontal">
+                <legend>My Hackathons</legend>
+                <div class="form-group">
+                    <label for="user_description" class="col-lg-2 control-label">Join by invite code</label>
+                    <div class="col-lg-10">
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="invite code" name="join-code">
+                          <span class="input-group-btn">
+                            <button class="btn btn-default outline" id="add_hackathon_button" type="submit">Join</button>
+                          </span>
+                        </div>
+                    </div>  
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">My hackathons</label>
+                    <div class="col-lg-10">
+                        {{#each myHackathons}}
+                        <div class="form-group">
+                          <div class="input-group">
+                            <span class="form-control">{{name}}</span>
+                            <span class="input-group-btn">
+                              <button class="btn btn-default outline leave-hackathon" type="button">Leave</button>
+                            </span>
+                          </div>
+                        </div>
+                        {{/each}}
+                    </div> 
+                </div>
+            </form>
         </div>
     </div>
 </template>

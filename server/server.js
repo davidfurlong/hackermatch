@@ -170,6 +170,7 @@ Meteor.publish("hackathon_and_ideas", function (hackathon_title) {
     }
 });
 
+// TODO this name is unclear
 Meteor.publish("users_and_hackathon", function (hackathon_title) {
     var user = Meteor.users.findOne({_id: this.userId});
     var hackathon = Hackathons.findOne({url_title: hackathon_title});
