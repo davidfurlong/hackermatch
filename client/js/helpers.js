@@ -445,44 +445,70 @@ Template.home.helpers({
         }
     }
 });
-
+Template.settings.created = function() {
+    this.myHackathons = Meteor.subscribe("myHackathons");
+}
 Template.settings.helpers({
-    name: function() {
-        if(Meteor.user() && Meteor.user().profile) {
-            return Meteor.user().profile.name; 
-        } 
-    },
-    contact: function() {
-        if(Meteor.user() && Meteor.user().profile) {
-            return Meteor.user().profile.contact; 
+  // Make a helper for ready state
+  dataReady: function () {
+    return Template.instance().myHackathons.ready()
+  },
+  hackathons: function(){
+    var user = Meteor.user();
+    if(!user) return;
+    var hackathonList = [];
+    _.each(user.roles, function(role, hackathon) {
+        var entry = {};
+        if(role == "admin") {
+            // console.log("admin role found");
         }
-    },
-    github: function() {
-        if(Meteor.user() && Meteor.user().profile) {
-            return Meteor.user().profile.login; 
-        }
-    },
-    email_notifications: function() {
-        if(Meteor.user() && Meteor.user().profile) {
-            return Meteor.user().profile.email_notifications;
-        }
-    },
-    skill: function() {
-        if(Meteor.user() && Meteor.user().profile){
-            return Meteor.user().profile.skills;
-        }
-    },
-    description: function() {
-        if(Meteor.user() && Meteor.user().profile.bio){
-            return Meteor.user().profile.bio;
-        }
-    },
-    languages: function() {
-        if(Meteor.user() && Meteor.user().profile.languages){
-            return Meteor.user().profile.languages;
-        }
-    }
+        entry['url_title'] = hackathon;
+        hackathonList.push(entry);
+    });
+    var x = Hackathons.find({$or: hackathonList}).fetch();
+    return x;
+  },
+  name: function() {
+      if(Meteor.user() && Meteor.user().profile) {
+          return Meteor.user().profile.name; 
+      } 
+  },
+  contact: function() {
+      if(Meteor.user() && Meteor.user().profile) {
+          return Meteor.user().profile.contact; 
+      }
+  },
+  github: function() {
+      if(Meteor.user() && Meteor.user().profile) {
+          return Meteor.user().profile.login; 
+      }
+  },
+  email_notifications: function() {
+      if(Meteor.user() && Meteor.user().profile) {
+          return Meteor.user().profile.email_notifications;
+      }
+  },
+  skill: function() {
+      if(Meteor.user() && Meteor.user().profile){
+          return Meteor.user().profile.skills;
+      }
+  },
+  description: function() {
+      if(Meteor.user() && Meteor.user().profile.bio){
+          return Meteor.user().profile.bio;
+      }
+  },
+  languages: function() {
+      if(Meteor.user() && Meteor.user().profile.languages){
+          return Meteor.user().profile.languages;
+      }
+  }
 });
+        
+Template.settings.destroyed = function () {
+  // Make sure the data goes away when we don’t need it anymore
+  this.myHackathons.stop();
+};
 
 Template.nav.created = function() {
 

@@ -152,6 +152,18 @@ Meteor.startup(function () {
               return false;
           } 
         },
+        leave_hackathon: function(id){ // todo only works for hackers
+          var hackathon = Hackathons.findOne({_id: id});
+          if(hackathon){
+            var group = hackathon.url_title;
+            Roles.removeUsersFromRoles(this.userId, ['hacker'], group);
+            // todo unattach ideas?
+            return true;
+          }
+          else {
+            return false;
+          }
+        },
         join_hackathon: function (invite_code) {
           var hackathon = Hackathons.findOne({invite_code: invite_code});
           

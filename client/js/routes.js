@@ -225,14 +225,6 @@ Router.map(function() {
     });
     this.route('settings', {
         path: '/settings',
-        data: function() { 
-            var user = Meteor.user();
-            return user;
-        },
-        waitOn: function() { 
-            return 
-            [ Meteor.subscribe('user', this.params._username), Meteor.subscribe("myHackathons")]
-        },
         onBeforeAction: function() {
             if (!Meteor.user()){
                 if (Meteor.loggingIn()) {

@@ -268,6 +268,21 @@ Template.settings.events({
                 Router.go('hackathon', {hackathon: res});
             }    
         });
+    },
+    'click .leave-hackathon' : function(e) {
+        console.log(this);
+        Meteor.call('leave_hackathon', this._id, function(err, res){
+            if(err){
+                // todo something
+                console.error(err); 
+            }
+            if(res){
+                // do nothing?
+            }
+            else {
+                console.error('leaving hackathon failed');
+            }
+        });
     }
 });
 

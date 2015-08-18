@@ -1,4 +1,5 @@
 <template name="settings">
+    {{#if dataReady}}
     <div class="row">
         <div class="col-md-6">
             <form id="update-user-form" action="action" class="form-horizontal">
@@ -116,19 +117,21 @@
                 <div class="form-group">
                     <label class="col-lg-2 control-label">My hackathons</label>
                     <div class="col-lg-10">
-                        {{#each myHackathons}}
-                        <div class="form-group">
+                        {{#each hackathons}}
                           <div class="input-group">
-                            <span class="form-control">{{name}}</span>
+                            <input type="text" class="form-control" value="{{title}}" disabled>
                             <span class="input-group-btn">
                               <button class="btn btn-default outline leave-hackathon" type="button">Leave</button>
                             </span>
                           </div>
-                        </div>
+                          <br>
                         {{/each}}
                     </div> 
                 </div>
             </form>
         </div>
     </div>
+    {{else}}
+        {{> loading}}
+    {{/if}}
 </template>
