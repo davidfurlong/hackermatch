@@ -78,16 +78,7 @@ Router.map(function() {
     });
     this.route('idea', {
         path: '/idea/:_id',
-        template: 'ideaPage',
-        onBeforeAction: function () {
-            // TODO
-            if (!Meteor.user()) {
-                Router.go('signup');
-            } 
-            else {
-                this.next();
-            }
-        }
+        template: 'ideaPage'
     });
     this.route('ideas', {
         path: '/:hackathon/ideas' , 

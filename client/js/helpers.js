@@ -511,16 +511,17 @@ Template.settings.destroyed = function () {
 };
 
 Template.nav.created = function() {
-
+    // todo subscribe to notifications
+    this.userNotifications = Meteor.subscribe('user_notifications');
     this.hackathonsHandle = Meteor.subscribe('myHackathons');
 }
 Template.nav.destroyed = function() {
-
+    this.userNotifications.stop();
     this.hackathonsHandle.stop();
 }
 Template.nav.helpers({
     dataReady: function () {
-        return Template.instance().hackathonsHandle.ready();
+        return Template.instance().hackathonsHandle.ready() && Template.instance().userNotifications.ready()
     },
     'notifications': function(){
         return Notifications.find({userId: Meteor.userId()});

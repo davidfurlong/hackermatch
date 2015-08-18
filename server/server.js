@@ -122,8 +122,8 @@ Meteor.startup(function () {
     }
 });
 
-Meteor.publish("user_notifications", function(userId){
-    return Notifications.find({'userId': userId});
+Meteor.publish("user_notifications", function(){
+    return Notifications.find({userId: this.userId});
 });
 
 Meteor.publish("user", function (username) {

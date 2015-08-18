@@ -8,6 +8,9 @@ Hacker.Dating
 
 meteor
 
+for mongo shell:
+meteor mongo
+
 
 ## Collections
 
