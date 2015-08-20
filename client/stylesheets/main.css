@@ -11,10 +11,24 @@
 html {
 	-webkit-font-smoothing: antialiased;
 	font-smoothing: antialiased;
+	height: 100%;
 }
 
 body {
 	font-family: Avenir-Book, Avenir, helvetica, sans-serif;
+	box-sizing: border-box;
+	margin-bottom: 0;
+}
+
+body.landing {
+	height: 130%;
+	margin-bottom: 0;
+	background: black;
+}
+
+body.landing footer {
+	position: relative;
+	bottom: 0;
 }
 
 /* HOME PAGE */
@@ -22,17 +36,48 @@ body {
 	margin-bottom: 0;
 }
 
-#home-splash {
-	height: 300px;
+#home-splash-container {
+	height: 100%;
 	background: url('/images/home_splash.jpg') no-repeat;
 	background-size: 100%;
-	font-size: 20pt;
-	background-position: 0px -200px !important;
 }
 
-#home-splash h1 {
+#home-splash {
+	padding-top: 50px;
+}
+
+#home-splash-title {
+	font-size: 60pt;
 	color: white;
-	font-weight: 100;
+	font-family: 'voga';
+}
+
+#home-splash-join {
+	color: white;
+	background: black;
+	width: 150px;
+	height: 150px;
+	margin-top: 30px;
+	border-radius: 100px;
+	border: none;
+	font-size: 30pt;
+	outline: none;
+}
+
+#home-splash-join:hover {
+	background: white;
+	color: black;
+}
+
+#small-lh {
+	line-height: 60pt;
+	display: inline-block;
+}
+
+#home-splash-subtitle {
+	font-size: 30pt;
+	color: white;
+	font-family: 'moon';
 }
 
 #home-splash-container {

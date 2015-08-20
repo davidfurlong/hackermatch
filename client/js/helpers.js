@@ -226,6 +226,14 @@ Template.profile_sidebar.helpers({
     } 
 });
 
+Template.index.rendered = function(){
+    $('body').addClass('landing');
+}
+
+Template.index.destroyed = function(){
+    $('body').removeClass('landing');
+}
+
 Template.profile_contents.helpers({
     hackathons: function() {
         if(this)
@@ -572,6 +580,21 @@ Template.idea_list.helpers({
             idea.commentCount = Comments.find({ideaId: idea._id}).fetch().length;
         });
         return x;
+    }
+});
+
+Template.createIdea.created = function(){
+    this.myIdeas = Meteor.subscribe('one_users_ideas');
+}
+Template.createIdea.destroyed = function(){
+    this.myIdeas.stop();
+}
+Template.createIdea.helpers({
+    dataReady: function () {
+        return Template.instance().myIdeas.ready();
+    },
+    ideas: function(){
+        return Ideas.find({userId: Meteor.userId()});
     }
 });
 

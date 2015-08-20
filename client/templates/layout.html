@@ -1,9 +1,12 @@
 <template name="layout">
-    {{> nav}}
-    <div class="container"> 
-        <div class="content-view">
-            {{> yield}}
-        </div>   
+	<div class="wrapper">
+	    {{> nav}}
+	    <div class="container"> 
+	        <div class="content-view">
+	            {{> yield}}
+	        </div>   
+	    </div>
+	    <div class="push"></div>
     </div>
     {{> footer}}
 </template>

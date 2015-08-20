@@ -63,14 +63,20 @@
             <form class="form-horizontal">
                 <legend>Add an existing idea</legend>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">My Ideas</label>
+                    <label class="col-lg-2 control-label">My Ideas</label>        
                     <div class="col-lg-10">
+                      {{#if dataReady}}
+                        {{#each ideas}}
                         <div class="checkbox">
                           <label>
-                            <input type="checkbox"> TODO
+                            <input type="checkbox"> {{name}}
                           </label>
                         </div>
-                    </div>
+                        {{/each}}
+                      {{else}}
+                        {{> loading}}
+                      {{/if}}
+                    </div>   
                 </div>
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">

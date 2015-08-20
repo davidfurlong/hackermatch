@@ -130,8 +130,8 @@ Meteor.publish("user", function (username) {
     return Meteor.users.find({'services.github.username': username}); 
 });
      
-Meteor.publish("one_users_ideas", function (username){
-    return Ideas.find({'github_username': username});
+Meteor.publish("one_users_ideas", function (){
+    return Ideas.find({userId: this.userId});
 });
 
 Meteor.publish("ideaFull", function(ideaId){
