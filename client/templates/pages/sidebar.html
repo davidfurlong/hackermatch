@@ -63,7 +63,7 @@
 
 <template name="sidebar">
     <div class="sidebar" style="{{#if opened}}{{else}}display:none;{{/if}}" >
-        <div class="pull-right"><a href="/ideas/{{_id}}"><i class="fa fa-link"></i></a><i id="sidebar-exit" class="fa fa-times"></i></div>
+        <div class="pull-right"><a href="/idea/{{idea._id}}"><i class="fa fa-link"></i></a><i id="sidebar-exit" class="fa fa-times"></i></div>
         <div class="sidebar-item-author">
             posted by 
             {{#if idea.user_profile.avatar_url}}
