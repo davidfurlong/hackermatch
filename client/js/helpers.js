@@ -738,6 +738,7 @@ var pageTitle = function() {
             }
             break; 
         case "home":
+            title = "hackathons";
             break;
         case "create_idea":
         case "ideas":
