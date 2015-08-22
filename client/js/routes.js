@@ -80,7 +80,7 @@ Router.map(function() {
                 }
             } 
             else {
-                if(!Session.get("current_hackathon")) {
+                if(!Session.get("currentHackathon")) {
                     Router.go('/'); 
                 }
                 else {
@@ -99,6 +99,7 @@ Router.map(function() {
     this.route('ideas', {
         path: '/:hackathon/ideas' , 
         template: 'hackathon',
+        /*
         data: function() {
             var url_title = encodeURI(this.params.hackathon.toLowerCase().replace(/ /g, ''));
             var hackathon = Session.get("current_hackathon");
@@ -110,17 +111,21 @@ Router.map(function() {
             }
             return hackathon;
         },
+        */
+        /*
         waitOn: function() { 
             return Meteor.subscribe('hackathon_and_ideas', this.params.hackathon)
         },
+        */
         yieldTemplates: {
             'hackathon_nav': {to: 'nav'}
         },
         onBeforeAction: function () {
-            if (!Meteor.user()) {// TODO OR NOT A MEMBER OF hackathon
+            if (!Meteor.user() && !Meteor.loggingIn()) {// TODO OR NOT A MEMBER OF hackathon
                 Router.go(this.params.hackathon+'/join');
             } 
             else {
+                Session.set("currentHackathon", this.params.hackathon);
                 this.next();
             }
         }
@@ -281,7 +286,8 @@ Router.map(function() {
                 title: 'admin',
                 hackathons: Hackathons.find({}).fetch()
             };
-            var hackathon = Session.get("current_hackathon");
+            var hackathonUrl= Session.get("currentHackathon");
+            var hackathon = Hackathons.findOne({url_title: hackathonUrl});
             if(hackathon) {
                 obj.override_title = hackathon.title;
                 obj.override_title_url = '/' + hackathon.url_title;
@@ -315,6 +321,7 @@ Router.map(function() {
     });
     this.route('hackathon', { // THIS HAS TO BE THE LAST ROUTE
         path: '/:hackathon', 
+        /*
         data: function() {
             var url_title = encodeURI(this.params.hackathon.toLowerCase().replace(/ /g, ''));
             var hackathon = Session.get("current_hackathon");
@@ -327,21 +334,26 @@ Router.map(function() {
 
             return hackathon;
         },
+        */
         yieldTemplates: {
             'hackathon_nav': {to: 'nav'}
         },
+        /*
         waitOn: function() { 
             return Meteor.subscribe('hackathon_and_ideas', this.params.hackathon)
         },
+        */
         onBeforeAction: function () {
             // todo check is a hackathon
-            if (!Meteor.user()) {
-                Router.go('joinHackathon', { hackathon: this.params.hackathon});
+            if (!Meteor.user() && !Meteor.loggingIn()) {
+                //Router.go('joinHackathon', { hackathon: this.params.hackathon});
             } 
             else { // TODO OR NOT A MEMBER OF hackathon
                 var user = Meteor.user();
                 console.log(user);
                 if(true){
+
+                    Session.set("currentHackathon", this.params.hackathon);
                     Router.go("/" + this.params.hackathon + "/ideas");
 //                    this.next();
                 }

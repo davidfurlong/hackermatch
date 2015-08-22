@@ -24,7 +24,8 @@ Handlebars.registerHelper('isChecked', function(bool){
 });
 
 Handlebars.registerHelper('selected_hackathon',function(){
-    var hackathon = Session.get('current_hackathon');
+    var hackathonUrl= Session.get("currentHackathon");
+    var hackathon = Hackathons.findOne({url_title: hackathonUrl});
     return hackathon;
 });
 
@@ -135,7 +136,8 @@ var TeamFilters = { // TODO ADAM
 
 var IdeaFilters = {
     'Hearted': function() {
-        var hackathon = Session.get("current_hackathon");
+        var hackathonUrl= Session.get("currentHackathon");
+        var hackathon = Hackathons.findOne({url_title: hackathonUrl});
         if(!hackathon) return;
         var x = Ideas.find({hackathon_id: hackathon._id}).fetch();
         x = _.filter(x, function(idea) {
@@ -167,7 +169,8 @@ var IdeaFilters = {
         if(skillArray.length == 0) {
             return [];
         }
-        var hackathon = Session.get("current_hackathon");
+        var hackathonUrl= Session.get("currentHackathon");
+        var hackathon = Hackathons.findOne({url_title: hackathonUrl});
         if(!hackathon) return;
         var x = Ideas.find({
             $and: [
@@ -178,13 +181,15 @@ var IdeaFilters = {
         return x;
     },
     'All' : function() {
-        var hackathon = Session.get("current_hackathon");
+        var hackathonUrl= Session.get("currentHackathon");
+        var hackathon = Hackathons.findOne({url_title: hackathonUrl});
         if(!hackathon) return;
         var x = Ideas.find({hackathon_id: hackathon._id}).fetch();
         return x;
     },
     'Yours': function() {
-        var hackathon = Session.get("current_hackathon");
+        var hackathonUrl= Session.get("currentHackathon");
+        var hackathon = Hackathons.findOne({url_title: hackathonUrl});
         if(!hackathon) return;
         var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: Meteor.userId()}]}).fetch();
         return x;
@@ -439,7 +444,8 @@ Template.profile_contents.helpers({
 
 Template.person_list.helpers({
     People: function(){
-        var hackathon = Session.get("current_hackathon");
+        var hackathonUrl= Session.get("currentHackathon");
+        var hackathon = Hackathons.findOne({url_title: hackathonUrl});
         if(!hackathon) return;
         var filter = Session.get("team_filter");
 
@@ -578,7 +584,8 @@ Template.nav.helpers({
 
 Template.idea_list.helpers({
     ideas: function() {
-        var hackathon = Session.get("current_hackathon");
+        var hackathonUrl= Session.get("currentHackathon");
+        var hackathon = Hackathons.findOne({url_title: hackathonUrl});
         if(!hackathon) return;
         var filter = Session.get("idea_filter");
 
@@ -715,7 +722,8 @@ Template.sidebar.helpers({
 Template.showHackathons.helpers({
     noIdeaPosted: function(){
         if(Meteor.user()){
-            var hackathon = Session.get("current_hackathon");
+            var hackathonUrl= Session.get("currentHackathon");
+            var hackathon = Hackathons.findOne({url_title: hackathonUrl});
             if(!hackathon) return true;
             var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: {$ne: Meteor.userId()}}]}).fetch();
             if(x.length > 0){
@@ -725,6 +733,60 @@ Template.showHackathons.helpers({
         }
     }
 });
+
+Tracker.autorun(function () {
+    Meteor.subscribe('hackathon_and_ideas', Session.get("currentHackathon"));
+});
+
+Template.hackathon.created = function() {
+    // todo subscribe to notifications
+    var hackathonId = Router.current().params.hackathon;
+    Session.set("currentHackathon", hackathonId);
+}
+Template.hackathon.destroyed = function() {
+//    Session.set("currentHackathon", null);
+}
+Template.hackathon.helpers({
+    dataReady: function () {
+        var hackathonUrl= Session.get("currentHackathon");
+        var hackathon = Hackathons.findOne({url_title: hackathonUrl});
+        if(hackathon) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+    url_title: function() {
+              console.log("URL");
+        var hackathonId = Router.current().params.hackathon;
+        var url_title = null;
+
+        if(hackathonId) {
+            url_title = encodeURI(hackathonId.toLowerCase().replace(/ /g, ''));
+        }
+        console.log(hackathonId);
+        return url_title;
+    },
+    data: function() {
+              console.log("DATA");
+        var hackathonId = Router.current().params.hackathon;
+        var url_title = encodeURI(hackathonId.toLowerCase().replace(/ /g, ''));
+        var hackathonUrl= Session.get("currentHackathon");
+        var hackathon = Hackathons.findOne({url_title: hackathonUrl});
+        if(!hackathon || hackathon.url_title != url_title) {
+            hackathon = Hackathons.findOne({url_title: url_title});
+            if(hackathon) {
+                //Session.set("current_hackathon", hackathon);
+                Session.set("currentHackathon", url_title);
+            }
+        }
+        return hackathon;
+    }
+});
+ 
+
+
+
 
 var pagePath = function() {
     var state = Router.current();
@@ -757,7 +819,8 @@ var pageTitle = function() {
         case "ideas":
         case "hackers":
         case "hackathon": 
-            var hackathon = Session.get("current_hackathon");
+            var hackathonUrl= Session.get("currentHackathon");
+            var hackathon = Hackathons.findOne({url_title: hackathonUrl});
             if(hackathon && hackathon.title) {
                 title = hackathon.title
             }
@@ -787,7 +850,8 @@ var pageUrl = function() {
         case "ideas":
         case "hackers":
         case "hackathon": 
-            var hackathon = Session.get("current_hackathon");
+            var hackathonUrl= Session.get("currentHackathon");
+            var hackathon = Hackathons.findOne({url_title: hackathonUrl});
             if(hackathon && hackathon.url_title) {
                 url = hackathon.url_title
             }
