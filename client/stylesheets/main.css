@@ -241,8 +241,8 @@ body.landing footer {
 	margin-top: -22px;
 }
 
-#sidebar-exit {
-	font-size: 23pt;
+#sidebar-nav i {
+	font-size: 23px;
 	margin-top: -10px;
 	cursor: pointer;
 }
@@ -250,7 +250,7 @@ body.landing footer {
 #idea-filter li {
 	list-style-type: none;
 	display: inline;
-	padding: 0 10px;
+	padding: 0 6px 0 10px;
 }
 
 .ideas-icon {

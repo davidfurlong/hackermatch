@@ -78,6 +78,9 @@ Router.map(function() {
     });
     this.route('idea', {
         path: '/idea/:_id',
+        data: function() {
+            Session.set('selectedIdea', this.params._id);
+        },
         template: 'ideaPage'
     });
     this.route('ideas', {
