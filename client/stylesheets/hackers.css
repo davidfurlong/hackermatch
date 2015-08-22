@@ -1,0 +1,44 @@
+/* Person card styles */
+
+.person-card {
+	height: 380px;
+	text-align: center;
+	overflow: hidden;
+}
+
+.person-card li {
+	list-style-type: none;
+}
+
+.person-card-text {
+	margin-top: 10px;
+}
+
+.person-card-icon img {
+	border-radius: 256px;
+	width: 100%;
+}
+
+.person-card-desc {
+	display: block;
+}
+
+.person-card-title {
+	display: block;
+	font-size: 20px;
+	font-weight: 100;
+	text-transform: uppercase;
+	color: #aaa;
+}
+
+.person-card-title a {
+	color: #aaa;
+}
+
+.person-card-title a:hover {
+	text-decoration: none;
+}
+
+.person-card-skills {
+
+}

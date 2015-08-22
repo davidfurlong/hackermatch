@@ -2,9 +2,7 @@
     <ul class="filters" id="idea-filter">
         {{#each filters}}
         <li class="filter {{selected}}">
-            <a href="">
-                <span class="filter_text">{{filter_text}} <span class="count">({{count}})</span> </span>
-            </a>
+            <a href=""><span class="filter_text">{{filter_text}} <span class="count">({{count}})</span></span></a>
         </li>
         {{/each}}
     </ul>
@@ -12,9 +10,8 @@
 
 <template name="ideaPage">
 {{#if dataReady}}
-{{> hackathonNav}}
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-8 col-md-offset-2 idea-post-full">
             <div class="sidebar-item-author">
                 posted by 
                 {{#if idea.user_profile.avatar_url}}
@@ -62,7 +59,7 @@
             <div class="sidebar-item-comments">
                 <form id="comment-create" action="action" autocomplete="off">
                     <input id="comment-text" type="text" placeholder="Discuss here">
-                    <input type="submit" value="Comment">
+                    <input type="submit" value="Post">
                 </form>
                 <div class="sidebar-item-comments-thread">
                     {{#each reverse idea.commentThread}}    

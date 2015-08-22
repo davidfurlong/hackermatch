@@ -284,6 +284,7 @@ a.link-border:focus::before {
 	cursor: pointer;
 	color: #AAA;
 	font-size: 14pt;
+	line-height: normal;
 }
 
 
@@ -324,6 +325,10 @@ a.link-border:focus::before {
 
 .filter a:hover, .filter a:active, .filter a:visited {
 	text-decoration: none;
+}
+
+.filter.selected a {
+	border-bottom: 2px solid #ddd;
 }
 
 .sidebar h1 {
@@ -367,7 +372,7 @@ a.link-border:focus::before {
     line-height: 42px;
 }
 
-.sidebar input {
+.idea-post-full input {
 	padding: 15px 20px;
 	font-size: 20px;
 	outline: none;
@@ -375,17 +380,17 @@ a.link-border:focus::before {
 	margin: 0;
 }
 
-.sidebar input[type="submit"] {
+.idea-post-full input[type="submit"] {
 	background: #efefef;
 	border-left: 0;
 }
 
-.sidebar input[type="submit"]:hover {
+.idea-post-full input[type="submit"]:hover {
 	background: #dedede;
 }
 
 #comment-text {
-	width: calc(100% - 128px);
+	width: 100%;
 }
 
 #comment-create {

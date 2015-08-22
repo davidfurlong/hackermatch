@@ -62,8 +62,8 @@
 </template>
 
 <template name="sidebar">
-    <div class="sidebar" style="{{#if opened}}{{else}}display:none;{{/if}}" >
-        <div class="pull-right"><a href="/idea/{{idea._id}}"><i class="fa fa-link"></i></a><i id="sidebar-exit" class="fa fa-times"></i></div>
+    <div class="sidebar idea-post-full" style="{{#if opened}}{{else}}display:none;{{/if}}" >
+        <div class="pull-right" id="sidebar-nav"><i id="sidebar-exit" class="ion-close-round"></i></div>
         <div class="sidebar-item-author">
             posted by 
             {{#if idea.user_profile.avatar_url}}
@@ -72,7 +72,7 @@
             <a href="/profile/{{idea.user_profile.login}}">{{idea.user_profile.name}}</a>
             {{toMoment time}}
         </div>
-        <div class="sidebar-item-title"><h1>{{idea.name}}</h1></div>
+        <div class="sidebar-item-title"><h1>{{idea.name}} <a href="/idea/{{idea._id}}"><i class="ion-link"></i></a></h1></div>
         <div class="sidebar-item-desc">{{idea.description}}</div>
         {{#if anyTrue idea.skills}}
             <div class="sidebar-item-skills">
@@ -108,7 +108,7 @@
         <div class="sidebar-item-comments">
     	    <form id="comment-create" action="action" autocomplete="off">
                 <input id="comment-text" type="text" placeholder="Discuss here">
-    		    <input type="submit" value="Comment">
+    		    <input type="submit" value="Post">
             </form>
             <div class="sidebar-item-comments-thread">
                 {{#each reverse idea.commentThread}}    

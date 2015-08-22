@@ -65,6 +65,63 @@ Template.sidebar.events({
         }
     }
 });
+Template.ideaPage.events({
+    'click #heart-idea-toggle': function(e){
+        var idea_id = Session.get('selectedIdea');
+        Meteor.call('heart_idea', idea_id, function(err, res) {});
+    },
+    'submit #comment-create' : function(e, t) {
+        e.preventDefault();
+        var text = t.find('#comment-text').value;
+        if(text != ""){
+            t.find('#comment-text').value = "";
+            var comment = {
+                userId: Meteor.userId(),
+                username: Meteor.user().profile.name,
+                login: Meteor.user().profile.login,
+                avatar_url: Meteor.user().profile.avatar_url,
+                text: text,
+                skills: Meteor.user().profile.skills,
+                time: new Date().getTime(),
+                ideaId: Session.get("selectedIdea")
+            };
+
+            Comments.insert(comment, function(err, result) {
+                if(err) {
+                    console.log("error creating comment");
+                } else {
+                    //hackety hackety hack
+                    //console.log("comment added!");
+                }
+            });
+            // todo subscribers are not unique duplicated
+            var subscribers = Comments.find({$and: [{ideaId: Session.get("selectedIdea")}, {userId: Meteor.userId()}] }).fetch(); // todo this code is likely wrong
+            var idea = Ideas.findOne({_id: Session.get("selectedIdea")});
+            for(var i = 0; i < subscribers.length; i++){
+                var heartedNotification = {};
+                heartedNotification[idea.userId] = {
+                    type: "comment",
+                    message: "New comment on "+idea.name,
+                    url: null,
+                    priority: 2,
+                    timestamp: (new Date()).getTime(),
+                    hackathon: idea.hackathon_id
+                };
+                var notifId = Notifications.find({userId: idea.userId}).fetch()._id;
+                console.log(Notifications.find({userId: idea.userId}).fetch());
+
+                Notifications.update({_id: notifId}, {notifications: {$push: heartedNotification}}, function(err, result) {
+                    if(err){
+                        console.error('failed to create notification model for user')
+                    }
+                    else {
+                        console.log('new notification for user'+idea.userId);
+                    }
+                }); 
+            }
+        }
+    }
+});
 
 Template.personRow.events({
     'click .person-row': function(e){
