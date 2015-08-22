@@ -2,3 +2,12 @@
 .navbar-pageTitle {
     margin-left: -20px !important;
 }
+
+#hackathon-nav a {
+	border-radius: 100px;
+	font-size: 40pt;
+	height: 100px;
+	width: 100px;
+	text-align: center;
+	vertical-align: middle;
+}
