@@ -12,10 +12,11 @@
 	      	<img src="/images/logo_2.png" style="height:32px;margin-top:-5px;margin-right:5px; display:inline">
 	      	hackermatch
         </a>
-        {{#if selected_hackathon}}
-        <a class="navbar-brand navbar-pageTitle" href="/{{selected_hackathon.url_title}}">
-	       / {{selected_hackathon.title}}	
+        {{#if pageTitle}}
+        <a class="navbar-brand navbar-pageTitle" href="/{{pageUrl}}">
+	       / {{pageTitle}}	
         </a>
+{{routeName}}
         {{/if}}
 
 	    </div>
@@ -67,7 +68,7 @@
 	      		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="ion ion-person"></i> <span class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">
 					<li>
-						<a id="settings-link" href="/settings">Account</a>
+						<a id="settings-link" href="/settings">Settings</a>
 					</li>
 					<li>
 						<a href="/profile">Profile</a>

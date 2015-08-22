@@ -15,6 +15,16 @@ Handlebars.registerHelper('selected_hackathon',function(){
     return hackathon;
 });
 
+Handlebars.registerHelper('pageTitle',function(){
+  
+    return pageTitle(); 
+});
+
+Handlebars.registerHelper('pageUrl',function(){
+  
+    return pageUrl(); 
+});
+
 Handlebars.registerHelper('has', function(ray){
     return ray.length > 0;
 })
@@ -401,8 +411,9 @@ Template.profile_contents.helpers({
 
             Meteor.call('attach_ideas', Meteor.user()._id);
             Meteor.call('update_ideas', Meteor.user()._id);
-            
-            return sentence;
+          
+            //HACK not sure what this was supposed to do, but was giving me an error 
+            return languages;
         }
         else if(this.profile.languages) {
             return this.profile.languages;
@@ -701,3 +712,78 @@ Template.showHackathons.helpers({
         }
     }
 });
+
+var pagePath = function() {
+    var state = Router.current();
+
+    if(state && state.location) {
+        var route = state.location.get();
+        return route.pathname;
+    }
+
+    return null;
+}
+
+var pageTitle = function() {
+
+    var routeName = Router.current().route.getName()
+
+    var title = null;
+    switch(routeName) {
+        case "profileOther": 
+            var path = pagePath();
+            path = path.split('/');
+            if(path.length > 2) {
+                title = path[2];
+            }
+            break; 
+        case "home":
+            break;
+        case "create_idea":
+        case "ideas":
+        case "hackers":
+        case "hackathon": 
+            var hackathon = Session.get("current_hackathon");
+            if(hackathon && hackathon.title) {
+                title = hackathon.title
+            }
+            break;
+        default:
+            title = routeName;
+            break; 
+    }
+    return title;
+}
+
+var pageUrl = function() {
+    var routeName = Router.current().route.getName()
+
+    var url = null;
+    switch(routeName) {
+        case "profileOther":
+            url = pagePath();
+            url = url.substring(1);
+            console.log(url);
+            //url = Router.current().url;
+            break;
+        case "home": 
+            url = "home";
+            break;
+        case "create_idea":
+        case "ideas":
+        case "hackers":
+        case "hackathon": 
+            var hackathon = Session.get("current_hackathon");
+            if(hackathon && hackathon.url_title) {
+                url = hackathon.url_title
+            }
+            break;
+        default:
+            url = routeName;
+            break; 
+    }
+    return url;
+}
+
+
+
