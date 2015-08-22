@@ -6,6 +6,19 @@ Handlebars.registerHelper('addIndex', function (all) {
     });
 });
 
+Handlebars.registerHelper('shorten', function(text, maxlength){
+    if(!text) return "";  
+    if(text.length > maxlength){
+        var shortened = text.substring(0,maxlength);
+        var l = shortened.lastIndexOf(" ");
+        return shortened.substring(0,l)+"...";
+    }
+    else {
+        return text;
+    }
+});
+
+
 Handlebars.registerHelper('isChecked', function(bool){
     return (bool == true ? 'checked' : '');
 });
