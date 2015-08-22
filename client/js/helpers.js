@@ -738,7 +738,7 @@ var pageTitle = function() {
             }
             break; 
         case "home":
-            title = "hackathons";
+//            title = "hackathons";
             break;
         case "create_idea":
         case "ideas":
@@ -768,7 +768,7 @@ var pageUrl = function() {
             //url = Router.current().url;
             break;
         case "home": 
-            url = "home";
+            url = "";
             break;
         case "create_idea":
         case "ideas":

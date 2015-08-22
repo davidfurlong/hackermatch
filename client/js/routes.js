@@ -7,15 +7,28 @@ Router.configure({
 Router.onBeforeAction('loading');
 
 Router.map(function() {
-    this.route('index', {
+    this.route('home', {
         path: '/',
-        layoutTemplate: '',
-        onBeforeAction: function() {
-            if (Meteor.user()) {
-                Router.go('home');
+        data: function() {
+            var x = {};
+            x.title = '';
+            x.hackathons = Hackathons.find({}).fetch();
+            return x;
+        },
+        waitOn: function() { return Meteor.subscribe('myHackathons', this.userId)},
+        onBeforeAction: function () {
+            // Session.set("current_hackathon", null);
+            if (!Meteor.user()) {
+              if (Meteor.loggingIn()) {
+                    this.next();
+              }
+              else{
+                Router.go('signup');
+              }
             } else {
                 this.next();
             }
+
         }
     });
     this.route('create_hackathon', {
@@ -68,7 +81,7 @@ Router.map(function() {
             } 
             else {
                 if(!Session.get("current_hackathon")) {
-                    Router.go('home'); 
+                    Router.go('/'); 
                 }
                 else {
                     this.next();
@@ -204,13 +217,17 @@ Router.map(function() {
             if (!Meteor.user()){
                 if (Meteor.loggingIn()) {
                     this.next();
+                    //TODO render logging in template
                 }
                 else{
                   Router.go('signup');
                 }
             } 
             else {
-                this.next();
+                var user = Meteor.user();
+                var username = user.profile.login;
+                Router.go("/profile/" + username);
+//                this.next();
             }
         }
     });
@@ -244,35 +261,11 @@ Router.map(function() {
             return [ Meteor.subscribe('user', this.params._username), Meteor.subscribe('one_users_ideas', this.params._username) ]
         }
     });
-    this.route('home', {
-        path: '/home',
-        data: function() {
-            var x = {};
-            x.title = '';
-            x.hackathons = Hackathons.find({}).fetch();
-            return x;
-        },
-        waitOn: function() { return Meteor.subscribe('myHackathons', this.userId)},
-        onBeforeAction: function () {
-            // Session.set("current_hackathon", null);
-            if (!Meteor.user()) {
-              if (Meteor.loggingIn()) {
-                    this.next();
-              }
-              else{
-                Router.go('signup');
-              }
-            } else {
-                this.next();
-            }
-
-        }
-    });
     this.route('signup', {
         path: '/signup', 
         onBeforeAction: function () {
             if (Meteor.user()) {
-                Router.go('home');
+                Router.go('/');
             } else {
                 this.next();
             }
@@ -346,7 +339,8 @@ Router.map(function() {
                 var user = Meteor.user();
                 console.log(user);
                 if(true){
-                    this.next();
+                    Router.go("/" + this.params.hackathon + "/ideas");
+//                    this.next();
                 }
                 else {
                   this.next();  
