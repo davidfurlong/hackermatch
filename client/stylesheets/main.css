@@ -297,9 +297,6 @@ body.landing footer {
     .row .item-hearts {
     	font-size: 10pt;
     }
-    .ion-heart {
-    	display: none;
-    }
     .item-text {
     	max-width: calc(100% - 40px);
     }
@@ -317,5 +314,8 @@ body.landing footer {
 	}
 	#comment-create {
 		font-size: 10pt;
+	}
+	.row.item li {
+		padding: 0;
 	}
 }

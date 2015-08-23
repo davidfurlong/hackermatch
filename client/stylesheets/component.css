@@ -121,10 +121,6 @@ a.link-border {
     color: #ddd;
 }
 
-.icon-star {
-	cursor: pointer;
-}
-
 a.link-border::before,
 a.link-border::after {
 	pointer-events: none;
@@ -175,7 +171,7 @@ a.link-border:focus::before {
 	transform: scale(1.2);
 }
 
-.item-skills, .item-text {
+.item-skills {
 	vertical-align: middle;
 }
 
@@ -243,10 +239,43 @@ a.link-border:focus::before {
 	margin-top: 0;
 }
 
+
+
+.icon-star:before {
+    position: relative;
+    top: -4px;
+    left: 0;
+    width: 100%;
+    font-size: 26px;
+    line-height: 24px;
+    display: inline-block;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.icon-star:after {
+	content: "\f141";
+    font-family: 'ionicons';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+}
+
+.icon-star {
+	font-size: 0px;
+}
+
 .row .item-action {
 	font-size: 20pt;
 	color: #888;
 	text-align: center;
+	width: 75px;
+	padding: 0;
 }
 
 .row.item {
@@ -257,8 +286,9 @@ a.link-border:focus::before {
 
 .row .item-heart {
 	cursor: pointer;
-	vertical-align: middle;
+	vertical-align: top;
 	position: relative;
+	top: 0px;
 }
 
 .row .item-hearts {
@@ -266,10 +296,8 @@ a.link-border:focus::before {
 	letter-spacing: 1px;
 	font-weight: 700;
 	font-size: 16pt;
-    top: 25px;
-    left: -32px;
+    top: -25px;
     position: relative;
-    width: 100px;
 }
 
 .row .item-title {
@@ -289,7 +317,7 @@ a.link-border:focus::before {
 
 
 .row.item li {
-	display: inline;
+	display: inline-table;
 	padding: 0px 8px;
 	list-style-type: none;
 }
@@ -370,6 +398,14 @@ a.link-border:focus::before {
     font-size: 28px;
     padding-bottom: 15px;
     line-height: 42px;
+}
+
+#idea-filter {
+	padding-left: 0;
+}
+
+.idea-list {
+	margin-bottom: 0;
 }
 
 .idea-post-full input {
@@ -460,5 +496,12 @@ a.link-border:focus::before {
   }
   .brand:before {
   	content: '<img src="icon.png" height="40px" class="brand-icon">';
+  }
+  .navbar {
+  	margin-bottom: 0;
+  }
+  #idea-filter li {
+  	display: block !important;
+  	margin: 10px 0;
   }
 }

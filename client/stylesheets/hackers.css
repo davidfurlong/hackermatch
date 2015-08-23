@@ -4,6 +4,7 @@
 	height: 380px;
 	text-align: center;
 	overflow: hidden;
+	padding-left: 0;
 }
 
 .person-card li {
