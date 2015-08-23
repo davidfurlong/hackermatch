@@ -467,20 +467,37 @@ Template.person_list.helpers({
     }
 });
 
-Template.home.helpers({
-    profileIncomplete: function() {
-        if(Meteor.user()){
-            var me = Meteor.user().profile;
-            return me.bio == null || me.bio == "" || me.contact == null || me.contact == "" || me.name == "" || me.name == null
-        }
+Template.myHackathonList.created = function() {
+    // todo subscribe to notifications
+    this.myHackathons = Meteor.subscribe('myHackathons');
+}
+Template.myHackathonList.destroyed = function() {
+    this.myHackathons.stop();
+}
+Template.myHackathonList.helpers({
+    dataReady: function() {
+        return Template.instance().myHackathons.ready()
     },
-    invite_code: function(){
-        var invite_code = Session.get('invite_code');
-        if(invite_code) {
-            return invite_code;
-        } else {
-            return 'I6WK9';
-        }
+    hackathons: function(){
+        var user = Meteor.user();
+        if(!user) return;
+        var hackathonList = [];
+        _.each(user.roles, function(role, hackathon) {
+            var entry = {};
+            entry['url_title'] = hackathon;
+            if(role.indexOf('hacker') != -1)
+                hackathonList.push(entry);
+        });
+        var x = Hackathons.find({$or: hackathonList}).fetch();
+        _.each(x, function(hackathon, index) {
+            var ut = hackathon.url_title;
+            if(user.roles[ut] && (user.roles[ut].indexOf('creator') != -1 || user.roles[ut].indexOf('admin') != -1)){
+                x[index].show_invite_code = true;
+            }
+            else
+                x[index].show_invite_code = false;
+        });
+        return x;
     }
 });
 Template.settings.created = function() {
@@ -501,8 +518,6 @@ Template.settings.helpers({
         if(role.indexOf('hacker') != -1)
             hackathonList.push(entry);
     });
-    var y = Hackathons.find({}).fetch();
-    console.log(y);
     var x = Hackathons.find({$or: hackathonList}).fetch();
     return x;
   },

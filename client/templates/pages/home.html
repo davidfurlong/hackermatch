@@ -16,7 +16,7 @@
 <template name="myHackathonList">
     <ul id="my-hackathon-list">
         {{#each hackathons}}
-            <li><a href="/{{url_title}}">{{title}}</a></li>
+            <li><a href="/{{url_title}}">{{title}}</a>{{#if show_invite_code}} Share url: http://hackermat.ch/{{url_title}}/join/{{invite_code}}{{/if}}</li>
         {{/each}}
     </ul>
 </template>

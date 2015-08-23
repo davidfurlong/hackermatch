@@ -227,9 +227,9 @@ Meteor.startup(function () {
               else {
                   // TODO ADAM this throws an error
                   if(isOrganizer)
-                    Roles.addUsersToRoles(uid, ['hacker','organizer'], hackathon['url_title']);
+                    Roles.addUsersToRoles(uid, ['hacker','organizer','creator'], hackathon['url_title']);
                   else
-                    Roles.addUsersToRoles(uid, ['hacker'], hackathon['url_title']);
+                    Roles.addUsersToRoles(uid, ['hacker','creator'], hackathon['url_title']);
               }
           });   
         }

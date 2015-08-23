@@ -9,13 +9,13 @@ Router.onBeforeAction('loading');
 Router.map(function() {
     this.route('home', {
         path: '/',
-        data: function() {
-            var x = {};
-            x.title = '';
-            x.hackathons = Hackathons.find({}).fetch();
-            return x;
-        },
-        waitOn: function() { return Meteor.subscribe('myHackathons', this.userId)},
+        // data: function() {
+        //     var x = {};
+        //     x.title = '';
+        //     x.hackathons = Hackathons.find({}).fetch();
+        //     return x;
+        // },
+        // waitOn: function() { return Meteor.subscribe('myHackathons', this.userId)},
         onBeforeAction: function () {
             // Session.set("current_hackathon", null);
             if (!Meteor.user()) {
@@ -74,7 +74,7 @@ Router.map(function() {
         onBeforeAction: function () {
             if (!Meteor.user()) {
                 if (Meteor.loggingIn()) {
-                } 
+                }
                 else {
                     Router.go('signup');
                 }
@@ -84,6 +84,7 @@ Router.map(function() {
                     Router.go('/'); 
                 }
                 else {
+                    // TODO check is members of hackathon
                     this.next();
                 }
             }
