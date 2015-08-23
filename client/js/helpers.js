@@ -497,12 +497,12 @@ Template.settings.helpers({
     var hackathonList = [];
     _.each(user.roles, function(role, hackathon) {
         var entry = {};
-        if(role == "admin") {
-            // console.log("admin role found");
-        }
         entry['url_title'] = hackathon;
-        hackathonList.push(entry);
+        if(role.indexOf('hacker') != -1)
+            hackathonList.push(entry);
     });
+    var y = Hackathons.find({}).fetch();
+    console.log(y);
     var x = Hackathons.find({$or: hackathonList}).fetch();
     return x;
   },

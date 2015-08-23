@@ -214,7 +214,8 @@ Meteor.publish("myHackathons", function () {
     _.each(user.roles, function(role, hackathon) {
         var entry = {};
         entry['url_title'] = hackathon;
-        hackathonList.push(entry);
+        if(role.length != 0)
+            hackathonList.push(entry);
     });
     if(hackathonList.length) {
         return Hackathons.find({$or: hackathonList});

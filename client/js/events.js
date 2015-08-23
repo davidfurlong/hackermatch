@@ -203,11 +203,16 @@ Template.createHackathon.events({
             'title': e.target['hackathon-name'].value,
             'url': e.target['hackathon-url'].value,
             'logo': e.target['hackathon-logo-url'].value,
-            'open': e.target['hackathon-open-join'].value
+            'open': e.target['hackathon-open-join'].checked
         }
         hackathon.title = hackathon.title.replace('/', '&#47;');
-        Meteor.call('create_hackathon', hackathon, function(err, res) {});
-        // todo make current user organizer if checked
+        Meteor.call('create_hackathon', hackathon, isOrganizer, function(err, res) {
+            if(err)
+                console.error(err);
+            else {
+                Router.go('/');
+            }
+        });
     }
 });
 
@@ -327,17 +332,9 @@ Template.settings.events({
         });
     },
     'click .leave-hackathon' : function(e) {
-        console.log(this);
         Meteor.call('leave_hackathon', this._id, function(err, res){
             if(err){
-                // todo something
                 console.error(err); 
-            }
-            if(res){
-                // do nothing?
-            }
-            else {
-                console.error('leaving hackathon failed');
             }
         });
     }

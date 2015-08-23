@@ -177,8 +177,8 @@ Meteor.startup(function () {
           } 
         },
 
-        create_hackathon: function(obj) {     
-          if (!obj) return;
+        create_hackathon: function(obj, isOrganizer) {     
+          if (!obj) return "no obj";
 
           var hackathon;
           if(typeof obj == "string"){
@@ -193,9 +193,15 @@ Meteor.startup(function () {
           }
 
           var url_title = encodeURI(hackathon.title.toLowerCase().replace(/ /g, ''));
-          //Need to check and make sure this hash is unique...
+          var url_title_exists = Hackathons.findOne({url_title: url_title});
+          var count = 1;
+          while(url_title_exists){
+            url_title = encodeURI(hackathon.title.toLowerCase().replace(/ /g, '')+count);
+            url_title_exists = Hackathons.findOne({url_title: url_title});
+            count++;
+          }
+
           var hash = ((Math.floor(Math.random() * 1e8) + new Date().getMilliseconds()).toString(36)).toUpperCase().substring(0,5);
-           
           var code_exists = Hackathons.findOne({invite_code: hash});
           while(code_exists) {
             hash = ((Math.floor(Math.random() * 1e8) + new Date().getMilliseconds()).toString(36)).toUpperCase().substring(0,5);
@@ -206,23 +212,26 @@ Meteor.startup(function () {
           hackathon['invite_code'] = hash;
           hackathon['created_by'] = this.userId;
 
-          var exists = Hackathons.findOne({title: hackathon.title});
-          if(exists) {
-              return;
-              // TODO throw sensible error
-              //can we select on name attribute again?
-          }
-
+          // var exists = Hackathons.findOne({title: hackathon.title});
+          // if(exists) {
+          //     return;
+          //     // TODO throw sensible error
+          //     //can we select on name attribute again?
+          // }
+          var uid = this.userId;
           Hackathons.insert(hackathon, function(err, result) {
               if(err) {
                   console.log("error creating hackathon");
-              } else {
-                  // TODO add user to hackathon and then
+                  return "error inserting hackathon";
+              } 
+              else {
                   // TODO ADAM this throws an error
-                  Router.go('hackathon/'+hackathon['url_title']);
+                  if(isOrganizer)
+                    Roles.addUsersToRoles(uid, ['hacker','organizer'], hackathon['url_title']);
+                  else
+                    Roles.addUsersToRoles(uid, ['hacker'], hackathon['url_title']);
               }
-          });
-          return;
+          });   
         }
     });
 });
