@@ -19,6 +19,7 @@ Hackathons = new Meteor.Collection("Hackathons");
 Hearts = new Meteor.Collection("Hearts");
 
 Notifications = new Meteor.Collection("Notifications");
-// userid -> [{type, message, url, priority, timestamp, hackathonId}]
+
+// stores [{type, message, url, priority, timestamp, hackathonId}]
 // types: welcome, comment, heart, postcomment
 // priority: 1, 2, 3 (3 is highest)

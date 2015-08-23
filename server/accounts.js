@@ -26,10 +26,11 @@ Meteor.startup(function () {
                 {'user_profile.email': user.profile.contact}]},
                 {userId: null}
             ]}).fetch();
+            var user_profile_min = _.pick(user.profile,
+              "login", "avatar_url", "name");
             _.each(ideas, function(idea) {
-                // TODO do not store user profiles in ideas
                 Ideas.update({_id:idea._id}, {$set:{"userId":user._id}});
-                Ideas.update({_id:idea._id}, {$set:{"user_profile":user.profile}});
+                Ideas.update({_id:idea._id}, {$set:{"user_profile":user_profile_min}});
                 Meteor.call('heart_idea', idea._id);
             });
         },
@@ -56,9 +57,9 @@ Meteor.startup(function () {
               timestamp: (new Date()).getTime(),
               hackathon: idea.hackathon_id
             };
-            Notifications.update({userId: idea.userId}, {notifications: {$push: heartedNotification}}, function(err, result) {
+            Notifications.update({userId: idea.userId}, {$push: {notifications: heartedNotification}}, {upsert:true}, function(err, result) {
               if(err){
-                console.error('failed to create notification model for user')
+                console.error(err);
               }
               else {
                 console.log('new notification for user '+idea.userId);
@@ -431,7 +432,7 @@ Accounts.onCreateUser(function (options, user) {
           timestamp: (new Date()).getTime(),
           hackathon: null
       }];
-      Notifications.insert(welcome, function(err, result) {
+      Notifications.update({userId: user._id}, {$push: {notifications: welcome}}, {upsert:true}, function(err, result) {
         if(err){
           console.error('failed to create notification model for user')
         }

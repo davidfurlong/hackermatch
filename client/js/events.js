@@ -50,10 +50,8 @@ Template.sidebar.events({
                     timestamp: (new Date()).getTime(),
                     hackathon: idea.hackathon_id
                 };
-                var notifId = Notifications.find({userId: idea.userId}).fetch()._id;
-                console.log(Notifications.find({userId: idea.userId}).fetch());
 
-                Notifications.update({_id: notifId}, {notifications: {$push: heartedNotification}}, function(err, result) {
+                Notifications.update({userId: idea.userId}, {$push: {notifications: heartedNotification}}, {upsert:true}, function(err, result) {
                     if(err){
                         console.error('failed to create notification model for user')
                     }
@@ -107,10 +105,7 @@ Template.ideaPage.events({
                     timestamp: (new Date()).getTime(),
                     hackathon: idea.hackathon_id
                 };
-                var notifId = Notifications.find({userId: idea.userId}).fetch()._id;
-                console.log(Notifications.find({userId: idea.userId}).fetch());
-
-                Notifications.update({_id: notifId}, {notifications: {$push: heartedNotification}}, function(err, result) {
+                Notifications.update({userId: idea.userId}, {$push: {$notifications: heartedNotification}},{upsert: true}, function(err, result) {
                     if(err){
                         console.error('failed to create notification model for user')
                     }
