@@ -7,15 +7,28 @@ Router.configure({
 Router.onBeforeAction('loading');
 
 Router.map(function() {
-    this.route('index', {
+    this.route('home', {
         path: '/',
-        layoutTemplate: '',
-        onBeforeAction: function() {
-            if (Meteor.user()) {
-                Router.go('home');
+        data: function() {
+            var x = {};
+            x.title = '';
+            x.hackathons = Hackathons.find({}).fetch();
+            return x;
+        },
+        waitOn: function() { return Meteor.subscribe('myHackathons', this.userId)},
+        onBeforeAction: function () {
+            // Session.set("current_hackathon", null);
+            if (!Meteor.user()) {
+              if (Meteor.loggingIn()) {
+                    this.next();
+              }
+              else{
+                Router.go('signup');
+              }
             } else {
                 this.next();
             }
+
         }
     });
     this.route('create_hackathon', {
@@ -67,8 +80,8 @@ Router.map(function() {
                 }
             } 
             else {
-                if(!Session.get("current_hackathon")) {
-                    Router.go('home'); 
+                if(!Session.get("currentHackathon")) {
+                    Router.go('/'); 
                 }
                 else {
                     this.next();
@@ -86,6 +99,7 @@ Router.map(function() {
     this.route('ideas', {
         path: '/:hackathon/ideas' , 
         template: 'hackathon',
+        /*
         data: function() {
             var url_title = encodeURI(this.params.hackathon.toLowerCase().replace(/ /g, ''));
             var hackathon = Session.get("current_hackathon");
@@ -97,17 +111,21 @@ Router.map(function() {
             }
             return hackathon;
         },
+        */
+        /*
         waitOn: function() { 
             return Meteor.subscribe('hackathon_and_ideas', this.params.hackathon)
         },
+        */
         yieldTemplates: {
             'hackathon_nav': {to: 'nav'}
         },
         onBeforeAction: function () {
-            if (!Meteor.user()) {// TODO OR NOT A MEMBER OF hackathon
+            if (!Meteor.user() && !Meteor.loggingIn()) {// TODO OR NOT A MEMBER OF hackathon
                 Router.go(this.params.hackathon+'/join');
             } 
             else {
+                Session.set("currentHackathon", this.params.hackathon);
                 this.next();
             }
         }
@@ -207,13 +225,17 @@ Router.map(function() {
             if (!Meteor.user()){
                 if (Meteor.loggingIn()) {
                     this.next();
+                    //TODO render logging in template
                 }
                 else{
                   Router.go('signup');
                 }
             } 
             else {
-                this.next();
+                var user = Meteor.user();
+                var username = user.profile.login;
+                Router.go("/profile/" + username);
+//                this.next();
             }
         }
     });
@@ -247,35 +269,11 @@ Router.map(function() {
             return [ Meteor.subscribe('user', this.params._username), Meteor.subscribe('one_users_ideas', this.params._username) ]
         }
     });
-    this.route('home', {
-        path: '/home',
-        data: function() {
-            var x = {};
-            x.title = '';
-            x.hackathons = Hackathons.find({}).fetch();
-            return x;
-        },
-        waitOn: function() { return Meteor.subscribe('myHackathons', this.userId)},
-        onBeforeAction: function () {
-            // Session.set("current_hackathon", null);
-            if (!Meteor.user()) {
-              if (Meteor.loggingIn()) {
-                    this.next();
-              }
-              else{
-                Router.go('signup');
-              }
-            } else {
-                this.next();
-            }
-
-        }
-    });
     this.route('signup', {
         path: '/signup', 
         onBeforeAction: function () {
             if (Meteor.user()) {
-                Router.go('home');
+                Router.go('/');
             } else {
                 this.next();
             }
@@ -288,7 +286,8 @@ Router.map(function() {
                 title: 'admin',
                 hackathons: Hackathons.find({}).fetch()
             };
-            var hackathon = Session.get("current_hackathon");
+            var hackathonUrl= Session.get("currentHackathon");
+            var hackathon = Hackathons.findOne({url_title: hackathonUrl});
             if(hackathon) {
                 obj.override_title = hackathon.title;
                 obj.override_title_url = '/' + hackathon.url_title;
@@ -322,6 +321,7 @@ Router.map(function() {
     });
     this.route('hackathon', { // THIS HAS TO BE THE LAST ROUTE
         path: '/:hackathon', 
+        /*
         data: function() {
             var url_title = encodeURI(this.params.hackathon.toLowerCase().replace(/ /g, ''));
             var hackathon = Session.get("current_hackathon");
@@ -334,22 +334,28 @@ Router.map(function() {
 
             return hackathon;
         },
+        */
         yieldTemplates: {
             'hackathon_nav': {to: 'nav'}
         },
+        /*
         waitOn: function() { 
             return Meteor.subscribe('hackathon_and_ideas', this.params.hackathon)
         },
+        */
         onBeforeAction: function () {
             // todo check is a hackathon
-            if (!Meteor.user()) {
-                Router.go('joinHackathon', { hackathon: this.params.hackathon});
+            if (!Meteor.user() && !Meteor.loggingIn()) {
+                //Router.go('joinHackathon', { hackathon: this.params.hackathon});
             } 
             else { // TODO OR NOT A MEMBER OF hackathon
                 var user = Meteor.user();
                 console.log(user);
                 if(true){
-                    this.next();
+
+                    Session.set("currentHackathon", this.params.hackathon);
+                    Router.go("/" + this.params.hackathon + "/ideas");
+//                    this.next();
                 }
                 else {
                   this.next();  

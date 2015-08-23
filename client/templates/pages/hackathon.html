@@ -24,6 +24,7 @@
     {{> hackathonNav}}
     {{> profile_sidebar}}
     {{> sidebar}} <!-- This is the comments sidebar -->
+    {{#if dataReady}}
     <div class="container">
         {{#if isInRole 'hacker' url_title}}
             {{> showHackathons}}
@@ -33,6 +34,7 @@
             </div>
         {{/if}}
     </div>
+    {{/if}}
 </template>
 
 <template name="showHackathons">
