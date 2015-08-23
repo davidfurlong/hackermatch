@@ -579,6 +579,9 @@ Template.nav.helpers({
         var x = Hackathons.find({$or: hackathonList}).fetch();
         // TODO ADAM $or is not working or something
         return x;
+    },
+    'username': function(){
+        return Meteor.user().profile.login;
     }
 });
 

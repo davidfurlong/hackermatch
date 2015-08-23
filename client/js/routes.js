@@ -96,42 +96,8 @@ Router.map(function() {
         },
         template: 'ideaPage'
     });
-    this.route('ideas', {
-        path: '/:hackathon/ideas' , 
-        template: 'hackathon',
-        /*
-        data: function() {
-            var url_title = encodeURI(this.params.hackathon.toLowerCase().replace(/ /g, ''));
-            var hackathon = Session.get("current_hackathon");
-            if(!hackathon || hackathon.url_title != url_title) {
-                hackathon = Hackathons.findOne({url_title: url_title});
-                if(hackathon) {
-                    Session.set("current_hackathon", hackathon);
-                }
-            }
-            return hackathon;
-        },
-        */
-        /*
-        waitOn: function() { 
-            return Meteor.subscribe('hackathon_and_ideas', this.params.hackathon)
-        },
-        */
-        yieldTemplates: {
-            'hackathon_nav': {to: 'nav'}
-        },
-        onBeforeAction: function () {
-            if (!Meteor.user() && !Meteor.loggingIn()) {// TODO OR NOT A MEMBER OF hackathon
-                Router.go(this.params.hackathon+'/join');
-            } 
-            else {
-                Session.set("currentHackathon", this.params.hackathon);
-                this.next();
-            }
-        }
-    });
     this.route('create_idea', {
-        path: '/:hackathon/ideas/new' , 
+        path: '/:hackathon/new' , 
         data: function() {
             var hackathon = this.params.hackathon;
             if(hackathon) {
@@ -211,34 +177,34 @@ Router.map(function() {
     this.route('about', {
         path: '/about'
     });
-    this.route('profile', {
-        path: '/profile',
-        data: function() { 
-            var user = Meteor.user(); 
-            if(user) {
-                user['title'] = 'profile';
-            }
-            return user;
-        },
-        waitOn: function() { return Meteor.subscribe('one_users_ideas', this.params._username)},
-        onBeforeAction: function() {
-            if (!Meteor.user()){
-                if (Meteor.loggingIn()) {
-                    this.next();
-                    //TODO render logging in template
-                }
-                else{
-                  Router.go('signup');
-                }
-            } 
-            else {
-                var user = Meteor.user();
-                var username = user.profile.login;
-                Router.go("/profile/" + username);
-//                this.next();
-            }
-        }
-    });
+//     this.route('profile', {
+//         path: '/profile',
+//         data: function() { 
+//             var user = Meteor.user(); 
+//             if(user) {
+//                 user['title'] = 'profile';
+//             }
+//             return user;
+//         },
+//         waitOn: function() { return Meteor.subscribe('one_users_ideas', this.params._username)},
+//         onBeforeAction: function() {
+//             if (!Meteor.user()){
+//                 if (Meteor.loggingIn()) {
+//                     this.next();
+//                     //TODO render logging in template
+//                 }
+//                 else{
+//                   Router.go('signup');
+//                 }
+//             } 
+//             else {
+//                 var user = Meteor.user();
+//                 var username = user.profile.login;
+//                 Router.go("/profile/" + username);
+// //                this.next();
+//             }
+//         }
+//     });
     this.route('settings', {
         path: '/settings',
         onBeforeAction: function() {
@@ -344,22 +310,12 @@ Router.map(function() {
         },
         */
         onBeforeAction: function () {
-            // todo check is a hackathon
-            if (!Meteor.user() && !Meteor.loggingIn()) {
-                //Router.go('joinHackathon', { hackathon: this.params.hackathon});
+            if (!Meteor.user() && !Meteor.loggingIn()) {// TODO OR NOT A MEMBER OF hackathon
+                Router.go(this.params.hackathon+'/join');
             } 
-            else { // TODO OR NOT A MEMBER OF hackathon
-                var user = Meteor.user();
-                console.log(user);
-                if(true){
-
-                    Session.set("currentHackathon", this.params.hackathon);
-                    Router.go("/" + this.params.hackathon + "/ideas");
-//                    this.next();
-                }
-                else {
-                  this.next();  
-                }
+            else {
+                Session.set("currentHackathon", this.params.hackathon);
+                this.next();
             }
         }
     });
