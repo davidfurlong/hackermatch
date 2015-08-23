@@ -614,20 +614,21 @@ Template.idea_list.helpers({
     }
 });
 
-Template.createIdea.created = function(){
-    this.myIdeas = Meteor.subscribe('one_users_ideas');
-}
-Template.createIdea.destroyed = function(){
-    this.myIdeas.stop();
-}
-Template.createIdea.helpers({
-    dataReady: function () {
-        return Template.instance().myIdeas.ready();
-    },
-    ideas: function(){
-        return Ideas.find({userId: Meteor.userId()});
-    }
-});
+// Template.createIdea.created = function(){
+//     var hackathonUrl= Session.get("currentHackathon");
+//     this.myIdeas = Meteor.subscribe('one_users_ideas_not_in_hackathon', hackathonUrlk);
+// }
+// Template.createIdea.destroyed = function(){
+//     this.myIdeas.stop();
+// }
+// Template.createIdea.helpers({
+//     dataReady: function () {
+//         return Template.instance().myIdeas.ready();
+//     },
+//     ideas: function(){
+//         return Ideas.find({userId: Meteor.userId()});
+//     }
+// });
 
 Template.ideaPage.created = function() {
     var ideaId = Router.current().params._id;

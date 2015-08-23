@@ -500,8 +500,4 @@ a.link-border:focus::before {
   .navbar {
   	margin-bottom: 0;
   }
-  #idea-filter li {
-  	display: block !important;
-  	margin: 10px 0;
-  }
 }
