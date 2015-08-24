@@ -56,13 +56,18 @@
                     {{/if}}
 	      		</ul>
 	      	</li>
-	      	<li>
-	      		<a id="notifications-trigger">
-	      	    <i class="fa fa-bell-o"></i>
-	      	    {{#if has notifications}}
-	      	        {{len notifications}}
+	      	<li class="dropdown">
+	      		<a id="notifications-trigger" href="#" class="dropdown-toggle {{#if hasUnread notifications }}has-notifications{{/if}}" data-toggle="dropdown" role="button" aria-expanded="false" >
+	      	    <i class="fa fa-bell-o"></i> 
+	      	    {{#if hasUnread notifications }}
+	      	        <b>{{lenUnread notifications }}</b>
 	      	    {{/if}}
 	      	    </a>
+	      	    <ul class="dropdown-menu" role="menu" id="notifications-dropdown">
+	      	    	{{#each notifications}}
+	      	    	<li><a>{{{parseNotification .}}}</a></li>
+	      	    	{{/each}}
+	      	    </ul>
 	      	</li>
 	      	<li class="dropdown">
 	      		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="ion ion-person"></i> <span class="caret"></span></a>

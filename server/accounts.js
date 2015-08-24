@@ -34,8 +34,7 @@ Meteor.startup(function () {
                 Meteor.call('heart_idea', idea._id);
             });
         },
-        // updates user info for ideas
-        update_ideas: function (user_id) { 
+        update_ideas: function (user_id) {   // updates user info for ideas
             var user = Meteor.users.findOne(user_id);
             if(!user) return;
             var user_profile_min = _.pick(user.profile,
@@ -43,28 +42,43 @@ Meteor.startup(function () {
 
             Ideas.update({userId: user_id}, {"user_profile":user_profile_min});
         },
-        // Hearts an idea
+        read_notifications: function(){
+          Notifications.update({userId: Meteor.userId(), "notifications.read": false}, {$set: {"notifications.$.read": true}}, function(err, result) {
+            if(err){
+              console.error(err);
+            }
+            else {
+              console.log('successfully read notifications');
+            }
+          });
+        },
         heart_idea: function (idea_id) {
             var heart = Hearts.findOne({ $and: [{idea_id: idea_id}, {user_id: this.userId}]});
             var idea = Ideas.findOne({_id: idea_id});
             // attach notification
-            var heartedNotification = {};
-            heartedNotification[idea.userId] = {
-              type:"heart",
-              message: "<a href='"+Meteor.user().profile.login+">'"+Meteor.user().profile.login+"</a> hearted your idea \""+idea.name+"\"",
-              url: null,
+            var heartedNotification = {
+              details: {
+                type: "hearted",
+                by: Meteor.user().profile.login,
+                idea_id: idea._id,
+                idea_name: idea.name,
+                hackathon: idea.hackathon_id
+              },
+              read: false,
               priority: 1,
-              timestamp: (new Date()).getTime(),
-              hackathon: idea.hackathon_id
+              timestamp: (new Date()).getTime()
             };
-            Notifications.update({userId: idea.userId}, {$push: {notifications: heartedNotification}}, {upsert:true}, function(err, result) {
-              if(err){
-                console.error(err);
-              }
-              else {
-                console.log('new notification for user '+idea.userId);
-              }
-            });
+
+            if(Meteor.userId() != idea.userId && !heart.hearted){ // dont notify yourself or if unheart
+              Notifications.update({userId: idea.userId}, {$push: {notifications: heartedNotification}}, {upsert:true}, function(err, result) {
+                if(err){
+                  console.error(err);
+                }
+                else {
+                  console.log('new notification for user '+idea.userId);
+                }
+              });
+            }
 
             // Updates DB
             if(typeof idea.hearts == "number"){ // safety check for NaN
@@ -422,16 +436,14 @@ Accounts.onCreateUser(function (options, user) {
   
       Meteor.users.update({_id:user._id}, {$set:{"profile":profile}});
 
-      var welcome = {};
-      welcome["userId"] = user._id;
-      welcome["notifications"] = [{
-          type:"welcome",
-          message:"Welcome to hackermatch",
-          url: null,
+      var welcome = {
+          details: {
+            type:"welcome",
+          },
           priority: 1,
-          timestamp: (new Date()).getTime(),
-          hackathon: null
-      }];
+          read: false,
+          timestamp: (new Date()).getTime()
+      };
       Notifications.update({userId: user._id}, {$push: {notifications: welcome}}, {upsert:true}, function(err, result) {
         if(err){
           console.error('failed to create notification model for user')

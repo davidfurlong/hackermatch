@@ -6,6 +6,32 @@ Handlebars.registerHelper('addIndex', function (all) {
     });
 });
 
+Handlebars.registerHelper('lenUnread', function(notifications){
+    var x = _.filter(notifications, function(notification){
+        return !notification.read;
+    });
+    return x.length;
+});
+
+Handlebars.registerHelper('hasUnread', function(notifications){
+    var x = _.filter(notifications, function(notification){
+        return !notification.read;
+    });
+    return x.length != 0;
+});
+
+Handlebars.registerHelper('parseNotification', function (notification) {
+    switch(notification.details.type){
+        case "welcome":
+            return "Welcome to hackermatch! Let us know if you have any problems at david@furlo.ng";
+            break;
+        case "hearted":
+            return "<a href='/profile/"+notification.details.by+"'>"+notification.details.by+"</a> hearted your idea <a href='/idea/"+notification.details.idea_id+"'>"+notification.details.idea_name+"</a>.";
+            break;
+    }
+    return "Something went wrong";
+});
+
 Handlebars.registerHelper('shorten', function(text, maxlength){
     if(!text) return "";  
     if(text.length > maxlength){
@@ -574,10 +600,14 @@ Template.nav.destroyed = function() {
 }
 Template.nav.helpers({
     dataReady: function () {
-        return Template.instance().hackathonsHandle.ready() && Template.instance().userNotifications.ready()
+        return (Template.instance().hackathonsHandle.ready() && Template.instance().userNotifications.ready())
     },
     'notifications': function(){
-        return Notifications.find({userId: Meteor.userId()});
+        var x = Notifications.findOne({userId: Meteor.userId()});
+        if(x)
+            return x.notifications;
+        else
+            return [];
     },
     'hackathons': function(){
         var user = Meteor.user();

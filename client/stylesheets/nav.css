@@ -11,3 +11,15 @@
 	text-align: center;
 	vertical-align: middle;
 }
+
+#notifications-trigger.has-notifications {
+	color: orange;
+}
+
+#notifications-dropdown>li>a:hover, #notifications-dropdown>li>a:focus {
+	background: transparent;
+}
+
+#notifications-dropdown {
+	max-height: 250px;
+}

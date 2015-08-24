@@ -369,6 +369,12 @@ Template.index.events({
 })
 
 Template.nav.events({
+    'click #notifications-trigger' : function(){
+        Meteor.call('read_notifications', function(err, res){
+            if(err)
+                console.error(err);
+        });
+    },
     'click #join-link' : function(){
         var profile = {}
 
