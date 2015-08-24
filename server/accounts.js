@@ -43,14 +43,17 @@ Meteor.startup(function () {
             Ideas.update({userId: user_id}, {"user_profile":user_profile_min});
         },
         read_notifications: function(){
-          Notifications.update({userId: Meteor.userId(), "notifications.read": false}, {$set: {"notifications.$.read": true}}, function(err, result) {
-            if(err){
-              console.error(err);
-            }
-            else {
-              console.log('successfully read notifications');
-            }
-          });
+          function removeNotif(){
+            Notifications.update({userId: Meteor.userId(), "notifications.read": false}, {$set: {"notifications.$.read": true}}, function(err, result) {
+              if(err){
+                console.error(err);
+              }
+              else if(result != 0) {
+                removeNotif();
+              }
+            });
+          }
+          removeNotif();
         },
         heart_idea: function (idea_id) {
             var heart = Hearts.findOne({ $and: [{idea_id: idea_id}, {user_id: this.userId}]});
