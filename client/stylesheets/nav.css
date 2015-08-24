@@ -22,4 +22,5 @@
 
 #notifications-dropdown {
 	max-height: 250px;
+	overflow: auto;
 }
