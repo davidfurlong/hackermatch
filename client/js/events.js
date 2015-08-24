@@ -29,37 +29,9 @@ Template.sidebar.events({
                 ideaId: Session.get("selectedIdea")
             };
 
-            Comments.insert(comment, function(err, result) {
-                if(err) {
-                    console.log("error creating comment");
-                } else {
-                    //hackety hackety hack
-                    //console.log("comment added!");
-                }
+            Meteor.call('create_comment', comment, function(err, res){
+                if(err) console.error(err);
             });
-            // todo subscribers are not unique duplicated
-            var subscribers = Comments.find({$and: [{ideaId: Session.get("selectedIdea")}, {userId: Meteor.userId()}] }).fetch(); // todo this code is likely wrong
-            var idea = Ideas.findOne({_id: Session.get("selectedIdea")});
-            for(var i = 0; i < subscribers.length; i++){
-                var heartedNotification = {};
-                heartedNotification[idea.userId] = {
-                    type: "comment",
-                    message: "New comment on "+idea.name,
-                    url: null,
-                    priority: 2,
-                    timestamp: (new Date()).getTime(),
-                    hackathon: idea.hackathon_id
-                };
-
-                Notifications.update({userId: idea.userId}, {$push: {notifications: heartedNotification}}, {upsert:true}, function(err, result) {
-                    if(err){
-                        console.error('failed to create notification model for user')
-                    }
-                    else {
-                        console.log('new notification for user'+idea.userId);
-                    }
-                }); 
-            }
         }
     }
 });
@@ -84,36 +56,9 @@ Template.ideaPage.events({
                 ideaId: Session.get("selectedIdea")
             };
 
-            Comments.insert(comment, function(err, result) {
-                if(err) {
-                    console.log("error creating comment");
-                } else {
-                    //hackety hackety hack
-                    //console.log("comment added!");
-                }
-            });
-            // todo subscribers are not unique duplicated
-            var subscribers = Comments.find({$and: [{ideaId: Session.get("selectedIdea")}, {userId: Meteor.userId()}] }).fetch(); // todo this code is likely wrong
-            var idea = Ideas.findOne({_id: Session.get("selectedIdea")});
-            for(var i = 0; i < subscribers.length; i++){
-                var heartedNotification = {};
-                heartedNotification[idea.userId] = {
-                    type: "comment",
-                    message: "New comment on "+idea.name,
-                    url: null,
-                    priority: 2,
-                    timestamp: (new Date()).getTime(),
-                    hackathon: idea.hackathon_id
-                };
-                Notifications.update({userId: idea.userId}, {$push: {$notifications: heartedNotification}},{upsert: true}, function(err, result) {
-                    if(err){
-                        console.error('failed to create notification model for user')
-                    }
-                    else {
-                        console.log('new notification for user'+idea.userId);
-                    }
-                }); 
-            }
+            Meteor.call('create_comment', comment, function(err, res){
+                if(err) console.error(err);
+            });  
         }
     }
 });

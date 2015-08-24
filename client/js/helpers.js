@@ -34,6 +34,9 @@ Handlebars.registerHelper('parseNotification', function (notification) {
         case "hearted":
             return "<a href='/profile/"+notification.details.by+"'>"+notification.details.by+"</a> hearted your idea <a href='/idea/"+notification.details.idea_id+"'>"+notification.details.idea_name+"</a>.";
             break;
+        case "comment":
+            return "<a href='/profile/"+notification.details.by+"'>"+notification.details.by+"</a> commented on <a href='/idea/"+notification.details.idea_id+"'>"+notification.details.idea_name+"</a>."; 
+            break;
     }
     return "Something went wrong";
 });

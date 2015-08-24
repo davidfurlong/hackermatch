@@ -150,6 +150,44 @@ Meteor.startup(function () {
           });
           return false;
         },
+        create_comment: function(comment){    
+          Comments.insert(comment, function(err, result) {
+              if(err) {
+                  console.log("error creating comment");
+              } 
+          });
+
+          // todo subscribers are not unique duplicated
+          var commented = _.uniq(_.pluck(Comments.find({ideaId: comment.ideaId}).fetch(), 'userId'));
+          var idea = Ideas.findOne({_id: comment.ideaId});
+          var subscribers = _.difference(_.union(commented, [idea.userId]), [Meteor.userId()]);
+          // for testing:
+          //subscribers = _.union(subscribers, [Meteor.userId()]);
+          for(var i = 0; i < subscribers.length; i++){
+              var commentNotification = {
+                details: {
+                  type: "comment",
+                  hackathon: idea.hackathon_id,
+                  idea_name: idea.name,
+                  idea_id: idea._id,
+                  by: Meteor.user().profile.login,
+                  text: comment.text
+                },
+                priority: 2,
+                timestamp: (new Date()).getTime(),
+                read: false     
+              };
+
+              Notifications.update({userId: subscribers[i]}, {$push: {notifications: commentNotification}}, {upsert:true}, function(err, result) {
+                  if(err){
+                      console.error(err)
+                  }
+                  else {
+                      console.log('new notification for user'+subscribers[i]);
+                  }
+              }); 
+          }
+        },
         hackathon_by_code: function (invite_code, url_title) {
           //console.log('hackathon by code ' + invite_code);
 
