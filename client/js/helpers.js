@@ -6,6 +6,12 @@ Handlebars.registerHelper('addIndex', function (all) {
     });
 });
 
+Handlebars.registerHelper('sortNotifications', function(notifications){
+    return _.sortBy(notifications, function(notification){
+        return -notification.timestamp;
+    });
+});
+
 Handlebars.registerHelper('lenUnread', function(notifications){
     var x = _.filter(notifications, function(notification){
         return !notification.read;
