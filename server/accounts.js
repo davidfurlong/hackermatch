@@ -1,5 +1,4 @@
 Meteor.startup(function () {
-
     var user = Meteor.users.findOne({"services.github.username": "kainolophobia"});
     if(user) {
         Roles.addUsersToRoles(user._id, ['admin'], 'all');
@@ -17,6 +16,20 @@ Meteor.startup(function () {
     }
 
     Meteor.methods({
+        sendEmail: function (to, from, subject, text) {
+          check([to, from, subject, text], [String]);
+
+          // Let other method calls from the same client start running,
+          // without waiting for the email sending to complete.
+          this.unblock();
+
+          Email.send({
+            to: to,
+            from: from,
+            subject: subject,
+            text: text
+          });
+        },
         //attaching lost ideas to users - a result of manual importing from other source of ideas
         attach_ideas: function (user_id) {
             var user = Meteor.users.findOne(user_id);
@@ -71,8 +84,16 @@ Meteor.startup(function () {
               priority: 1,
               timestamp: (new Date()).getTime()
             };
-
+       
             if(Meteor.userId() != idea.userId && !heart.hearted){ // dont notify yourself or if unheart
+              // email notification
+              var userAuthor = Meteor.users.findOne(idea.userId);
+              if(userAuthor.profile.email_notifications){
+                Meteor.call('sendEmail', userAuthor.profile.email, "david@furlo.ng", "Hackermatch: Someone just hearted your idea",
+                  Meteor.user().profile.login+" just hearted your idea "+idea.name+". Check it out at http://hackermat.ch/idea/"+idea._id
+                  );
+              }
+              // in app notification
               Notifications.update({userId: idea.userId}, {$push: {notifications: heartedNotification}}, {upsert:true}, function(err, result) {
                 if(err){
                   console.error(err);
@@ -177,7 +198,14 @@ Meteor.startup(function () {
                 timestamp: (new Date()).getTime(),
                 read: false     
               };
-
+              // email notification
+              var userSubscriber = Meteor.users.findOne(subscribers[i]);
+              if(userSubscriber.profile.email_notifications){
+                Meteor.call('sendEmail', userSubscriber.profile.email, "david@furlo.ng", "Hackermatch: Someone just commented on an idea you are following",
+                  Meteor.user().profile.login+" just commented on "+idea.name+". Check it out at http://hackermat.ch/idea/"+idea._id
+                  );
+              }
+              // in app notification
               Notifications.update({userId: subscribers[i]}, {$push: {notifications: commentNotification}}, {upsert:true}, function(err, result) {
                   if(err){
                       console.error(err)
@@ -286,6 +314,13 @@ Meteor.startup(function () {
                     Roles.addUsersToRoles(uid, ['hacker','organizer','creator'], hackathon['url_title']);
                   else
                     Roles.addUsersToRoles(uid, ['hacker','creator'], hackathon['url_title']);
+                  
+                  // email notification
+                  if(Meteor.user().profile.email_notifications){
+                    Meteor.call('sendEmail', Meteor.user().profile.email, "david@furlo.ng", "Hackermatch: Hackathon "+hackathon.name+" successfully created",
+                      "Check it out at http://hackermat.ch/"+hackathon['url_title']
+                      );
+                  }              
               }
           });   
         }
