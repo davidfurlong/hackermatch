@@ -1,7 +1,8 @@
 Router.configure({
 //    notFoundTemplate: 'error',
     layoutTemplate: 'layout',
-    loadingTemplate: 'loading'
+    loadingTemplate: 'loading',
+    trackPageView: true
 });
 
 Router.onBeforeAction('loading');

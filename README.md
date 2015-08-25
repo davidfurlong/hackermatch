@@ -6,9 +6,16 @@ Hacker.Dating
 
 ## Running
 
+#### locally:
+
 meteor
 
-for mongo shell:
+#### server:
+
+meteor deploy --settings settings.json
+
+#### for mongo shell:
+
 meteor mongo
 
 
