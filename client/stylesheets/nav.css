@@ -22,5 +22,11 @@
 
 #notifications-dropdown {
 	max-height: 250px;
-	overflow: auto;
+	overflow-y: auto;
+	width: 300px;
+	word-wrap: break-word;
+}
+
+#notifications-dropdown li > a {
+	white-space:normal;
 }
