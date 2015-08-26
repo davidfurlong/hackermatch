@@ -150,7 +150,7 @@ Meteor.publish("ideaFull", function(ideaId){
 // the id of the returned hackathon to "publish" the cursor of that 
 // same hackathon. Should probably get cursor first, then return it 
 // after fetching id.
-Meteor.publish("hackathon_and_ideas", function (hackathon_title) {
+Meteor.publish("hackathon_and_ideas", function (hackathon_title, limit) {
     var hackathon = Hackathons.findOne({ url_title: hackathon_title});
     var hackathon_id = null;
     
@@ -164,7 +164,7 @@ Meteor.publish("hackathon_and_ideas", function (hackathon_title) {
             Comments.find({}),
             // end TODO
             Hackathons.find({_id: hackathon_id}),
-            Ideas.find({hackathon_id: hackathon_id}),
+            Ideas.find({hackathon_id: hackathon_id}, {limit: limit}),
             Hearts.find({ $and: [{hackathon_id: hackathon_id}, {user_id: this.userId}]})
         ];
     } else {
@@ -175,7 +175,7 @@ Meteor.publish("hackathon_and_ideas", function (hackathon_title) {
 });
 
 // TODO this name is unclear
-Meteor.publish("users_and_hackathon", function (hackathon_title) {
+Meteor.publish("users_and_hackathon", function (hackathon_title, filters, limit) {
     var user = Meteor.users.findOne({_id: this.userId});
     var hackathon = Hackathons.findOne({url_title: hackathon_title});
     var hackathon_id = null;
@@ -187,7 +187,25 @@ Meteor.publish("users_and_hackathon", function (hackathon_title) {
             roles: {}
         };
         query["roles"][hackathon_title] = ['hacker'];
-        return Meteor.users.find(query);
+
+        if(filters && filters.length) {
+
+            _.each(filters, function(filter) {
+
+                query["profile.skills." + filter] = true;
+            });
+/*
+        "skills" : {
+            "backend" : true,
+            "design" : false,
+            "hardware" : false,
+            "mobile" : false,
+            "webdev" : true
+        },
+*/
+        }
+
+        return Meteor.users.find(query, {limit: limit});
     } else {
         // user not authorized. do not publish secrets
         this.stop();

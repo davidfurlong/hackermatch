@@ -487,3 +487,21 @@ Template.idea_filter.events({
     }
   }
 });
+
+
+Template.person_filter.events({ 
+    'click .filter': function () {
+        var skills = Session.get("selectedSkills");
+        var skill = this.name;
+
+        if(_.contains(skills, skill)) {
+            Session.set("selectedSkills", _.without(skills, skill));
+        } else {
+            skills.push(skill);
+            Session.set("selectedSkills", skills);
+        }
+  }
+});
+
+
+

@@ -1,4 +1,6 @@
 <template name="hackers">
-	{{> hackathonNav }}
-	{{> showpersons }}
+    {{> hackathonNav }}
+    {{#if dataReady}}
+        {{> showpersons }}
+    {{/if}}
 </template>

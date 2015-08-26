@@ -145,10 +145,17 @@ Handlebars.registerHelper('sortandarrayify',function(obj){
 /* END HANDLEBARS HELPERS */
 
 /* START GLOBAL VARS */
+var SkillFilters = [
+    {name: 'backend'}, 
+    {name: 'frontend'}, 
+    {name: 'mobile'}, 
+    {name: 'design'}, 
+];
+
 var TeamFilters = { // TODO ADAM
     'All': function(){
-        return Meteor.users.find().fetch();
-    }
+        return Meteor.users.find({}, {limit: Session.get('hackersLimit')});
+    },
     // 'All': function() {
     //     var hackathon = Session.get("current_hackathon");
     //     if(!hackathon) return;
@@ -219,7 +226,7 @@ var IdeaFilters = {
         var hackathonUrl= Session.get("currentHackathon");
         var hackathon = Hackathons.findOne({url_title: hackathonUrl});
         if(!hackathon) return;
-        var x = Ideas.find({hackathon_id: hackathon._id}).fetch();
+        var x = Ideas.find({hackathon_id: hackathon._id}, {limit: Session.get("ideaLimit")}).fetch();
         return x;
     },
     'Yours': function() {
@@ -236,15 +243,25 @@ Template.person_filter.helpers({
     filters: function(){
         var filter_info = [];
         var total_count = 0;                                                                                 
-        _.each(TeamFilters, function (key, value) {
+        return SkillFilters;
+
+        /*
+        _.each(SkillFilters, function (key, value) {
             filter_info.push({filter: value, count: key().length});
         });
 
         filter_info = _.sortBy(filter_info, function (x) { return x.filter; });
         return filter_info;
+        */
     },
     selected: function(){
-        return Session.equals('team_filter', this.filter) ? 'selected' : '';  
+        var skills = Session.get("selectedSkills");
+        var skill = this.name;
+        if(_.contains(skills, skill)) {
+            return 'selected' 
+        } else { 
+            return '';
+        }
     }
 })
 
@@ -478,7 +495,21 @@ Template.profile_contents.helpers({
 });
 
 Template.person_list.helpers({
-    People: function(){
+    people: function(){
+
+        var query = {};       
+
+        var filters = Session.get("selectedSkills");
+        if(filters && filters.length) {
+            _.each(filters, function(filter) {
+
+                query["profile.skills." + filter] = true;
+            });
+        }
+        //TODO add filter on how many users 
+        return Meteor.users.find(query, {limit: Session.get('hackersLimit')});
+
+    /*
         var hackathonUrl= Session.get("currentHackathon");
         var hackathon = Hackathons.findOne({url_title: hackathonUrl});
         if(!hackathon) return;
@@ -499,8 +530,44 @@ Template.person_list.helpers({
             
         // });
         return x;
+        */
     }
 });
+
+incrementHackersLimit = function() {
+    var newHackersLimit = Session.get('hackersLimit') + 20;
+//    console.log("newHackersLimit " + newHackersLimit);
+    Session.set('hackersLimit', newHackersLimit);
+}
+
+Template.hackers.created = function() {
+    var hackathonId = Router.current().params.hackathon;
+
+    Session.set("selectedSkills", []);
+    Session.set("hackersLimit", 20);
+
+    Deps.autorun(function() {
+        Meteor.subscribe('users_and_hackathon', hackathonId, Session.get('selectedSkills'), Session.get('hackersLimit'));
+    });
+}
+
+Template.hackers.rendered = function() {
+  // is triggered every time we scroll
+    $(window).scroll(function() {
+        if ($(window).scrollTop() + $(window).height() > $(document).height() - 20) {
+            //console.log("large: " + ($(window).scrollTop() + $(window).height()));
+            //console.log("small: " + ($(document).height() - 20));
+            //timeout prevents this from being called too many times on a "continue scroll"
+            Meteor.setTimeout(incrementHackersLimit, 100);
+        }
+    });
+}
+Template.hackers.helpers({
+    dataReady: function() {
+        return true;
+    },
+});
+ 
 
 Template.myHackathonList.created = function() {
     // todo subscribe to notifications
@@ -792,15 +859,32 @@ Template.showHackathons.helpers({
     }
 });
 
+incrementIdeaLimit = function() {
+  newLimit = Session.get('ideaLimit') + 10;
+  Session.set('ideaLimit', newLimit);
+}
+
 Tracker.autorun(function () {
-    Meteor.subscribe('hackathon_and_ideas', Session.get("currentHackathon"));
+    Meteor.subscribe('hackathon_and_ideas', Session.get("currentHackathon"), Session.get("ideaLimit"));
 });
 
 Template.hackathon.created = function() {
     // todo subscribe to notifications
     var hackathonId = Router.current().params.hackathon;
     Session.set("currentHackathon", hackathonId);
+    Session.setDefault("ideaLimit", 1000); //HACK HACK HACK
+    //HACK need to restructure idea page to have server data for hearted ideas, and pagination for all ideas
 }
+
+Template.hackathon.rendered = function() {
+  // is triggered every time we scroll
+    $(window).scroll(function() {
+        if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+            incrementIdeaLimit();
+        }
+    });
+}
+
 Template.hackathon.destroyed = function() {
 //    Session.set("currentHackathon", null);
 }
@@ -815,18 +899,15 @@ Template.hackathon.helpers({
         }
     },
     url_title: function() {
-              console.log("URL");
         var hackathonId = Router.current().params.hackathon;
         var url_title = null;
 
         if(hackathonId) {
             url_title = encodeURI(hackathonId.toLowerCase().replace(/ /g, ''));
         }
-        console.log(hackathonId);
         return url_title;
     },
     data: function() {
-              console.log("DATA");
         var hackathonId = Router.current().params.hackathon;
         var url_title = encodeURI(hackathonId.toLowerCase().replace(/ /g, ''));
         var hackathonUrl= Session.get("currentHackathon");
@@ -898,7 +979,6 @@ var pageUrl = function() {
         case "profileOther":
             url = pagePath();
             url = url.substring(1);
-            console.log(url);
             //url = Router.current().url;
             break;
         case "home": 

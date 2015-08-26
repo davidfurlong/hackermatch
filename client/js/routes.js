@@ -58,6 +58,7 @@ Router.map(function() {
     })
     this.route('hackers', {
         path: '/:hackathon/hackers' , 
+        /*
         data: function() {
             var hackathon = this.params.hackathon;
             if(hackathon) {
@@ -69,25 +70,17 @@ Router.map(function() {
         waitOn: function() { 
             return Meteor.subscribe('users_and_hackathon', this.params.hackathon)
         },
+        */
         yieldTemplates: {
             'hackathon_nav': {to: 'nav'}
         },
         onBeforeAction: function () {
-            if (!Meteor.user()) {
-                if (Meteor.loggingIn()) {
-                }
-                else {
-                    Router.go('signup');
-                }
+            if (!Meteor.user() && !Meteor.loggingIn()) {// TODO OR NOT A MEMBER OF hackathon
+                Router.go(this.params.hackathon+'/join');
             } 
             else {
-                if(!Session.get("currentHackathon")) {
-                    Router.go('/'); 
-                }
-                else {
-                    // TODO check is members of hackathon
-                    this.next();
-                }
+                Session.set("currentHackathon", this.params.hackathon);
+                this.next();
             }
         }
     });

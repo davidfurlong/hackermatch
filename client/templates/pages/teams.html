@@ -17,7 +17,7 @@
 
 <template name="person_list">
     <div class="row">
-    {{#each  People}}  
+    {{#each people}}  
         {{> personRow }}
     {{/each}}
     </div>
@@ -77,13 +77,13 @@
 </template>
 
 <template name="person_filter">
-    <div class="filters">
+    <ul class="filters" id="skill-filter">
         {{#each filters}}
-        <div class="filter {{selected}}">
-            <span class="filter_text">{{filter}} <span class="count">({{count}})</span> </span>
-        </div>
+        <li class="filter {{selected}}">
+            <span class="filter_text">{{name}}</span>
+        </li>
         {{/each}}
-    </div>
+    </ul>
 </template>
 
 <template name="showpersons">

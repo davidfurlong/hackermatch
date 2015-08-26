@@ -359,6 +359,14 @@ a.link-border:focus::before {
 	border-bottom: 2px solid #ddd;
 }
 
+#skill-filter .filter{
+    color: #aaa;
+    cursor: pointer;
+}
+#skill-filter .filter.selected{
+    color: lightblue;
+}
+
 .sidebar h1 {
 	color: black;
 }
