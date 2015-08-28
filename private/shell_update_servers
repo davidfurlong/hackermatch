@@ -3,7 +3,7 @@ rm -rf /var/www/meteor/hackermatch/bundle
 mkdir -p /var/www/meteor/hackermatch
 
 cd /root/hackermatch
-meteor build --directory /var/www/meteor/hackermatch --server=http://hackermat.ch
+meteor build --directory /var/www/meteor/hackermatch --server=https://hackermat.ch
 
 #ensure fibers and underscore etc are installed properly
 cd /var/www/meteor/hackermatch/bundle/programs/server

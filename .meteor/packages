@@ -19,7 +19,7 @@ mrt:modernizr-meteor
 meteorhacks:npm
 
 
-npm-container
+#npm-container
 reywood:iron-router-ga
 email
 raix:push
@@ -28,3 +28,6 @@ dfischer:phantomjs
 gadicohen:sitemaps
 chuangbo:cookie
 manuelschoebel:ms-seo
+
+
+npm-container

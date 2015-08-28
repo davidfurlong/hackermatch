@@ -1,6 +1,6 @@
 var csv = Meteor.npmRequire('csv'); 
 var fs = Meteor.npmRequire('fs');
-var path = Npm.require('path');
+var path = Meteor.npmRequire('path');
 
 function loadHtn(hackathon_id) {
     var basepath = path.resolve('.').split('.meteor')[0];
