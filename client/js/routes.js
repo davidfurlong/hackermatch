@@ -10,8 +10,9 @@ hackathonAuth = function() {
             document.cookie = 'most_recent_hackathon='+this.params.hackathon;
             Session.set("currentHackathon", this.params.hackathon);
             this.next();
-        } else {
-            Router.go(this.params.hackathon+'/join');
+        } 
+        else { // todo check is a hackathon first
+            Router.go('/'+this.params.hackathon+'/join');
         }
     }
 }
