@@ -248,7 +248,28 @@ Router.map(function() {
         yieldTemplates: {
             'hackathon_nav': {to: 'nav'}
         },
-        onBeforeAction: hackathonAuth
+        onBeforeAction: hackathonAuth,
+        onAfterAction: function(){
+            var h = Hackathons.findOne({url_title:this.params.hackathon});
+            if(h){
+                SEO.set({
+                    title: 'Hackermatch | '+ h.title,
+                    meta: {
+                        'title': 'Hackermatch | '+ h.title,
+                        'image': h.logo != "" ? h.logo : "http://hackermat.ch/logo.png",
+                        'description': "Find "+h.title+" team mates by discussing ideas. For hackers, by hackers, with <3. Made in San Francisco"
+                    },
+                    og: {
+                        'title': 'Hackermatch | '+ h.title,
+                        'image': h.logo != "" ? h.logo : "http://hackermat.ch/logo.png",
+                        'description': "Find "+h.title+" team mates by discussing ideas. For hackers, by hackers, with <3. Made in San Francisco",
+                        'type': 'hackermatch:hackathon',
+                        'url': 'http://hackermat.ch/'+h.url_title,
+                        'site_name': 'Hackermatch'
+                    }
+                });
+            }
+        }
     });
 });
 
