@@ -253,6 +253,12 @@ body.landing footer {
 	padding: 0 6px 0 10px;
 }
 
+#skill-filter li {
+	list-style-type: none;
+	display: inline;
+	padding: 0 6px 0 10px;
+}
+
 .ideas-icon {
 	display: none !important;
 }
