@@ -70,7 +70,7 @@
             <a href="/profile/{{idea.user_profile.login}}" style="margin-left:10px"><img src="{{idea.user_profile.avatar_url}}" width="32px" height="32px" style="border-radius:50px;margin-top:-5px"></a>
             {{/if}}
             <a href="/profile/{{idea.user_profile.login}}">{{idea.user_profile.name}}</a>
-            {{toMoment time}}
+            {{toMoment idea.time}}
         </div>
         <div class="sidebar-item-title"><h1>{{idea.name}} <a href="/idea/{{idea._id}}"><i class="ion-link"></i></a></h1></div>
         <div class="sidebar-item-desc">{{idea.description}}</div>
