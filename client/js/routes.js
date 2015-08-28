@@ -23,10 +23,15 @@ Router.map(function() {
               if (Meteor.loggingIn()) {
                     this.next();
               }
-              else{
+              else {
                 Router.go('signup');
               }
-            } else {
+            } 
+            else {
+                var c = Cookie.get('most_recent_hackathon');
+                if(c){
+                    Router.go('/'+c)
+                }
                 this.next();
             }
 
@@ -316,6 +321,7 @@ Router.map(function() {
                 Router.go(this.params.hackathon+'/join');
             } 
             else {
+                document.cookie = 'most_recent_hackathon='+this.params.hackathon;
                 Session.set("currentHackathon", this.params.hackathon);
                 this.next();
             }
