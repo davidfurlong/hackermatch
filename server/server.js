@@ -126,6 +126,10 @@ Meteor.publish("user_notifications", function(){
     return Notifications.find({userId: this.userId});
 });
 
+Meteor.publish("hackathon", function(url_title){
+    return Hackathons.find({url_title: url_title});
+});
+
 // Meteor.publish("one_users_ideas_not_in_hackathon", function(hackathon_id){
 //     return Ideas.find({$and: [{userId: this.userId},{$not: {hackathon_id: hackathon_id}}, {duplicate: {$exists: false}}, {$not: {$and: [{},{}]}}}]})
 // });
