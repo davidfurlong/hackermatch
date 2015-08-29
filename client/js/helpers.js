@@ -146,7 +146,8 @@ Handlebars.registerHelper('sortandarrayify',function(obj){
 
 /* START GLOBAL VARS */
 var SkillFilters = [
-    {name: 'webdev'}, 
+    {name: 'frontend'}, 
+    {name: 'backend'},
     {name: 'mobile'}, 
     {name: 'design'}, 
     {name: 'ios'},
