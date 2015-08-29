@@ -18,7 +18,7 @@ hackathonAuth = function() {
 }
 
 Router.configure({
-//    notFoundTemplate: 'error',
+    notFoundTemplate: 'error',
     layoutTemplate: 'layout',
     loadingTemplate: 'loading',
     trackPageView: true

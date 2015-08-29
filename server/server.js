@@ -153,7 +153,7 @@ Meteor.publish("ideaFull", function(ideaId){
 Meteor.publish("hackathon_and_ideas", function (hackathon_title, limit) {
     var hackathon = Hackathons.findOne({ url_title: hackathon_title});
     var hackathon_id = null;
-    
+   
     if(hackathon) {
         hackathon_id = hackathon._id; 
     }
@@ -164,7 +164,8 @@ Meteor.publish("hackathon_and_ideas", function (hackathon_title, limit) {
             Comments.find({}),
             // end TODO
             Hackathons.find({_id: hackathon_id}),
-            Ideas.find({hackathon_id: hackathon_id}, {limit: limit}),
+            //Ideas.find({hackathon_id: hackathon_id}, {limit: limit}),
+            Ideas.find({hackathon_id: hackathon_id}),
             Hearts.find({ $and: [{hackathon_id: hackathon_id}, {user_id: this.userId}]})
         ];
     } else {

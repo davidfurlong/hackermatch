@@ -28,13 +28,13 @@
         <ul class="person-card" data-id="{{profile.login}}">
             <li class="person-card-icon">
                 {{#if profile.avatar_url}}
-                <a href="/profile/{{username}}"><img src="{{profile.avatar_url}}"></a>
+                <a href="/profile/{{profile.login}}"><img src="{{profile.avatar_url}}"></a>
                 {{else}}
-                <a href="/profile/{{username}}"><img src="monkey.png" style="border-radius:50px;"></a>
+                <a href="/profile/{{profile.login}}"><img src="monkey.png" style="border-radius:50px;"></a>
                 {{/if}}
             </li>
             <li data-id="{{_id}}" class="person-card-text">
-            	<span class="person-card-title"><a href="/profile/{{username}}">
+            	<span class="person-card-title"><a href="/profile/{{profile.login}}">
                 {{#if profile.name}}
                 {{profile.name}}
                 {{else}}
