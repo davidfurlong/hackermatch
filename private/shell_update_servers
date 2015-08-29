@@ -3,7 +3,7 @@ rm -rf /var/www/meteor/hackermatch/bundle
 mkdir -p /var/www/meteor/hackermatch
 
 cd /root/hackermatch
-meteor build --directory /var/www/meteor/hackermatch --server=http://hackermat.ch
+meteor build --directory /var/www/meteor/hackermatch --server=https://hackermat.ch
 
 #ensure fibers and underscore etc are installed properly
 cd /var/www/meteor/hackermatch/bundle/programs/server
@@ -11,7 +11,13 @@ npm install
 
 cd /var/www/meteor/hackermatch/bundle
 
-sudo ROOT_URL="http://hackermat.ch" PORT=2600 MONGO_URL="mongodb://hackadmin:hackpassword@127.0.0.1:27017/hackermatch" forever start --append --uid "hm1" main.js
-sudo ROOT_URL="http://hackermat.ch" PORT=2601 MONGO_URL="mongodb://hackadmin:hackpassword@127.0.0.1:27017/hackermatch" forever start --append --uid "hm2" main.js
+forever stop hackermatch
+
+sudo ROOT_URL="https://hackermat.ch" PORT=2600 MONGO_URL="mongodb://hackadmin:hackpassword@192.168.207.81:27017/hackermatch" forever start --append --uid "hackermatch" main.js
+sudo ROOT_URL="https://hackermat.ch" PORT=2601 MONGO_URL="mongodb://hackadmin:hackpassword@192.168.207.81:27017/hackermatch" forever start --append --uid "hackermatch" main.js
+sudo ROOT_URL="https://hackermat.ch" PORT=2602 MONGO_URL="mongodb://hackadmin:hackpassword@192.168.207.81:27017/hackermatch" forever start --append --uid "hackermatch" main.js
+sudo ROOT_URL="https://hackermat.ch" PORT=2603 MONGO_URL="mongodb://hackadmin:hackpassword@192.168.207.81:27017/hackermatch" forever start --append --uid "hackermatch" main.js
+sudo ROOT_URL="https://hackermat.ch" PORT=2604 MONGO_URL="mongodb://hackadmin:hackpassword@192.168.207.81:27017/hackermatch" forever start --append --uid "hackermatch" main.js
+sudo ROOT_URL="https://hackermat.ch" PORT=2605 MONGO_URL="mongodb://hackadmin:hackpassword@192.168.207.81:27017/hackermatch" forever start --append --uid "hackermatch" main.js
 
 

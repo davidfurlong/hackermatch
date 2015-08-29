@@ -180,6 +180,7 @@ Template.person_filter.events({
 
 Template.createIdea.events({
     'submit #create-idea': function(e, t){
+        e.preventDefault();
         // get form submitted values
         var ideaName = e.target['idea-name'].value;
         var ideaDescription = e.target['idea-description'].value;
@@ -192,7 +193,8 @@ Template.createIdea.events({
             hardware: e.target['idea-need-hardware'].checked,
         }
         
-        var hackathon = Session.get("current_hackathon");
+        var hackathonUrl= Session.get("currentHackathon");
+        var hackathon = Hackathons.findOne({url_title: hackathonUrl});
 
         var idea = {
             name: ideaName,
@@ -211,7 +213,7 @@ Template.createIdea.events({
                 console.log(error);
             }
             else {
-                Router.go('hackathon', { hackathon: hackathon.title});
+                Router.go('/' + hackathon.url_title);
             }
         });    
     }
