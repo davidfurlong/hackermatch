@@ -1,13 +1,18 @@
+function hideSidebar(e){
+    var id = e;
+    if(Session.get("sidebarOpened") == "open" || Session.get('profile_sidebarOpened') == "open") {
+       e.preventDefault();
+       Session.set('selectedIdea', '');
+       Session.set('sidebarOpened', '');
+       Session.set('selectedProfile', '');
+       Session.set('profile_sidebarOpened', '');
+    }
+    $('#full-page-fade').removeClass('show');
+}
+
 Template.sidebar.events({
     'click #sidebar-exit': function(e){
-        var id = e;
-        if(Session.get("sidebarOpened") == "open" || Session.get('profile_sidebarOpened') == "open") {
-           e.preventDefault();
-           Session.set('selectedIdea', '');
-           Session.set('sidebarOpened', '');
-           Session.set('selectedProfile', '');
-           Session.set('profile_sidebarOpened', '');
-        }
+        hideSidebar(e);
     },
     'click #heart-idea-toggle': function(e){
         var idea_id = Session.get('selectedIdea');
@@ -75,19 +80,25 @@ Template.hackathon.events({
     },
     'click .profile_sidebar' : function(e, t){
         e.stopPropagation();
-    },
-    'click .page-container' : function(e, t) {
-        var id = e;
-        if(Session.get("sidebarOpened") == "open" || Session.get('profile_sidebarOpened') == "open") {
-            e.preventDefault();
-            Session.set('selectedIdea', '');
-            Session.set('sidebarOpened', '');
-            Session.set('selectedProfile', '');
-            Session.set('profile_sidebarOpened', '');
-            $('.pt-triggers, #pt-main, #title-bar').removeClass('blur');
-        } 
     }
+    // 'click .page-container' : function(e, t) {
+    //     var id = e;
+    //     if(Session.get("sidebarOpened") == "open" || Session.get('profile_sidebarOpened') == "open") {
+    //         e.preventDefault();
+    //         Session.set('selectedIdea', '');
+    //         Session.set('sidebarOpened', '');
+    //         Session.set('selectedProfile', '');
+    //         Session.set('profile_sidebarOpened', '');
+    //         $('.pt-triggers, #pt-main, #title-bar').removeClass('blur');
+    //     } 
+    // }
 });
+
+Template.layout.events({
+    'click #full-page-fade': function(e){
+        hideSidebar(e);
+    }
+})
 
 Template.ideaRow.events({
     // open idea in sidebar
@@ -95,6 +106,7 @@ Template.ideaRow.events({
         e.preventDefault();
         var idea_id = e.currentTarget.dataset.id;
         Session.set("selectedIdea", idea_id);
+        $('#full-page-fade').addClass('show');
     },
     // toggle heart action
     'click li.item-heart' : function(e, t) {
@@ -168,6 +180,7 @@ Template.person_filter.events({
 
 Template.createIdea.events({
     'submit #create-idea': function(e, t){
+        e.preventDefault();
         // get form submitted values
         var ideaName = e.target['idea-name'].value;
         var ideaDescription = e.target['idea-description'].value;
@@ -180,7 +193,8 @@ Template.createIdea.events({
             hardware: e.target['idea-need-hardware'].checked,
         }
         
-        var hackathon = Session.get("current_hackathon");
+        var hackathonUrl= Session.get("currentHackathon");
+        var hackathon = Hackathons.findOne({url_title: hackathonUrl});
 
         var idea = {
             name: ideaName,
@@ -199,7 +213,7 @@ Template.createIdea.events({
                 console.log(error);
             }
             else {
-                Router.go('hackathon', { hackathon: hackathon.title});
+                Router.go('/' + hackathon.url_title);
             }
         });    
     }

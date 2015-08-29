@@ -27,3 +27,16 @@ footer {
 footer ul {
 	list-style-type: none;
 }
+
+.footer-center {
+    text-align: center;
+}
+
+.footer-center img {
+    display:inline-block !important;
+/*    margin:5px; */
+}
+
+.footer-right h6 {
+    float: right;
+}

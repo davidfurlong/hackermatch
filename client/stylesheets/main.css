@@ -14,6 +14,21 @@ html {
 	height: 100%;
 }
 
+#full-page-fade {
+	position: fixed;
+	display: none;
+	top:0;
+	left:0;
+	bottom:0;
+	right:0;
+	z-index: 50;
+	background: rgba(0,0,0,0.8);
+}
+
+#full-page-fade.show {
+	display: block;
+}
+
 body {
 	font-family: Avenir-Book, Avenir, helvetica, sans-serif;
 	box-sizing: border-box;
@@ -21,7 +36,6 @@ body {
 }
 
 body.landing {
-	height: 130%;
 	margin-bottom: 0;
 	background: black;
 }
@@ -38,8 +52,8 @@ body.landing footer {
 
 #home-splash-container {
 	height: 100%;
-	background: url('/images/home_splash.jpg') no-repeat;
-	background-size: 100%;
+	background: url('/images/home_splash.jpg') no-repeat center;
+	background-size: cover;
 }
 
 #home-splash {
@@ -176,6 +190,7 @@ body.landing footer {
 
 .sidebar {
 	overflow-y:scroll;
+	z-index: 51;
 }
 
 .top-right-menu {
@@ -309,6 +324,9 @@ body.landing footer {
     .row.item li.item-icon {
     	display: none;
     }
+    #home-splash-title {
+        font-size: 45pt;
+    }
 }
 
 @media (max-width: 800px) {
@@ -324,4 +342,16 @@ body.landing footer {
 	.row.item li {
 		padding: 0;
 	}
+}
+
+#home-splash { 
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#home-splash-title {
+
+    font-family: Avenir-Book, Avenir, helvetica, sans-serif;
+
 }
