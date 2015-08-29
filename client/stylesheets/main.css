@@ -14,6 +14,21 @@ html {
 	height: 100%;
 }
 
+#full-page-fade {
+	position: fixed;
+	display: none;
+	top:0;
+	left:0;
+	bottom:0;
+	right:0;
+	z-index: 50;
+	background: rgba(0,0,0,0.8);
+}
+
+#full-page-fade.show {
+	display: block;
+}
+
 body {
 	font-family: Avenir-Book, Avenir, helvetica, sans-serif;
 	box-sizing: border-box;
@@ -176,6 +191,7 @@ body.landing footer {
 
 .sidebar {
 	overflow-y:scroll;
+	z-index: 51;
 }
 
 .top-right-menu {

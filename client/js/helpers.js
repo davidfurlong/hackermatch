@@ -295,6 +295,9 @@ Template.profile.helpers({
 });
 
 Template.profile_sidebar.helpers({
+    profile: function(){
+        var profile = Meteor.users.findOne({'services.github.username': Session.get("selectedProfile")}); 
+    },
     opened: function(){
         var profileSelected = Session.get("selectedProfile");
         if(!profileSelected || profileSelected == "") {
@@ -818,7 +821,6 @@ Template.ideaPage.helpers({
     }
 });
 */
-
 Template.sidebar.helpers({
     idea: function() {
         var idea = Ideas.findOne({_id: Session.get("selectedIdea")});
