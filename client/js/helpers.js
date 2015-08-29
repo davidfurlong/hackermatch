@@ -146,10 +146,12 @@ Handlebars.registerHelper('sortandarrayify',function(obj){
 
 /* START GLOBAL VARS */
 var SkillFilters = [
-    {name: 'backend'}, 
-    {name: 'frontend'}, 
+    {name: 'webdev'}, 
     {name: 'mobile'}, 
     {name: 'design'}, 
+    {name: 'ios'},
+    {name: 'android'},
+    {name: 'hardware'}
 ];
 
 var TeamFilters = { // TODO ADAM
