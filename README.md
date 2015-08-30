@@ -18,6 +18,10 @@ meteor deploy --settings settings.json
 
 meteor mongo
 
+#### IOS
+
+meteor build .bundle --debug --server https://localhost:3000
+meteor run ios
 
 ## Collections
 

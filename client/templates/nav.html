@@ -10,13 +10,13 @@
 	      </button>
 	      	<a class="navbar-brand" href="/">
 	      		<img src="/images/logo.png" style="height:32px;margin-top:-5px;margin-right:5px; display:inline">
-	      	hackermatch
+	      		<span class="hide-on-mobile">hackermatch</span>
         	</a>
         {{#if pageTitle}}
-        <a class="navbar-brand navbar-pageTitle" href="/{{pageUrl}}">
-	       / {{pageTitle}}	
-        </a>
-{{routeName}}
+	        <a class="navbar-brand navbar-pageTitle" href="/{{pageUrl}}">
+		       <span class="hide-on-mobile">/</span> {{pageTitle}}	
+	        </a>
+			{{routeName}}
         {{/if}}
 
 	    </div>

@@ -286,6 +286,9 @@ body.landing footer {
     #hackermatch-name {
     	display: none;
     }
+    .hide-on-mobile {
+    	display: none;
+    }
     #brand {
     	font-size: 20px;
     }

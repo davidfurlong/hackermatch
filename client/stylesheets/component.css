@@ -361,6 +361,8 @@ a.link-border:focus::before {
 
 #skill-filter .filter{
     color: #aaa;
+    float: left;
+    padding-bottom: 10px;
     cursor: pointer;
 }
 #skill-filter .filter.selected{
