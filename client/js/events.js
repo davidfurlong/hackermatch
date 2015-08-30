@@ -287,7 +287,8 @@ Template.index.events({
         var profile = {}
 
         Meteor.loginWithGithub({
-            requestPermissions: ['user:email']
+            requestPermissions: ['user:email'],
+            loginStyle: "redirect"
         }, function (err) {
             if (err) {
                 Session.set('errorMessage', err.reason || 'Unknown error');
