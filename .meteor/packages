@@ -12,7 +12,6 @@ service-configuration
 iron:router
 alanning:roles
 twbs:bootstrap
-pagebakers:ionicons
 fortawesome:fontawesome
 less
 mrt:modernizr-meteor
@@ -30,3 +29,4 @@ chuangbo:cookie
 manuelschoebel:ms-seo
 jquery
 npm-container
+aramk:ionicons
