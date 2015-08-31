@@ -221,10 +221,16 @@ Template.createIdea.events({
 
 Template.settings.events({
     'click .delete-language': function(e, t){
-        $(e.currentTarget).closest('.specialization').remove();
-        var langs = $('.language').toArray().map(function(el){
+        var removed = $(e.currentTarget).parent().prev().attr('name');
+        // $(e.currentTarget).closest('.specialization').remove();
+        // console.log($(e.currentTarget).closest('.specialization'));
+        var langs = $('.language').toArray().filter(function(el){
+            return $(el).attr('name') != removed;
+        });
+        langs = langs.map(function(el){
             return $(el).val();
         });
+        
         var updated_profile = {
             languages: langs
         };
