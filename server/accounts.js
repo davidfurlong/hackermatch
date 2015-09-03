@@ -157,7 +157,7 @@ Meteor.startup(function () {
                 } else {
                     Hearts.update({_id:heart._id}, {$set:{"hearted":true}});
                     idea.hearts++;
-                    Ideas.update({_id:idea._id}, {$set:{"hearts":idea.hearts}});
+                    Ideas.update({_id:idea._id}, {$set:{"hearts":idea.hearts, "time_lastupdated": new Date().getTime()}});
                 }
                 return;
               }
@@ -170,6 +170,7 @@ Meteor.startup(function () {
                   } else {
                       Hearts.update({_id:heart._id}, {$set:{"hearted":true}});
                       Ideas.update({_id:idea._id}, {$push:{"hearts":Meteor.user().profile.login}});
+                      // todo update time lastupdated
                   }
                   return;
               }
@@ -257,6 +258,7 @@ Meteor.startup(function () {
                       console.log('new notification for user'+subscribers[i]);
                   }
               }); 
+              Ideas.update({_id: comment.ideaId}, {$set: {"time_lastupdated": new Date().getTime()}});
           }
         },
         hackathon_by_code: function (invite_code, url_title) {

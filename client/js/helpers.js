@@ -226,7 +226,7 @@ var IdeaFilters = {
         }).fetch();
         return x;
     },
-    'All' : function() {
+    'All' : function() { // recent
         var hackathonUrl= Session.get("currentHackathon");
         var hackathon = Hackathons.findOne({url_title: hackathonUrl});
         if(!hackathon) return;
@@ -825,7 +825,10 @@ Template.idea_list.helpers({
         //Get Idea based off filter type
         x = IdeaFilters[filter]();
         
-        x = _.sortBy(x, function (x) { return -x.hearts; });
+        x = _.sortBy(x, function (a){ 
+            return -a['time_lastupdated']; 
+        });
+
         // Heart and add comment counts to ideas
         _.each(x, function(idea) {
             var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});

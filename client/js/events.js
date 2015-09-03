@@ -207,6 +207,7 @@ Template.createIdea.events({
             user_id: Meteor.userId(),
             hackathon_id: hackathon._id,
             time_created: new Date().getTime(),
+            time_lastupdated: new Date().getTime(),
             user_profile: Meteor.user().profile,
             skills: ideaSkillsNeeded,
             comments: {}
