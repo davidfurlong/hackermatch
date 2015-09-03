@@ -182,7 +182,8 @@ Template.createHackathon.events({
             'title': e.target['hackathon-name'].value,
             'url': e.target['hackathon-url'].value,
             'logo': e.target['hackathon-logo-url'].value,
-            'open': e.target['hackathon-open-join'].checked
+            'date': e.target['hackathon-date'].value,
+            'open': false
         }
         hackathon.title = hackathon.title.replace('/', '&#47;');
         Meteor.call('create_hackathon', hackathon, isOrganizer, function(err, res) {
