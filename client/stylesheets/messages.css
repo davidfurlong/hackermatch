@@ -1,0 +1,50 @@
+#messages-user-search {
+	
+}
+
+#messages-search {
+
+}
+
+#messages-left-container {
+	border-right: 1px solid #eee;
+	height: 100%;
+}
+
+#messages-container {
+	height: 500px;
+	border: 1px solid #eee;
+	padding: 5px 0;
+	border-radius: 10px;
+	margin-bottom: 20px;
+}
+
+#messages-thread-container {
+	height: 450px;
+}
+
+#messages-users {
+	list-style-type: none;
+	padding-left: 0;
+}
+
+#messages-write {
+
+}
+
+.conversation-tab {
+	vertical-align: middle;
+	height: 64px;
+	font-size: 18px;
+	background: white;
+}
+
+.conversation-tab.selected {
+	background: #eee;
+}
+
+.conversation-tab-image {
+	float: left;
+	border-radius: 100px;
+	height: 48px;
+}

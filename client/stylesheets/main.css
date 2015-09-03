@@ -14,6 +14,10 @@ html {
 	height: 100%;
 }
 
+a {
+	cursor: pointer;
+}
+
 #full-page-fade {
 	position: fixed;
 	display: none;

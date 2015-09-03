@@ -126,6 +126,10 @@ Meteor.publish("user_notifications", function(){
     return Notifications.find({userId: this.userId});
 });
 
+Meteor.publish("user_messages", function(){
+    return Messages.find({$or: [{user1: this.userId}, {user2: this.userId}]});
+});
+
 Meteor.publish("hackathon", function(url_title){
     return Hackathons.find({url_title: url_title});
 });

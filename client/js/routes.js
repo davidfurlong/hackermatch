@@ -17,6 +17,19 @@ hackathonAuth = function() {
     }
 }
 
+userAuth = function() {
+    if (!Meteor.user()) {
+        if (Meteor.loggingIn()) {
+        } 
+        else {
+            Router.go('signup');
+        }
+    }
+    else {
+        this.next();
+    }
+}
+
 Router.configure({
     notFoundTemplate: 'error',
     layoutTemplate: 'layout',
@@ -58,18 +71,7 @@ Router.map(function() {
     });
     this.route('create_hackathon', {
         path: '/create',
-        onBeforeAction: function () {
-            if (!Meteor.user()) {
-                if (Meteor.loggingIn()) {
-                } 
-                else {
-                Router.go('signup');
-                }
-            }
-            else {
-                this.next();
-            }
-        }
+        onBeforeAction: userAuth
     });
     this.route('logout', function(){
         var self = this;
@@ -86,6 +88,10 @@ Router.map(function() {
             'hackathon_nav': {to: 'nav'}
         },
         onBeforeAction: hackathonAuth
+    });
+    this.route('messages', {
+        path: '/messages',
+        onBeforeAction: userAuth
     });
     this.route('idea', {
         path: '/idea/:_id',
@@ -165,19 +171,7 @@ Router.map(function() {
     });
     this.route('settings', {
         path: '/settings',
-        onBeforeAction: function() {
-            if (!Meteor.user()){
-                if (Meteor.loggingIn()) {
-                    this.next();
-                }
-                else {
-                  Router.go('signup');
-                }
-            } 
-            else {
-                this.next();
-            }
-        }
+        onBeforeAction: userAuth
     });
     this.route('profileOther', {
         path: '/profile/:_username',
@@ -219,19 +213,7 @@ Router.map(function() {
             return obj;
         },
         waitOn: function() { return Meteor.subscribe('hackathons', this.userId)},
-        onBeforeAction: function () {
-            // Session.set("current_hackathon", null);
-            if (!Meteor.user()) {
-              if (Meteor.loggingIn()) {
-                this.next();
-              }
-              else{
-                Router.go('signup');
-              }
-            } else {
-                this.next();
-            }
-        }
+        onBeforeAction: userAuth
     });
     this.route('error', {
         path: '/error/:title',

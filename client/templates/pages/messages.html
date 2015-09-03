@@ -1,0 +1,39 @@
+<template name="messages">
+	<div class="container">
+		<div class="row" id="messages-container">
+			<div class="col-md-4" id="messages-left-container">
+				<div id="messages-user-search">
+					<input type="search" placeholder="Search people" class="form-control" id="messages-search">
+				</div>
+				<ul id="messages-users">
+					{{#each conversations}}
+						<li class="conversation-tab {{#if isSelected}}selected{{/if}}">
+							<img class="conversation-tab-image" src="{{convoPartner.profile.avatar_url}}">
+							<b>{{convoPartner.profile.login}}</b>
+						</li>
+					{{/each}}
+				</ul>
+			</div>
+			<div class="col-md-8">
+				<div class="row" id="messages-thread-container">
+					<div class="col-md-12">
+						<h1>{{selectedConversation.convoPartner.profile.login}}</h1>
+						<ul>
+							{{#each selectedConversation.messages}}
+								<li>
+									<b>{{text}}</b>
+									<br/><i>{{timestamp}}</i>
+								</li>
+							{{/each}}
+						</ul>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<input type="text" class="form-control" placeholder="Write message and press enter" id="messages-write">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

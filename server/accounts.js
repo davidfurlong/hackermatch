@@ -16,6 +16,49 @@ Meteor.startup(function () {
     }
 
     Meteor.methods({
+        sendMessage: function(to, contents) {
+          var from = Meteor.userId();
+          var message = {
+            'text' : contents,
+            'timestamp': (new Date()).getTime()
+          }
+          if(to < from){
+            var user1 = to;
+            var user2 = from;
+          }
+          else {
+            var user1 = from;
+            var user2 = to;
+          }
+
+          Messages.update({$and: [{user1: user1}, {user2: user2}]}, {$push: {messages: message}}, {upsert: true}, function(err, result){
+            if(err) console.error(err);
+            else {
+              var messageNotification = {
+                details: {
+                  type: "message",
+                  from: Meteor.user().profile.login,
+                  contents: contents
+                },
+                read: false,
+                priority: 2,
+                timestamp: (new Date()).getTime()
+              };
+              
+              // email notification
+              var userTarget = Meteor.users.findOne(to);
+              if(userTarget.profile.email_notifications){
+                Meteor.call('sendEmail', userTarget.profile.email, "david@furlo.ng", "Hackermatch: "+Meteor.user().profile.login+" just sent you a message",
+                  Meteor.user().profile.login+" just sent you the message "+contents+". Check it out at http://hackermat.ch/messages/"
+                  );
+              }
+              // in app notification
+              Notifications.update({userId: to}, {$push: {notifications: messageNotification}}, {upsert:true}, function(err, result) {
+                if(err) console.error(err);
+              });
+            }
+          })
+        },
         sendEmail: function (to, from, subject, text) {
           check([to, from, subject, text], [String]);
 
@@ -89,7 +132,7 @@ Meteor.startup(function () {
               // email notification
               var userAuthor = Meteor.users.findOne(idea.userId);
               if(userAuthor.profile.email_notifications){
-                Meteor.call('sendEmail', userAuthor.profile.email, "david@furlo.ng", "Hackermatch: Someone just hearted your idea",
+                Meteor.call('sendEmail', userAuthor.profile.email, "david@furlo.ng", "Hackermatch: "+Meteor.user().profile.login+" just hearted your idea",
                   Meteor.user().profile.login+" just hearted your idea "+idea.name+". Check it out at http://hackermat.ch/idea/"+idea._id
                   );
               }

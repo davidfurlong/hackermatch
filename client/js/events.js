@@ -68,9 +68,36 @@ Template.ideaPage.events({
     }
 });
 
+Template.messages.events({
+    'keydown #messages-write': function(e){
+        if(e.which == 13 && !e.shiftKey){
+            e.preventDefault;
+            // create message
+            Meter.call(sendMessage(Session.get('selectedConversation'),$(e.target).val()));
+        }
+    },
+    'keydown #messages-search': function(e){
+        if(e.which == 13 && !e.shiftKey){
+            e.preventDefault;
+            // create message
+        }
+    },
+    'click .conversation-tab': function(e){
+        Session.set('selectedConversation', this.convoPartner.profile.login);
+    }
+});
+
 Template.personRow.events({
     'click .person-row': function(e){
+        // todo do better using event this
         Router.go('/profile/'+$(e.currentTarget).closest('.person-row').data('id'));
+    }
+});
+
+Template.profile_contents.events({
+    'click .message-user': function(e){
+        Session.set('selectedConversation', this._id);
+        Router.go('/messages');
     }
 });
 

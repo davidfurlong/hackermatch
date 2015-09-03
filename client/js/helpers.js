@@ -37,6 +37,9 @@ Handlebars.registerHelper('parseNotification', function (notification) {
         case "comment":
             return "<a href='/profile/"+notification.details.by+"'>"+notification.details.by+"</a> commented on <a href='/idea/"+notification.details.idea_id+"'>"+notification.details.idea_name+"</a>."; 
             break;
+        case "message":
+            return "<a href='/messages'>"+notification.details.from+" just sent you a message</a>"
+            break;
     }
     return "Something went wrong";
 });
@@ -574,9 +577,92 @@ Template.hackers.helpers({
     },
 });
  
+Template.messages.created = function(){
+    this.myMessages = Meteor.subscribe('user_messages');
+}
+
+Template.messages.destroyed = function(){
+    this.myMessages.stop();
+}
+
+Template.messages.helpers({
+    dataReady: function(){
+        return Template.instance().myMessages.ready()
+    },
+    conversations: function(){
+        var m = Messages.find({$or: [{user1: this.userId}, {user2: this.userId}]}).fetch();
+        
+        var selectedPartner = Session.get('selectedConversation');
+
+        var selectedFound = false;
+
+        m = _.map(m, function(convo){
+            var partner = convo.user1 == this.userId ? convo.user2 : convo.user1;
+            var isSelected = partner == selectedPartner;
+            if(isSelected) selectedFound = true;
+            var convoPartner = Meteor.users.findOne({_id: partner });
+            return _.extend(convo, {
+                    convoPartner: convoPartner, 
+                    isSelected: isSelected
+                }
+            );
+        });
+        m = _.sortBy(m, function(a, b){
+            newestA = a.messages[a.messages.length-1] || 0;
+            newestB = b.messages[b.messages.length-1] || 0;
+            return a > b // TODO TEST
+        });
+        if(!selectedFound && selectedPartner){
+            var temp = [];
+            // todo doesn't work
+            var convoPartner = Meteor.users.findOne({_id: selectedPartner });
+            if(Meteor.userId() < selectedPartner){
+              var user1 = Meteor.userId();
+              var user2 = selectedPartner;
+            }
+            else {
+              var user1 = selectedPartner;
+              var user2 = Meteor.userId();
+            }
+            var newConvo = {
+                convoPartner: convoPartner,
+                isSelected: true,
+                messages: [],
+                user1: user1,
+                user2: user2 
+            }
+            temp.push(newConvo);
+            for(var i = 0;i<m.length;i++){
+                temp.push(m[i]);
+            }
+            console.log(temp);
+            return temp;
+        }
+        
+        return m;
+    },
+    selectedConversation: function(){ // todo is this duplicating requests?
+        var uidSelected = Session.get("selectedConversation");
+        if(!uidSelected || uidSelected == "") {
+            return false;
+        }
+        var thread = Messages.find({
+            $or: [
+                { $and: [{user1: this.userId}, {user2: uidSelected}]}, 
+                { $and: [{user2: this.userId}, {user1: uidSelected}]}
+            ]
+        });
+
+        var convoPartner = Meteor.users.findOne({_id: uidSelected});
+        return _.extend(thread, {convoPartner: convoPartner});
+    },
+    isSelectedConversation: function(){
+        var uidSelected = Session.get("selectedConversation");
+        return !(!uidSelected || uidSelected == "")
+    }
+});
 
 Template.myHackathonList.created = function() {
-    // todo subscribe to notifications
     this.myHackathons = Meteor.subscribe('myHackathons');
 }
 Template.myHackathonList.destroyed = function() {
