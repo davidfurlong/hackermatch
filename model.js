@@ -18,11 +18,14 @@ Hackathons = new Meteor.Collection("Hackathons");
 
 Hearts = new Meteor.Collection("Hearts");
 
+UserRepos = new Meteor.Collection("UserRepos");
+// ^^ stores user repos instead of in Meteor.user collection
+
 Notifications = new Meteor.Collection("Notifications");
-// stores [{type, data, priority, timestamp, hackathonId}]
+// ^^ stores [{type, data, priority, timestamp, hackathonId}]
 // types: welcome, comment, heart, postcomment
 // priority: 1, 2, 3 (3 is highest)
 
 Messages = new Meteor.Collection("Messages");
-// Each message object stores the conversation between two users, 
+// ^^ Each message object stores the conversation between two users, 
 // user1 and user2 sorted by alphabetical order by id.

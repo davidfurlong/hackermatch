@@ -122,6 +122,10 @@ Meteor.startup(function () {
     }
 });
 
+Meteor.publish("user_repos", function(userId){
+    return UserRepos.find({userId: userId});
+})
+
 Meteor.publish("user_notifications", function(){
     return Notifications.find({userId: this.userId});
 });
@@ -137,6 +141,10 @@ Meteor.publish("hackathon", function(url_title){
 // Meteor.publish("one_users_ideas_not_in_hackathon", function(hackathon_id){
 //     return Ideas.find({$and: [{userId: this.userId},{$not: {hackathon_id: hackathon_id}}, {duplicate: {$exists: false}}, {$not: {$and: [{},{}]}}}]})
 // });
+
+Meteor.publish("users", function(){
+    return Meteor.users.find({});
+});
 
 Meteor.publish("user", function (username) {
     return Meteor.users.find({'services.github.username': username}); 

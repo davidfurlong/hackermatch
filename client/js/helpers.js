@@ -323,7 +323,18 @@ Template.index.destroyed = function(){
     $('body').removeClass('landing');
 }
 
+Template.profile_contents.created = function(){
+    this.userRepos = Meteor.subscribe('user_repos', this._id);
+}
+
+Template.profile_contents.destroyed = function(){
+    this.userRepos.stop();
+}
+
 Template.profile_contents.helpers({
+    dataReady: function(){
+        return Template.instance().userRepos.ready()
+    },
     hackathons: function() {
         if(this)
             return this.roles;
@@ -370,7 +381,7 @@ Template.profile_contents.helpers({
     },
     featured: function(){
         if(this.profile) {
-            var repos = this.profile.repos;
+            var repos = UserRepos.findOne({userId: this._id});
             function sortfunction(a, b){
                 if(a.stargazers_count == b.stargazers_count)
                     return b.commits.length - a.commits.length
@@ -392,7 +403,7 @@ Template.profile_contents.helpers({
     },
     collaborators: function(){
         if(this.profile) {
-            var repos = this.profile.repos;
+            var repos = UserRepos.findOne({userId: this._id});
             var collaborators = {};
             for(var i = 0; i < repos.length; i++){
                 var hasAccess = false;
@@ -422,7 +433,7 @@ Template.profile_contents.helpers({
     dateGraph: function(){
         if(this.profile) {
            //console.log('rendered');
-            var repos = this.profile.repos;
+            var repos = UserRepos.findOne({userId: this._id});
 
             function contributedTo(repo){
                 return (repo.commits.length > 0)
@@ -466,7 +477,7 @@ Template.profile_contents.helpers({
     },
     languages: function(){ 
         if(this.profile && !this.profile.languages) { // Only runs the first time
-            var repos = this.profile.repos;
+            var repos = UserRepos.findOne({userId: this._id});
             var languages = [];
              
             for(var i=0;i<repos.length;i++){

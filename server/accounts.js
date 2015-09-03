@@ -544,7 +544,11 @@ Accounts.onCreateUser(function (options, user) {
       //should contain github info plus all skills/changed features since request started
       profile = current_user.profile;
 
-      profile = _.extend(profile, {'repos': userRepositories});
+      // old storage
+      // profile = _.extend(profile, {'repos': userRepositories});
+      UserRepos.update({userId: user._id}, {$set:{repos: userRepositories, timestamp: (new Date()).getTime()}}, {upsert:true}, function(err, result) {
+        if(err) console.error(err);
+      });
 
       var d = new Date();
       profile['updated_at'] = d.getTime();

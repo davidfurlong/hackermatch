@@ -173,9 +173,8 @@ Router.map(function() {
         path: '/settings',
         onBeforeAction: userAuth
     });
-    this.route('profileOther', {
+    this.route('profile', {
         path: '/profile/:_username',
-        template: 'profile',
         data: function() { 
             var user = Meteor.users.findOne({'services.github.username': this.params._username}); 
             if(user) {
