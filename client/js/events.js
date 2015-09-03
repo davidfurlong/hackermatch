@@ -87,38 +87,11 @@ Template.messages.events({
     }
 });
 
-Template.personRow.events({
-    'click .person-row': function(e){
-        // todo do better using event this
-        Router.go('/profile/'+$(e.currentTarget).closest('.person-row').data('id'));
-    }
-});
-
 Template.profile_contents.events({
     'click .message-user': function(e){
         Session.set('selectedConversation', this._id);
         Router.go('/messages');
     }
-});
-
-Template.hackathon.events({
-    'click .sidebar' : function(e, t) {
-        e.stopPropagation();
-    },
-    'click .profile_sidebar' : function(e, t){
-        e.stopPropagation();
-    }
-    // 'click .page-container' : function(e, t) {
-    //     var id = e;
-    //     if(Session.get("sidebarOpened") == "open" || Session.get('profile_sidebarOpened') == "open") {
-    //         e.preventDefault();
-    //         Session.set('selectedIdea', '');
-    //         Session.set('sidebarOpened', '');
-    //         Session.set('selectedProfile', '');
-    //         Session.set('profile_sidebarOpened', '');
-    //         $('.pt-triggers, #pt-main, #title-bar').removeClass('blur');
-    //     } 
-    // }
 });
 
 Template.layout.events({
@@ -131,15 +104,18 @@ Template.ideaRow.events({
     // open idea in sidebar
     'click li.item-text' : function(e, t) {
         e.preventDefault();
-        var idea_id = e.currentTarget.dataset.id;
-        Session.set("selectedIdea", idea_id);
+        Session.set("selectedIdea", this._id);
         $('#full-page-fade').addClass('show');
     },
     // toggle heart action
     'click li.item-heart' : function(e, t) {
         e.preventDefault();
-        var idea_id = e.currentTarget.dataset.id;
-        Meteor.call('heart_idea', idea_id, function(err, res) {});
+        Meteor.call('heart_idea', this._id, function(err, res) {});
+    },
+    'click li.item-icon' : function(e, t) {
+        e.preventDefault();
+        Session.set("selectedProfile", this._id);
+        $('#full-page-fade').addClass('show');
     }
 });
 
@@ -197,13 +173,14 @@ Template.createHackathon.events({
 });
 
 Template.person_filter.events({ 
-  'mousedown .filter': function () {
-    if (Session.equals('team_filter', this.filter)) {
+    'mousedown .filter': function () {
+        if (Session.equals('team_filter', this.filter)) {
         //Session.set('idea_filter', null);
-    } else {
-        Session.set('team_filter', this.filter);
+        } 
+        else {
+            Session.set('team_filter', this.filter);
+        }
     }
-  }
 });
 
 Template.createIdea.events({

@@ -44,13 +44,6 @@ Router.map(function() {
         path: '/',
         template: 'index',
         layoutTemplate: '',
-        // data: function() {
-        //     var x = {};
-        //     x.title = '';
-        //     x.hackathons = Hackathons.find({}).fetch();
-        //     return x;
-        // },
-        // waitOn: function() { return Meteor.subscribe('myHackathons', this.userId)},
         onBeforeAction: function () {
             // Session.set("current_hackathon", null);
             if (!Meteor.user()) {

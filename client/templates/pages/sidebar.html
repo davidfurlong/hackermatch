@@ -1,8 +1,7 @@
-
 <template name="profile_sidebar">
-    <div class="profile_sidebar" style="{{#if opened}}{{else}}display:none;{{/if}}" >
+    <div class="profile_sidebar sidebar" style="{{#if opened}}{{else}}display:none;{{/if}}" >
         {{#if profile.avatar_url}}
-            <img src="{{idea.author.profile.avatar_url}}" class="sidebar-profile-avatar">
+            <img src="{{profile.avatar_url}}" class="sidebar-profile-avatar">
         {{/if}}
         <div class="sidebar-item-title">
             <h1>{{profile.name}}</h1>
@@ -16,8 +15,8 @@
         </div>
         <div class="user-details"> 
             <span class="sidebar-item-contact">
-            {{#if idea.author.profile.contact}}
-                contact <a href="mailto:{{idea.author.profile.contact}}">{{idea.author.profile.contact}}</a>
+            {{#if profile.contact}}
+                contact <a href="mailto:{{idea.author.profile.contact}}">{{profile.contact}}</a>
             {{/if}}
             </span> 
             <span>
@@ -42,21 +41,6 @@
                 {{location}}
               {{/if}}
             </span>
-        </div>
-        <div class="">
-          <span class="user-title">Worked on</span>
-          {{#each featured}}
-            <a href="{{html_url}}">{{stargazers_count}} <i class="fa fa-star"></i> <span class="feature-title">{{full_name}}</span>
-            </a><br/>   
-          {{/each}}
-        </div>
-        <div class="">
-          <span class="user-title">People worked with</span>
-          {{#each sortandarrayify collaborators}}
-            <div class="collaborator">
-            <a href="{{f_html_url}}"><img src="{{f_avatar_url}}" class="mini-avatar"><span class="feature-title">{{f_login}}</span>
-            </a></div>
-          {{/each}}
         </div>
     </div>
 </template>

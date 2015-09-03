@@ -68,12 +68,10 @@ Handlebars.registerHelper('selected_hackathon',function(){
 });
 
 Handlebars.registerHelper('pageTitle',function(){
-  
     return pageTitle(); 
 });
 
 Handlebars.registerHelper('pageUrl',function(){
-  
     return pageUrl(); 
 });
 
@@ -302,17 +300,19 @@ Template.profile.helpers({
 
 Template.profile_sidebar.helpers({
     profile: function(){
-        var profile = Meteor.users.findOne({'services.github.username': Session.get("selectedProfile")}); 
+        var profile = Meteor.users.findOne({_id: Session.get("selectedProfile")}); 
+        return profile;
     },
     opened: function(){
         var profileSelected = Session.get("selectedProfile");
         if(!profileSelected || profileSelected == "") {
             return false;
-        } else {
+        } 
+        else {
             Session.set('profile_sidebarOpened', 'open');
             return true;
         }
-    } 
+    }
 });
 
 Template.index.rendered = function(){
@@ -903,24 +903,6 @@ Template.ideaPage.destroyed = function () {
   this.ideaHandle.stop();
 };
 
-/*
-Template.ideaPage.helpers({
-    idea: function() {
-        console.log(this);
-        var idea = Ideas.findOne({_id: Session.get("selectedIdea")});
-        console.log(Session.get("selectedIdea"));
-        if(idea) {
-            var author = Meteor.users.findOne({_id: idea.userId});
-            var commentThread = Comments.find({ideaId: idea._id}).fetch();
-            idea.author = author;
-            idea.commentThread = commentThread;
-            var heart = Hearts.findOne({ $and: [{idea_id: idea._id}, {user_id: Meteor.userId()}]});
-            idea.hearted = heart && heart.hearted;
-            return idea;
-        }
-    }
-});
-*/
 Template.sidebar.helpers({
     idea: function() {
         var idea = Ideas.findOne({_id: Session.get("selectedIdea")});
@@ -1046,7 +1028,7 @@ var pageTitle = function() {
 
     var title = null;
     switch(routeName) {
-        case "profileOther": 
+        case "profile": 
             var path = pagePath();
             path = path.split('/');
             if(path.length > 2) {
