@@ -149,6 +149,10 @@ Meteor.publish("users", function(){
 Meteor.publish("user", function (username) {
     return Meteor.users.find({'services.github.username': username}); 
 });
+
+Meteor.publish("user_profile", function(userid) {
+    return Meteor.users.find({_id:userid});
+});
      
 Meteor.publish("one_users_ideas", function (){
     return Ideas.find({userId: this.userId});

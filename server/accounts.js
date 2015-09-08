@@ -169,8 +169,10 @@ Meteor.startup(function () {
                       Ideas.update({_id:idea._id}, {$pull:{"hearts":Meteor.user().profile.login}});
                   } else {
                       Hearts.update({_id:heart._id}, {$set:{"hearted":true}});
-                      Ideas.update({_id:idea._id}, {$push:{"hearts":Meteor.user().profile.login}});
-                      // todo update time lastupdated
+                      Ideas.update({_id:idea._id}, {
+                        $push:{"hearts":Meteor.user().profile.login},
+                        $set: {"time_lastupdated": new Date().getTime()}
+                      });
                   }
                   return;
               }

@@ -1,48 +1,53 @@
 <template name="profile_sidebar">
-    <div class="profile_sidebar sidebar" style="{{#if opened}}{{else}}display:none;{{/if}}" >
-        {{#if profile.avatar_url}}
-            <img src="{{profile.avatar_url}}" class="sidebar-profile-avatar">
-        {{/if}}
-        <div class="sidebar-item-title">
-            <h1>{{profile.name}}</h1>
+    {{#if opened}}
+        {{> profile_sidebar_contents}}
+    {{/if}}
+</template>
+
+<template name="profile_sidebar_contents">
+    {{#if dataReady}}
+        <div class="profile_sidebar sidebar" >
+            <center>
+                {{#if profile.avatar_url}}
+                    <img src="{{profile.avatar_url}}" class="sidebar-profile-big-avatar">
+                {{/if}}
+                <div class="sidebar-item-title pad-top">
+                    <h1>{{profile.name}} <a href="/profile/{{profile.login}}"><i class="ion-link"></i></a></h1>
+                </div>
+                <div class="profile-skills">
+                    {{#if profile.skills }}
+                        {{#each bitmaparray profile.skills}}
+                            <span class="badge {{.}}">{{.}}</span> 
+                        {{/each}}
+                    {{/if}}
+                </div>
+                <div class="user-details pad-top"> 
+                    <span>
+                      {{#if profile.languages }}
+                        {{profile.languages}}
+                      {{/if}}
+                    </span>
+                    <span>
+                    {{#if profile.github }}
+                      <a href="{{profile.github_url}}"><i class="fa fa-github"></i>{{profile.github}}</a>
+                    {{/if}}
+                    </span>
+                    <span>
+                      {{#if profile.contact }}
+                        <i class="fa fa-paper-plane-o"></i>
+                        {{profile.contact}}
+                      {{/if}}
+                    </span>
+                    <span>
+                      {{#if profile.location }}
+                        <i class="fa fa-map-marker"></i>
+                        {{profile.location}}
+                      {{/if}}
+                    </span>
+                </div>
+            </center>
         </div>
-        <div class="profile-skills">
-            {{#if skills }}
-                {{#each bitmaparray skills}}
-                    <span class="badge {{.}}">{{.}}</span> 
-                {{/each}}
-            {{/if}}
-        </div>
-        <div class="user-details"> 
-            <span class="sidebar-item-contact">
-            {{#if profile.contact}}
-                contact <a href="mailto:{{idea.author.profile.contact}}">{{profile.contact}}</a>
-            {{/if}}
-            </span> 
-            <span>
-              {{#if languages }}
-                {{languages}}
-              {{/if}}
-            </span>
-            <span>
-            {{#if github }}
-              <a href="{{github_url}}"><i class="fa fa-github"></i>{{github}}</a>
-            {{/if}}
-            </span>
-            <span>
-              {{#if contact }}
-                <i class="fa fa-paper-plane-o"></i>
-                {{contact}}
-              {{/if}}
-            </span>
-            <span>
-              {{#if location }}
-                <i class="fa fa-map-marker"></i>
-                {{location}}
-              {{/if}}
-            </span>
-        </div>
-    </div>
+    {{/if}}
 </template>
 
 <template name="sidebar">

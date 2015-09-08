@@ -105,11 +105,22 @@ body.landing footer {
 
 /* hackathon sidebar */
 
+.pad-top {
+	padding-top: 30px;
+}
+
 .sidebar-profile-avatar {
 	border-radius:50px;
 	margin-top:-5px;
 	width: 32px;
 	height: 32px;
+}
+
+.sidebar-profile-big-avatar {
+	border-radius:250px;
+	margin-top:20px;
+	width: 50%;
+	height: auto;
 }
 
 /* end hackathon sidebar */

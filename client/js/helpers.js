@@ -298,11 +298,29 @@ Template.profile.helpers({
     }
 });
 
-Template.profile_sidebar.helpers({
-    profile: function(){
-        var profile = Meteor.users.findOne({_id: Session.get("selectedProfile")}); 
-        return profile;
+Template.profile_sidebar_contents.created = function(){
+    this.userProfile = Meteor.subscribe('user_profile', Session.get("selectedProfile"));
+}
+
+Template.profile_sidebar_contents.destroyed = function(){
+    globals.hideSidebar();
+    console.log('destroyed');
+    this.userProfile.stop();
+}
+
+Template.profile_sidebar_contents.helpers({
+    dataReady: function(){
+        return Template.instance().userProfile.ready()
     },
+    profile: function(){
+        var profile = Meteor.users.findOne({_id:Session.get("selectedProfile")}); 
+        if(profile){
+           return profile['profile']; 
+        }
+    }
+});
+
+Template.profile_sidebar.helpers({
     opened: function(){
         var profileSelected = Session.get("selectedProfile");
         if(!profileSelected || profileSelected == "") {
@@ -381,7 +399,8 @@ Template.profile_contents.helpers({
     },
     featured: function(){
         if(this.profile) {
-            var repos = UserRepos.findOne({userId: this._id});
+            var repos = UserRepos.findOne({userId: this._id}) || [];
+
             function sortfunction(a, b){
                 if(a.stargazers_count == b.stargazers_count)
                     return b.commits.length - a.commits.length
@@ -403,7 +422,7 @@ Template.profile_contents.helpers({
     },
     collaborators: function(){
         if(this.profile) {
-            var repos = UserRepos.findOne({userId: this._id});
+            var repos = UserRepos.findOne({userId: this._id}) || [];
             var collaborators = {};
             for(var i = 0; i < repos.length; i++){
                 var hasAccess = false;
@@ -433,7 +452,7 @@ Template.profile_contents.helpers({
     dateGraph: function(){
         if(this.profile) {
            //console.log('rendered');
-            var repos = UserRepos.findOne({userId: this._id});
+            var repos = UserRepos.findOne({userId: this._id}) || [];
 
             function contributedTo(repo){
                 return (repo.commits.length > 0)
@@ -477,7 +496,7 @@ Template.profile_contents.helpers({
     },
     languages: function(){ 
         if(this.profile && !this.profile.languages) { // Only runs the first time
-            var repos = UserRepos.findOne({userId: this._id});
+            var repos = UserRepos.findOne({userId: this._id}) || [];
             var languages = [];
              
             for(var i=0;i<repos.length;i++){
@@ -905,6 +924,10 @@ Template.ideaPage.destroyed = function () {
   // Make sure the data goes away when we don’t need it anymore
   this.ideaHandle.stop();
 };
+
+Template.sidebar.destroyed = function(){
+    globals.hideSidebar();
+}
 
 Template.sidebar.helpers({
     idea: function() {

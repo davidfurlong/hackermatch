@@ -32,6 +32,11 @@ meteor run ios
 - Users
 - Comments
 
+## For debugging
+
+Useful 
+db.users.find({}, {"profile.login":1})
+
 
 ## Folder structure
 
