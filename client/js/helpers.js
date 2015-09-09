@@ -1128,7 +1128,7 @@ var pageUrl = function() {
     var routeName = Router.current().route.getName()
     var url = null;
     switch(routeName) {
-        case "profileOther":
+        case "profile":
             url = pagePath();
             url = url.substring(1);
             //url = Router.current().url;
