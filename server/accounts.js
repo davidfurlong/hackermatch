@@ -280,7 +280,7 @@ Meteor.startup(function () {
         },
         is_hackathon_open_join: function(url_title){
           var hackathon = Hackathons.findOne({url_title: url_title});    
-          if(hackathon.open) { // hackathon.open may be undefined for old db
+          if(hackathon && hackathon.open) { // hackathon.open may be undefined for old db
               return true;
           } else {
               return false;
@@ -517,27 +517,29 @@ Accounts.onCreateUser(function (options, user) {
               totalcommits += contributor.contributions;
             });
           }
-          var collaborators_url = "https://api.github.com/repos/"+temp['full_name']+'/collaborators';
-          var collaborators = Meteor.http.get(collaborators_url, {
-            headers: {
-              'User-Agent':'davidfurlong'
-            },
-            params: {
-              access_token: accessToken
-            }
-          });
-          if(collaborators.error)
-            return
 
-          var collaboratorsRay = [];
-          var parsedCollaborators = JSON.parse(collaborators.content);
-          if(parsedCollaborators instanceof Array){
-            _.each(parsedCollaborators, function(collaborator){
-              collaboratorsRay.push({'f_login':collaborator.login, 'f_avatar_url':collaborator.avatar_url, 'f_html_url':collaborator.html_url});
-            });
-          }
+
+          // var collaborators_url = "https://api.github.com/repos/"+temp['full_name']+'/collaborators';
+          // var collaborators = Meteor.http.get(collaborators_url, {
+          //   headers: {
+          //     'User-Agent':'davidfurlong'
+          //   },
+          //   params: {
+          //     access_token: accessToken
+          //   }
+          // });
+          // if(collaborators.error)
+          //   return
+
+          // var collaboratorsRay = [];
+          // var parsedCollaborators = JSON.parse(collaborators.content);
+          // if(parsedCollaborators instanceof Array){
+          //   _.each(parsedCollaborators, function(collaborator){
+          //     collaboratorsRay.push({'f_login':collaborator.login, 'f_avatar_url':collaborator.avatar_url, 'f_html_url':collaborator.html_url});
+          //   });
+          // }
           // console.log('110');
-          var cl = _.extend(temp, {'owner': repo.owner.login, 'languages':languages.content, 'commits':commitsRepo, 'contributions':mycommits, 'all_contributions':totalcommits, 'collaborators':collaboratorsRay})
+          var cl = _.extend(temp, {'owner': repo.owner.login, 'languages':languages.content, 'commits':commitsRepo, 'contributions':mycommits, 'all_contributions':totalcommits, 'collaborators':[]})
 
           userRepositories.push(cl);
         }
@@ -551,10 +553,10 @@ Accounts.onCreateUser(function (options, user) {
       //should contain github info plus all skills/changed features since request started
       profile = current_user.profile;
 
-      // old storage
       // profile = _.extend(profile, {'repos': userRepositories});
-      UserRepos.update({userId: user._id}, {$set:{repos: userRepositories, timestamp: (new Date()).getTime()}}, {upsert:true}, function(err, result) {
+      UserRepos.update({userId: user._id}, {$setOnInsert:{userId: user._id}, $set:{repos: userRepositories, timestamp: (new Date()).getTime()}}, {upsert:true}, function(err, result) {
         if(err) console.error(err);
+        console.log('succesfully inserted repos');
       });
 
       var d = new Date();
