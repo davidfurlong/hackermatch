@@ -46,6 +46,7 @@
 
 #messages-container-right h1 {
 	margin: 0;
+	margin-top: 5px;
 }
 
 .message-thread-message {
