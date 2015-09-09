@@ -291,7 +291,8 @@ a.link-border:focus::before {
 	font-size: 20pt;
 	color: #888;
 	text-align: center;
-	width: 40px;
+	width: 50px;
+	padding:0;
 	padding: 0;
 }
 
