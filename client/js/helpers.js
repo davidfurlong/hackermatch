@@ -662,7 +662,7 @@ Template.messagesLeftbar.helpers({
         });
 
         m = _.sortBy(m, function(a){
-            return a.messages[a.messages.length-1].timestamp || 0;
+            return -a.messages[a.messages.length-1].timestamp || 0;
         });
 
         // if new conversation link

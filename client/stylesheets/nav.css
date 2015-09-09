@@ -3,6 +3,10 @@
     margin-left: -20px !important;
 }
 
+.navbar-right {
+	font-size: 20px !important;
+}
+
 #hackathon-nav a {
 	border-radius: 100px;
 	font-size: 40pt;
