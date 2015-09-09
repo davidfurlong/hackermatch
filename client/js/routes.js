@@ -17,6 +17,25 @@ hackathonAuth = function() {
     }
 }
 
+hackathonAdminAuth = function() {
+    if(Meteor.loggingIn()) {
+        this.render('loading');
+    } else {
+        var user = Meteor.user();
+        if(!user) {
+            Router.go('signup');
+        }
+        if(Roles.userIsInRole(user, ['creator', 'organizer', 'admin'], this.params.hackathon)) {
+            document.cookie = 'most_recent_hackathon='+this.params.hackathon;
+            Session.set("currentHackathon", this.params.hackathon);
+            this.next();
+        } 
+        else { // todo check is a hackathon first
+            Router.go('/');
+        }
+    }
+}
+
 userAuth = function() {
     if (!Meteor.user()) {
         if (Meteor.loggingIn()) {
@@ -76,12 +95,19 @@ Router.map(function() {
         });
     })
     this.route('hackers', {
-        path: '/:hackathon/hackers' , 
+        path: '/:hackathon/hackers', 
         yieldTemplates: {
             'hackathon_nav': {to: 'nav'}
         },
         onBeforeAction: hackathonAuth
     });
+    this.route('hackathonAdmin', {
+        path: '/:hackathon/admin',
+        yieldTemplates: {
+            'hackathon_nav': {to: 'nav'}
+        },
+        onBeforeAction: hackathonAdminAuth
+    })
     this.route('messages', {
         path: '/messages',
         onBeforeAction: userAuth,

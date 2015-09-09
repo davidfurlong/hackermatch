@@ -3,20 +3,32 @@
       <nav>
       <ul id="hackathon-nav" class="pager">
           <li>
-              <a title="Ideas" id="find-ideas-link" href="/{{selected_hackathon.url_title}}"><i class="ion-ios-lightbulb-outline"></i>
+              <a title="Ideas" id="find-ideas-link" href="/{{selected_hackathon.url_title}}">
+                <i class="ion-ios-lightbulb-outline"></i>
               </a>
           </li>
           <li>
-              <a title="Hackers" id="find-teams-link" href="/{{selected_hackathon.url_title}}/hackers"><i class="ion-ios-people"></i>
+              <a title="Hackers" id="find-teams-link" href="/{{selected_hackathon.url_title}}/hackers">
+                <i class="ion-ios-people"></i>
               </a>
           </li>
           <li>
-              <a id="" href="/{{selected_hackathon.url_title}}/new" title="Add Idea">
-              <i class="ion-ios-plus-empty"></i>
+              <a href="/{{selected_hackathon.url_title}}/new" title="Add Idea">
+                <i class="ion-ios-plus-empty"></i>
               </a>
           </li>
+          {{#if isAdmin}}
+          <li>
+            <a href="/{{selected_hackathon.url_title}}/admin" title="Admin">
+              <i class="ion-ios-cog-outline"></i>
+            </a>
+          </li>
+          {{/if}}
       </ul>
       </nav>
+      {{#if isAdmin}}
+        <h6>Invite url: http://hackermat.ch/{{selected_hackathon.url_title}}/join/{{selected_hackathon.invite_code}}</h6>
+      {{/if}}
       </center>
 </template>
 

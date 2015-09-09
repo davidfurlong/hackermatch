@@ -89,6 +89,11 @@ Handlebars.registerHelper('selected_hackathon',function(){
     return hackathon;
 });
 
+Handlebars.registerHelper('isAdmin', function(){ // OF A HACKATHON
+    var hackathonUrl = Session.get("currentHackathon");
+    return Roles.userIsInRole(Meteor.user(), ['creator', 'organizer', 'admin'], hackathonUrl);
+});
+
 Handlebars.registerHelper('pageTitle',function(){
     return pageTitle(); 
 });
@@ -597,7 +602,7 @@ Template.person_list.helpers({
 
 incrementHackersLimit = function() {
     var newHackersLimit = Session.get('hackersLimit') + 20;
-//    console.log("newHackersLimit " + newHackersLimit);
+    //    console.log("newHackersLimit " + newHackersLimit);
     Session.set('hackersLimit', newHackersLimit);
 }
 
@@ -1018,6 +1023,38 @@ Tracker.autorun(function () {
     Meteor.subscribe('hackathon_and_ideas', Session.get("currentHackathon"), Session.get("ideaLimit"));
 });
 
+Template.hackathonAdmin.created = function(){
+    this.hackathon = Meteor.subscribe("hackathon_admin", Session.get("currentHackathon"));
+}
+
+Template.hackathonAdmin.destroyed = function(){
+    this.hackathon.stop();
+}
+
+Template.hackathonAdmin.helpers({
+    dataReady: function(){
+        return Template.instance().hackathon.ready();
+    },
+    stats: function(){
+        var o = {};
+        var hackathon_title = Session.get("currentHackathon");
+        var hackathon = Hackathons.findOne({url_title: hackathon_title});
+
+        var ideas = Ideas.find({hackathon_id: hackathon._id}, {_id: 1}).fetch();
+        var ideaIds = ideas.map(function(idea){
+            return idea._id;
+        });
+        o.ideas = ideaIds.length;
+        o.hearts = Hearts.find({hackathon_id: hackathon._id}).fetch().length;
+        o.comments = Comments.find({ideaId: {$in: ideaIds}}).fetch().length;
+        var str = "roles."+hackathon_title;
+        var query = {};
+        query[str] = {$in: ["hacker"]};
+        o.users = Meteor.users.find(query).fetch().length;
+        return o;
+    }
+})
+
 Template.hackathon.created = function() {
     // todo subscribe to notifications
     var hackathonId = Router.current().params.hackathon;
@@ -1109,6 +1146,7 @@ var pageTitle = function() {
             title = "messages";
             break;
         case "ideas":
+        case "hackathonAdmin":
         case "hackers":
         case "hackathon": 
             var hackathonUrl= Session.get("currentHackathon");
@@ -1137,6 +1175,7 @@ var pageUrl = function() {
             url = "";
             break;
         case "create_idea":
+        case "hackathonAdmin":
         case "ideas":
         case "hackers":
         case "hackathon": 

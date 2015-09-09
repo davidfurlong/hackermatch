@@ -213,6 +213,34 @@ Meteor.publish("hackathon_and_ideas", function (hackathon_title, limit) {
     }
 });
 
+Meteor.publish("hackathon_admin", function(hackathon_title){
+    var hackathon = Hackathons.findOne({url_title: hackathon_title});
+
+    var ideas = Ideas.find({hackathon_id: hackathon._id}, {_id: 1}).fetch();
+    var ideaIds = ideas.map(function(idea){
+        return idea._id;
+    });
+
+    if (Roles.userIsInRole(this.userId, ['creator', 'organizer', 'admin'], hackathon_title)) {
+        var query = {
+            roles: {}
+        };
+        query["roles"][hackathon_title] = ['hacker'];
+        return [
+            Hearts.find({hackathon_id: hackathon._id}),
+            Comments.find({ideaId: {$in: ideaIds}}),
+            Ideas.find({hackathon_id: hackathon._id}, {_id: 1}),
+            Hackathons.find({url_title: hackathon_title}),
+            Meteor.users.find(query)
+        ]
+    } 
+    else {
+        // user not authorized. do not publish secrets
+        this.stop();
+        return;
+    }
+});
+
 // TODO this name is unclear
 Meteor.publish("users_and_hackathon", function (hackathon_title, filters, limit) {
     var user = Meteor.users.findOne({_id: this.userId});

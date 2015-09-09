@@ -1,0 +1,31 @@
+<template name="hackathonAdmin">
+	{{> hackathonNav}}
+	{{#if dataReady}}
+		<div class="container">
+			<div class="row" id="statistics"> <!-- statistics row -->
+				<div class="col-md-3">
+					{{stats.users}} Users
+				</div>
+				<div class="col-md-3">
+					{{stats.ideas}} Ideas
+				</div>
+				<div class="col-md-3">
+					{{stats.comments}} Comments
+				</div>
+				<div class="col-md-3">
+					{{stats.hearts}} Hearts
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+				<!-- Settings - show image, edit image, edit date, enable whitelist -->	
+				</div>
+				<div class="col-md-6">
+				<!-- ban users -->
+				<!-- invite users -->
+				<!-- whitelist (by github name) if enabled -->
+				</div>
+			</div>
+		</div>		
+	{{/if}}	
+</template>
