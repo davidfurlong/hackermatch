@@ -84,7 +84,22 @@ Router.map(function() {
     });
     this.route('messages', {
         path: '/messages',
-        onBeforeAction: userAuth
+        onBeforeAction: userAuth,
+        waitOn: function(){
+            return Meteor.subscribe("users_essentials");
+        }
+    });
+    this.route('messagesThread', {
+        path: '/messages/:_username',
+        template: 'messages',
+        onBeforeAction: function(){
+            var uid = Meteor.users.findOne({"profile.login": this.params._username});
+            Session.set("selectedConversation",uid._id);
+            userAuth.call(this);
+        },
+        waitOn: function(){
+            return Meteor.subscribe("users_essentials");
+        }
     });
     this.route('idea', {
         path: '/idea/:_id',

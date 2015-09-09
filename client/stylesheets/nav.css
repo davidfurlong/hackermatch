@@ -20,6 +20,15 @@
 	background: transparent;
 }
 
+#notifications-dropdown li.notification-item {
+	padding: 10px 0;
+	border-top: 1px solid #eee;
+}
+
+.dropdown-header {
+	margin-bottom: 5px;
+}
+
 #notifications-dropdown {
 	max-height: 250px;
 	overflow-y: auto;

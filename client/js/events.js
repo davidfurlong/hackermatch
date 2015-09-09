@@ -1,16 +1,10 @@
-globals = {
-
-    hideSidebar: function(e){
-        if(Session.get("sidebarOpened") == "open" || Session.get('profile_sidebarOpened') == "open") {
-           Session.set('selectedIdea', '');
-           Session.set('sidebarOpened', '');
-           Session.set('selectedProfile', '');
-           Session.set('profile_sidebarOpened', '');
-        }
-        $('#full-page-fade').removeClass('show');
+Template.profile_sidebar_contents.events({
+    'click .message-user': function(e,t){
+        console.log(this);
+        Session.set('selectedConversation', this._id);
+        Router.go('/messages');
     }
-
-}
+});
 
 Template.sidebar.events({
     'click #sidebar-exit': function(e){
@@ -75,7 +69,8 @@ Template.messages.events({
         if(e.which == 13 && !e.shiftKey){
             e.preventDefault;
             // create message
-            Meter.call(sendMessage(Session.get('selectedConversation'),$(e.target).val()));
+            Meteor.call('sendMessage', Session.get('selectedConversation'), $(e.target).val());
+            $(e.target).val("");
         }
     },
     'keydown #messages-search': function(e){
@@ -85,12 +80,15 @@ Template.messages.events({
         }
     },
     'click .conversation-tab': function(e){
-        Session.set('selectedConversation', this.convoPartner.profile.login);
+        console.log(this);
+        Session.set('selectedConversation', this.convoPartner._id);
     }
 });
 
 Template.profile_contents.events({
     'click .message-user': function(e){
+        console.log(this);
+        console.log(e);
         Session.set('selectedConversation', this._id);
         Router.go('/messages');
     }

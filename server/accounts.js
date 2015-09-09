@@ -18,10 +18,8 @@ Meteor.startup(function () {
     Meteor.methods({
         sendMessage: function(to, contents) {
           var from = Meteor.userId();
-          var message = {
-            'text' : contents,
-            'timestamp': (new Date()).getTime()
-          }
+          if(to == from)
+            return false;
           if(to < from){
             var user1 = to;
             var user2 = from;
@@ -30,8 +28,13 @@ Meteor.startup(function () {
             var user1 = from;
             var user2 = to;
           }
-
-          Messages.update({$and: [{user1: user1}, {user2: user2}]}, {$push: {messages: message}}, {upsert: true}, function(err, result){
+          var message = {
+            'text' : contents,
+            'timestamp': (new Date()).getTime(),
+            'from': from == user1 // boolean: true => user1 & false => 2
+          }
+          
+          Messages.update({$and: [{user1: user1}, {user2: user2}]}, {$push: {messages: message}, $setOnInsert: {user1: user1, user2: user2}}, {upsert: true}, function(err, result){
             if(err) console.error(err);
             else {
               var messageNotification = {

@@ -19,8 +19,47 @@
 	margin-bottom: 20px;
 }
 
-#messages-thread-container {
+#messages-container-right {
 	height: 450px;
+}
+
+.twitter-typeahead {
+	width: 100%;
+	z-index: 60;
+}
+.tt-menu {
+	z-index: 70;
+	background: white;
+	width: 100%;
+	font-size: 22px;
+}
+
+.tt-selectable {
+	cursor: pointer;
+	padding: 2px 6px
+}
+
+.tt-selectable:hover {
+	background: rgb(33, 150, 243);
+	color: white;
+}
+
+#messages-container-right h1 {
+	margin: 0;
+}
+
+.message-thread-message {
+	padding: 5px 0;
+}
+
+#messages-thread-container {
+	max-height: 400px;
+	overflow-y: auto;
+	padding-left: 0;
+}
+
+.sent-by-me {
+	color: #bbb;
 }
 
 #messages-users {
@@ -37,6 +76,23 @@
 	height: 64px;
 	font-size: 18px;
 	background: white;
+	cursor: pointer;
+}
+
+.message-thread-message {
+	list-style-type: none;
+}
+
+.conversation-tab-inner {
+	height: 48px;
+	line-height: 48px;
+	position: relative;
+	top: 8px;
+	left: 8px;
+}
+
+.conversation-tab-username {
+	margin-left: 10px;
 }
 
 .conversation-tab.selected {
@@ -46,5 +102,5 @@
 .conversation-tab-image {
 	float: left;
 	border-radius: 100px;
-	height: 48px;
+	height: 100%;
 }

@@ -6,47 +6,54 @@
 
 <template name="profile_sidebar_contents">
     {{#if dataReady}}
+        {{#with profile}}
         <div class="profile_sidebar sidebar" >
             <center>
-                {{#if profile.avatar_url}}
-                    <img src="{{profile.avatar_url}}" class="sidebar-profile-big-avatar">
+                {{#if avatar_url}}
+                    <img src="{{avatar_url}}" class="sidebar-profile-big-avatar">
                 {{/if}}
                 <div class="sidebar-item-title pad-top">
-                    <h1>{{profile.name}} <a href="/profile/{{profile.login}}"><i class="ion-link"></i></a></h1>
+                    <h1>{{name}} <a href="/profile/{{login}}"><i class="ion-link"></i></a></h1>
                 </div>
                 <div class="profile-skills">
-                    {{#if profile.skills }}
-                        {{#each bitmaparray profile.skills}}
+                    {{#if skills }}
+                        {{#each bitmaparray skills}}
                             <span class="badge {{.}}">{{.}}</span> 
                         {{/each}}
                     {{/if}}
                 </div>
                 <div class="user-details pad-top"> 
+                    {{#unless equalsCurrentUsername login}}
+                        <span>
+                            <a class="message-user"><i class="ion-chatbox"></i> Message</a>
+                        </span>
+                    {{/unless}}
                     <span>
-                      {{#if profile.languages }}
-                        {{profile.languages}}
+                      {{#if languages }}
+                        {{languages}}
                       {{/if}}
                     </span>
                     <span>
-                    {{#if profile.github }}
-                      <a href="{{profile.github_url}}"><i class="fa fa-github"></i>{{profile.github}}</a>
+                    {{#if github }}
+                      <a href="{{github_url}}"><i class="fa fa-github"></i>{{github}}</a>
                     {{/if}}
                     </span>
                     <span>
-                      {{#if profile.contact }}
+                      {{#if contact }}
                         <i class="fa fa-paper-plane-o"></i>
-                        {{profile.contact}}
+                        {{contact}}
                       {{/if}}
                     </span>
                     <span>
-                      {{#if profile.location }}
+                      {{#if location }}
                         <i class="fa fa-map-marker"></i>
-                        {{profile.location}}
+                        {{location}}
                       {{/if}}
                     </span>
                 </div>
             </center>
         </div>
+        {{/with}}
     {{/if}}
 </template>
 

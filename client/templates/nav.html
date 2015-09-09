@@ -64,11 +64,9 @@
 	      	    {{/if}}
 	      	    </a>
 	      	    <ul class="dropdown-menu" role="menu" id="notifications-dropdown">
-	      	    	<span style="float:left">&nbsp;Notifications</span>
-	      	    	<hr>
+	      	    	<li class="dropdown-header">Notifications</li>
 	      	    	{{#each sortNotifications notifications}}
-	      	    	<li><a>{{{parseNotification .}}}</a></li>
-	      	    	<hr>
+	      	    	<li class="notification-item"><a>{{{parseNotification .}}}</a></li>
 	      	    	{{/each}}
 	      	    </ul>
 	      	</li>

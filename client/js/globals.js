@@ -1,3 +1,15 @@
+globals = {
+    hideSidebar: function(){
+        if(Session.get("sidebarOpened") == "open" || Session.get('profile_sidebarOpened') == "open") {
+           Session.set('selectedIdea', '');
+           Session.set('sidebarOpened', '');
+           Session.set('selectedProfile', '');
+           Session.set('profile_sidebarOpened', '');
+        }
+        $('#full-page-fade').removeClass('show');
+    }
+}
+
 function renderChart(){
     if(window.renderedChart != true){
         window.renderedChart = true;

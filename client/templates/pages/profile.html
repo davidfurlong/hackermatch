@@ -1,7 +1,7 @@
 <template name="profile">
   <div id="profile">
     {{#if has_github_profile }}
-        {{> profile_contents }}
+        {{> profile_contents}}
     {{else}}
       <div class="loading-profile">
         <h3>Profile loading</h3>
@@ -16,7 +16,9 @@
         <img src="{{avatar_url}}" height="200px" width="200px" />
       </div>
       <div id="contact">
+        {{#unless equalsCurrentUsername github}}
         <a class="message-user"><i class="ion-chatbox"></i> Message</a>
+        {{/unless}}
         &nbsp;&nbsp;&nbsp;
         {{#if github }}
           <a href="{{github_url}}"><i class="fa fa-github"></i> Github</a>

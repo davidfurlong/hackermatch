@@ -6,6 +6,28 @@ Handlebars.registerHelper('addIndex', function (all) {
     });
 });
 
+Handlebars.registerHelper('currentUser', function(){
+    return Meteor.user();
+});
+
+Handlebars.registerHelper('addFieldToRay', function(ray, field, fieldname){
+    if(!ray)
+        return []
+    return ray.map(function(el){
+        var t = el;
+        t[fieldname] = field;
+        return t;
+    })
+});
+
+Handlebars.registerHelper('equalsCurrentUsername', function(name){
+    return Meteor.user().profile.login == name;
+})
+
+Handlebars.registerHelper('equals', function(a,b){
+    return a == b;
+});
+
 Handlebars.registerHelper('sortNotifications', function(notifications){
     return _.sortBy(notifications, function(notification){
         return -notification.timestamp;
@@ -38,7 +60,7 @@ Handlebars.registerHelper('parseNotification', function (notification) {
             return "<a href='/profile/"+notification.details.by+"'>"+notification.details.by+"</a> commented on <a href='/idea/"+notification.details.idea_id+"'>"+notification.details.idea_name+"</a>."; 
             break;
         case "message":
-            return "<a href='/messages'>"+notification.details.from+" just sent you a message</a>"
+            return "<a href='/messages/"+notification.details.from+"'>"+notification.details.from+" just sent you a message</a>"
             break;
     }
     return "Something went wrong";
@@ -304,7 +326,6 @@ Template.profile_sidebar_contents.created = function(){
 
 Template.profile_sidebar_contents.destroyed = function(){
     globals.hideSidebar();
-    console.log('destroyed');
     this.userProfile.stop();
 }
 
@@ -314,8 +335,9 @@ Template.profile_sidebar_contents.helpers({
     },
     profile: function(){
         var profile = Meteor.users.findOne({_id:Session.get("selectedProfile")}); 
+        _.extend(profile.profile, {_id: profile._id});
         if(profile){
-           return profile['profile']; 
+           return profile['profile']
         }
     }
 });
@@ -608,26 +630,27 @@ Template.hackers.helpers({
 });
  
 Template.messages.created = function(){
-    this.myMessages = Meteor.subscribe('user_messages');
+    this.myMessages = Meteor.subscribe('user_messages_and_profiles');
+    this.newMessageUser = Meteor.subscribe('user_profile', Session.get('selectedConversation'));
 }
 
 Template.messages.destroyed = function(){
     this.myMessages.stop();
+    this.newMessageUser.stop();
 }
 
-Template.messages.helpers({
-    dataReady: function(){
-        return Template.instance().myMessages.ready()
-    },
-    conversations: function(){
-        var m = Messages.find({$or: [{user1: this.userId}, {user2: this.userId}]}).fetch();
-        
-        var selectedPartner = Session.get('selectedConversation');
+Template.messages.rendered = function(){
+    Meteor.typeahead.inject();
+}
 
+Template.messagesLeftbar.helpers({
+    conversations: function(){
+        var m = Messages.find({$or: [{user1: Meteor.userId()}, {user2: Meteor.userId()}] }).fetch();    
+        var selectedPartner = Session.get('selectedConversation');
         var selectedFound = false;
 
         m = _.map(m, function(convo){
-            var partner = convo.user1 == this.userId ? convo.user2 : convo.user1;
+            var partner = convo.user1 == Meteor.userId() ? convo.user2 : convo.user1;
             var isSelected = partner == selectedPartner;
             if(isSelected) selectedFound = true;
             var convoPartner = Meteor.users.findOne({_id: partner });
@@ -637,14 +660,15 @@ Template.messages.helpers({
                 }
             );
         });
-        m = _.sortBy(m, function(a, b){
-            newestA = a.messages[a.messages.length-1] || 0;
-            newestB = b.messages[b.messages.length-1] || 0;
-            return a > b // TODO TEST
+
+        m = _.sortBy(m, function(a){
+            return a.messages[a.messages.length-1].timestamp || 0;
         });
+
+        // if new conversation link
         if(!selectedFound && selectedPartner){
             var temp = [];
-            // todo doesn't work
+            // todo doesn't work !!!!
             var convoPartner = Meteor.users.findOne({_id: selectedPartner });
             if(Meteor.userId() < selectedPartner){
               var user1 = Meteor.userId();
@@ -665,26 +689,42 @@ Template.messages.helpers({
             for(var i = 0;i<m.length;i++){
                 temp.push(m[i]);
             }
-            console.log(temp);
             return temp;
         }
-        
         return m;
+    }
+});
+
+Template.messages.helpers({
+    allUsers: function(){
+        return Meteor.users.find({_id: {$not: Meteor.userId()}}).fetch().map(function(u){
+            var t = u;
+            t.value = u.profile.login;
+            return t;
+        });
+    },
+    searchElSelected: function(event, suggestion, datasetName) {
+        Session.set("selectedConversation", suggestion._id);
+    },
+    dataReady: function(){
+        return Template.instance().myMessages.ready() && Template.instance().newMessageUser.ready()
     },
     selectedConversation: function(){ // todo is this duplicating requests?
         var uidSelected = Session.get("selectedConversation");
         if(!uidSelected || uidSelected == "") {
-            return false;
+            return null;
         }
-        var thread = Messages.find({
+        var thread = Messages.findOne({
             $or: [
-                { $and: [{user1: this.userId}, {user2: uidSelected}]}, 
-                { $and: [{user2: this.userId}, {user1: uidSelected}]}
+                { $and: [{user1: Meteor.userId()}, {user2: uidSelected}]}, 
+                { $and: [{user2: Meteor.userId()}, {user1: uidSelected}]}
             ]
-        });
-
+        }) || {};
+        var isUser1 = thread.user1 == Meteor.userId();
         var convoPartner = Meteor.users.findOne({_id: uidSelected});
-        return _.extend(thread, {convoPartner: convoPartner});
+        return _.extend(thread, {convoPartner: convoPartner, isUser1: isUser1});
+
+        // todo when this changes set scroll to bottom
     },
     isSelectedConversation: function(){
         var uidSelected = Session.get("selectedConversation");
@@ -1065,6 +1105,9 @@ var pageTitle = function() {
 //            title = "hackathons";
             break;
         case "create_idea":
+        case "messagesThread":
+            title = "messages";
+            break;
         case "ideas":
         case "hackers":
         case "hackathon": 
@@ -1083,7 +1126,6 @@ var pageTitle = function() {
 
 var pageUrl = function() {
     var routeName = Router.current().route.getName()
-
     var url = null;
     switch(routeName) {
         case "profileOther":
@@ -1110,6 +1152,3 @@ var pageUrl = function() {
     }
     return url;
 }
-
-
-

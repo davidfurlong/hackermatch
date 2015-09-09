@@ -130,8 +130,22 @@ Meteor.publish("user_notifications", function(){
     return Notifications.find({userId: this.userId});
 });
 
-Meteor.publish("user_messages", function(){
-    return Messages.find({$or: [{user1: this.userId}, {user2: this.userId}]});
+Meteor.publish("user_messages_and_profiles", function(){
+    // get messages -> get users
+    var m = Messages.find({$or: [{user1: this.userId}, {user2: this.userId}]});
+    var convoPartners = [];
+    for(var i = 0; i< m.length; i++){
+        if(m[i].user1 == this.userId){
+            convoPartners.push(m[i].user2);
+        }
+        else {
+            convoPartners.push(m[i].user1);
+        }
+    }
+    return [
+        Messages.find({$or: [{user1: this.userId}, {user2: this.userId}]}),
+        Meteor.users.find({_id: {$in: convoPartners}})
+    ]
 });
 
 Meteor.publish("hackathon", function(url_title){
@@ -144,6 +158,10 @@ Meteor.publish("hackathon", function(url_title){
 
 Meteor.publish("users", function(){
     return Meteor.users.find({});
+});
+
+Meteor.publish("users_essentials", function(){
+    return Meteor.users.find({}, {fields: {_id: 1, "profile.avatar_url":1, "profile.login": 1, "profile.name": 1}});
 });
 
 Meteor.publish("user", function (username) {
