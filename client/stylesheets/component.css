@@ -243,10 +243,10 @@ a.link-border:focus::before {
 
 .icon-star:before {
     position: relative;
-    top: -4px;
+    top: -2px;
     left: 0;
     width: 100%;
-    font-size: 26px;
+    font-size: 30px;
     line-height: 24px;
     display: inline-block;
     -webkit-backface-visibility: hidden;
@@ -270,13 +270,7 @@ a.link-border:focus::before {
 	font-size: 0px;
 }
 
-.row .item-action {
-	font-size: 20pt;
-	color: #888;
-	text-align: center;
-	width: 75px;
-	padding: 0;
-}
+
 
 .row.item {
 	padding: 0;
@@ -289,14 +283,24 @@ a.link-border:focus::before {
 	vertical-align: top;
 	position: relative;
 	top: 0px;
+	height: 55px;
+	padding: 0;
+}
+
+.row .item-action {
+	font-size: 20pt;
+	color: #888;
+	text-align: center;
+	width: 40px;
+	padding: 0;
 }
 
 .row .item-hearts {
 	text-transform: uppercase;
 	letter-spacing: 1px;
 	font-weight: 700;
-	font-size: 16pt;
-    top: -25px;
+	font-size: 16px;
+    top: -31px;
     position: relative;
 }
 
@@ -317,7 +321,7 @@ a.link-border:focus::before {
 
 
 .row.item li {
-	display: inline-table;
+	display: inline-block;
 	padding: 0px 8px;
 	list-style-type: none;
 }

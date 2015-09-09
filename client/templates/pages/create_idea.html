@@ -5,21 +5,21 @@
             <form class="form-horizontal" id="create-idea">
                 <legend>Create a new idea</legend>
                 <div class="form-group">
-                  <label for="idea-name" class="col-lg-2 control-label">Idea name or one-liner</label>
-                  <div class="col-lg-10">
-                    <input type="text"  name="idea-name" class="form-control" id="idea-name" placeholder="" required>
+                  <label for="idea-name" class="col-lg-3 control-label">Idea elevator pitch</label>
+                  <div class="col-lg-9">
+                    <input type="text"  name="idea-name" class="form-control" id="idea-name" placeholder="Uber for pets" required>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="idea-description" class="col-lg-2 control-label">Describe what your idea does</label>
-                  <div class="col-lg-10">
+                  <label for="idea-description" class="col-lg-3 control-label">Describe what your idea does and how it will work</label>
+                  <div class="col-lg-9">
                     <textarea class="form-control" id="idea-description" name="idea-description" rows="2" required></textarea>
                     <span class="help-block">Try to keep your description to the point and include the most important things your idea does.</span>
                   </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">Which skills do you need?</label>
-                    <div class="col-lg-10">
+                    <label class="col-lg-3 control-label">Which skills do you need?</label>
+                    <div class="col-lg-4">
                         <div class="checkbox">
                           <label>
                             <input type="checkbox" name="idea-need-designer"> Designer
@@ -35,6 +35,8 @@
                             <input type="checkbox" name="idea-need-backend"> Backend
                           </label>
                         </div>
+                    </div>
+                    <div class="log-lg-5">
                         <div class="checkbox">
                           <label>
                             <input type="checkbox" name="idea-need-ios"> iOS
@@ -53,7 +55,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-lg-10 col-lg-offset-2">
+                    <div class="col-lg-9 col-lg-offset-3">
                         <button type="submit" class="btn btn-primary outline">Add Idea</button>
                     </div>
                 </div>
