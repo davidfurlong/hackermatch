@@ -20,4 +20,8 @@ sudo ROOT_URL="https://hackermat.ch" PORT=2603 MONGO_URL="mongodb://hackadmin:ha
 sudo ROOT_URL="https://hackermat.ch" PORT=2604 MONGO_URL="mongodb://hackadmin:hackpassword@192.168.207.81:27017/hackermatch" forever start --append --uid "hackermatch" main.js
 sudo ROOT_URL="https://hackermat.ch" PORT=2605 MONGO_URL="mongodb://hackadmin:hackpassword@192.168.207.81:27017/hackermatch" forever start --append --uid "hackermatch" main.js
 
+forever stop hmWorker
+
+sudo WORKER=true ROOT_URL="https://worker.hackermat.ch" PORT=2700 MONGO_URL="mongodb://hackadmin:hackpassword@192.168.207.81:27017/hackermatch" forever start --append --uid "hmWorker" main.js
+sudo WORKER=true ROOT_URL="https://worker.hackermat.ch" PORT=2701 MONGO_URL="mongodb://hackadmin:hackpassword@192.168.207.81:27017/hackermatch" forever start --append --uid "hmWorker" main.js
 
