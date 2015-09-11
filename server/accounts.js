@@ -132,7 +132,7 @@ Meteor.startup(function () {
             };
             if(heart && (Meteor.userId() != idea.userId || !heart.hearted)){ // dont notify yourself or if unheart
               // email notification
-              var userAuthor = Meteor.users.findOne(idea.userId);
+              var userAuthor = Meteor.users.findOne(idea.user_id);
               if(userAuthor.profile.email_notifications){
                 Meteor.call('sendEmail', userAuthor.profile.email, "david@furlo.ng", "Hackermatch: "+Meteor.user().profile.login+" just hearted your idea",
                   Meteor.user().profile.login+" just hearted your idea "+idea.name+". Check it out at http://hackermat.ch/idea/"+idea._id

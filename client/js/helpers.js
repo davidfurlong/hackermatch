@@ -1016,6 +1016,16 @@ Template.sidebar.destroyed = function(){
 }
 
 Template.sidebar.helpers({
+    heartsExist: function() {
+        var idea = Ideas.findOne({_id: Session.get("selectedIdea")});
+        var exist = false;
+        if(idea) {
+            if(_.isArray(idea.hearts)) {
+                exist = true;
+            }
+        }
+        return exist;
+    },
     idea: function() {
         var idea = Ideas.findOne({_id: Session.get("selectedIdea")});
         if(idea) {

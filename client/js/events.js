@@ -188,6 +188,7 @@ Template.createIdea.events({
             name: ideaName,
             description: ideaDescription,
             user_id: Meteor.userId(),
+            userId: Meteor.userId(), //HACK HACK HACK this got switched up at some point
             hackathon_id: hackathon._id,
             time_created: new Date().getTime(),
             time_lastupdated: new Date().getTime(),
