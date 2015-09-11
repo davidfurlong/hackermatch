@@ -183,6 +183,12 @@ Router.map(function() {
         onBeforeAction: function(){
             // TODO non critical check if member of hackathon go to /:hackathon
             // Checks if valid invite code to a hackathon
+            var user = Meteor.user();
+            if(user){
+                if(Roles.userIsInRole(user, ['hacker'], this.params.hackathon)) {
+                    Router.go('/'+this.params.hackathon);
+                } 
+            }   
             var invite_code = this.params.invite_code;
             var h = this.params.hackathon;
             var that = this;
