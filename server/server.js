@@ -296,8 +296,8 @@ Meteor.publish("hackathons", function () {
 });
 
 // server: publish the set of parties the logged-in user can see.
-Meteor.publish("myHackathons", function () {
-    var user = Meteor.users.findOne({_id: this.userId});
+Meteor.reactivePublish("myHackathons", function () {
+    var user = Meteor.users.findOne({_id: this.userId}, {reactive: true});
     if(!user) return [];
     var hackathonList = [];
     _.each(user.roles, function(role, hackathon) {
