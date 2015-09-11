@@ -50,7 +50,7 @@ Meteor.startup(function () {
               
               // email notification
               var userTarget = Meteor.users.findOne(to);
-              if(userTarget.profile.email_notifications){
+              if(userTarget &&  userTarget.profile.email_notifications){
                 Meteor.call('sendEmail', userTarget.profile.email, "david@furlo.ng", "Hackermatch: "+Meteor.user().profile.login+" just sent you a message",
                   Meteor.user().profile.login+" just sent you the message "+contents+". Check it out at http://hackermat.ch/messages/"
                   );
@@ -280,7 +280,7 @@ Meteor.startup(function () {
         },
         is_hackathon_open_join: function(url_title){
           var hackathon = Hackathons.findOne({url_title: url_title});    
-          if(hackathon.open) { // hackathon.open may be undefined for old db
+          if(hackathon && hackathon.open) { // hackathon.open may be undefined for old db
               return true;
           } else {
               return false;
@@ -353,26 +353,20 @@ Meteor.startup(function () {
           //     //can we select on name attribute again?
           // }
           var uid = this.userId;
-          Hackathons.insert(hackathon, function(err, result) {
-              if(err) {
-                  console.log("error creating hackathon");
-                  return "error inserting hackathon";
-              } 
-              else {
-                  // TODO ADAM this throws an error
-                  if(isOrganizer)
-                    Roles.addUsersToRoles(uid, ['hacker','organizer','creator'], hackathon['url_title']);
-                  else
-                    Roles.addUsersToRoles(uid, ['hacker','creator'], hackathon['url_title']);
-                  
-                  // email notification
-                  if(Meteor.user().profile.email_notifications){
-                    Meteor.call('sendEmail', Meteor.user().profile.email, "david@furlo.ng", "Hackermatch: Hackathon "+hackathon.name+" successfully created",
-                      "Check it out at http://hackermat.ch/"+hackathon['url_title']
-                      );
-                  }              
-              }
-          });   
+          var h = Hackathons.insert(hackathon);
+          // TODO ADAM this throws an error
+          if(isOrganizer)
+            Roles.addUsersToRoles(uid, ['hacker','organizer','creator'], hackathon['url_title']);
+          else
+            Roles.addUsersToRoles(uid, ['hacker','creator'], hackathon['url_title']);
+          
+          // email notification
+          if(Meteor.user().profile.email_notifications){
+            Meteor.call('sendEmail', Meteor.user().profile.email, "david@furlo.ng", "Hackermatch: Hackathon "+hackathon.name+" successfully created",
+              "Check it out at http://hackermat.ch/"+hackathon['url_title']
+              );
+          }  
+          return hackathon['url_title'];   
         }
     });
 });

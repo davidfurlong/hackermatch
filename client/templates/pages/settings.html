@@ -27,7 +27,7 @@
 
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Skills</label>
-                    <div class="col-lg-10">
+                    <div class="col-lg-5">
                         <div class="checkbox">
                           <label>
                             <input type="checkbox" name="user-skill-design" {{isChecked skill.design}}> Designer
@@ -43,6 +43,8 @@
                             <input type="checkbox" name="user-skill-backend" {{isChecked skill.backend}}> Backend
                           </label>
                         </div>
+                    </div>
+                    <div class="col-lg-5">
                         <div class="checkbox">
                           <label>
                             <input type="checkbox" name="user-skill-ios" {{isChecked skill.ios}}> iOS
@@ -94,7 +96,11 @@
                 </div>
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
+                        {{#if status}}
+                        <button type="submit" class="btn btn-primary outline {{status}}">{{statusMessage}}</button>
+                        {{else}}
                         <button type="submit" class="btn btn-primary outline">Save Changes</button>
+                        {{/if}}
                     </div>
                 </div>
             </form>

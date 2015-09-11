@@ -80,8 +80,8 @@ Template.messages.events({
         }
     },
     'click .conversation-tab': function(e){
-        console.log(this);
-        Session.set('selectedConversation', this.convoPartner._id);
+        if(this.convoPartner)
+            Session.set('selectedConversation', this.convoPartner._id);
     }
 });
 
@@ -134,21 +134,6 @@ Template.showHackathons.events({
     }
 });
 
-Template.admin.events({
-    'submit #create_hackathon' : function(e, t) {
-        e.preventDefault();
-
-        var title = t.find("#new_hackathon_name").value;
-        if(title.indexOf('/') != -1){
-            alert('Hackathon names can\'t contain / because we use them for routes');
-            return;         
-        }
-        t.$("#new_hackathon_name").val("");
-
-        Meteor.call('create_hackathon', title, function(err, res) {});
-    }
-});
-
 Template.createHackathon.events({
     'submit #add-hackathon-form': function(e, t){
         e.preventDefault();
@@ -165,9 +150,7 @@ Template.createHackathon.events({
         Meteor.call('create_hackathon', hackathon, isOrganizer, function(err, res) {
             if(err)
                 console.error(err);
-            else {
-                Router.go('/');
-            }
+            Router.go('/'+res);
         });
     }
 });
@@ -281,7 +264,16 @@ Template.settings.events({
         updated_profile = _.extend(Meteor.user().profile, updated_profile);
         
         // Trim and validate the input
-        Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":updated_profile}});
+        Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":updated_profile}}, function(err, result){
+            if(err){
+                // tell user failed
+                Session.set("status", "error saving profile");
+            }
+            else {
+                // success!
+                Session.set("status", "success");
+            }
+        });
         Meteor.call('attach_ideas', Meteor.user()._id);
         Meteor.call('update_ideas', Meteor.user()._id);
        

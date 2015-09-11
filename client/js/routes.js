@@ -149,30 +149,31 @@ Router.map(function() {
         },
         onBeforeAction: hackathonAuth
     }); 
-    this.route('joinHackathon', {
-        path: '/:hackathon/join',
-        data: function() { 
-            // todo non critical get number of hackers at the hackathon
-            return { 
-                'name': this.params.hackathon,
-                'isNotUser':  Meteor.user() == null
-            }
-        },
-        onBeforeAction: function () {
-            // TODO if member of hackathon go to the hackathon instead
-            var h = this.params.hackathon;
-            Meteor.call('is_hackathon_open_join', h, function(err, hackathonOpen){
-                if(hackathonOpen) {
-                    this.next();
-                }
-                else {
-                    Router.go('error', {title: "Hackathon requires invite or no such hackathon"});
-                }  
-            });
-        }
-    });
+    // this.route('joinHackathon', {
+    //     path: '/:hackathon/join',
+    //     data: function() { 
+    //         // todo non critical get number of hackers at the hackathon
+    //         return { 
+    //             'name': this.params.hackathon,
+    //             'isNotUser':  Meteor.user() == null
+    //         }
+    //     },
+    //     onBeforeAction: function () {
+    //         // TODO if member of hackathon go to the hackathon instead
+    //         var h = this.params.hackathon;
+    //         Meteor.call('is_hackathon_open_join', h, function(err, hackathonOpen){
+    //             if(hackathonOpen) {
+    //                 this.next();
+    //             }
+    //             else {
+    //                 Router.go('error', {title: "Hackathon requires invite or no such hackathon"});
+    //             }  
+    //         });
+    //     }
+    // });
     this.route('joinHackathonInvite', {
         path: '/:hackathon/join/:invite_code',
+        template: 'joinHackathon',
         data: function(){
             return {
                 'name': this.params.hackathon,
@@ -182,16 +183,26 @@ Router.map(function() {
         onBeforeAction: function(){
             // TODO non critical check if member of hackathon go to /:hackathon
             // Checks if valid invite code to a hackathon
+            var user = Meteor.user();
+            if(user){
+                if(Roles.userIsInRole(user, ['hacker'], this.params.hackathon)) {
+                    Router.go('/'+this.params.hackathon);
+                } 
+            }   
             var invite_code = this.params.invite_code;
             var h = this.params.hackathon;
+            var that = this;
             Meteor.call('hackathon_by_code', invite_code, h, function(err, hackathon) {
                 if(hackathon) {
-                    this.next();
+                    // that.next();
+                    // TODO this is hacky
+                    return;
                 }
                 else {
                     Router.go('error', {title: "Invalid invite code or no such hackathon"});
                 }
             });
+            this.next();
         }
     });
     this.route('alerts', {
