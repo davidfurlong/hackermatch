@@ -16,6 +16,58 @@ Meteor.startup(function () {
     }
 
     Meteor.methods({
+        loadMHacks6: function() {
+            if(!Roles.userIsInRole(this.userId, ['admin'], 'all')) {
+                return;
+            }
+
+            var url = process.env.ROOT_URL;
+            var csv = Meteor.npmRequire('csv'); 
+            var fs = Meteor.npmRequire('fs');
+            var path = Meteor.npmRequire('path');
+
+            if(url.indexOf("localhost") > -1) {
+                var basepath = path.resolve('.').split('.meteor')[0];
+                basepath = basepath + "test/";
+            } else {
+                var basepath = "/root/hackermatch/test";
+            }
+            var hackathon = Hackathons.findOne({url_title: "mhacks6"});
+            if(!hackathon) return;
+            var hackathon_id = hackathon._id;
+            var stream = fs.createReadStream(basepath+'mhacks6.csv');
+          //console.log(stream);
+            stream.pipe(csv.parse()).pipe(
+            csv.transform (Meteor.bindEnvironment(function(record){
+                var user = record[0],
+                    email = record[1],
+                    idea = record[2],
+                    looking = record[3];
+                console.log("user: " + user);
+                var idea = {
+                    description: (idea + " - " + email),
+                    hackathon_id: hackathon_id,
+                    time_created: new Date().getTime(),
+                    time_lastupdated: new Date().getTime(),
+                    user_profile: {
+                        name: user,
+                        email: email,
+                        contact: email
+                    },
+                    skills: {
+                        frontend: false,
+                        backend: false,
+                        ios: false,
+                        android: false,
+                        design: false,
+                        hardware: false 
+                    },
+                    comments: {}
+                }
+                Meteor.call('create_idea', idea, function(err, res) {});
+            })));
+
+        },
         sendMessage: function(to, contents) {
           var from = Meteor.userId();
           if(to == from)
@@ -79,7 +131,7 @@ Meteor.startup(function () {
         //attaching lost ideas to users - a result of manual importing from other source of ideas
         attach_ideas: function (user_id) {
             var user = Meteor.users.findOne(user_id);
-            if(!user || !user.profile || !user.profile.name || !user.profile.contact) return;
+            if(!user) return;
             var ideas = Ideas.find({ $and: [
                 {$or: [{'user_profile.name': user.profile.name},
                 {'user_profile.email': user.profile.contact}]},
