@@ -315,7 +315,7 @@ a.link-border:focus::before {
 
 .row .item-desc {
 	cursor: pointer;
-	color: #AAA;
+	color: #777;
 	font-size: 14pt;
 	line-height: normal;
 }

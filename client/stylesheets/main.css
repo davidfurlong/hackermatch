@@ -305,6 +305,13 @@ body.landing footer {
 .teams-icon {
 	display: none !important;
 }
+
+
+.row.item:hover {
+
+    background-color: rgba(0,0,0,0.05);
+}
+
 /* CONTENT ALL */
 
 @media (max-width: 500px) {
