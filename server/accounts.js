@@ -79,7 +79,7 @@ Meteor.startup(function () {
         //attaching lost ideas to users - a result of manual importing from other source of ideas
         attach_ideas: function (user_id) {
             var user = Meteor.users.findOne(user_id);
-            if(!user) return;
+            if(!user || !user.profile || !user.profile.name || !user.profile.contact) return;
             var ideas = Ideas.find({ $and: [
                 {$or: [{'user_profile.name': user.profile.name},
                 {'user_profile.email': user.profile.contact}]},
