@@ -3,7 +3,7 @@
 	[
 		{
 			"path": ".",
-			"folder_exclude_patterns": [".meteor", "app/packages", "client/lib", "packages", "test"]
+			"folder_exclude_patterns": [".bundle",".meteor", "app/packages", "client/lib", "packages", "test"]
 		}
 	]
 }

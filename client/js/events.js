@@ -200,7 +200,7 @@ Template.createIdea.events({
         
         var hackathonUrl= Session.get("currentHackathon");
         var hackathon = Hackathons.findOne({url_title: hackathonUrl});
-
+        var prof = _.pick(Meteor.user().profile, "login", "avatar_url", "name");
         var idea = {
             name: ideaName,
             description: ideaDescription,
@@ -208,7 +208,7 @@ Template.createIdea.events({
             hackathon_id: hackathon._id,
             time_created: new Date().getTime(),
             time_lastupdated: new Date().getTime(),
-            user_profile: Meteor.user().profile,
+            user_profile: prof,
             skills: ideaSkillsNeeded,
             comments: {}
         };
