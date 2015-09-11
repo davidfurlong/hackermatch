@@ -8,11 +8,11 @@
 
 #messages-left-container {
 	border-right: 1px solid #eee;
-	height: 100%;
+	min-height:500px;
 }
 
 #messages-container {
-	height: 500px;
+	min-height: 500px;
 	border: 1px solid #eee;
 	padding: 5px 0;
 	border-radius: 10px;
@@ -81,6 +81,7 @@
 	font-size: 18px;
 	background: white;
 	cursor: pointer;
+	overflow: hidden;
 }
 
 .message-thread-message {
