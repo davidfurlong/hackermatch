@@ -704,11 +704,14 @@ Template.messages.helpers({
     allUsers: function(){
         return Meteor.users.find({_id: {$not: Meteor.userId()}}).fetch().map(function(u){
             var t = u;
+            t.id = u._id;
             t.value = u.profile.login;
             return t;
         });
     },
     searchElSelected: function(event, suggestion, datasetName) {
+        console.log("blah");
+        console.log(suggestion._id);
         Session.set("selectedConversation", suggestion._id);
     },
     dataReady: function(){

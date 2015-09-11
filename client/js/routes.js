@@ -192,6 +192,9 @@ Router.map(function() {
             var invite_code = this.params.invite_code;
             var h = this.params.hackathon;
             var that = this;
+            Session.set("invite_title", h);
+            Session.set("invite_code", invite_code);
+
             Meteor.call('hackathon_by_code', invite_code, h, function(err, hackathon) {
                 if(hackathon) {
                     // that.next();

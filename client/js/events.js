@@ -285,7 +285,7 @@ Template.settings.events({
 
         Meteor.call('join_hackathon', invite_code, function(err, res) {       
             if(res) {
-                Router.go('hackathon', {hackathon: res});
+                Router.go('/' + res);
             }    
         });
     },
@@ -320,7 +320,7 @@ Template.index.events({
                 if(invite_title && invite_code) {
                     Meteor.call('join_hackathon', invite_code, function(err, res) {
                         if(res) {
-                            Router.go('hackathon', {_title: res});
+                            Router.go('/' + res);
                         }    
                     });
                 } 
@@ -359,7 +359,7 @@ Template.nav.events({
                 if(invite_title && invite_code) {
                     Meteor.call('join_hackathon', invite_code, function(err, res) {
                         if(res) {
-                            Router.go('hackathon', {_title: res});
+                            Router.go('/' + res);
                         }    
                     });
                 } 
@@ -410,46 +410,60 @@ Template.joinHackathon.events({
         // TODO check if user, then do something else.
 
         e.preventDefault();
-    
-        var userSkills = {
-            design: e.target['user-skill-designer'].checked,
-            frontend: e.target['user-skill-frontend'].checked,
-            backend: e.target['user-skill-backend'].checked,
-            ios: e.target['user-skill-ios'].checked,
-            android: e.target['user-skill-android'].checked,
-            hardware: e.target['user-skill-hardware'].checked,
-        }
 
-        var profile = {
-            skills: userSkills
-        }
-
-        Meteor.loginWithGithub({
-            requestPermissions: ['user:email']
-        }, function (err) {
-            if (err) {
-              Session.set('errorMessage', err.reason || 'Unknown error');
+        if(Meteor.userId()) {
+          
+            var invite_title = Session.get("invite_title");
+            var invite_code = Session.get("invite_code");
+            if(invite_title && invite_code) {
+                Meteor.call('join_hackathon', invite_code, function(err, res) {
+                    if(res) {
+                        Router.go('/' + invite_title);
+                    }    
+                });
             }
-            if(Meteor.user()) {
-                profile = _.extend(profile, Meteor.user().profile);
-                //Temporarily set contact info as email
-                profile.contact = profile.email;
-                Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":profile}});
-              
-                var invite_title = Session.get("invite_title");
-                var invite_code = Session.get("invite_code");
-                if(invite_title && invite_code) {
-                    Meteor.call('join_hackathon', invite_code, function(err, res) {
-                        if(res) {
-                            Router.go('hackathon', {_title: res});
-                        }    
-                    });
-                } else {
-                    Router.go('home');
+        } else {
+  
+            //TODO fix for user skills not here
+            var userSkills = {
+                design: e.target['user-skill-designer'].checked,
+                frontend: e.target['user-skill-frontend'].checked,
+                backend: e.target['user-skill-backend'].checked,
+                ios: e.target['user-skill-ios'].checked,
+                android: e.target['user-skill-android'].checked,
+                hardware: e.target['user-skill-hardware'].checked,
+            }
+
+            var profile = {
+                skills: userSkills
+            }
+
+            Meteor.loginWithGithub({
+                requestPermissions: ['user:email']
+            }, function (err) {
+                if (err) {
+                  Session.set('errorMessage', err.reason || 'Unknown error');
                 }
-            }
-        });
-
+                if(Meteor.user()) {
+                    profile = _.extend(profile, Meteor.user().profile);
+                    //Temporarily set contact info as email
+                    profile.contact = profile.email;
+                    Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":profile}});
+                  
+                    var invite_title = Session.get("invite_title");
+                    var invite_code = Session.get("invite_code");
+                    if(invite_title && invite_code) {
+                        Meteor.call('join_hackathon', invite_code, function(err, res) {
+                            if(res) {
+                                Router.go('/' + invite_title);
+                            }    
+                        });
+                    } else {
+                        Router.go('home');
+                    }
+                }
+            });
+        }
 
         /*
         Accounts.createUser(options, function(err){
