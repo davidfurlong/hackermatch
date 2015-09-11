@@ -89,6 +89,7 @@ Meteor.startup(function () {
               "login", "avatar_url", "name");
             _.each(ideas, function(idea) {
                 Ideas.update({_id:idea._id}, {$set:{"userId":user._id}});
+                Ideas.update({_id:idea._id}, {$set:{"user_id":user._id}});
                 Ideas.update({_id:idea._id}, {$set:{"user_profile":user_profile_min}});
                 Meteor.call('heart_idea', idea._id);
             });
@@ -99,7 +100,7 @@ Meteor.startup(function () {
             var user_profile_min = _.pick(user.profile,
               "login", "avatar_url", "name");
 
-            Ideas.update({userId: user_id}, {"user_profile":user_profile_min});
+            Ideas.update({userId: user_id}, {$set: {"user_profile":user_profile_min}});
         },
         read_notifications: function(){
           function removeNotif(){
