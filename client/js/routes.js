@@ -12,7 +12,9 @@ hackathonAuth = function() {
             this.next();
         } 
         else { // todo check is a hackathon first
-            Router.go('/'+this.params.hackathon+'/join');
+            Session.set("currentHackathon", null);
+            //Router.go('/'+this.params.hackathon+'/join');
+            Router.go('/settings');
         }
     }
 }

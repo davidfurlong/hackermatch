@@ -169,7 +169,11 @@ Meteor.publish("user", function (username) {
 });
 
 Meteor.publish("user_profile", function(userid) {
-    return Meteor.users.find({_id:userid});
+    if(userid) {
+        return Meteor.users.find({_id:userid});
+    } else {
+        return [];
+    }
 });
      
 Meteor.publish("one_users_ideas", function (){
@@ -209,7 +213,7 @@ Meteor.publish("hackathon_and_ideas", function (hackathon_title, limit) {
     } else {
         // user not authorized. do not publish secrets
         this.stop();
-        return;
+        return [];
     }
 });
 
@@ -237,7 +241,7 @@ Meteor.publish("hackathon_admin", function(hackathon_title){
     else {
         // user not authorized. do not publish secrets
         this.stop();
-        return;
+        return [];
     }
 });
 
@@ -276,7 +280,7 @@ Meteor.publish("users_and_hackathon", function (hackathon_title, filters, limit)
     } else {
         // user not authorized. do not publish secrets
         this.stop();
-        return;
+        return [];
     }
 });
 
@@ -287,14 +291,14 @@ Meteor.publish("hackathons", function () {
     } 
     else { // user not authorized. do not publish secrets
         this.stop();
-        return;
+        return [];
     }
 });
 
 // server: publish the set of parties the logged-in user can see.
 Meteor.publish("myHackathons", function () {
     var user = Meteor.users.findOne({_id: this.userId});
-    if(!user) return;
+    if(!user) return [];
     var hackathonList = [];
     _.each(user.roles, function(role, hackathon) {
         var entry = {};
@@ -305,6 +309,6 @@ Meteor.publish("myHackathons", function () {
     if(hackathonList.length) {
         return Hackathons.find({$or: hackathonList});
     } else {
-        return;
+        return [];
     }
 });
