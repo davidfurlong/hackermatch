@@ -23,31 +23,31 @@
 				{{/if}}
 			</div>
 			<div class="col-md-8">
+				{{#if dataReady}}
+				{{#if selectedConversation}}
 				<div class="row" id="messages-container-right">
-					{{#if dataReady}}
-						{{#if selectedConversation}}
-						<div class="col-md-12">
-							<h1><a href="/profile/{{selectedConversation.convoPartner.profile.login}}">{{selectedConversation.convoPartner.profile.name}} ({{selectedConversation.convoPartner.profile.login}})</a></h1>
-							<ul id="messages-thread-container">
-								{{#each addFieldToRay selectedConversation.messages selectedConversation.isUser1 "isUser1"}}
-									<li class="message-thread-message {{#if equals isUser1 from}}sent-by-me{{/if}}">
-										{{#if equals isUser1 from}}
-											You:
-										{{/if}}
-										<b>{{text}}</b>
-										<br/><i>{{toMoment timestamp}}</i>
-									</li>
-								{{/each}}
-							</ul>
-						</div>
-						{{/if}}
-					{{/if}}
+					<div class="col-md-12">
+						<h1><a href="/profile/{{selectedConversation.convoPartner.profile.login}}">{{selectedConversation.convoPartner.profile.name}} ({{selectedConversation.convoPartner.profile.login}})</a></h1>
+						<ul id="messages-thread-container">
+							{{#each addFieldToRay selectedConversation.messages selectedConversation.isUser1 "isUser1"}}
+								<li class="message-thread-message {{#if equals isUser1 from}}sent-by-me{{/if}}">
+									{{#if equals isUser1 from}}
+										You:
+									{{/if}}
+									<b>{{text}}</b>
+									<br/><i>{{toMoment timestamp}}</i>
+								</li>
+							{{/each}}
+						</ul>
+					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12">
 						<input type="text" class="form-control" placeholder="Write message and press enter" id="messages-write">
 					</div>
 				</div>
+				{{/if}}
+				{{/if}}
 			</div>
 		</div>
 	</div>

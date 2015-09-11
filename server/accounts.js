@@ -50,7 +50,7 @@ Meteor.startup(function () {
               
               // email notification
               var userTarget = Meteor.users.findOne(to);
-              if(userTarget.profile.email_notifications){
+              if(userTarget &&  userTarget.profile.email_notifications){
                 Meteor.call('sendEmail', userTarget.profile.email, "david@furlo.ng", "Hackermatch: "+Meteor.user().profile.login+" just sent you a message",
                   Meteor.user().profile.login+" just sent you the message "+contents+". Check it out at http://hackermat.ch/messages/"
                   );

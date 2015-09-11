@@ -80,8 +80,8 @@ Template.messages.events({
         }
     },
     'click .conversation-tab': function(e){
-        console.log(this);
-        Session.set('selectedConversation', this.convoPartner._id);
+        if(this.convoPartner)
+            Session.set('selectedConversation', this.convoPartner._id);
     }
 });
 
