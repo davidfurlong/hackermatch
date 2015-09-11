@@ -51,7 +51,7 @@ Handlebars.registerHelper('hasUnread', function(notifications){
 Handlebars.registerHelper('parseNotification', function (notification) {
     switch(notification.details.type){
         case "welcome":
-            return "Welcome to hackermatch! Let us know if you have any problems at david@furlo.ng";
+            return "Welcome to hackermatch! Let us know if you have any problems by messaging <a href='/messages/davidfurlong'>us.</a>";
             break;
         case "hearted":
             return "<a href='/profile/"+notification.details.by+"'>"+notification.details.by+"</a> hearted your idea <a href='/idea/"+notification.details.idea_id+"'>"+notification.details.idea_name+"</a>.";

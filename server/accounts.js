@@ -353,26 +353,20 @@ Meteor.startup(function () {
           //     //can we select on name attribute again?
           // }
           var uid = this.userId;
-          Hackathons.insert(hackathon, function(err, result) {
-              if(err) {
-                  console.log("error creating hackathon");
-                  return "error inserting hackathon";
-              } 
-              else {
-                  // TODO ADAM this throws an error
-                  if(isOrganizer)
-                    Roles.addUsersToRoles(uid, ['hacker','organizer','creator'], hackathon['url_title']);
-                  else
-                    Roles.addUsersToRoles(uid, ['hacker','creator'], hackathon['url_title']);
-                  
-                  // email notification
-                  if(Meteor.user().profile.email_notifications){
-                    Meteor.call('sendEmail', Meteor.user().profile.email, "david@furlo.ng", "Hackermatch: Hackathon "+hackathon.name+" successfully created",
-                      "Check it out at http://hackermat.ch/"+hackathon['url_title']
-                      );
-                  }              
-              }
-          });   
+          var h = Hackathons.insert(hackathon);
+          // TODO ADAM this throws an error
+          if(isOrganizer)
+            Roles.addUsersToRoles(uid, ['hacker','organizer','creator'], hackathon['url_title']);
+          else
+            Roles.addUsersToRoles(uid, ['hacker','creator'], hackathon['url_title']);
+          
+          // email notification
+          if(Meteor.user().profile.email_notifications){
+            Meteor.call('sendEmail', Meteor.user().profile.email, "david@furlo.ng", "Hackermatch: Hackathon "+hackathon.name+" successfully created",
+              "Check it out at http://hackermat.ch/"+hackathon['url_title']
+              );
+          }  
+          return hackathon['url_title'];   
         }
     });
 });
