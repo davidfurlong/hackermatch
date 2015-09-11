@@ -1169,10 +1169,10 @@ var pageTitle = function() {
         case "home":
 //            title = "hackathons";
             break;
-        case "create_idea":
         case "messagesThread":
             title = "messages";
             break;
+        case "create_idea":
         case "ideas":
         case "hackathonAdmin":
         case "hackers":
