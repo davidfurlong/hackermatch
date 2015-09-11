@@ -916,10 +916,20 @@ Template.idea_list.helpers({
 
         //Get Idea based off filter type
         x = IdeaFilters[filter]();
-        
+       
+        x = _.sortBy(x, function (x) { 
+       
+            if(_.isArray(x.hearts)) {
+                return -x.hearts.length; 
+            } else {
+                return -x.hearts; 
+            }
+        }); 
+        /*
         x = _.sortBy(x, function (a){ 
             return -a['time_lastupdated']; 
         });
+        */
 
         // Heart and add comment counts to ideas
         _.each(x, function(idea) {
