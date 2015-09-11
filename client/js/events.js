@@ -199,7 +199,7 @@ Template.createIdea.events({
         Meteor.call('create_idea', idea, function(err, res) {
             if(err){
                 // TODO notify user of error
-                console.log(error);
+                console.log(err);
             }
             else {
                 Router.go('/' + hackathon.url_title);

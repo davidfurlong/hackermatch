@@ -130,7 +130,6 @@ Meteor.startup(function () {
               priority: 1,
               timestamp: (new Date()).getTime()
             };
-            console.log(heart);
             if(heart && (Meteor.userId() != idea.userId || !heart.hearted)){ // dont notify yourself or if unheart
               // email notification
               var userAuthor = Meteor.users.findOne(idea.userId);

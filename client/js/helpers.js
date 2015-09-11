@@ -264,7 +264,7 @@ var IdeaFilters = {
         var hackathonUrl= Session.get("currentHackathon");
         var hackathon = Hackathons.findOne({url_title: hackathonUrl});
         if(!hackathon) return;
-        var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {userId: Meteor.userId()}]}).fetch();
+        var x = Ideas.find({ $and: [{hackathon_id: hackathon._id}, {user_id: Meteor.userId()}]}).fetch();
         return x;
     }
 };
