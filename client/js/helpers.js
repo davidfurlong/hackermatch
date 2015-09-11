@@ -777,6 +777,33 @@ Template.settings.helpers({
   dataReady: function () {
     return Template.instance().myHackathons.ready()
   },
+  status: function(){
+    var s = Session.get("status");
+    if(s == "success"){
+        return "success";
+    }
+    else if(s == "" || !s){
+        return "";
+    }
+    else { // error
+        return "error";
+    }
+  },
+  statusMessage: function(){
+    var s = Session.get("status");
+    if(s == "success"){
+        setTimeout(function(){
+            Session.set("status", "");
+        }, 1000);
+        return s;
+    }
+    else if(s == "" || !s){
+        return "";
+    }
+    else { // error
+        return s;
+    }
+  },
   hackathons: function(){
     var user = Meteor.user();
     if(!user) return;
@@ -830,6 +857,7 @@ Template.settings.helpers({
 Template.settings.destroyed = function () {
   // Make sure the data goes away when we don’t need it anymore
   this.myHackathons.stop();
+  Session.set("status", "");
 };
 
 Template.nav.created = function() {

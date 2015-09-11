@@ -18,6 +18,16 @@ a {
 	cursor: pointer;
 }
 
+.success {
+	color: green !important;
+	border-color: green !important;
+}
+
+.error {
+	color: red !important;
+	border-color: red !important;
+}
+
 #full-page-fade {
 	position: fixed;
 	display: none;
