@@ -413,18 +413,28 @@ Accounts.onCreateUser(function (options, user) {
     user.profile = profile;
     user.username = profile.login;
 
-    /*
 
-  var htn_user = Meteor.users.findOne({username: /htn_user./i, "profile.name": user.profile.name});
-  if(htn_user) {
-    console.log("htn user found! ");
-    console.log(htn_user);
-    user.profile = _.extend(htn_user.profile, user.profile);
-    user.roles = _.extend(htn_user.roles, user.roles);
-    Meteor.users.remove({_id: htn_user._id}); 
-  }
-    */
+    //Send Welcome Message
+   
+    var welcome = {
+        details: {
+            type:"welcome",
+        },
+        priority: 1,
+        read: false,
+        timestamp: (new Date()).getTime()
+    };
+    Notifications.update({userId: user._id}, {$push: {notifications: welcome}}, {upsert:true}, function(err, result) {
+        if(err){
+            console.error('failed to create notification model for user')
+        }
+        else {
 
+        }
+    });
+
+    //Get Github data
+    
     var job = new Job(jobs, 'processGithub', // type of job
       // Job data that you define, including anything the job
       // needs to complete. May contain links to files, etc...
@@ -441,8 +451,6 @@ Accounts.onCreateUser(function (options, user) {
         wait: 15*60*1000 })  // 15 minutes between attempts
       //.delay(60*60*1000)     // Wait an hour before first try
       .save();               // Commit it to the server
-
-  //console.log("User initial profile creation finished");
 
   return user;
 });
