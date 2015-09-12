@@ -326,7 +326,7 @@ Template.index.events({
                 if(invite_title && invite_code) {
                     Meteor.call('join_hackathon', invite_code, function(err, res) {
                         if(res) {
-                            Router.go('/' + res);
+                            Router.go('/' + invite_title);
                         }    
                     });
                 } 
