@@ -30,7 +30,7 @@ Meteor.startup(function () {
                 var basepath = path.resolve('.').split('.meteor')[0];
                 basepath = basepath + "test/";
             } else {
-                var basepath = "/root/hackermatch/test";
+                var basepath = "/root/hackermatch/test/";
             }
             var hackathon = Hackathons.findOne({url_title: "mhacks6"});
             if(!hackathon) return;
