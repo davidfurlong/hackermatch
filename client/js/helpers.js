@@ -1190,6 +1190,9 @@ var pageTitle = function() {
             }
             break; 
         case "home":
+            title = "join";
+            break;
+        case "home":
 //            title = "hackathons";
             break;
         case "messagesThread":
