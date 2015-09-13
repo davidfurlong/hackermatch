@@ -177,9 +177,14 @@ Router.map(function() {
         path: '/:hackathon/join/:invite_code',
         template: 'joinHackathon',
         data: function(){
+            var str = "roles."+this.params.hackathon;
+            var query = {};
+            query[str] = {$in: ["hacker"]};
+            num = Meteor.users.find(query).fetch().length;
             return {
                 'name': this.params.hackathon,
-                'isNotUser':  Meteor.user() == null
+                'isNotUser':  Meteor.user() == null,
+                'numHackers': num
             }
         },
         onBeforeAction: function(){
