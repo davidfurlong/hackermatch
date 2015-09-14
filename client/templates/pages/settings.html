@@ -131,6 +131,15 @@
                           </div>
                           <br>
                         {{/each}}
+                        {{#each myAdminHackathons}}
+                          <div class="input-group">
+                            <input type="text" class="form-control" value="{{title}}" disabled>
+                            <span class="input-group-btn">
+                              <button class="btn btn-default outline" type="button"><a href="/{{url_title}}/admin">Admin Panel</a></button>
+                            </span>
+                          </div>
+                          <br>
+                        {{/each}}
                     </div> 
                 </div>
             </form>

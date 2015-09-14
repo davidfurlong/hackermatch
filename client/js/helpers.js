@@ -807,16 +807,33 @@ Template.settings.helpers({
         return s;
     }
   },
-  hackathons: function(){
+  myAdminHackathons: function(){
     var user = Meteor.user();
     if(!user) return;
     var hackathonList = [];
     _.each(user.roles, function(role, hackathon) {
         var entry = {};
         entry['url_title'] = hackathon;
-        if(role.indexOf('hacker') != -1)
+        if(role.indexOf('creator') != -1 || role.indexOf('admin') != -1)
             hackathonList.push(entry);
     });
+    if(hackathonList.length == 0)
+        return []
+    var x = Hackathons.find({$or: hackathonList}).fetch();
+    return x;
+  },
+  hackathons: function(){ // where not admin
+    var user = Meteor.user();
+    if(!user) return;
+    var hackathonList = [];
+    _.each(user.roles, function(role, hackathon) {
+        var entry = {};
+        entry['url_title'] = hackathon;
+        if(role.indexOf('hacker') != -1 && role.indexOf('creator') == -1 && role.indexOf('admin') == -1)
+            hackathonList.push(entry);
+    });
+    if(hackathonList.length == 0)
+        return []
     var x = Hackathons.find({$or: hackathonList}).fetch();
     return x;
   },
