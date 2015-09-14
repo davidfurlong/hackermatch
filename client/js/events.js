@@ -316,13 +316,9 @@ Template.index.events({
                 profile.contact = profile.email;
                 Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile":profile}});
 
-                /*
                 var invite_title = Session.get("invite_title");
                 var invite_code = Session.get("invite_code");
-                */
-                //HACK HACK HACK make it easy for mhacks peeps to sign up
-                var invite_title = "mhacks6";
-                var invite_code = "T89RT";
+
                 if(invite_title && invite_code) {
                     Meteor.call('join_hackathon', invite_code, function(err, res) {
                         if(res) {
@@ -335,6 +331,7 @@ Template.index.events({
                 }
             }
         });
+        */
     }
 })
 
