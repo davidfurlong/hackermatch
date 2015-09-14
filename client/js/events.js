@@ -331,7 +331,6 @@ Template.index.events({
                 }
             }
         });
-        */
     }
 });
 
