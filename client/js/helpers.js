@@ -1189,8 +1189,13 @@ var pageTitle = function() {
                 title = path[2];
             }
             break; 
-        case "home":
-            title = "join";
+        case "joinHackathonInvite":
+            var temp = Session.get("invite_title");
+            if(temp) {
+                title = "join " + temp;
+            } else {
+                title = "join";
+            }
             break;
         case "home":
 //            title = "hackathons";

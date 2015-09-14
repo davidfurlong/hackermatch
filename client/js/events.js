@@ -318,10 +318,11 @@ Template.index.events({
 
                 var invite_title = Session.get("invite_title");
                 var invite_code = Session.get("invite_code");
+
                 if(invite_title && invite_code) {
                     Meteor.call('join_hackathon', invite_code, function(err, res) {
                         if(res) {
-                            Router.go('/' + res);
+                            Router.go('/' + invite_title);
                         }    
                     });
                 } 
@@ -330,6 +331,7 @@ Template.index.events({
                 }
             }
         });
+        */
     }
 });
 
