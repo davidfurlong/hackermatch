@@ -6,7 +6,7 @@ hackathonAuth = function() {
         if(!user) {
             Router.go('signup');
         }
-        if(Roles.userIsInRole(user, ['hacker', 'organizer', 'admin'], this.params.hackathon)) {
+        if(Roles.userIsInRole(user, ['hacker', 'organizer', 'creator', 'admin'], this.params.hackathon)) {
             document.cookie = 'most_recent_hackathon='+this.params.hackathon;
             Session.set("currentHackathon", this.params.hackathon);
             this.next();

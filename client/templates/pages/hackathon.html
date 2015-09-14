@@ -38,13 +38,7 @@
     {{> sidebar}} <!-- This is the comments sidebar -->
     {{#if dataReady}}
     <div class="container">
-        {{#if isInRole 'hacker' url_title}}
-            {{> showHackathons}}
-        {{else}}
-            <div class="row label">
-                You have not joined this hackathon
-            </div>
-        {{/if}}
+      {{> showHackathons}}
     </div>
     {{/if}}
 </template>
