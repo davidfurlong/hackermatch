@@ -192,7 +192,7 @@ Router.map(function() {
             // Checks if valid invite code to a hackathon
             var user = Meteor.user();
             if(user){
-                if(Roles.userIsInRole(user, ['hacker'], this.params.hackathon)) {
+                if(Roles.userIsInRole(user, ['hacker', 'creator', 'admin', 'organizer'], this.params.hackathon)) {
                     Router.go('/'+this.params.hackathon);
                 } 
             }   
