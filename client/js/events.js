@@ -331,7 +331,7 @@ Template.index.events({
             }
         });
     }
-})
+});
 
 Template.nav.events({
     'click #notifications-trigger' : function(){

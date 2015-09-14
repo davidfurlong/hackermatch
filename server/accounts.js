@@ -352,7 +352,8 @@ Meteor.startup(function () {
         },
         join_hackathon: function (invite_code) {
           var hackathon = Hackathons.findOne({invite_code: invite_code});
-          
+         
+        console.log(hackathon); 
           if(hackathon) {
               var group = hackathon.url_title;
               Roles.addUsersToRoles(this.userId, ['hacker'], group);
